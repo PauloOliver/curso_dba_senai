@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head remains the same -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curso X - Aulas</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Bem-vindo ao Curso de Administração de Bancos de Dados</h1>
+    </header>
+    <main>
+      <section class="slider">
+        <div class="slider-header">
+          <button id="prev-slide" class="slider-button">❮</button>
+          <h2 class="slider-title">Aulas Disponíveis</h2>
+          <button id="next-slide" class="slider-button">❯</button>
+        </div>
+        <div class="slider-wrapper">
+          <div class="slider-container">
+            <!-- Slides serão gerados dinamicamente -->
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>
+        Desenvolvido por
+        <a href="https://www.linkedin.com/in/erick-porto/" target="_blank"
+          >Erick Porto</a
+        >
+        © 2025 | Todos os direitos reservados
+      </p>
+    </footer>
+    <script>
+      const sliderContainer = document.querySelector(".slider-container");
+      const aulas = [
+        {
+          title: "Aula 06:\nIntrodução a SGBD",
+          path: "slides/aula_6",
+        },
+        {
+          title: "Aula 06:\nIntrodução a SGBD",
+          path: "slides/aula_6",
+        },
+        {
+          title: "Aula 06:\nIntrodução a SGBD",
+          path: "slides/aula_6",
+        },
+        {
+          title: "Aula 06:\nIntrodução a SGBD",
+          path: "slides/aula_6",
+        },
+      ];
+
+      const slidesToShow = 3;
+      let currentSlideIndex = slidesToShow;
+
+      aulas.forEach((aula) => {
+        const slide = document.createElement("div");
+        slide.className = "slide";
+
+        const link = document.createElement("a");
+        link.href = `${aula.path}/index.html`;
+        link.className = "aula";
+        link.textContent = aula.title;
+
+        slide.appendChild(link);
+        sliderContainer.appendChild(slide);
+      });
+
+      const slides = Array.from(sliderContainer.children);
+      const totalSlides = slides.length;
+
+      if (totalSlides > slidesToShow) {
+        for (let i = 0; i < slidesToShow; i++) {
+          const clone = slides[totalSlides - 1 - i].cloneNode(true);
+          sliderContainer.insertBefore(clone, sliderContainer.firstChild);
+        }
+
+        for (let i = 0; i < slidesToShow; i++) {
+          const clone = slides[i].cloneNode(true);
+          sliderContainer.appendChild(clone);
+        }
+      } else {
+        document.getElementById("prev-slide").style.display = "none";
+        document.getElementById("next-slide").style.display = "none";
+        currentSlideIndex = 0;
+      }
+
+      const allSlides = Array.from(sliderContainer.children);
+      allSlides.forEach((slide) => {
+        slide.style.flex = `0 0 calc(100% / ${slidesToShow})`;
+      });
+
+      const setInitialPosition = () => {
+        sliderContainer.style.transition = "none";
+        const initialOffset = currentSlideIndex * (100 / slidesToShow);
+        sliderContainer.style.transform = `translateX(-${initialOffset}%)`;
+        sliderContainer.offsetHeight;
+      };
+
+      const updateSliderPosition = (instant = false) => {
+        const offset = currentSlideIndex * (100 / slidesToShow);
+        sliderContainer.style.transition = instant
+          ? "none"
+          : "transform 0.4s ease"; // Control transition
+        sliderContainer.style.transform = `translateX(-${offset}%)`;
+
+        if (instant) {
+          sliderContainer.offsetHeight;
+        }
+      };
+
+      sliderContainer.addEventListener("transitionend", () => {
+        if (currentSlideIndex < slidesToShow) {
+          console.log("Jump to end");
+          currentSlideIndex = totalSlides + currentSlideIndex;
+          updateSliderPosition(true);
+        } else if (currentSlideIndex >= totalSlides + slidesToShow) {
+          console.log("Jump to beginning");
+          currentSlideIndex = currentSlideIndex - totalSlides;
+          updateSliderPosition(true);
+        }
+      });
+
+      document.getElementById("prev-slide").onclick = () => {
+        currentSlideIndex--;
+        updateSliderPosition();
+      };
+
+      document.getElementById("next-slide").onclick = () => {
+        currentSlideIndex++;
+        updateSliderPosition();
+      };
+      setInitialPosition();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<h2>Solução Comentada - Exercício 1 (`Categorias`)</h2>
+<pre><code class="language-sql">
+-- Solução para Exercício 1: Criação da Tabela Categorias
+
+-- Garante que estamos usando o banco de dados correto (MySQL)
+-- USE minha_loja;
+-- No PostgreSQL, a conexão já define o banco (\c minha_loja)
+
+CREATE TABLE Categorias (
+    -- Chave primária inteira, auto-incremental
+    CategoriaID INT PRIMARY KEY AUTO_INCREMENT, -- MySQL syntax
+    -- CategoriaID SERIAL PRIMARY KEY, -- PostgreSQL equivalent
+
+    -- Nome da categoria, texto até 50 chars, obrigatório e único
+    NomeCategoria VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- Comando para verificar se a tabela foi criada (Ex: MySQL)
+-- DESCRIBE Categorias;
+
+-- Comando para verificar se a tabela foi criada (Ex: PostgreSQL)
+-- \d Categorias
+
+</code></pre>

@@ -1,0 +1,33 @@
+<h2>DEMO: Criação e Manipulação Básica (SQL)</h2>
+<p>Vamos criar uma tabela simples de Clientes e inserir alguns dados.</p>
+<!-- Placeholder: Screenshot da execução dos comandos -->
+<pre><code class="language-sql">
+-- Conectado ao banco 'minha_loja'
+
+-- Criar a tabela Clientes
+CREATE TABLE Clientes (
+    ClienteID INT PRIMARY KEY AUTO_INCREMENT, -- Chave primária auto-incremental (MySQL)
+    -- ClienteID SERIAL PRIMARY KEY, -- (PostgreSQL)
+    Nome VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) UNIQUE,
+    DataCadastro DATE
+);
+
+-- Descrever a estrutura da tabela (MySQL)
+DESCRIBE Clientes;
+
+-- Descrever a estrutura da tabela (PostgreSQL)
+\d Clientes
+
+-- Inserir um cliente
+INSERT INTO Clientes (Nome, Email, DataCadastro)
+VALUES ('João Silva', 'joao.silva@email.com', '2024-01-15');
+
+-- Inserir outro cliente
+INSERT INTO Clientes (Nome, Email, DataCadastro)
+VALUES ('Maria Oliveira', 'maria.o@email.com', CURDATE()); -- Usa data atual
+
+-- Consultar todos os clientes
+SELECT * FROM Clientes;
+
+</code></pre>

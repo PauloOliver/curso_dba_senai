@@ -1,0 +1,16 @@
+<h2>Independência de Dados</h2>
+<p>É a capacidade de modificar a definição de um esquema em um nível sem afetar a definição do esquema no nível superior. É um dos maiores benefícios da arquitetura de 3 níveis.</p>
+<ul>
+  <li><strong>Independência Lógica de Dados:</strong>
+    <ul>
+      <li>Permite modificar o esquema <strong>conceitual</strong> (adicionar/remover entidades/atributos) sem ter que reescrever as aplicações (esquemas externos).</li>
+      <li><em>Importância:</em> Facilita a evolução do banco de dados.</li>
+    </ul>
+  </li>
+  <li><strong>Independência Física de Dados:</strong>
+    <ul>
+      <li>Permite modificar o esquema <strong>interno</strong> (mudar de disco, alterar índices, reorganizar arquivos) sem afetar o esquema conceitual (e, por consequência, o externo).</li>
+      <li><em>Importância:</em> Permite otimizar o desempenho do armazenamento sem impactar a lógica do negócio ou as aplicações.</li>
+    </ul>
+  </li>
+</ul>

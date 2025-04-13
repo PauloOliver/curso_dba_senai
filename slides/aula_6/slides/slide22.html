@@ -1,0 +1,10 @@
+<h2>Storage Manager em Detalhes</h2>
+<p>Gerencia a interação com os dados no nível físico (disco) e memória.</p>
+<!-- Placeholder: Blocos representando os componentes -->
+<p style="text-align: center; font-style: italic; margin-top: 20px;">[Blocos: Buffer Manager | File Manager | Transaction Manager | Lock Manager]</p>
+<ul>
+    <li><strong>Buffer Manager:</strong> Gerencia o cache (buffer pool) na memória principal (RAM) para reduzir acessos a disco (que é lento). Decide quais blocos trazer/remover da memória.</li>
+    <li><strong>File Manager:</strong> Gerencia a alocação de espaço em disco e a estrutura dos arquivos que contêm os dados.</li>
+    <li><strong>Transaction Manager:</strong> Garante que as transações (conjuntos de operações) sejam atômicas (tudo ou nada) e consistentes, mesmo com falhas ou concorrência.</li>
+    <li><strong>Lock Manager:</strong> Gerencia os bloqueios (locks) em objetos do banco (linhas, tabelas) para controlar o acesso concorrente.</li>
+</ul>

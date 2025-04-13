@@ -1,0 +1,9 @@
+<h2>Query Processor em Detalhes</h2>
+<p>Transforma uma consulta declarativa (o que você quer) em um plano de execução procedural (como buscar).</p>
+<!-- Placeholder: Fluxograma simplificado -->
+<p style="text-align: center; font-style: italic; margin-top: 20px;">[Fluxograma: [Consulta SQL] -> Parser (Análise Sintática/Semântica) -> Otimizador (Gera Planos, Escolhe Melhor) -> Executor (Executa o Plano)]</p>
+<ul>
+    <li><strong>Parser:</strong> Verifica a sintaxe da consulta e traduz para uma representação interna.</li>
+    <li><strong>Otimizador:</strong> Componente crucial! Analisa várias formas de executar a consulta e escolhe a mais eficiente (menor custo estimado - I/O, CPU).</li>
+    <li><strong>Executor:</strong> Executa o plano de baixo nível escolhido pelo otimizador, interagindo com o Storage Manager.</li>
+</ul>
