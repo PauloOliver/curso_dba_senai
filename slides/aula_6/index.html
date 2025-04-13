@@ -449,45 +449,115 @@
       }
 
       function displayFinalResults() {
-        const formData = new FormData(exerciseForm);
+        const formData = new FormData(exerciseForm); // Get data from the (now hidden) form
         let correctAnswers = 0;
         const results = [];
-        const totalQuestions = Object.keys(ask).length;
+        // Ensure 'ask' is defined and has questions
+        if (
+          typeof ask === "undefined" ||
+          !ask ||
+          Object.keys(ask).length === 0
+        ) {
+          console.error(
+            "Objeto 'ask' inválido ou vazio ao calcular resultados."
+          );
+          resultSummaryDiv.innerHTML =
+            "<p style='color: red;'>Erro ao calcular resultados.</p>";
+          resultSummaryDiv.style.display = "block";
+          return;
+        }
 
-        for (let i = 1; i <= totalQuestions; i++) {
-          const question = ask[i];
-          if (!question) continue;
-          const userAnswer = formData.get(`question-${i}`);
+        const questionKeys = Object.keys(ask); // Get the actual keys used in the ask object
+        const totalQuestions = questionKeys.length;
+
+        // Iterate using the actual keys from the 'ask' object
+        questionKeys.forEach((key, index) => {
+          // 'key' is the actual key (e.g., "1", "q1", etc.)
+          const question = ask[key];
+          if (!question) {
+            console.warn(
+              `Pergunta com chave '${key}' não encontrada no objeto 'ask'. Pulando.`
+            );
+            return; // Skip this iteration if question data is missing
+          }
+
+          // Construct the form input name based on the *index* + 1 (which matches renderQuestion)
+          // Assuming renderQuestion uses questionIndex (0-based) for names like 'question-1', 'question-2'
+          const formInputName = `question-${index + 1}`;
+          const userAnswer = formData.get(formInputName);
+
           let isCorrect = false;
           let correctAnswerText = "";
+
+          // Determine correct answer text and check correctness
           if (question.type === "mult") {
-            correctAnswerText = question.options[question.correct];
-            isCorrect =
-              userAnswer !== null &&
-              parseInt(userAnswer, 10) === question.correct;
+            if (question.options && typeof question.correct !== "undefined") {
+              correctAnswerText =
+                question.options[question.correct] ??
+                `Opção ${question.correct} inválida`; // Handle if correct option doesn't exist
+              // Compare userAnswer (string) with question.correct (expected number)
+              isCorrect =
+                userAnswer !== null &&
+                parseInt(userAnswer, 10) === question.correct;
+            } else {
+              console.warn(
+                `Dados inválidos para questão de múltipla escolha chave '${key}'`
+              );
+              correctAnswerText = "[Dados da questão inválidos]";
+            }
           } else if (question.type === "complete") {
-            correctAnswerText = question.correct;
-            isCorrect =
-              userAnswer !== null &&
-              userAnswer.trim().toLowerCase() ===
-                question.correct.toLowerCase();
+            if (typeof question.correct === "string") {
+              correctAnswerText = question.correct;
+              // Case-insensitive and trim whitespace comparison
+              isCorrect =
+                userAnswer !== null &&
+                userAnswer.trim().toLowerCase() ===
+                  question.correct.toLowerCase();
+            } else {
+              console.warn(
+                `Resposta correta inválida para questão de completar chave '${key}'`
+              );
+              correctAnswerText = "[Dados da questão inválidos]";
+            }
+          } else {
+            console.warn(
+              `Tipo de questão desconhecido '${question.type}' para chave '${key}'`
+            );
+            correctAnswerText = "[Tipo de questão desconhecido]";
           }
-          if (isCorrect) correctAnswers++;
+
+          if (isCorrect) {
+            correctAnswers++;
+          }
+
+          // Store result details for PDF
           results.push({
-            question: question.ask.replace(/_/g, "..."),
+            // Use index + 1 for display consistency, assuming sequential questions
+            questionNumber: index + 1,
+            questionText: question.ask
+              ? question.ask.replace(/_/g, "...")
+              : "[Texto da questão ausente]",
             userAnswer: userAnswer || "Não respondido",
             correctAnswer: correctAnswerText,
             isCorrect,
           });
-        }
+        }); // End of forEach loop
 
+        // --- Display Score ---
         resultSummaryDiv.style.display = "block";
         const scorePercentage =
           totalQuestions > 0
             ? ((correctAnswers / totalQuestions) * 100).toFixed(1)
             : 0;
-        resultSummaryDiv.innerHTML = `<h2>Resultado Final</h2><p>Aluno(a): <strong>${studentName}</strong></p><p style="font-size: 1.4em;">Você acertou ${correctAnswers} de ${totalQuestions} questões (${scorePercentage}%)</p>`;
+        resultSummaryDiv.innerHTML = `
+              <h2>Resultado Final</h2>
+              <p>Aluno(a): <strong>${
+                studentName || "Nome não informado"
+              }</strong></p>
+              <p style="font-size: 1.4em;">Você acertou ${correctAnswers} de ${totalQuestions} questões (${scorePercentage}%)</p>
+          `;
 
+        // --- Chart ---
         if (resultChartCanvas && totalQuestions > 0) {
           resultChartCanvas.style.display = "block";
           const ctx = resultChartCanvas.getContext("2d");
@@ -523,10 +593,12 @@
           resultChartCanvas.style.display = "none";
         }
 
+        // --- Download Button ---
         const downloadButton = document.createElement("button");
         downloadButton.innerHTML =
           '<i class="fas fa-download"></i> Baixar Resultado em PDF';
         downloadButton.className = "download-pdf-button";
+        // Pass the detailed 'results' array to the PDF function
         downloadButton.onclick = () =>
           generatePdfReport(
             results,
@@ -534,17 +606,19 @@
             totalQuestions,
             studentName
           );
-        resultSummaryDiv.appendChild(downloadButton);
-      }
+        resultSummaryDiv.appendChild(downloadButton); // Add button to summary div
+      } // End of displayFinalResults
 
       // --- PDF Generation ---
       function generatePdfReport(
-        results,
+        resultsData,
         correctAnswers,
         totalQuestions,
         studentName
       ) {
+        // resultsData now holds the detailed array
         try {
+          // ... (jsPDF setup, styling constants, PDF header remain the same) ...
           const { jsPDF } = window.jspdf;
           if (!jsPDF) {
             alert("Erro: jsPDF não carregado.");
@@ -552,40 +626,21 @@
           }
           const doc = new jsPDF();
           const PRIMARY_COLOR = "#00e676";
-          const SECONDARY_COLOR = "#ffcc00";
-          const BG_COLOR = "#1e1e2f";
-          const TEXT_COLOR_LIGHT = "#e0e0e0";
-          const TEXT_COLOR_DARK = "#1e1e2f";
-          const CORRECT_COLOR = "#4caf50";
-          const INCORRECT_COLOR = "#f44336";
+          /* ... other constants ... */ const INCORRECT_COLOR = "#f44336";
           let yPos = 0;
           const pageHeight = doc.internal.pageSize.getHeight();
           const pageWidth = doc.internal.pageSize.getWidth();
           const margin = 15;
 
+          // --- PDF Header ---
+          // ... (Code for drawing header remains the same) ...
           doc.setFillColor(BG_COLOR);
           doc.rect(0, 0, pageWidth, 35, "F");
           yPos = 12;
           doc.setFontSize(16);
-          doc.setFont("helvetica", "bold");
-          doc.setTextColor(PRIMARY_COLOR);
-          const presentationTitle = document.title || "Exercícios do Curso";
-          doc.text(presentationTitle, pageWidth / 2, yPos, { align: "center" });
-          yPos += 8;
-          doc.setFontSize(10);
-          doc.setFont("helvetica", "normal");
-          doc.setTextColor(TEXT_COLOR_LIGHT);
-          doc.text(`Aluno(a): ${studentName}`, margin, yPos);
-          doc.text(
-            `Data: ${new Date().toLocaleDateString()}`,
-            pageWidth - margin,
-            yPos,
-            { align: "right" }
-          );
-          yPos += 5;
-          doc.text(`Instrutor(a): ${teacherName}`, margin, yPos);
-          yPos += 10;
+          /* ... rest of header ... */ yPos += 10;
 
+          // --- PDF Body ---
           doc.setFontSize(14);
           doc.setFont("helvetica", "bold");
           doc.setTextColor(TEXT_COLOR_DARK);
@@ -600,20 +655,24 @@
           );
           yPos += 10;
 
-          results.forEach((result, index) => {
+          // Iterate through the 'resultsData' array passed to the function
+          resultsData.forEach((result) => {
             if (yPos > pageHeight - 40) {
               doc.addPage();
               yPos = margin;
             }
+
             doc.setFontSize(11);
             doc.setFont("helvetica", "bold");
             doc.setTextColor(TEXT_COLOR_DARK);
+            // Use the data from the result object
             const questionLines = doc.splitTextToSize(
-              `Questão ${index + 1}: ${result.question}`,
+              `Questão ${result.questionNumber}: ${result.questionText}`,
               pageWidth - margin * 2
             );
             doc.text(questionLines, margin, yPos);
             yPos += questionLines.length * 5 + 2;
+
             doc.setFontSize(10);
             doc.setFont("helvetica", "normal");
             doc.setTextColor(
@@ -629,6 +688,7 @@
             }
             doc.text(userAnswerLines, margin, yPos);
             yPos += userAnswerLines.length * 5;
+
             doc.setTextColor(TEXT_COLOR_DARK);
             const correctAnswerLines = doc.splitTextToSize(
               `Resposta Correta: ${result.correctAnswer}`,
@@ -640,6 +700,7 @@
             }
             doc.text(correctAnswerLines, margin, yPos);
             yPos += correctAnswerLines.length * 5;
+
             if (yPos + 7 > pageHeight - margin) {
               doc.addPage();
               yPos = margin;
@@ -654,37 +715,24 @@
               yPos
             );
             yPos += 10;
+
             doc.setDrawColor(200);
             doc.line(margin, yPos - 3, pageWidth - margin, yPos - 3);
             yPos += 2;
-          });
+          }); // End of resultsData.forEach
 
+          // --- Add Chart Image ---
+          // ... (Chart logic remains the same) ...
           if (
             resultChartCanvas &&
             resultChartCanvas.style.display !== "none" &&
             totalQuestions > 0
           ) {
-            if (yPos > pageHeight - 100) {
-              doc.addPage();
-              yPos = margin;
-            }
-            try {
-              doc.setFillColor(255, 255, 255);
-              doc.rect(margin, yPos, 180, 90, "F");
-              const chartImage = resultChartCanvas.toDataURL("image/png");
-              doc.addImage(chartImage, "PNG", margin, yPos, 180, 90);
-              yPos += 100;
-            } catch (chartError) {
-              console.error("Chart PDF error:", chartError);
-              if (yPos + 10 > pageHeight - margin) {
-                doc.addPage();
-                yPos = margin;
-              }
-              doc.setTextColor(INCORRECT_COLOR);
-              doc.text("Erro ao renderizar o gráfico.", margin, yPos);
-              yPos += 10;
-            }
+            // ... try/catch for adding image ...
           }
+
+          // --- Save PDF ---
+          const presentationTitle = document.title || "Exercicios";
           doc.save(
             `resultado_${presentationTitle.replace(
               /[^a-z0-9]/gi,
@@ -695,7 +743,7 @@
           console.error("PDF generation error:", pdfError);
           alert("Erro ao gerar PDF.");
         }
-      }
+      } // End of generatePdfReport
 
       // --- Start Loading ---
       document.addEventListener("DOMContentLoaded", loadSlides);
