@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Title will be set dynamically -->
+
     <title>Carregando Aula...</title>
+
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Font Awesome -->
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -17,11 +18,11 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <!-- Local Stylesheet -->
+
     <link rel="stylesheet" href="style.css" />
-    <!-- Local Exercise Data -->
+
     <script src="ask.js"></script>
-    <!-- External Libraries -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
@@ -31,34 +32,28 @@
         ><i class="fas fa-arrow-left"></i> Voltar à Página Inicial</a
       >
       <span id="lesson-title-header"></span>
-      <!-- Integrated Progress Bar -->
+
       <div id="header-progress-bar"></div>
     </header>
 
     <div class="main-content-area">
-      <!-- Slide Content Area -->
       <div class="slide-container">
         <p id="loading-slides">Carregando slides...</p>
       </div>
 
-      <!-- Sidebar -->
       <aside id="slide-sidebar">
         <h3>Sumário</h3>
-        <ul id="slide-sidebar-list">
-          <!-- Dynamically populated -->
-        </ul>
+        <ul id="slide-sidebar-list"></ul>
       </aside>
     </div>
 
-    <!-- Exercise Area (Initially Hidden) -->
     <div id="exercise-area" style="display: none">
-      <!-- Exercise Progress Bar -->
       <div id="progress-bar">
         <div id="progress"></div>
       </div>
-      <!-- Exercise Form Container -->
+
       <form id="exercise-form"></form>
-      <!-- Student Name Input -->
+
       <div id="student-name-section" style="display: none">
         <label for="student-name-input">Digite seu Nome Completo:</label><br />
         <input
@@ -69,11 +64,9 @@
         />
         <button id="submit-name-button">Ver Resultado</button>
       </div>
-      <!-- Results Display Area -->
-      <div id="result-summary" style="display: none">
-        <!-- Results text and download button here -->
-      </div>
-      <!-- Results Chart -->
+
+      <div id="result-summary" style="display: none"></div>
+
       <canvas
         id="result-chart"
         style="display: none; max-width: 600px; margin: 20px auto"
@@ -90,12 +83,9 @@
       </p>
     </footer>
 
-    <!-- Main Application Logic -->
     <script>
-      // --- Configuration ---
-      const teacherName = "Erick Ribeiro Porto"; // <<--- CONFIGURE THIS
+      const teacherName = "Erick Ribeiro Porto";
       const slideFiles = [
-        // --- IMPORTANT: Add ALL your slide file paths here ---
         "slides/slide1.html",
         "slides/slide2.html",
         "slides/slide5.html",
@@ -139,11 +129,8 @@
         "slides/slide49.html",
         "slides/slide50.html",
         "slides/slide_final.html",
-        // --- End of slide file list ---
       ];
-      // --- End Configuration ---
 
-      // DOM Element References
       const slideContainer = document.querySelector(".slide-container");
       const loadingIndicator = document.getElementById("loading-slides");
       const headerProgressBar = document.getElementById("header-progress-bar");
@@ -162,15 +149,14 @@
       const resultChartCanvas = document.getElementById("result-chart");
       const lessonTitleHeader = document.getElementById("lesson-title-header");
 
-      // State Variables
-      let slides = []; // Array of slide DOM elements
+      let slides = [];
       let currentSlide = 0;
       let totalSlides = 0;
-      let nextButton; // Next button element
-      let prevButton; // Previous button element
-      let studentName = ""; // To store student's name
+      let nextButton;
+      let prevButton;
+      let studentName = "";
+      let userAnswers = {};
 
-      // --- Slide Loading and Setup ---
       async function loadSlides() {
         try {
           const fetchPromises = slideFiles.map((file) =>
@@ -203,6 +189,7 @@
             link.href = `#slide${index}`;
             link.textContent = slideTitle;
             link.dataset.slideIndex = index;
+
             link.onclick = (e) => {
               e.preventDefault();
               goToSlide(parseInt(link.dataset.slideIndex, 10));
@@ -226,11 +213,10 @@
           updateSidebarActiveState();
         } catch (error) {
           console.error("Falha ao carregar slides:", error);
-          slideContainer.innerHTML = `<p style='color: red;'>Erro ao carregar slides. Verifique o console (F12) e os caminhos dos arquivos.</p>`;
+          slideContainer.innerHTML = `<p style='color: red;'>Erro ao carregar slides. Verifique o console (F12) e os caminhos dos arquivos ('slides/' directory).</p>`;
         }
       }
 
-      // --- Navigation ---
       function initializeNavigation() {
         if (totalSlides <= 1) return;
 
@@ -278,11 +264,10 @@
         updateSidebarActiveState();
       }
 
-      // --- Progress Bar and Sidebar Update ---
       function updateProgressBar() {
         if (totalSlides === 0 || !headerProgressBar) return;
         const percentage =
-          totalSlides > 1 ? (currentSlide / (totalSlides - 1)) * 100 : 100; // Progress based on reaching the *end*
+          totalSlides > 1 ? (currentSlide / (totalSlides - 1)) * 100 : 100;
         headerProgressBar.style.width = `${percentage}%`;
       }
 
@@ -298,15 +283,26 @@
         });
       }
 
-      // --- Exercise Logic ---
       function initializeExercises() {
-        // Use event delegation on the container in case the link isn't loaded initially
         slideContainer.addEventListener("click", function (e) {
-          if (e.target && e.target.id === "exercicios") {
+          if (e.target && e.target.closest("#exercicios")) {
             e.preventDefault();
             startExercises();
           }
         });
+      }
+
+      /**
+       * Shuffles array in place using Fisher-Yates (Knuth) algorithm.
+       * @param {Array} array The array to shuffle.
+       * @returns {Array} The shuffled array (same instance).
+       */
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
       }
 
       function startExercises() {
@@ -314,93 +310,119 @@
         document.getElementById("slide-sidebar").style.display = "none";
         if (nextButton) nextButton.style.display = "none";
         if (prevButton) prevButton.style.display = "none";
-
         exerciseArea.style.display = "block";
         exerciseProgressBarContainer.style.display = "block";
 
+        userAnswers = {};
+        studentName = "";
         resultSummaryDiv.style.display = "none";
         resultSummaryDiv.innerHTML = "";
         resultChartCanvas.style.display = "none";
         const existingChart = Chart.getChart(resultChartCanvas);
-        if (existingChart) {
-          existingChart.destroy();
-        }
+        if (existingChart) existingChart.destroy();
         studentNameSection.style.display = "none";
         studentNameInput.value = "";
+        exerciseForm.style.display = "block";
 
         let questionIndex = 0;
+
         if (
           typeof ask === "undefined" ||
           !ask ||
           Object.keys(ask).length === 0
         ) {
+          console.error(
+            "Erro: Objeto 'ask' (de ask.js) não encontrado ou vazio."
+          );
           exerciseArea.innerHTML =
-            "<p style='color: red;'>Erro: Exercícios não encontrados ou objeto 'ask' inválido.</p>";
+            "<p style='color: red;'>Erro: Exercícios não encontrados. Verifique se 'ask.js' foi carregado corretamente.</p>";
           return;
         }
-        const totalQuestions = Object.keys(ask).length;
+
+        const questionKeys = Object.keys(ask);
+        const totalQuestions = questionKeys.length;
 
         const updateExerciseProgress = () => {
-          const percentage = ((questionIndex + 1) / totalQuestions) * 100;
+          const percentage =
+            totalQuestions > 0
+              ? ((questionIndex + 1) / totalQuestions) * 100
+              : 0;
           exerciseProgress.style.width = `${percentage}%`;
         };
 
         const renderQuestion = () => {
           exerciseForm.innerHTML = "";
-          if (!ask[questionIndex + 1]) {
-            console.error(`Question ${questionIndex + 1} not found`);
+
+          const questionKey = questionKeys[questionIndex];
+          if (!ask[questionKey]) {
+            console.error(
+              `Pergunta com chave '${questionKey}' (índice ${questionIndex}) não encontrada em ask.js`
+            );
+            exerciseForm.innerHTML =
+              "<p style='color:red;'>Erro: Pergunta não encontrada.</p>";
             return;
           }
-          const question = ask[questionIndex + 1];
+          const question = ask[questionKey];
+          const questionNumber = questionIndex + 1;
 
           const questionDiv = document.createElement("div");
           questionDiv.className = "question";
           const questionText = document.createElement("p");
           questionText.className = "question-title";
-          questionText.textContent = `Questão ${questionIndex + 1}: ${
-            question.ask
-          }`; // Add number
 
           if (question.type === "complete") {
             const parts = question.ask.split("_");
-            questionText.innerHTML = `Questão ${questionIndex + 1}: `; // Add number
+            questionText.innerHTML = `Questão ${questionNumber}: `;
             parts.forEach((part, index) => {
               questionText.appendChild(document.createTextNode(part));
               if (index < parts.length - 1) {
                 const input = document.createElement("input");
                 input.type = "text";
-                input.name = `question-${questionIndex + 1}`;
+
+                input.name = `question-${questionNumber}`;
                 input.className = "inline-input";
                 input.required = true;
                 questionText.appendChild(input);
               }
             });
           } else {
-            questionText.textContent = `Questão ${questionIndex + 1}: ${
-              question.ask
-            }`; // Add number
+            questionText.textContent = `Questão ${questionNumber}: ${question.ask}`;
           }
           questionDiv.appendChild(questionText);
 
           if (question.type === "mult") {
-            Object.keys(question.options).forEach((optionKey) => {
-              const label = document.createElement("label");
-              const input = document.createElement("input");
-              input.type = "radio";
-              input.name = `question-${questionIndex + 1}`;
-              input.value = optionKey;
-              input.required = true;
-              const inputId = `q${questionIndex + 1}_opt${optionKey}`;
-              input.id = inputId;
-              label.htmlFor = inputId;
-              input.style.marginRight = "8px";
-              label.appendChild(input);
-              const labelText = document.createElement("span");
-              labelText.textContent = question.options[optionKey];
-              label.appendChild(labelText);
-              questionDiv.appendChild(label);
-            });
+            if (!question.options || typeof question.options !== "object") {
+              console.error(
+                `Opções inválidas ou ausentes para a questão chave '${questionKey}'`
+              );
+              questionDiv.innerHTML +=
+                "<p style='color:red;'>Erro: Opções não encontradas ou inválidas.</p>";
+            } else {
+              const optionKeys = Object.keys(question.options);
+              const shuffledKeys = shuffleArray([...optionKeys]);
+
+              shuffledKeys.forEach((optionKey) => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = `question-${questionNumber}`;
+                input.value = optionKey;
+                input.required = true;
+                const inputId = `q${questionNumber}_opt${optionKey}`;
+                input.id = inputId;
+                label.htmlFor = inputId;
+                input.style.marginRight = "8px";
+
+                label.appendChild(input);
+                const labelText = document.createElement("span");
+                labelText.textContent = question.options[optionKey];
+                label.appendChild(labelText);
+
+                questionDiv.appendChild(label);
+              });
+            }
           }
+
           exerciseForm.appendChild(questionDiv);
 
           const buttonContainer = document.createElement("div");
@@ -410,11 +432,35 @@
           nextQuestionButton.textContent =
             questionIndex + 1 === totalQuestions ? "Finalizar" : "Próxima";
           nextQuestionButton.className = "exercise-nav-button";
+
           nextQuestionButton.onclick = () => {
             if (!exerciseForm.checkValidity()) {
               exerciseForm.reportValidity();
               return;
             }
+
+            const currentQuestionKey = questionKeys[questionIndex];
+            const currentQuestionNumber = questionIndex + 1;
+            const inputName = `question-${currentQuestionNumber}`;
+            let currentAnswer = null;
+
+            if (ask[currentQuestionKey].type === "mult") {
+              const selectedRadio = exerciseForm.querySelector(
+                `input[name="${inputName}"]:checked`
+              );
+              if (selectedRadio) {
+                currentAnswer = selectedRadio.value;
+              }
+            } else if (ask[currentQuestionKey].type === "complete") {
+              const textInput = exerciseForm.querySelector(
+                `input[name="${inputName}"][type="text"]`
+              );
+              if (textInput) {
+                currentAnswer = textInput.value.trim();
+              }
+            }
+            userAnswers[currentQuestionNumber] = currentAnswer;
+
             if (questionIndex + 1 === totalQuestions) {
               collectResultsAndAskName();
             } else {
@@ -423,6 +469,7 @@
               renderQuestion();
             }
           };
+
           buttonContainer.appendChild(nextQuestionButton);
           exerciseForm.appendChild(buttonContainer);
         };
@@ -436,6 +483,7 @@
         exerciseProgressBarContainer.style.display = "none";
         studentNameSection.style.display = "block";
         studentNameInput.focus();
+
         submitNameButton.onclick = () => {
           if (studentNameInput.value.trim() === "") {
             alert("Por favor, digite seu nome.");
@@ -449,10 +497,9 @@
       }
 
       function displayFinalResults() {
-        const formData = new FormData(exerciseForm); // Get data from the (now hidden) form
         let correctAnswers = 0;
         const results = [];
-        // Ensure 'ask' is defined and has questions
+
         if (
           typeof ask === "undefined" ||
           !ask ||
@@ -467,83 +514,70 @@
           return;
         }
 
-        const questionKeys = Object.keys(ask); // Get the actual keys used in the ask object
+        const questionKeys = Object.keys(ask);
         const totalQuestions = questionKeys.length;
 
-        // Iterate using the actual keys from the 'ask' object
         questionKeys.forEach((key, index) => {
-          // 'key' is the actual key (e.g., "1", "q1", etc.)
           const question = ask[key];
           if (!question) {
             console.warn(
-              `Pergunta com chave '${key}' não encontrada no objeto 'ask'. Pulando.`
+              `Pergunta com chave '${key}' não encontrada durante a avaliação. Pulando.`
             );
-            return; // Skip this iteration if question data is missing
+            return;
           }
 
-          // Construct the form input name based on the *index* + 1 (which matches renderQuestion)
-          // Assuming renderQuestion uses questionIndex (0-based) for names like 'question-1', 'question-2'
-          const formInputName = `question-${index + 1}`;
-          const userAnswer = formData.get(formInputName);
+          const questionNumber = index + 1;
+
+          const userAnswer = userAnswers[questionNumber] ?? null;
 
           let isCorrect = false;
           let correctAnswerText = "";
+          let userAnswerText =
+            userAnswer !== null ? String(userAnswer) : "Não respondido";
 
-          // Determine correct answer text and check correctness
           if (question.type === "mult") {
             if (question.options && typeof question.correct !== "undefined") {
+              const correctOptionKey = String(question.correct);
               correctAnswerText =
-                question.options[question.correct] ??
-                `Opção ${question.correct} inválida`; // Handle if correct option doesn't exist
-              // Compare userAnswer (string) with question.correct (expected number)
+                question.options[correctOptionKey] ??
+                `[Opção Correta Inválida: ${correctOptionKey}]`;
               isCorrect =
-                userAnswer !== null &&
-                parseInt(userAnswer, 10) === question.correct;
+                userAnswer !== null && String(userAnswer) === correctOptionKey;
+
+              if (userAnswer !== null && question.options[userAnswer]) {
+                userAnswerText = question.options[userAnswer];
+              } else if (userAnswer !== null) {
+                userAnswerText = `[Opção Inválida: ${userAnswer}]`;
+              }
             } else {
-              console.warn(
-                `Dados inválidos para questão de múltipla escolha chave '${key}'`
-              );
-              correctAnswerText = "[Dados da questão inválidos]";
+              correctAnswerText = "[Dados da Pergunta Inválidos]";
             }
           } else if (question.type === "complete") {
             if (typeof question.correct === "string") {
               correctAnswerText = question.correct;
-              // Case-insensitive and trim whitespace comparison
               isCorrect =
                 userAnswer !== null &&
-                userAnswer.trim().toLowerCase() ===
-                  question.correct.toLowerCase();
+                userAnswer.toLowerCase() === question.correct.toLowerCase();
             } else {
-              console.warn(
-                `Resposta correta inválida para questão de completar chave '${key}'`
-              );
-              correctAnswerText = "[Dados da questão inválidos]";
+              correctAnswerText = "[Dados da Pergunta Inválidos]";
             }
           } else {
-            console.warn(
-              `Tipo de questão desconhecido '${question.type}' para chave '${key}'`
-            );
-            correctAnswerText = "[Tipo de questão desconhecido]";
+            correctAnswerText = "[Tipo de Pergunta Desconhecido]";
           }
 
-          if (isCorrect) {
-            correctAnswers++;
-          }
+          if (isCorrect) correctAnswers++;
 
-          // Store result details for PDF
           results.push({
-            // Use index + 1 for display consistency, assuming sequential questions
-            questionNumber: index + 1,
+            questionNumber: questionNumber,
             questionText: question.ask
               ? question.ask.replace(/_/g, "...")
-              : "[Texto da questão ausente]",
-            userAnswer: userAnswer || "Não respondido",
+              : "[Questão Ausente]",
+            userAnswer: userAnswerText,
             correctAnswer: correctAnswerText,
             isCorrect,
           });
-        }); // End of forEach loop
+        });
 
-        // --- Display Score ---
         resultSummaryDiv.style.display = "block";
         const scorePercentage =
           totalQuestions > 0
@@ -557,12 +591,12 @@
               <p style="font-size: 1.4em;">Você acertou ${correctAnswers} de ${totalQuestions} questões (${scorePercentage}%)</p>
           `;
 
-        // --- Chart ---
         if (resultChartCanvas && totalQuestions > 0) {
           resultChartCanvas.style.display = "block";
           const ctx = resultChartCanvas.getContext("2d");
           const existingChart = Chart.getChart(resultChartCanvas);
           if (existingChart) existingChart.destroy();
+
           new Chart(ctx, {
             type: "pie",
             data: {
@@ -593,12 +627,10 @@
           resultChartCanvas.style.display = "none";
         }
 
-        // --- Download Button ---
         const downloadButton = document.createElement("button");
         downloadButton.innerHTML =
           '<i class="fas fa-download"></i> Baixar Resultado em PDF';
         downloadButton.className = "download-pdf-button";
-        // Pass the detailed 'results' array to the PDF function
         downloadButton.onclick = () =>
           generatePdfReport(
             results,
@@ -606,46 +638,60 @@
             totalQuestions,
             studentName
           );
-        resultSummaryDiv.appendChild(downloadButton); // Add button to summary div
-      } // End of displayFinalResults
+        resultSummaryDiv.appendChild(downloadButton);
+      }
 
-      // --- PDF Generation ---
       function generatePdfReport(
         resultsData,
         correctAnswers,
         totalQuestions,
         studentName
       ) {
-        // resultsData now holds the detailed array
         try {
-          // ... (jsPDF setup, styling constants, PDF header remain the same) ...
           const { jsPDF } = window.jspdf;
           if (!jsPDF) {
-            alert("Erro: jsPDF não carregado.");
+            alert("Erro: Biblioteca jsPDF não carregada.");
             return;
           }
           const doc = new jsPDF();
+
           const PRIMARY_COLOR = "#00e676";
-          const SECONDARY_COLOR = "#ffcc00";
+
           const BG_COLOR = "#1e1e2f";
           const TEXT_COLOR_LIGHT = "#e0e0e0";
           const TEXT_COLOR_DARK = "#1e1e2f";
           const CORRECT_COLOR = "#4caf50";
           const INCORRECT_COLOR = "#f44336";
+
           let yPos = 0;
           const pageHeight = doc.internal.pageSize.getHeight();
           const pageWidth = doc.internal.pageSize.getWidth();
           const margin = 15;
+          const contentWidth = pageWidth - margin * 2;
 
-          // --- PDF Header ---
-          // ... (Code for drawing header remains the same) ...
           doc.setFillColor(BG_COLOR);
           doc.rect(0, 0, pageWidth, 35, "F");
           yPos = 12;
           doc.setFontSize(16);
-          /* ... rest of header ... */ yPos += 10;
+          doc.setFont("helvetica", "bold");
+          doc.setTextColor(PRIMARY_COLOR);
+          const presentationTitle = document.title || "Exercícios do Curso";
+          doc.text(presentationTitle, pageWidth / 2, yPos, { align: "center" });
+          yPos += 8;
+          doc.setFontSize(10);
+          doc.setFont("helvetica", "normal");
+          doc.setTextColor(TEXT_COLOR_LIGHT);
+          doc.text(`Aluno(a): ${studentName || "N/A"}`, margin, yPos);
+          doc.text(
+            `Data: ${new Date().toLocaleDateString()}`,
+            pageWidth - margin,
+            yPos,
+            { align: "right" }
+          );
+          yPos += 5;
+          doc.text(`Instrutor(a): ${teacherName}`, margin, yPos);
+          yPos += 12;
 
-          // --- PDF Body ---
           doc.setFontSize(14);
           doc.setFont("helvetica", "bold");
           doc.setTextColor(TEXT_COLOR_DARK);
@@ -660,9 +706,9 @@
           );
           yPos += 10;
 
-          // Iterate through the 'resultsData' array passed to the function
           resultsData.forEach((result) => {
-            if (yPos > pageHeight - 40) {
+            const estimatedHeight = 5 * 5 + 10 + 7 + 2;
+            if (yPos + estimatedHeight > pageHeight - margin) {
               doc.addPage();
               yPos = margin;
             }
@@ -670,22 +716,22 @@
             doc.setFontSize(11);
             doc.setFont("helvetica", "bold");
             doc.setTextColor(TEXT_COLOR_DARK);
-            // Use the data from the result object
             const questionLines = doc.splitTextToSize(
               `Questão ${result.questionNumber}: ${result.questionText}`,
-              pageWidth - margin * 2
+              contentWidth
             );
             doc.text(questionLines, margin, yPos);
             yPos += questionLines.length * 5 + 2;
 
             doc.setFontSize(10);
             doc.setFont("helvetica", "normal");
+
             doc.setTextColor(
               result.isCorrect ? TEXT_COLOR_DARK : INCORRECT_COLOR
             );
             const userAnswerLines = doc.splitTextToSize(
               `Sua Resposta: ${result.userAnswer}`,
-              pageWidth - margin * 2
+              contentWidth
             );
             if (yPos + userAnswerLines.length * 5 > pageHeight - margin) {
               doc.addPage();
@@ -697,7 +743,7 @@
             doc.setTextColor(TEXT_COLOR_DARK);
             const correctAnswerLines = doc.splitTextToSize(
               `Resposta Correta: ${result.correctAnswer}`,
-              pageWidth - margin * 2
+              contentWidth
             );
             if (yPos + correctAnswerLines.length * 5 > pageHeight - margin) {
               doc.addPage();
@@ -719,38 +765,66 @@
               margin,
               yPos
             );
-            yPos += 10;
+            yPos += 7;
 
+            if (yPos + 5 > pageHeight - margin) {
+              doc.addPage();
+              yPos = margin;
+            }
             doc.setDrawColor(200);
-            doc.line(margin, yPos - 3, pageWidth - margin, yPos - 3);
-            yPos += 2;
-          }); // End of resultsData.forEach
+            doc.setLineWidth(0.2);
+            doc.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += 5;
+          });
 
-          // --- Add Chart Image ---
-          // ... (Chart logic remains the same) ...
           if (
             resultChartCanvas &&
             resultChartCanvas.style.display !== "none" &&
             totalQuestions > 0
           ) {
-            // ... try/catch for adding image ...
+            const chartHeight = 50;
+            const chartWidth = 50;
+            if (yPos + chartHeight > pageHeight - margin) {
+              doc.addPage();
+              yPos = margin;
+            }
+            try {
+              const chartImage = resultChartCanvas.toDataURL("image/png");
+              doc.addImage(
+                chartImage,
+                "PNG",
+                margin,
+                yPos,
+                chartWidth,
+                chartHeight
+              );
+              yPos += chartHeight + 10;
+            } catch (chartError) {
+              console.error("Erro ao adicionar gráfico ao PDF:", chartError);
+              if (yPos + 10 > pageHeight - margin) {
+                doc.addPage();
+                yPos = margin;
+              }
+              doc.setTextColor(INCORRECT_COLOR);
+              doc.setFont("helvetica", "italic");
+              doc.text("Erro ao renderizar o gráfico no PDF.", margin, yPos);
+              yPos += 10;
+            }
           }
 
-          // --- Save PDF ---
-          const presentationTitle = document.title || "Exercicios";
-          doc.save(
-            `resultado_${presentationTitle.replace(
-              /[^a-z0-9]/gi,
-              "_"
-            )}_${studentName.replace(/[^a-z0-9]/gi, "_")}.pdf`
-          );
+          const safePresentationTitle = presentationTitle
+            .replace(/[^a-z0-9]/gi, "_")
+            .toLowerCase();
+          const safeStudentName = studentName
+            .replace(/[^a-z0-9]/gi, "_")
+            .toLowerCase();
+          doc.save(`resultado_${safePresentationTitle}_${safeStudentName}.pdf`);
         } catch (pdfError) {
-          console.error("PDF generation error:", pdfError);
-          alert("Erro ao gerar PDF.");
+          console.error("Erro geral ao gerar PDF:", pdfError);
+          alert("Ocorreu um erro inesperado ao tentar gerar o PDF.");
         }
-      } // End of generatePdfReport
+      }
 
-      // --- Start Loading ---
       document.addEventListener("DOMContentLoaded", loadSlides);
     </script>
   </body>

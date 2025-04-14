@@ -1,4 +1,3 @@
-/* --- Global Styles & Theme --- */
 :root {
   --bg-dark: #1e1e2f;
   --bg-medium: #2a2a3b;
@@ -14,7 +13,7 @@
   --header-height: 50px;
   --footer-height: 40px;
   --sidebar-width: 250px;
-  --nav-button-bottom: 55px; /* Position above footer */
+  --nav-button-bottom: 55px;
 }
 
 ::selection {
@@ -37,7 +36,6 @@
   background: #2a2a3b;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   width: 5px;
   background: var(--green-correct);
@@ -46,20 +44,19 @@
 body {
   font-family: "Roboto", sans-serif;
   margin: 0;
-  padding-bottom: var(--footer-height); /* Space for fixed footer */
+  padding-bottom: var(--footer-height);
   background-color: var(--bg-dark);
   color: var(--text-light);
   min-height: 100vh;
   position: relative;
   box-sizing: border-box;
-  overflow-x: hidden; /* Prevent horizontal scroll caused by fixed elements */
+  overflow-x: hidden;
 }
 
-/* --- Header --- */
 header {
   background-color: var(--bg-medium);
   color: white;
-  padding: 0 20px; /* Vertical padding removed, height controls it */
+  padding: 0 20px;
   height: var(--header-height);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   position: absolute;
@@ -71,7 +68,7 @@ header {
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  position: relative; /* For progress bar positioning */
+  position: relative;
 }
 
 header .back-link {
@@ -83,7 +80,7 @@ header .back-link {
   border-radius: 4px;
   transition: background-color 0.2s ease;
   white-space: nowrap;
-  flex-shrink: 0; /* Don't let it shrink */
+  flex-shrink: 0;
 }
 header .back-link i {
   margin-right: 5px;
@@ -102,7 +99,7 @@ header .back-link:hover {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
-  flex-grow: 1; /* Allow title to take space */
+  flex-grow: 1;
 }
 
 #header-progress-bar {
@@ -118,17 +115,13 @@ header .back-link:hover {
   border-top-right-radius: 2px;
 }
 
-/* --- Main Layout --- */
 .main-content-area {
   display: flex;
-  margin-top: 15px; /* Space below header */
-  padding-right: calc(
-    var(--sidebar-width) + 15px
-  ); /* Space for the fixed sidebar + gap */
+  margin-top: 15px;
+  padding-right: calc(var(--sidebar-width) + 15px);
   position: relative;
 }
 
-/* --- Sidebar --- */
 #slide-sidebar {
   position: fixed;
   top: 0;
@@ -186,13 +179,10 @@ header .back-link:hover {
   font-weight: bold;
 }
 
-/* --- Slide Container & Content --- */
 .slide-container {
   flex-grow: 1;
   padding: 10px;
-  min-height: calc(
-    100vh - var(--header-height) - var(--footer-height) - 50px
-  ); /* Adjust min height */
+  min-height: calc(100vh - var(--header-height) - var(--footer-height) - 50px);
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -309,9 +299,18 @@ code.language-sql {
   font-size: 0.9em;
   white-space: pre;
 }
-/* Add styles for .token.keyword, .token.string etc. if using a syntax highlighter */
 
-/* --- Navigation Buttons --- */
+strong {
+  color: var(--accent-green);
+  font-weight: bold;
+  margin: 0 5px;
+}
+
+i {
+  font-size: 1.2rem;
+  margin: 0 10px;
+}
+
 .slide-nav-button {
   position: fixed;
   bottom: var(--nav-button-bottom);
@@ -339,17 +338,15 @@ code.language-sql {
   left: 20px;
 }
 #next-slide-button {
-  right: calc(var(--sidebar-width) + 35px); /* Position left of sidebar */
-} /* Adjust position */
+  right: calc(var(--sidebar-width) + 35px);
+}
 
-/* --- Exercise Area --- */
 #exercise-area {
   padding: 20px;
   max-width: 800px;
   margin: 20px auto;
 }
 #progress-bar {
-  /* Exercise progress */
   width: 100%;
   height: 10px;
   background-color: var(--bg-light);
@@ -427,7 +424,7 @@ code.language-sql {
 }
 #exercise-form input[type="radio"] + span {
   vertical-align: middle;
-} /* Align text with radio */
+}
 
 #student-name-section {
   text-align: center;
@@ -514,17 +511,16 @@ code.language-sql {
   color: var(--green-correct);
   border-radius: 8px;
   box-sizing: border-box;
-  max-width: 100%; /* Ensure chart is responsive */
+  max-width: 100%;
   height: auto !important;
   margin-top: 25px;
 }
 
-/* --- Footer --- */
 footer {
   background-color: var(--bg-medium);
   color: white;
   text-align: center;
-  padding: 0 15px; /* No vertical padding, height controls */
+  padding: 0 15px;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -542,6 +538,3 @@ footer a {
 footer a:hover {
   text-shadow: 0 0 5px var(--accent-green);
 }
-
-/* --- Utility --- */
-/* Add any helper classes if needed */
