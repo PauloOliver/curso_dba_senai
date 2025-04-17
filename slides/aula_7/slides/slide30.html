@@ -1,0 +1,38 @@
+<h2><i class="fas fa-laptop-code"></i> Demo SQL: Criando Tabelas (Blog)</h2>
+<p>Cenário: Autores, Posts, Comentários.</p>
+<p><strong>Passos:</strong> Modelo Lógico <i class="fas fa-arrow-right"></i> Comandos <code>CREATE TABLE</code> <i class="fas fa-arrow-right"></i> Teste de Constraints.</p>
+<pre><code class="language-sql">
+-- Exemplo PostgreSQL (adaptar para MySQL se necessário)
+
+CREATE TABLE Autores (
+    ID_Autor SERIAL PRIMARY KEY,
+    Nome VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    DataCadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Posts (
+    ID_Post SERIAL PRIMARY KEY,
+    Titulo VARCHAR(200) NOT NULL,
+    Conteudo TEXT,
+    DataPublicacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ID_Autor INT NOT NULL,
+    -- Definição explícita da constraint FK
+    CONSTRAINT fk_autor_post
+        FOREIGN KEY (ID_Autor) REFERENCES Autores(ID_Autor)
+        ON DELETE CASCADE -- Se autor for excluído, posts também são
+);
+
+CREATE TABLE Comentarios (
+    ID_Comentario SERIAL PRIMARY KEY,
+    Texto TEXT NOT NULL,
+    DataComentario TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ID_Post INT NOT NULL,
+    ID_Autor_Comentarista INT, -- Permite NULL (anônimo)
+    Status VARCHAR(15) DEFAULT 'Pendente'
+       CHECK (Status IN ('Pendente', 'Aprovado', 'Rejeitado')), -- CHECK Constraint
+    FOREIGN KEY (ID_Post) REFERENCES Posts(ID_Post) ON DELETE CASCADE,
+    FOREIGN KEY (ID_Autor_Comentarista) REFERENCES Autores(ID_Autor) ON DELETE SET NULL
+);
+</code></pre>
+<p><i class="fas fa-keyboard"></i> Mostrar execução no cliente SQL e testes de inserção (válidos e inválidos).</p>

@@ -1,0 +1,13 @@
+<h2><i class="fas fa-check-double"></i> Solução Ex. 1: Clínica Médica</h2>
+<p><strong>Diagrama MER (Conceito):</strong></p>
+<!-- [Diagram: MER for Clinica - MEDICO(1)---realiza---(N)CONSULTA(N)---agenda---(1)PACIENTE. Show attributes, PKs, cardinalities, participation] -->
+<img src="path/to/solucao_mer_clinica.png" alt="Solução MER Clínica" class="slide-image" style="max-width: 80%;">
+<p><strong>Modelo Lógico (3FN):</strong></p>
+<pre><code class="language-sql">
+-- MEDICOS (CRM PK, Nome, Especialidade)
+-- PACIENTES (CPF PK, Nome, DataNascimento)
+-- CONSULTAS (ID_Consulta PK, DataHora, Status,
+--            CPF_Paciente FK -> PACIENTES,
+--            CRM_Medico FK -> MEDICOS)
+</code></pre>
+<p><strong>Comentários:</strong> Relações 1:N viram FKs em CONSULTAS. Modelo já em 3FN naturalmente.</p>

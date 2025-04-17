@@ -1,0 +1,10 @@
+<h2><i class="fas fa-exchange-alt"></i> Mapeando MER para Modelo Lógico <i class="fas fa-arrow-right"></i> <i class="fas fa-table"></i></h2>
+<p>Regras gerais para transformar o diagrama em tabelas:</p>
+<ul>
+    <li><i class="fas fa-box fa-fw"></i> Entidade Forte <i class="fas fa-arrow-right"></i> Tabela (PK = PK)</li>
+    <li><i class="fas fa-unlink fa-fw"></i> Entidade Fraca <i class="fas fa-arrow-right"></i> Tabela (PK = PK dona + Discriminador)</li>
+    <li><i class="fas fa-list-ol fa-fw"></i> Atributo Multivalorado <i class="fas fa-arrow-right"></i> Nova Tabela (com FK)</li>
+    <li><i class="fas fa-arrows-alt-h fa-fw"></i> Rel. 1:1 <i class="fas fa-arrow-right"></i> FK em uma tabela (com UNIQUE)</li>
+    <li><i class="fas fa-long-arrow-alt-right fa-fw"></i> Rel. 1:N <i class="fas fa-arrow-right"></i> FK na tabela do lado 'N'</li>
+    <li><i class="fas fa-exchange-alt fa-fw"></i> Rel. N:M <i class="fas fa-arrow-right"></i> Nova Tabela Associativa (FKs das duas, PK composta)</li>
+</ul>

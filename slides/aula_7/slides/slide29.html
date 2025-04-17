@@ -1,0 +1,20 @@
+<h2><i class="fas fa-shield-alt"></i> Integridade de Dados: Garantindo Consistência</h2>
+<p>Assegura precisão, consistência e confiabilidade dos dados.</p>
+<p><strong>Tipos Principais de Restrições (Constraints):</strong></p>
+<ul>
+    <li><i class="fas fa-key fa-fw"></i> <strong>Integridade de Entidade (<code>PRIMARY KEY</code>):</strong> Garante linhas únicas. PK não pode ser <code>NULL</code>.</li>
+    <li><i class="fas fa-link fa-fw"></i> <strong>Integridade Referencial (<code>FOREIGN KEY</code>):</strong> Garante relacionamentos consistentes. FK deve existir na PK referenciada ou ser <code>NULL</code> (se permitido).
+        <ul><li>Ações: <code>ON DELETE CASCADE</code>, <code>SET NULL</code>, <code>RESTRICT</code>...</li></ul>
+    </li>
+    <li><i class="fas fa-check-square fa-fw"></i> <strong>Integridade de Domínio:</strong> Garante valores válidos nas colunas.
+        <ul>
+            <li><i class="fas fa-file-alt fa-fw"></i> Tipos de Dados (<code>INT</code>, <code>DATE</code>...)</li>
+            <li><i class="fas fa-ban fa-fw"></i> <code>NOT NULL</code></li>
+            <li><i class="fas fa-fingerprint fa-fw"></i> <code>UNIQUE</code></li>
+            <li><i class="fas fa-tasks fa-fw"></i> <code>CHECK</code> (condições)</li>
+            <li><i class="fas fa-magic fa-fw"></i> <code>DEFAULT</code> (valor padrão)</li>
+        </ul>
+    </li>
+</ul>
+<!-- [Image: Concept image of a shield protecting data, or interlocking gears representing consistency - Source: Freepik] -->
+ <img src="path/to/integridade_dados.png" alt="Integridade de Dados" class="slide-image" style="max-height: 150px;">

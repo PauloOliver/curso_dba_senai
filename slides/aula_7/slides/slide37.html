@@ -1,0 +1,14 @@
+<h2><i class="fas fa-check-double"></i> Solução Ex. 2: Loja Online</h2>
+<p><strong>Diagrama MER (Conceito):</strong></p>
+<!-- [Diagram: MER for Loja - Include CLIENTE, PEDIDO, PRODUTO, CATEGORIA, and the N:M relationship 'contem' between PEDIDO and PRODUTO with its attributes (Qtd, PrecoCompra). Show all details.] -->
+<img src="path/to/solucao_mer_loja.png" alt="Solução MER Loja Online" class="slide-image" style="max-width: 90%;">
+<p><strong>Modelo Lógico (3FN):</strong></p>
+<pre><code class="language-sql">
+-- CATEGORIAS (ID_Categoria PK, Nome)
+-- PRODUTOS (ID_Produto PK, Nome, Descricao, PrecoAtual, ID_Categoria FK)
+-- CLIENTES (ID_Cliente PK, Nome, Email, End_Rua, End_Num, ...)
+-- PEDIDOS (ID_Pedido PK, Data, Status, ID_Cliente FK)
+-- ITENS_PEDIDO (ID_Pedido FK, ID_Produto FK, Quantidade, PrecoUnitCompra,
+--              PK (ID_Pedido, ID_Produto))
+</code></pre>
+<p><strong>Comentários:</strong> Endereço composto vira colunas. Rel. N:M ('contem') vira tabela `ITENS_PEDIDO`. Preço no item preserva histórico.</p>

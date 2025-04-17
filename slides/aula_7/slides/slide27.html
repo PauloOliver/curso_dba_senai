@@ -1,0 +1,8 @@
+<h2><i class="fas fa-link"></i> 2FN: Dependência Total da Chave Primária</h2>
+<p><strong>Pré-requisito:</strong> Tabela já em 1FN.</p>
+<p><strong>Regra:</strong> Todos os atributos não-chave devem depender funcionalmente da <strong>chave primária completa</strong>. (Sem dependências parciais em PKs compostas).</p>
+<p><i class="fas fa-times-circle" style="color: var(--red-error);"></i> <strong>Problema Resolvido:</strong> Redundância em tabelas com chave composta.</p>
+<p><strong>Exemplo (Não-2FN - PK = ID_Pedido, ID_Produto):</strong> `ITENS_PEDIDO` (<u>ID_Pedido</u>, <u>ID_Produto</u>, NomeProduto, Qtd, PrecoUnit, DataPedido)</p>
+ 
+ <p style="text-align: center; font-style: italic;">(NomeProduto <i class="fas fa-arrow-right"></i> ID_Produto | DataPedido <i class="fas fa-arrow-right"></i> ID_Pedido)</p>
+ <p><i class="fas fa-check-circle" style="color: var(--green-correct);"></i> <strong>Solução (2FN):</strong> Separar dependências parciais.</p>
