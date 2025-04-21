@@ -1,0 +1,18 @@
+<!-- --- START OF FILE slide22.html --- -->
+<div class="slide" id="slide-22">
+    <h2><i class="fas fa-sort-amount-down"></i> Ordenando Resultados: <code>ORDER BY</code></h2>
+    <p>Os resultados de um <code>SELECT</code> não têm uma ordem garantida por padrão.</p>
+    <p>Para classificar as linhas do resultado, usamos a cláusula <code>ORDER BY</code>.</p>
+    <p><strong>Posição:</strong> Geralmente, é a <strong>última cláusula principal</strong> da consulta <code>SELECT</code>.</p>
+    <pre><code class="language-sql">
+SELECT coluna1, coluna2
+FROM nome_da_tabela
+WHERE condicao
+ORDER BY coluna_para_ordenar [ASC | DESC];
+    </code></pre>
+    <ul>
+        <li><code>ASC</code> : Ordem <strong>Ascendente</strong> (A-Z, 0-9). É o padrão se omitido.</li>
+        <li><code>DESC</code> : Ordem <strong>Descendente</strong> (Z-A, 9-0).</li>
+    </ul>
+</div>
+<!-- --- END OF FILE slide22.html --- -->

@@ -1,0 +1,18 @@
+<!-- --- START OF FILE slide27.html --- -->
+<div class="slide" id="slide-27">
+    <h2><i class="fas fa-clone" style="text-decoration: line-through;"></i><i class="fas fa-clone"></i> Evitando Duplicatas com <code>DISTINCT</code></h2>
+    <p>Se quisermos ver apenas os valores <strong>únicos</strong> de uma ou mais colunas, usamos a palavra-chave <code>DISTINCT</code> logo após o <code>SELECT</code>.</p>
+    <pre><code class="language-sql">
+-- Quais cidades ÚNICAS possuem clientes?
+SELECT DISTINCT Cidade
+FROM Clientes;
+    </code></pre>
+    <p>Se usado com múltiplas colunas, retorna combinações únicas dessas colunas:</p>
+    <pre><code class="language-sql">
+-- Quais combinações únicas de Cidade e Estado existem?
+SELECT DISTINCT Cidade, Estado
+FROM Clientes;
+    </code></pre>
+    <p>Pode ser combinado com <code>WHERE</code>, <code>ORDER BY</code>, etc.</p>
+</div>
+<!-- --- END OF FILE slide27.html --- -->

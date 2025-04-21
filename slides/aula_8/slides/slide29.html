@@ -1,0 +1,31 @@
+<!-- --- START OF FILE slide29.html --- -->
+<div class="slide" id="slide-29">
+    <h2><i class="fas fa-thumbs-up"></i> Boas Práticas Iniciais em SQL</h2>
+    <p>Para escrever SQL mais legível e fácil de manter:</p>
+    <ul>
+        <li><i class="fas fa-font fa-fw"></i> <strong>Capitalização:</strong> Use MAIÚSCULAS para palavras-chave SQL (<code>SELECT</code>, <code>FROM</code>, <code>WHERE</code>...) e minúsculas (ou o padrão da sua equipe) para nomes de tabelas/colunas.<br><code>SELECT NomeCliente FROM Clientes WHERE Idade > 18;</code></li>
+        <li><i class="fas fa-indent fa-fw"></i> <strong>Indentação:</strong> Quebre consultas longas em várias linhas, indentando as cláusulas para clareza visual.
+            <pre><code class="language-sql">
+SELECT
+    Nome,
+    Email,
+    Cidade
+FROM
+    Clientes
+WHERE
+    Idade > 18
+    AND Cidade = 'Porto Alegre'
+ORDER BY
+    Nome ASC;</code></pre>
+        </li>
+        <li><i class="fas fa-comment-alt fa-fw"></i> <strong>Comentários:</strong> Use <code>--</code> para comentários de linha única. Use <code>/* ... */</code> para comentários de múltiplas linhas (pode variar). Explique partes complexas ou a intenção da query.
+            <pre><code class="language-sql">
+-- Seleciona clientes maiores de idade de POA
+SELECT Nome, Email, Cidade
+FROM Clientes
+WHERE Idade > 18 -- Filtro de idade
+  AND Cidade = 'Porto Alegre'; /* Filtro de cidade */</code></pre>
+        </li>
+    </ul>
+</div>
+<!-- --- END OF FILE slide29.html --- -->

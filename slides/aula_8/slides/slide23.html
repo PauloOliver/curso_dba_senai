@@ -1,0 +1,14 @@
+<!-- --- START OF FILE slide23.html --- -->
+<div class="slide" id="slide-23">
+    <h2><i class="fas fa-sort-alpha-up"></i> <code>ORDER BY</code> - Exemplos e Múltiplas Colunas</h2>
+    <p>Ordenando por nome (A-Z):</p>
+    <pre><code class="language-sql">ORDER BY Nome ASC; -- Ou simplesmente ORDER BY Nome;</code></pre>
+    <p>Ordenando por data de cadastro (mais recente primeiro):</p>
+    <pre><code class="language-sql">ORDER BY DataCadastro DESC;</code></pre>
+    <p>Ordenando por múltiplas colunas (critério de desempate):</p>
+    <pre><code class="language-sql">
+-- Primeiro por categoria (A-Z), depois por preço (maior para menor)
+ORDER BY Categoria ASC, Preco DESC;
+    </code></pre>
+</div>
+<!-- --- END OF FILE slide23.html --- -->

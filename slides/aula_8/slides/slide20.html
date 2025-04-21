@@ -1,0 +1,12 @@
+<!-- --- START OF FILE slide20.html --- -->
+<div class="slide" id="slide-20">
+    <h2><i class="fas fa-link"></i> Combinando Condições: Operadores Lógicos</h2>
+    <p>Podemos combinar múltiplas condições no <code>WHERE</code> usando:</p>
+    <ul>
+        <li><i class="fas fa-check-double fa-fw" style="color: var(--accent-green);"></i> <strong><code>AND</code></strong>: TODAS as condições devem ser verdadeiras.<br> Ex: <code>WHERE Cidade = 'São Paulo' AND Idade > 30</code></li>
+        <li><i class="fas fa-check fa-fw" style="color: var(--accent-yellow);"></i> <strong><code>OR</code></strong>: PELO MENOS UMA das condições deve ser verdadeira.<br> Ex: <code>WHERE Cidade = 'Rio de Janeiro' OR Idade < 20</code></li>
+        <li><i class="fas fa-times-circle fa-fw" style="color: var(--red-error);"></i> <strong><code>NOT</code></strong>: Inverte o resultado de uma condição (verdadeiro vira falso, falso vira verdadeiro). Útil com <code>IN</code>, <code>LIKE</code>, <code>BETWEEN</code>.<br> Ex: <code>WHERE Cidade NOT IN ('São Paulo', 'Rio de Janeiro')</code><br> Ex: <code>WHERE Nome NOT LIKE 'A%'</code></li>
+    </ul>
+    <p><strong>Dica:</strong> Use parênteses <code>()</code> para controlar a ordem de avaliação quando combinar <code>AND</code> e <code>OR</code>:<br><code>WHERE (Cidade = 'SP' AND Idade > 30) OR Status = 'VIP'</code></p>
+</div>
+<!-- --- END OF FILE slide20.html --- -->
