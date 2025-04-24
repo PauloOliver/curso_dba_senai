@@ -300,6 +300,11 @@ code.language-sql {
   white-space: pre;
 }
 
+code{
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
 strong {
   color: var(--accent-green);
   font-weight: bold;
