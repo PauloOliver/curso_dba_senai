@@ -1,0 +1,20 @@
+
+  <h2><i class="fas fa-plus-circle" style="color:var(--green-correct)"></i> <code>INSERT INTO</code> - Adicionando Dados</h2>
+  <p>Para inserir uma nova linha:</p>
+  <p><strong>Especificando Colunas (Recomendado):</strong></p>
+  <pre><code class="language-sql">
+INSERT INTO Clientes (Nome, Email, Cidade, Idade) -- Lista de colunas
+VALUES ('Ana Banana', 'ana.b@email.com', 'Recife', 25); -- Valores na mesma ordem
+  </code></pre>
+  <p><strong>Omitindo Colunas (Assume todas, na ordem da tabela - CUIDADO!):</strong></p>
+  <pre><code class="language-sql">
+INSERT INTO Clientes -- Ordem dos valores DEVE bater com ordem das colunas na tabela!
+VALUES (DEFAULT, 'Beto Carrero', 'beto.c@email.com', 'Penha', 50, '2024-08-01'); -- Ex: ID pode ser DEFAULT se auto-incremento
+  </code></pre>
+  <p><strong>Inserindo Múltiplas Linhas:</strong></p>
+  <pre><code class="language-sql">
+INSERT INTO Produtos (NomeProduto, Categoria, Preco) VALUES
+('Caderno Azul', 'Papelaria', 15.00),
+('Caneta Preta', 'Papelaria', 3.50),
+('Borracha', 'Papelaria', 2.00);
+  </code></pre>

@@ -1,0 +1,13 @@
+
+  <h2><i class="fas fa-boxes"></i> Tipos Comuns de Subqueries</h2>
+  <ul>
+    <li><strong>Scalar Subquery:</strong> Retorna <strong>um único valor</strong> (1 linha, 1 coluna). Usada onde um valor literal é esperado (ex: em comparações <code>=, >, <</code>).
+      <pre><code class="language-sql">WHERE Salario > (SELECT AVG(Salario) FROM Funcionarios)</code></pre>
+    </li>
+    <li><strong>List Subquery (Multi-row, Single-column):</strong> Retorna uma <strong>lista</strong> de valores (N linhas, 1 coluna). Usada com <code>IN</code>, <code>NOT IN</code>, <code>ANY</code>, <code>ALL</code>.
+      <pre><code class="language-sql">WHERE ClienteID IN (SELECT ClienteID FROM PedidosVIP)</code></pre>
+    </li>
+    <li><strong>Table Subquery (Multi-row, Multi-column):</strong> Retorna um conjunto de resultados como uma tabela. Usada na cláusula <code>FROM</code> (ou <code>JOIN</code>) com um alias - chamada de <strong>Tabela Derivada</strong>.
+      <pre><code class="language-sql">FROM (SELECT Categoria, MAX(Preco) AS MaxPreco FROM Produtos GROUP BY Categoria) AS PrecosMax</code></pre>
+    </li>
+  </ul>

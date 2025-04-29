@@ -1,0 +1,8 @@
+
+  <h2><i class="fas fa-shield-alt"></i> Boas Práticas Essenciais em DML (2/2)</h2>
+  <ol start="3">
+      <li><strong>Cuidado com Operações em Lote:</strong> Evite <code>UPDATE</code>/<code>DELETE</code> sem <code>WHERE</code> ou com <code>WHERE</code> muito genérico em tabelas grandes. Pode causar bloqueios (locking), encher logs e demorar muito. Se necessário, faça em partes menores ou em horários de baixa utilização. <i class="fas fa-traffic-light fa-fw" style="color: var(--red-error)"></i></li>
+      <li><strong>Valide Dados no <code>INSERT</code>:</strong> Garanta que os dados inseridos sejam válidos (tipo correto, formato esperado, regras de negócio) antes de chegarem ao banco, seja na aplicação ou usando <code>CHECK CONSTRAINTS</code> no SGBD. <i class="fas fa-check-double fa-fw"></i></li>
+      <li><strong>Backups Regulares e Testados:</strong> Sua rede de segurança! Tenha uma política de backup confiável e *teste* a restauração periodicamente. <i class="fas fa-save fa-fw" style="color: var(--accent-blue)"></i></li>
+      <li><strong>Logging e Auditoria:</strong> Registre quem fez o quê e quando, especialmente para alterações críticas. Facilita a investigação de problemas e a recuperação de erros. <i class="fas fa-history fa-fw"></i></li>
+  </ol>

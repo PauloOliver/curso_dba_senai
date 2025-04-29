@@ -1,0 +1,19 @@
+
+  <h2><i class="fas fa-sync-alt"></i> Subqueries Correlacionadas vs. Independentes</h2>
+  <ul>
+    <li><strong>Independente (Não Correlacionada):</strong>
+      <ul>
+        <li>A subquery pode ser executada <strong>sozinha</strong>, uma única vez.</li>
+        <li>Seu resultado não depende da consulta externa.</li>
+        <li>Ex: <code>SELECT AVG(Preco) FROM Produtos</code> usada em <code>WHERE Preco > (...)</code>.</li>
+      </ul>
+    </li>
+    <li><strong>Correlacionada:</strong>
+      <ul>
+        <li>A subquery <strong>referencia colunas da consulta externa</strong>.</li>
+        <li>Precisa ser (logicamente) re-executada <strong>para cada linha</strong> processada pela consulta externa.</li>
+        <li>Ex: <code>WHERE EXISTS (SELECT 1 FROM Pedidos p WHERE p.ClienteID = c.ClienteID)</code> - depende do <code>c.ClienteID</code> da linha atual.</li>
+        <li><strong>Performance:</strong> Podem ser mais lentas que alternativas (como JOINs), mas às vezes são a forma mais clara ou única de expressar a lógica.</li>
+      </ul>
+    </li>
+  </ul>

@@ -1,0 +1,21 @@
+
+  <h2><i class="fas fa-expand-arrows-alt"></i> <code>FULL OUTER JOIN</code></h2>
+  <p>Retorna <strong>TODAS</strong> as linhas de <strong>AMBAS</strong> as tabelas.</p>
+  <ul>
+      <li>Linhas correspondentes são combinadas.</li>
+      <li>Linhas da esquerda sem correspondência na direita têm colunas da direita como <code>NULL</code>.</li>
+      <li>Linhas da direita sem correspondência na esquerda têm colunas da esquerda como <code>NULL</code>.</li>
+  </ul>
+   <div class="slide-svg-container" style="max-width: 40%;">
+     <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+       <circle cx="80" cy="60" r="50" stroke="var(--accent-blue)" fill="var(--accent-blue)" fill-opacity="0.5" stroke-width="2"/>
+       <circle cx="120" cy="60" r="50" stroke="var(--accent-green)" fill="var(--accent-green)" fill-opacity="0.5" stroke-width="2"/>
+       <text x="50" y="65" class="svg-text-light-fill" font-size="12px">Tabela A (Todos)</text>
+       <text x="150" y="65" class="svg-text-light-fill" font-size="12px">Tabela B (Todos)</text>
+     </svg>
+   </div>
+  <p><strong>Suporte:</strong> Padrão SQL, implementado no PostgreSQL, SQL Server, Oracle. <strong>Não</strong> implementado nativamente no MySQL (requer união de LEFT e RIGHT JOINs).</p>
+  <pre><code class="language-sql">
+-- Sintaxe (Ex: PostgreSQL)
+SELECT ... FROM TabelaA FULL OUTER JOIN TabelaB ON Condicao;
+  </code></pre>

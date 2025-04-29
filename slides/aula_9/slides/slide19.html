@@ -1,0 +1,18 @@
+
+  <h2><i class="fas fa-arrow-left"></i><i class="fas fa-link"></i> <code>LEFT JOIN</code> (ou <code>LEFT OUTER JOIN</code>)</h2>
+  <p>Retorna <strong>TODAS</strong> as linhas da tabela da <strong>ESQUERDA</strong> (a que vem antes do <code>LEFT JOIN</code>) e as linhas correspondentes da tabela da <strong>DIREITA</strong>.</p>
+  <p>Se uma linha da esquerda <strong>não tem</strong> correspondência na direita, as colunas da direita terão valor <code>NULL</code>.</p>
+   <div class="slide-svg-container" style="max-width: 40%;">
+     <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+       <circle cx="80" cy="60" r="50" stroke="var(--accent-blue)" fill="var(--accent-blue)" fill-opacity="0.5" stroke-width="2"/>
+       <circle cx="120" cy="60" r="50" stroke="var(--accent-green)" fill="transparent" stroke-width="2"/>
+       <text x="50" y="65" class="svg-text-light-fill" font-size="12px">Tabela A (Todos)</text>
+       <text x="150" y="65" class="svg-text-light-fill" font-size="12px">Tabela B</text>
+     </svg>
+   </div>
+   <pre><code class="language-sql">
+-- Listar TODOS os clientes e seus pedidos (se houver)
+SELECT c.Nome, p.PedidoID, p.DataPedido
+FROM Clientes c -- Tabela da Esquerda
+LEFT JOIN Pedidos p ON c.ClienteID = p.ClienteID;
+   </code></pre>

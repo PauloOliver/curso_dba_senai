@@ -1,0 +1,35 @@
+
+  <h2><i class="fas fa-shield-alt"></i> Boas Práticas Essenciais em DML (1/2)</h2>
+  <p>Como evitar catástrofes ao modificar dados:</p>
+  <ol>
+    <li><strong>Use Transações:</strong> Agrupe operações relacionadas em uma transação para garantir atomicidade (tudo ou nada).
+        <div class="slide-svg-container" style="max-width: 70%;">
+         <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+           <defs>
+             <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+               <polygon points="0 0, 10 3.5, 0 7" fill="var(--text-medium)" />
+             </marker>
+           </defs>
+           <!-- Nodes -->
+           <rect x="10" y="80" width="80" height="40" rx="5" class="svg-accent1-fill"/>
+           <text x="50" y="105" text-anchor="middle" class="svg-text-light-fill">BEGIN</text>
+           <rect x="120" y="80" width="100" height="40" rx="5" class="svg-bg-light"/>
+           <text x="170" y="105" text-anchor="middle" class="svg-text-light-fill">INSERT/UPDATE...</text>
+           <ellipse cx="290" cy="100" rx="50" ry="25" class="svg-bg-light" stroke="var(--accent-yellow)" stroke-width="2"/>
+           <text x="290" y="105" text-anchor="middle" class="svg-text-light-fill">Sucesso?</text>
+           <rect x="370" y="30" width="100" height="40" rx="5" class="svg-accent1-fill"/>
+           <text x="420" y="55" text-anchor="middle" class="svg-text-light-fill">COMMIT <tspan font-family='Font Awesome 5 Free' font-weight='900'>&#xf00c;</tspan></text> <!-- Checkmark -->
+           <rect x="370" y="130" width="100" height="40" rx="5" class="svg-accent2-fill" fill="var(--red-error)"/>
+           <text x="420" y="155" text-anchor="middle" class="svg-text-light-fill">ROLLBACK <tspan font-family='Font Awesome 5 Free' font-weight='900'>&#xf00d;</tspan></text> <!-- Cross -->
+           <!-- Arrows -->
+           <line x1="90" y1="100" x2="120" y2="100" class="svg-line-stroke" marker-end="url(#arrowhead2)"/>
+           <line x1="220" y1="100" x2="265" y2="100" class="svg-line-stroke" marker-end="url(#arrowhead2)"/>
+           <path d="M 315 80 Q 340 55 370 50" stroke="var(--text-medium)" fill="none" marker-end="url(#arrowhead2)" />
+           <text x="340" y="70" class="svg-text-fill" font-size="12px">Sim</text>
+           <path d="M 315 120 Q 340 145 370 150" stroke="var(--text-medium)" fill="none" marker-end="url(#arrowhead2)" />
+           <text x="340" y="130" class="svg-text-fill" font-size="12px">Não</text>
+         </svg>
+        </div>
+    </li>
+    <li><strong>Teste com <code>SELECT</code> Primeiro:</strong> ANTES de rodar <code>UPDATE</code> ou <code>DELETE</code>, escreva um <code>SELECT * ...</code> com a <strong>MESMA</strong> cláusula <code>WHERE</code> para verificar exatamente quais linhas serão afetadas. <i class="fas fa-search-location fa-fw"></i></li>
+</ol>

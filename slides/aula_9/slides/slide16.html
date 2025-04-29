@@ -1,0 +1,16 @@
+
+  <h2><i class="fas fa-handshake"></i> A Condição de Junção: Cláusula <code>ON</code></h2>
+  <p>O <code>JOIN</code> precisa saber <strong>COMO</strong> relacionar as linhas das tabelas.</p>
+  <p>A cláusula <code>ON</code> especifica a condição que define quais linhas devem ser combinadas.</p>
+  <p>Geralmente, compara a Chave Primária (PK) de uma tabela com a Chave Estrangeira (FK) correspondente na outra.</p>
+  <pre><code class="language-sql">
+SELECT
+    t1.colunaA, t2.colunaB -- Seleciona colunas de ambas as tabelas
+FROM
+    Tabela1 t1 -- Alias 't1' para Tabela1
+JOIN -- Ou INNER JOIN, LEFT JOIN, etc.
+    Tabela2 t2 -- Alias 't2' para Tabela2
+ON
+    t1.ChavePrimaria = t2.ChaveEstrangeira; -- A condição de ligação
+  </code></pre>
+  <p><strong>Dica:</strong> Usar <strong>aliases</strong> (<code>t1</code>, <code>t2</code>, <code>c</code>, <code>p</code>) torna a consulta mais curta e legível, especialmente com muitas tabelas.</p>

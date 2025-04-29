@@ -1,0 +1,27 @@
+
+  <h2><i class="fas fa-check-double"></i> Exercício 1 - Solução Comentada</h2>
+  <pre><code class="language-sql">
+SELECT
+    c.Nome AS NomeCliente,
+    SUM(p.ValorTotal) AS TotalGasto -- 2. Calcula a soma para cada grupo
+FROM
+    Clientes c
+INNER JOIN -- 1. Junta clientes com seus pedidos
+    Pedidos p ON c.ClienteID = p.ClienteID
+GROUP BY -- 3. Agrupa por cliente para que SUM funcione por cliente
+    c.ClienteID, c.Nome -- Precisa incluir Nome aqui pois está no SELECT
+HAVING
+    SUM(p.ValorTotal) > 500 -- 4. Filtra os grupos (clientes) com soma > 500
+ORDER BY
+    TotalGasto DESC; -- 5. Ordena o resultado final
+  </code></pre>
+  <p><strong>Explicação:</strong> Juntamos Clientes e Pedidos, agrupamos por cliente, somamos os valores totais dos pedidos de cada cliente, filtramos para mostrar apenas os que gastaram mais de 500 e ordenamos.</p>
+  <!-- Incluir aqui um exemplo de saída esperada com base no dataset fictício -->
+  <p><strong>Exemplo de Saída:</strong></p>
+  <pre><code>
+ NomeCliente   | TotalGasto
+---------------|------------
+ Cliente VIP   |    1250.75
+ Cliente Bom   |     780.20
+ Outro Cliente |     510.00
+  </code></pre>

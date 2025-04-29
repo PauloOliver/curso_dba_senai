@@ -1,0 +1,43 @@
+
+  <h2><i class="fas fa-code-compare"></i> <code>WHERE</code> vs <code>HAVING</code> - A Diferença Crucial</h2>
+  <ul>
+    <li><code>WHERE</code>: Filtra <strong>LINHAS</strong> individuais <strong>ANTES</strong> da agregação/agrupamento.</li>
+    <li><code>HAVING</code>: Filtra <strong>GRUPOS</strong> inteiros <strong>DEPOIS</strong> da agregação/agrupamento.</li>
+  </ul>
+  <div class="slide-svg-container" style="max-width: 80%;">
+    <svg viewBox="0 0 600 150" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+          <polygon points="0 0, 10 3.5, 0 7" fill="var(--text-medium)" />
+        </marker>
+      </defs>
+      <!-- Nodes -->
+      <rect x="10" y="50" width="80" height="50" rx="5" class="svg-bg-fill" stroke="var(--text-medium)" stroke-width="1"/>
+      <text x="50" y="80" text-anchor="middle" class="svg-text-light-fill">Tabela</text>
+
+      <rect x="140" y="50" width="80" height="50" rx="5" class="svg-bg-fill" stroke="var(--accent-yellow)" stroke-width="2"/>
+      <text x="180" y="75" text-anchor="middle" class="svg-text-light-fill">WHERE</text>
+      <text x="180" y="95" text-anchor="middle" class="svg-text-fill" font-size="10px">(Filtra Linhas)</text>
+
+      <rect x="270" y="50" width="80" height="50" rx="5" class="svg-bg-fill" stroke="var(--text-medium)" stroke-width="1"/>
+      <text x="310" y="80" text-anchor="middle" class="svg-text-light-fill">GROUP BY</text>
+
+      <rect x="400" y="50" width="80" height="50" rx="5" class="svg-bg-fill" stroke="var(--accent-green)" stroke-width="2"/>
+      <text x="440" y="75" text-anchor="middle" class="svg-text-light-fill">HAVING</text>
+       <text x="440" y="95" text-anchor="middle" class="svg-text-fill" font-size="10px">(Filtra Grupos)</text>
+
+       <rect x="510" y="50" width="80" height="50" rx="5" class="svg-bg-fill" stroke="var(--text-medium)" stroke-width="1"/>
+      <text x="550" y="80" text-anchor="middle" class="svg-text-light-fill">Resultado</text>
+
+      <!-- Arrows -->
+      <line x1="90" y1="75" x2="140" y2="75" class="svg-line-stroke" marker-end="url(#arrowhead)"/>
+      <line x1="220" y1="75" x2="270" y2="75" class="svg-line-stroke" marker-end="url(#arrowhead)"/>
+      <line x1="350" y1="75" x2="400" y2="75" class="svg-line-stroke" marker-end="url(#arrowhead)"/>
+      <line x1="480" y1="75" x2="510" y2="75" class="svg-line-stroke" marker-end="url(#arrowhead)"/>
+
+       <text x="310" y="30" text-anchor="middle" class="svg-text-fill" font-size="10px">(Funções Agregadas aplicadas aqui)</text>
+       <line x1="310" y1="35" x2="310" y2="50" stroke="var(--text-medium)" stroke-dasharray="2,2"/>
+
+    </svg>
+  </div>
+  <p><code>WHERE</code> não pode usar funções agregadas, <code>HAVING</code> pode!</p>

@@ -1,0 +1,28 @@
+
+  <h2><i class="fas fa-check-double"></i> Exercício 2 - Solução Comentada</h2>
+  <pre><code class="language-sql">
+SELECT
+    NomeProduto,
+    Preco
+FROM
+    Produtos -- Consulta Externa: seleciona de todos os produtos
+WHERE
+    Preco > ( -- Compara o preço de cada produto com o resultado da subquery
+
+        -- Subquery Escalar: Calcula a média de preço APENAS dos eletrônicos
+        SELECT AVG(Preco)
+        FROM Produtos
+        WHERE Categoria = 'Eletrônicos'
+
+    ); -- Fim da Subquery
+  </code></pre>
+  <p><strong>Explicação:</strong> A consulta interna (subquery) calcula primeiro a média de preço dos produtos eletrônicos. A consulta externa então percorre todos os produtos e seleciona aqueles cujo preço é maior que o valor retornado pela subquery.</p>
+  <!-- Incluir aqui um exemplo de saída esperada com base no dataset fictício -->
+  <p><strong>Exemplo de Saída (Supondo Média Eletrônicos = 1500):</strong></p>
+  <pre><code>
+ NomeProduto     | Preco
+-----------------|--------
+ Laptop Gamer XL | 4500.00
+ TV 8K 75"       | 7000.00
+ (Outros > 1500) |  ....
+  </code></pre>

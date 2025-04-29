@@ -1,0 +1,22 @@
+
+  <h2><i class="fas fa-tasks"></i> <code>GROUP BY</code> - Exemplo Prático</h2>
+  <p>Contar quantos produtos existem em cada Categoria:</p>
+  <pre><code class="language-sql">
+SELECT
+    Categoria, -- Coluna de agrupamento
+    COUNT(*) AS QuantidadePorCategoria -- Função agregada aplicada a cada grupo
+FROM
+    Produtos
+GROUP BY
+    Categoria; -- Agrupa pelas categorias distintas
+  </code></pre>
+  <p>Calcular o valor médio dos pedidos por Cliente:</p>
+  <pre><code class="language-sql">
+SELECT
+    ClienteID, -- Coluna de agrupamento
+    AVG(ValorTotal) AS ValorMedioPedido -- Média por cliente
+FROM
+    Pedidos
+GROUP BY
+    ClienteID; -- Agrupa por cada cliente distinto
+  </code></pre>

@@ -1,0 +1,19 @@
+
+  <h2><i class="fas fa-trash-alt" style="color:var(--red-error)"></i> <code>DELETE FROM</code> - Removendo Dados</h2>
+  <p>Para remover linhas de uma tabela:</p>
+  <pre><code class="language-sql">
+DELETE FROM nome_tabela
+WHERE condicao; -- <<< ESSENCIAL! Filtra quais linhas serão removidas
+  </code></pre>
+   <div style="border: 3px dashed var(--red-error); padding: 15px; margin: 20px; background-color: rgba(244, 67, 54, 0.1);">
+     <h3 style="color: var(--red-error); margin-top: 0;"><i class="fas fa-dumpster-fire"></i> PERIGO ABSOLUTO!</h3>
+     <p style="color: var(--text-light);">Omitir a cláusula <code>WHERE</code> no <code>DELETE</code> fará com que <strong>TODAS AS LINHAS</strong> da tabela sejam removidas!</p>
+     <pre><code class="language-sql" style="background-color: #402020;">-- NÃO FAÇA ISSO SEM BACKUP E CERTEZA!
+DELETE FROM Clientes; -- Apaga TODOS os clientes!</code></pre>
+   </div>
+   <p><strong>Exemplo Seguro:</strong> Remover pedidos cancelados.</p>
+   <pre><code class="language-sql">
+DELETE FROM Pedidos
+WHERE StatusPedido = 'Cancelado'; -- Remove APENAS os cancelados
+   </code></pre>
+   <p><strong>Nota:</strong> Em alguns SGBDs, pode haver restrições de chave estrangeira que impedem o <code>DELETE</code> se a linha for referenciada por outra tabela (ex: não pode deletar cliente se ele tiver pedidos).</p>

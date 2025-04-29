@@ -1,0 +1,12 @@
+
+  <h2><i class="fas fa-object-group"></i> Agrupando Resultados com <code>GROUP BY</code></h2>
+  <p>Funções agregadas sozinhas retornam um único valor para a tabela inteira.</p>
+  <p>E se quisermos o cálculo <strong>por grupo</strong>? (Ex: contagem de produtos <strong>por categoria</strong>, valor médio de pedido <strong>por cliente</strong>).</p>
+  <p>A cláusula <code>GROUP BY</code> agrupa linhas com os mesmos valores nas colunas especificadas, permitindo aplicar funções agregadas <strong>a cada grupo</strong>.</p>
+  <pre><code class="language-sql">
+SELECT coluna_grupo, FUNCAO_AGG(coluna_calculo)
+FROM tabela
+[WHERE condicao_linha] -- Filtra linhas ANTES de agrupar
+GROUP BY coluna_grupo;
+  </code></pre>
+  <p><strong>Regra de Ouro:</strong> Toda coluna no <code>SELECT</code> que <strong>NÃO</strong> é uma função agregada <strong>DEVE</strong> estar no <code>GROUP BY</code>.</p>

@@ -1,0 +1,12 @@
+
+  <h2><i class="fas fa-filter"></i> Filtrando Grupos com <code>HAVING</code></h2>
+  <p>Já agrupamos... mas e se quisermos mostrar apenas os grupos que atendem a uma condição baseada na função agregada?</p>
+  <p>(Ex: Mostrar apenas categorias com <strong>mais de 10 produtos</strong>, ou clientes cujo <strong>valor médio de pedido > R$ 200</strong>).</p>
+  <p>A cláusula <code>HAVING</code> filtra os <strong>GRUPOS</strong> *após* a agregação ter sido calculada.</p>
+  <pre><code class="language-sql">
+SELECT coluna_grupo, FUNCAO_AGG(coluna_calculo)
+FROM tabela
+[WHERE condicao_linha]
+GROUP BY coluna_grupo
+HAVING condicao_agregada; -- Filtra GRUPOS aqui!
+  </code></pre>

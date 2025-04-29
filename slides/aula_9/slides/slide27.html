@@ -1,0 +1,16 @@
+
+  <h2><i class="fas fa-check-square"></i> Operadores Comuns com Subqueries</h2>
+  <ul>
+    <li><code>IN / NOT IN</code>: Verifica se um valor está (ou não) na <strong>lista</strong> retornada pela subquery.
+      <pre><code class="language-sql">WHERE ProdutoID IN (SELECT ProdutoID FROM EstoqueBaixo)</code></pre>
+    </li>
+    <li><code>EXISTS / NOT EXISTS</code>: Verifica se a subquery retorna <strong>qualquer linha</strong> (verdadeiro se retornar 1 ou mais linhas, falso se retornar 0). Frequentemente usado com subqueries correlacionadas para checar existência.
+      <pre><code class="language-sql">WHERE EXISTS (SELECT 1 FROM Pedidos p WHERE p.ClienteID = c.ClienteID)</code></pre>
+    </li>
+     <li><code>ANY / SOME</code> (sinônimos): Compara um valor com <strong>qualquer um</strong> dos valores na lista da subquery (<code>> ANY</code> significa maior que o mínimo da lista).
+       <pre><code class="language-sql">WHERE Preco > ANY (SELECT Preco FROM Concorrentes)</code></pre>
+     </li>
+     <li><code>ALL</code>: Compara um valor com <strong>todos</strong> os valores na lista da subquery (<code>> ALL</code> significa maior que o máximo da lista).
+       <pre><code class="language-sql">WHERE Salario > ALL (SELECT Salario FROM Estagiarios)</code></pre>
+     </li>
+  </ul>

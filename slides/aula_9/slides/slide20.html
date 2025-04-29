@@ -1,0 +1,14 @@
+
+  <h2><i class="fas fa-link"></i><i class="fas fa-arrow-right"></i> <code>RIGHT JOIN</code> (ou <code>RIGHT OUTER JOIN</code>)</h2>
+  <p>O oposto do <code>LEFT JOIN</code>.</p>
+  <p>Retorna <strong>TODAS</strong> as linhas da tabela da <strong>DIREITA</strong> (a que vem depois do <code>RIGHT JOIN</code>) e as linhas correspondentes da tabela da <strong>ESQUERDA</strong>.</p>
+  <p>Se uma linha da direita não tem correspondência na esquerda, as colunas da esquerda terão valor <code>NULL</code>.</p>
+   <div class="slide-svg-container" style="max-width: 40%;">
+     <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+       <circle cx="80" cy="60" r="50" stroke="var(--accent-blue)" fill="transparent" stroke-width="2"/>
+       <circle cx="120" cy="60" r="50" stroke="var(--accent-green)" fill="var(--accent-green)" fill-opacity="0.5" stroke-width="2"/>
+       <text x="50" y="65" class="svg-text-light-fill" font-size="12px">Tabela A</text>
+       <text x="150" y="65" class="svg-text-light-fill" font-size="12px">Tabela B (Todos)</text>
+     </svg>
+   </div>
+  <p><strong>Uso:</strong> Menos frequente. Geralmente, um <code>RIGHT JOIN</code> pode ser reescrito como um <code>LEFT JOIN</code> invertendo a ordem das tabelas (<code>TabelaB LEFT JOIN TabelaA</code>).</p>

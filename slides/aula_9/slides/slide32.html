@@ -1,0 +1,22 @@
+
+  <h2><i class="fas fa-pencil-alt" style="color:var(--accent-yellow)"></i> <code>UPDATE</code> - Modificando Dados</h2>
+  <p>Para alterar valores em linhas existentes:</p>
+  <pre><code class="language-sql">
+UPDATE nome_tabela
+SET coluna1 = 'novo_valor1',      -- Define novos valores
+    coluna_numerica = coluna_numerica + 10,
+    outra_coluna = outra_coluna * 0.9
+WHERE condicao; -- <<< ESSENCIAL! Filtra quais linhas serão atualizadas
+  </code></pre>
+   <div style="border: 3px dashed var(--red-error); padding: 15px; margin: 20px; background-color: rgba(244, 67, 54, 0.1);">
+     <h3 style="color: var(--red-error); margin-top: 0;"><i class="fas fa-skull-crossbones"></i> PERIGO ABSOLUTO!</h3>
+     <p style="color: var(--text-light);">Omitir a cláusula <code>WHERE</code> no <code>UPDATE</code> fará com que <strong>TODAS AS LINHAS</strong> da tabela sejam atualizadas com os valores definidos no <code>SET</code>!</p>
+     <pre><code class="language-sql" style="background-color: #402020;">-- NÃO FAÇA ISSO SEM CERTEZA ABSOLUTA!
+UPDATE Produtos SET Preco = 0; -- Zera o preço de TUDO!</code></pre>
+   </div>
+   <p><strong>Exemplo Seguro:</strong> Atualizar o email de um cliente específico.</p>
+   <pre><code class="language-sql">
+UPDATE Clientes
+SET Email = 'novo.email.ana@email.com'
+WHERE ClienteID = 123; -- Atualiza APENAS o cliente com ID 123
+   </code></pre>

@@ -1,0 +1,26 @@
+
+  <h2><i class="fas fa-compress-arrows-alt"></i> <code>INNER JOIN</code> (Junção Interna)</h2>
+  <p>Retorna apenas as linhas onde a condição <code>ON</code> é verdadeira em <strong>AMBAS</strong> as tabelas.</p>
+  <p>É a <strong>interseção</strong> dos dados baseada na condição de junção.</p>
+  <p>É o tipo de JOIN <strong>padrão</strong> se você escrever apenas <code>JOIN</code>.</p>
+  <div class="slide-svg-container" style="max-width: 40%;">
+    <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="80" cy="60" r="50" stroke="var(--accent-blue)" fill="var(--accent-blue)" fill-opacity="0.2" stroke-width="2"/>
+      <circle cx="120" cy="60" r="50" stroke="var(--accent-green)" fill="var(--accent-green)" fill-opacity="0.2" stroke-width="2"/>
+      <path d="M80,10 A50,50 0 0,1 120,10 A50,50 0 0,1 120,110 A50,50 0 0,1 80,110 A50,50 0 0,1 80,10 Z" fill="url(#gradIntersection)" />
+      <defs>
+         <linearGradient id="gradIntersection" x1="0%" y1="0%" x2="100%" y2="0%">
+           <stop offset="0%" style="stop-color:var(--accent-blue);stop-opacity:0.5" />
+           <stop offset="100%" style="stop-color:var(--accent-green);stop-opacity:0.5" />
+         </linearGradient>
+       </defs>
+      <text x="50" y="65" class="svg-text-light-fill" font-size="12px">Tabela A</text>
+      <text x="150" y="65" class="svg-text-light-fill" font-size="12px">Tabela B</text>
+    </svg>
+  </div>
+   <pre><code class="language-sql">
+-- Clientes QUE FIZERAM pedidos
+SELECT c.Nome, p.PedidoID, p.DataPedido
+FROM Clientes c
+INNER JOIN Pedidos p ON c.ClienteID = p.ClienteID;
+   </code></pre>

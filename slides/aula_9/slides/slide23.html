@@ -1,0 +1,21 @@
+
+  <h2><i class="fas fa-project-diagram"></i> JOINs Múltiplos</h2>
+  <p>Podemos encadear JOINs para combinar dados de três ou mais tabelas.</p>
+  <p><strong>Exemplo:</strong> Ver nome do cliente, nome do produto e quantidade comprada.</p>
+  <pre><code class="language-sql">
+SELECT
+    c.Nome AS NomeCliente,
+    pr.NomeProduto,
+    ip.Quantidade
+FROM
+    Clientes c -- Começa com Clientes
+INNER JOIN
+    Pedidos p ON c.ClienteID = p.ClienteID -- Junta com Pedidos
+INNER JOIN
+    ItensPedido ip ON p.PedidoID = ip.PedidoID -- Junta com ItensPedido
+INNER JOIN
+    Produtos pr ON ip.ProdutoID = pr.ProdutoID -- Junta com Produtos
+WHERE
+    c.Cidade = 'São Paulo'; -- Pode adicionar filtros normalmente
+  </code></pre>
+  <p>A ordem dos <code>INNER JOIN</code>s geralmente não afeta o resultado, mas pode afetar a performance.</p>

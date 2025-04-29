@@ -1,0 +1,19 @@
+
+  <h2><i class="fas fa-code"></i> Funções Agregadas - Sintaxe e Exemplos</h2>
+  <p>Geralmente usadas na lista do <code>SELECT</code>:</p>
+  <pre><code class="language-sql">
+-- Total de clientes cadastrados
+SELECT COUNT(*) AS TotalClientes FROM Clientes;
+
+-- Preço médio de todos os produtos
+SELECT AVG(Preco) AS PrecoMedio FROM Produtos;
+
+-- Soma do valor total de todos os pedidos
+SELECT SUM(ValorTotal) AS FaturamentoTotal FROM Pedidos;
+
+-- Data do pedido mais antigo e mais recente
+SELECT MIN(DataPedido) AS PrimeiroPedido, MAX(DataPedido) AS UltimoPedido FROM Pedidos;
+
+-- Quantidade de cidades distintas onde há clientes
+SELECT COUNT(DISTINCT Cidade) AS CidadesDistintas FROM Clientes;
+  </code></pre>
