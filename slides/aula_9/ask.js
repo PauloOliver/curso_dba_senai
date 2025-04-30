@@ -5,7 +5,7 @@ const ask = {
     ask: "Qual cláusula é usada para filtrar resultados DEPOIS que as funções agregadas e o `GROUP BY` foram aplicados?",
     options: {
       1: "WHERE",
-      2: "HAVING", // Correta
+      2: "HAVING",
       3: "ON",
       4: "FILTER",
     },
@@ -17,7 +17,7 @@ const ask = {
     options: {
       1: "INNER JOIN",
       2: "RIGHT JOIN",
-      3: "LEFT JOIN", // Correta
+      3: "LEFT JOIN",
       4: "FULL OUTER JOIN",
     },
     correct: 3,
@@ -28,7 +28,7 @@ const ask = {
     options: {
       1: "IN",
       2: "ANY",
-      3: "EXISTS", // Correta
+      3: "EXISTS",
       4: "=",
     },
     correct: 3,
@@ -39,7 +39,7 @@ const ask = {
     options: {
       1: "SET",
       2: "FROM",
-      3: "WHERE", // Correta
+      3: "WHERE",
       4: "ON",
     },
     correct: 3,
@@ -49,11 +49,10 @@ const ask = {
     ask: "Qual comando SQL é usado para confirmar permanentemente as alterações feitas dentro de uma transação?",
     options: {
       1: "BEGIN",
-      2: "COMMIT", // Correta
+      2: "COMMIT",
       3: "ROLLBACK",
       4: "SAVEPOINT",
     },
     correct: 2,
   },
 };
-// --- END OF FILE ask.js ---
