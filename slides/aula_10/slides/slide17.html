@@ -1,0 +1,17 @@
+
+  <h2><i class="fas fa-laptop-code"></i> Demo 2a: <code>UPDATE</code> Seguro com <code>WHERE</code></h2>
+  <p>A abordagem correta para atualizar dados específicos:</p>
+  <ol>
+      <li><strong>Identificar a(s) linha(s):</strong> Use <code>SELECT</code> com uma condição <code>WHERE</code> precisa (idealmente a chave primária).
+          <pre><code class="language-sql">-- Verificar o cliente que quero atualizar (Ex: ID = 15)
+SELECT * FROM Clientes_Teste WHERE ClienteID = 15;</code></pre>
+      </li>
+      <li><strong>Executar o <code>UPDATE</code>:</strong> Use a <strong>MESMA</strong> condição <code>WHERE</code>.
+           <pre><code class="language-sql">-- Corrigir o email do cliente 15
+UPDATE Clientes_Teste SET Email = 'email.correto@mail.com' WHERE ClienteID = 15;</code></pre>
+      </li>
+       <li><strong>Verificar a Alteração:</strong> Use <code>SELECT</code> novamente para confirmar que *apenas* a linha desejada foi alterada.
+          <pre><code class="language-sql">SELECT * FROM Clientes_Teste WHERE ClienteID = 15;</code></pre>
+       </li>
+  </ol>
+  <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--accent-blue); margin-top: 30px;"></i>

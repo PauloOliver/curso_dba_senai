@@ -1,0 +1,17 @@
+
+  <h2><i class="fas fa-laptop-code"></i> Demo 3b: <span style="color:var(--red-error)">O Desastre do <code>DELETE</code> sem <code>WHERE</code></span></h2>
+  <p><strong>ATENÇÃO:</strong> Demonstração em <strong>TABELA DE TESTE DESCARTÁVEL!</strong></p>
+  <ol>
+      <li><strong>Verificar Estado Inicial:</strong> Contar as linhas.
+          <pre><code class="language-sql">SELECT COUNT(*) FROM Pedidos_Teste_Perigoso; -- Ex: Retorna 500</code></pre>
+      </li>
+      <li><strong>Executar o <code>DELETE</code> SEM WHERE:</strong>
+           <pre><code class="language-sql" style="background-color: #402020;">-- Ação Perigosa!
+DELETE FROM Pedidos_Teste_Perigoso; -- Apaga TUDO!</code></pre>
+      </li>
+       <li><strong>Verificar o Resultado:</strong> Contar as linhas novamente.
+          <pre><code class="language-sql">SELECT COUNT(*) FROM Pedidos_Teste_Perigoso; -- Deve retornar 0!</code></pre>
+       </li>
+  </ol>
+  <p style="color: var(--accent-yellow); font-weight:bold;">Todos os dados da tabela foram perdidos. Sem backup, sem recuperação.</p>
+  <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--accent-blue); margin-top: 30px;"></i>

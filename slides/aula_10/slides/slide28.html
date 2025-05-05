@@ -1,0 +1,21 @@
+
+  <h2><i class="fas fa-laptop-code"></i> Demo 4: Transações Simples (COMMIT/ROLLBACK)</h2>
+  <p>Vendo a mágica acontecer (em tabelas de teste):</p>
+  <ol>
+      <li><strong>Cenário COMMIT:</strong>
+          <pre><code class="language-sql">BEGIN;
+INSERT INTO Categorias_Teste (NomeCategoria) VALUES ('Temporária');
+SELECT * FROM Categorias_Teste WHERE NomeCategoria = 'Temporária'; -- Deve aparecer
+COMMIT;
+SELECT * FROM Categorias_Teste WHERE NomeCategoria = 'Temporária'; -- Deve continuar lá</code></pre>
+      </li>
+       <li><strong>Cenário ROLLBACK:</strong>
+          <pre><code class="language-sql">BEGIN;
+UPDATE Produtos_Teste SET Preco = 0.01 WHERE CategoriaID = 1; -- Erro!
+SELECT * FROM Produtos_Teste WHERE CategoriaID = 1 AND Preco = 0.01; -- Alteração visível DENTRO da Tx
+ROLLBACK;
+SELECT * FROM Produtos_Teste WHERE CategoriaID = 1 AND Preco = 0.01; -- Não deve retornar nada! Preços originais restaurados.</code></pre>
+      </li>
+  </ol>
+  <p>As transações nos dão controle sobre quando as alterações se tornam permanentes.</p>
+  <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--accent-blue); margin-top: 30px;"></i>

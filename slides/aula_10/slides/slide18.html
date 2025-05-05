@@ -1,0 +1,20 @@
+
+  <h2><i class="fas fa-laptop-code"></i> Demo 2b: <span style="color:var(--red-error)">O Desastre do <code>UPDATE</code> sem <code>WHERE</code></span></h2>
+  <p><strong>ATENÇÃO:</strong> Demonstração em <strong>TABELA DE TESTE DESCARTÁVEL!</strong> Nunca faça isso em produção!</p>
+  <ol>
+      <li><strong>Verificar Estado Inicial:</strong> Contar linhas e ver alguns dados distintos.
+          <pre><code class="language-sql">SELECT COUNT(*) FROM Produtos_Teste_Perigoso;
+SELECT DISTINCT CategoriaID FROM Produtos_Teste_Perigoso;</code></pre>
+      </li>
+      <li><strong>Executar o <code>UPDATE</code> SEM WHERE:</strong>
+           <pre><code class="language-sql" style="background-color: #402020;">-- Ação Perigosa!
+UPDATE Produtos_Teste_Perigoso SET CategoriaID = 99; -- Altera a categoria de TODOS!</code></pre>
+      </li>
+       <li><strong>Verificar o Resultado:</strong> Contar linhas (continua igual) e verificar os dados.
+          <pre><code class="language-sql">SELECT COUNT(*) FROM Produtos_Teste_Perigoso;
+SELECT DISTINCT CategoriaID FROM Produtos_Teste_Perigoso; -- Deve retornar apenas 99!
+SELECT * FROM Produtos_Teste_Perigoso LIMIT 10; -- Ver os dados alterados</code></pre>
+       </li>
+  </ol>
+  <p style="color: var(--accent-yellow); font-weight:bold;">Reforçar a necessidade de backups e a dificuldade de reverter isso sem eles.</p>
+  <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--accent-blue); margin-top: 30px;"></i>

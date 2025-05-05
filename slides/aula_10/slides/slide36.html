@@ -1,0 +1,24 @@
+
+  <h2><i class="fas fa-check-double"></i> Exercício 1 - Solução Comentada</h2>
+  <pre><code class="language-sql">
+-- 1. INSERIR CATEGORIA
+INSERT INTO Categorias_Teste (NomeCategoria) VALUES ('Brinquedos');
+-- Verificação:
+SELECT * FROM Categorias_Teste WHERE NomeCategoria = 'Brinquedos';
+
+-- 2. ATUALIZAR PRODUTO (Ex: ID 3)
+-- Verificação prévia (Boa Prática!)
+SELECT ProdutoID, NomeProduto, Estoque FROM Produtos_Teste WHERE ProdutoID = 3;
+-- Update
+UPDATE Produtos_Teste SET Estoque = 100 WHERE ProdutoID = 3;
+-- Verificação pós:
+SELECT ProdutoID, NomeProduto, Estoque FROM Produtos_Teste WHERE ProdutoID = 3;
+
+-- 3. DELETAR CATEGORIA (Ex: 'Material Escritório')
+-- Verificação prévia (Boa Prática!)
+SELECT * FROM Categorias_Teste WHERE NomeCategoria = 'Material Escritório';
+-- Delete
+DELETE FROM Categorias_Teste WHERE NomeCategoria = 'Material Escritório';
+-- Verificação pós:
+SELECT * FROM Categorias_Teste WHERE NomeCategoria = 'Material Escritório'; -- Deve retornar vazio
+  </code></pre>

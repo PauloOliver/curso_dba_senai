@@ -1,0 +1,14 @@
+
+  <h2 style="color: var(--red-error);"><i class="fas fa-skull-crossbones fa-3x"></i> PERIGO! <code>UPDATE</code> sem <code>WHERE</code>!</h2>
+   <p style="font-size: 1.2rem; color: var(--text-light);">Executar um comando como este pode causar <strong>DANOS IRREPARÁVEIS</strong> se não for intencional e feito com extrema cautela (e backup!).</p>
+   <pre><code class="language-sql" style="background-color: #503030; border-color: var(--red-error);">
+-- EXEMPLO DE DESASTRE POTENCIAL:
+UPDATE Usuarios SET Senha = 'senha_padrao_insegura'; -- << SEM WHERE!!
+-- ISTO ALTERA A SENHA DE TODOS OS USUÁRIOS DO SISTEMA!
+   </code></pre>
+    <pre><code class="language-sql" style="background-color: #503030; border-color: var(--red-error);">
+-- OUTRO EXEMPLO DE DESASTRE:
+UPDATE Produtos SET Preco = 1.00; -- << SEM WHERE!!
+-- ISTO MUDA O PREÇO DE TODOS OS PRODUTOS PARA 1.00!
+   </code></pre>
+   <p style="font-weight: bold; color: var(--accent-yellow); margin-top: 20px;">SEMPRE, SEMPRE, SEMPRE verifique sua cláusula <code>WHERE</code> antes de executar um <code>UPDATE</code>!</p>

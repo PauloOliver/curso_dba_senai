@@ -1,0 +1,13 @@
+
+  <h2><i class="fas fa-list-ul"></i> <code>INSERT</code>: Sintaxe Detalhada 1 (Especificando Colunas)</h2>
+  <p>Esta é a forma <strong>MAIS SEGURA E RECOMENDADA</strong>, pois não depende da ordem física das colunas na tabela.</p>
+  <pre><code class="language-sql">
+INSERT INTO Clientes (Nome, Email, Cidade, DataCadastro) -- Lista explícita de colunas
+VALUES ('Carlos Pereira', 'c.pereira@mail.net', 'Salvador', '2024-08-15'); -- Valores na mesma ordem da lista
+  </code></pre>
+  <p><strong>Vantagens:</strong></p>
+  <ul>
+      <li><i class="fas fa-check fa-fw"></i> Mais legível: Fica claro qual valor vai para qual coluna.</li>
+      <li><i class="fas fa-check fa-fw"></i> Mais robusto: Funciona mesmo que a ordem das colunas na tabela mude ou novas colunas sejam adicionadas (desde que permitam NULL ou tenham DEFAULT).</li>
+      <li><i class="fas fa-check fa-fw"></i> Permite omitir colunas que aceitam <code>NULL</code> ou têm valor <code>DEFAULT</code> definido.</li>
+  </ul>

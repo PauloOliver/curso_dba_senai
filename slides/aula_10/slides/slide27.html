@@ -1,0 +1,36 @@
+
+  <h2><i class="fas fa-code-branch"></i> Comandos de Controle de Transação (TCL)</h2>
+  <ul>
+      <li><strong><code>BEGIN;</code></strong> ou <strong><code>START TRANSACTION;</code></strong>
+          <ul><li>Marca o início de uma nova transação. As operações seguintes fazem parte dela.</li></ul>
+      </li>
+      <li><strong><code>COMMIT;</code></strong>
+          <ul><li>Finaliza a transação atual e torna <strong>permanentes</strong> todas as alterações feitas desde o <code>BEGIN</code>. <i class="fas fa-save" style="color: var(--green-correct);"></i></li></ul>
+      </li>
+      <li><strong><code>ROLLBACK;</code></strong>
+          <ul><li>Finaliza a transação atual e <strong>desfaz</strong> todas as alterações feitas desde o <code>BEGIN</code>. O banco volta ao estado em que estava antes da transação iniciar. <i class="fas fa-undo" style="color: var(--red-error);"></i></li></ul>
+      </li>
+      <li><strong><code>SAVEPOINT nome_ponto;</code></strong> (Opcional/Avançado)
+          <ul><li>Define um ponto intermediário dentro da transação.</li></ul>
+      </li>
+      <li><strong><code>ROLLBACK TO SAVEPOINT nome_ponto;</code></strong> (Opcional/Avançado)
+           <ul><li>Desfaz as alterações apenas até um <code>SAVEPOINT</code> específico.</li></ul>
+      </li>
+  </ul>
+   <div class="slide-svg-container" style="max-width: 60%; margin-top:15px;">
+       <svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+             <marker id="arrowhead3" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="var(--text-medium)" /></marker>
+           </defs>
+           <line x1="10" y1="50" x2="390" y2="50" class="svg-thick-line-stroke" marker-end="url(#arrowhead3)"/>
+           <circle cx="40" cy="50" r="10" class="svg-accent1-fill"/> <text x="40" y="80" text-anchor="middle" class="svg-text-fill">BEGIN</text>
+           <circle cx="120" cy="50" r="5" class="svg-bg-light"/> <text x="120" y="35" text-anchor="middle" class="svg-text-fill" font-size="10px">Op 1</text>
+           <circle cx="180" cy="50" r="5" class="svg-bg-light"/> <text x="180" y="35" text-anchor="middle" class="svg-text-fill" font-size="10px">Op 2</text>
+           <!-- Commit Branch -->
+           <circle cx="280" cy="30" r="10" class="svg-accent1-fill"/> <text x="280" y="10" text-anchor="middle" class="svg-text-fill">COMMIT</text>
+           <path d="M 200 50 Q 240 40 270 30" stroke="var(--text-medium)" stroke-dasharray="3,3" fill="none"/>
+            <!-- Rollback Branch -->
+           <circle cx="280" cy="70" r="10" class="svg-accent2-fill" fill="var(--red-error)"/> <text x="280" y="95" text-anchor="middle" class="svg-text-fill">ROLLBACK</text>
+           <path d="M 200 50 Q 240 60 270 70" stroke="var(--text-medium)" stroke-dasharray="3,3" fill="none"/>
+       </svg>
+   </div>

@@ -1,0 +1,19 @@
+
+  <h2><i class="fas fa-shield-alt"></i> Boas Práticas DML - Reforço Essencial (2/2)</h2>
+  <ul>
+      <li><i class="fas fa-traffic-light fa-fw" style="color: var(--accent-yellow)"></i> <strong>4. CUIDADO COM OPERAÇÕES EM LOTE:</strong> <code>UPDATE</code>/<code>DELETE</code> afetando muitas linhas podem causar problemas de performance (locking, logs grandes). Se precisar fazer, planeje: faça em partes menores (<code>LIMIT</code>, loops), em horários de baixa atividade.
+           <br><span style="font-size: 0.9em; color: var(--text-medium)">(Vá com calma em multidões!)</span>
+       </li>
+       <li><i class="fas fa-database fa-fw" style="color: var(--accent-blue)"></i> <strong>5. BACKUPS SÃO SEU MELHOR AMIGO:</strong> Tenha uma estratégia de backup sólida e <strong>TESTE</strong> a restauração regularmente. É a única garantia real contra erros DML catastróficos.
+            <br><span style="font-size: 0.9em; color: var(--text-medium)">(Seu colete salva-vidas!)</span>
+       </li>
+       <li><i class="fas fa-check-double fa-fw" style="color: var(--accent-green)"></i> <strong>6. VALIDAÇÃO DE DADOS:</strong> Use constraints no banco (<code>NOT NULL</code>, <code>UNIQUE</code>, <code>CHECK</code>, <code>FOREIGN KEY</code>) e validação na aplicação para prevenir a inserção/atualização de dados inválidos.
+            <br><span style="font-size: 0.9em; color: var(--text-medium)">(Porteiro de qualidade!)</span>
+       </li>
+       <li><i class="fas fa-history fa-fw" style="color: var(--text-medium)"></i> <strong>7. LOGGING/AUDITORIA:</strong> Saiba quem alterou o quê e quando. Importante para rastreabilidade e segurança.
+            <br><span style="font-size: 0.9em; color: var(--text-medium)">(Diário de bordo!)</span>
+       </li>
+       <li><i class="fas fa-exclamation-triangle fa-fw" style="color: var(--accent-yellow)"></i> <strong>8. CUIDADO COM CASCATAS:</strong> Entenda o efeito de constraints como <code>ON DELETE CASCADE</code> ou <code>ON UPDATE CASCADE</code>. Podem causar alterações/exclusões em outras tabelas inesperadamente.
+           <br><span style="font-size: 0.9em; color: var(--text-medium)">(Efeito dominó!)</span>
+        </li>
+  </ul>

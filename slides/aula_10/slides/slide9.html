@@ -1,0 +1,18 @@
+
+  <h2><i class="fas fa-asterisk"></i> <code>INSERT</code>: Lidando com Valores Especiais</h2>
+  <ul>
+    <li><strong><code>NULL</code>:</strong> Para colunas que permitem valores nulos, você pode inserir explicitamente <code>NULL</code>.
+        <pre><code class="language-sql">INSERT INTO Produtos (NomeProduto, CategoriaID, Preco, Descricao) VALUES ('Produto X', 1, 99.90, NULL);</code></pre>
+    </li>
+    <li><strong><code>DEFAULT</code>:</strong> Para colunas que têm um valor padrão definido no <code>CREATE TABLE</code> (ex: <code>Status VARCHAR(10) DEFAULT 'Ativo'</code>), você pode usar a palavra-chave <code>DEFAULT</code> ou simplesmente omitir a coluna da lista (se estiver especificando colunas).
+        <pre><code class="language-sql">INSERT INTO Pedidos (ClienteID, DataPedido, StatusPedido) VALUES (10, NOW(), DEFAULT);</code></pre>
+    </li>
+     <li><strong><code>AUTO_INCREMENT</code> / <code>SERIAL</code> (Chaves Primárias):</strong> Para colunas de ID que geram valores automaticamente, você geralmente:
+        <ul>
+            <li>Omite a coluna da lista de colunas no <code>INSERT</code>.</li>
+            <li>Ou passa <code>DEFAULT</code> ou <code>NULL</code> (depende do SGBD e configuração). O SGBD cuidará de gerar o próximo ID.</li>
+        </ul>
+         <pre><code class="language-sql">-- ClienteID é AUTO_INCREMENT/SERIAL
+INSERT INTO Clientes (Nome, Email) VALUES ('Novo Cliente', 'novo@email.com'); -- O ID será gerado</code></pre>
+     </li>
+  </ul>

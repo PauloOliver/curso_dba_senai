@@ -1,0 +1,14 @@
+
+  <h2><i class="fas fa-pencil-ruler"></i> Exercício 3 (Avançado - Transação)</h2>
+  <p><strong>Tarefa (use as tabelas de teste):</strong></p>
+  <p>Simule o registro de uma venda que falha no meio:</p>
+  <ol>
+      <li><strong>Inicie</strong> uma transação.</li>
+      <li><strong>Insira</strong> um novo registro em uma tabela hipotética `Vendas_Teste` (crie-a se necessário, com `VendaID`, `ClienteID`, `DataVenda`).</li>
+      <li><strong>Atualize</strong> o estoque de um produto específico (Ex: `ProdutoID = 10`) na `Produtos_Teste`, diminuindo a quantidade (Ex: `SET Estoque = Estoque - 2`).</li>
+      <li><strong>Simule um erro / Desistência:</strong> Neste ponto, decida que a operação não deve continuar.</li>
+      <li><strong>Desfaça</strong> a transação usando <code>ROLLBACK</code>.</li>
+      <li><strong>Verifique</strong> com <code>SELECT</code> se a nova venda NÃO existe em `Vendas_Teste` e se o estoque do produto 10 NÃO foi alterado em `Produtos_Teste`.</li>
+  </ol>
+  <p>O objetivo é praticar o <code>ROLLBACK</code> para garantir que NENHUMA alteração da transação foi aplicada.</p>
+  <i class="fas fa-undo fa-spin" style="font-size: 3rem; color: var(--accent-yellow); margin-top: 20px;"></i>

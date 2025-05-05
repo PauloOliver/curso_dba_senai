@@ -1,0 +1,16 @@
+
+  <h2><i class="fas fa-exclamation-circle"></i> <code>INSERT</code>: Sintaxe Detalhada 2 (Omitindo Colunas)</h2>
+  <p>Se você omitir a lista de colunas, <strong>DEVE</strong> fornecer valores para <strong>TODAS</strong> as colunas da tabela, exatamente na <strong>ORDEM</strong> em que elas foram definidas no <code>CREATE TABLE</code>.</p>
+  <pre><code class="language-sql">
+-- Supondo que a tabela Clientes tenha (ClienteID, Nome, Email, Cidade, DataCadastro) NESTA ORDEM
+INSERT INTO Clientes
+VALUES (DEFAULT, 'Fernanda Souza', 'fe.souza@mail.org', 'Belo Horizonte', '2024-08-16');
+-- 'DEFAULT' pode ser usado para colunas com auto-incremento ou valor padrão
+  </code></pre>
+  <p><strong>Desvantagens / Riscos:</strong></p>
+  <ul>
+      <li><i class="fas fa-times fa-fw" style="color: var(--red-error);"></i> Menos legível.</li>
+      <li><i class="fas fa-times fa-fw" style="color: var(--red-error);"></i> <strong>Quebra facilmente!</strong> Se alguém alterar a ordem das colunas na tabela ou adicionar uma nova coluna no meio, este INSERT falhará ou inserirá dados nas colunas erradas.</li>
+      <li><i class="fas fa-times fa-fw" style="color: var(--red-error);"></i> Exige fornecer valor (ou <code>NULL</code>/<code>DEFAULT</code>) para *todas* as colunas.</li>
+  </ul>
+  <p><strong>Recomendação:</strong> Evite esta forma, prefira especificar as colunas.</p>

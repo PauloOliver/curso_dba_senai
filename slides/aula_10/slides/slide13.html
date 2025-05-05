@@ -1,0 +1,18 @@
+
+  <h2><i class="fas fa-pencil-alt" style="color:var(--accent-yellow)"></i> <code>UPDATE</code>: Visão Geral</h2>
+  <p>O comando <code>UPDATE</code> é usado para <strong>modificar os valores</strong> em colunas de <strong>linhas que JÁ EXISTEM</strong> na tabela.</p>
+  <p><strong>Sintaxe Geral:</strong></p>
+  <pre><code class="language-sql">
+UPDATE nome_da_tabela
+SET coluna1 = novo_valor1,
+    coluna2 = novo_valor2,
+    ...
+WHERE condicao_para_filtrar_linhas; -- MUITO IMPORTANTE!
+  </code></pre>
+  <p>Precisamos especificar:</p>
+  <ul>
+      <li>A <strong>tabela</strong> a ser atualizada (<code>UPDATE nome_da_tabela</code>).</li>
+      <li>Quais <strong>colunas</strong> e seus <strong>novos valores</strong> (<code>SET coluna = valor</code>).</li>
+      <li><strong>Quais linhas</strong> devem ser atualizadas (<code>WHERE condicao</code>).</li>
+  </ul>
+   <i class="fas fa-edit" style="font-size: 3rem; color: var(--accent-yellow); margin-top: 20px;"></i>

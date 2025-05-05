@@ -1,0 +1,14 @@
+
+  <h2><i class="fas fa-shield-alt"></i> Boas Práticas DML - Reforço Essencial (1/2)</h2>
+  <p>Como um futuro DBA, a execução segura de DML é primordial:</p>
+  <ul>
+      <li><i class="fas fa-search fa-fw" style="color: var(--accent-green)"></i> <strong>1. VERIFICAR ANTES DE AGIR:</strong> <strong>SEMPRE</strong> execute um <code>SELECT * FROM ... WHERE ...</code> com a <strong>MESMA</strong> condição <code>WHERE</code> que você usará no <code>UPDATE</code> ou <code>DELETE</code>. Confirme que SÓ as linhas desejadas são selecionadas.
+          <br><span style="font-size: 0.9em; color: var(--text-medium)">(Olhe antes de pular!)</span>
+      </li>
+       <li><i class="fas fa-crosshairs fa-fw" style="color: var(--accent-green)"></i> <strong>2. SEJA ESPECÍFICO NO <code>WHERE</code>:</strong> Evite condições vagas. Use Chaves Primárias (ex: <code>WHERE ClienteID = 123</code>) sempre que quiser alterar/deletar uma única linha específica. Para múltiplas linhas, garanta que a condição seja precisa.
+           <br><span style="font-size: 0.9em; color: var(--text-medium)">(Mire com precisão!)</span>
+       </li>
+       <li><i class="fas fa-project-diagram fa-fw" style="color: var(--accent-green)"></i> <strong>3. USE TRANSAÇÕES:</strong> Para qualquer operação DML que envolva múltiplos passos interdependentes (ex: criar pedido + itens) ou que seja crítica, envolva-a em uma transação (<code>BEGIN...COMMIT/ROLLBACK</code>).
+           <br><span style="font-size: 0.9em; color: var(--text-medium)">(Tudo ou nada!)</span>
+       </li>
+  </ul>

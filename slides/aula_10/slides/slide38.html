@@ -1,0 +1,33 @@
+
+  <h2><i class="fas fa-check-double"></i> Exercício 2 - Solução Comentada</h2>
+  <pre><code class="language-sql">
+-- Preparação (Obter IDs - resultados podem variar)
+SELECT CategoriaID FROM Categorias_Teste WHERE NomeCategoria = 'Livros'; -- Suponha que retorne 4
+SELECT CategoriaID FROM Categorias_Teste WHERE NomeCategoria = 'Eletrônicos'; -- Suponha que retorne 1
+SELECT CategoriaID FROM Categorias_Teste WHERE NomeCategoria = 'Roupas'; -- Suponha que retorne 2
+
+-- 1. INSERIR MÚLTIPLOS (Usando ID 4 para Livros)
+INSERT INTO Produtos_Teste (NomeProduto, CategoriaID, Preco, Estoque, Ativo) VALUES
+  ('Aventuras de SQL', 4, 45.50, 20, TRUE),
+  ('Mistérios do DML', 4, 55.00, 15, TRUE);
+-- Verificação:
+SELECT * FROM Produtos_Teste WHERE CategoriaID = 4;
+
+-- 2. ATUALIZAR GRUPO (Usando ID 1 para Eletrônicos)
+-- Verificação prévia (Boa Prática!)
+SELECT ProdutoID, NomeProduto, Preco FROM Produtos_Teste WHERE CategoriaID = 1 AND Preco < 500;
+-- Update
+UPDATE Produtos_Teste
+SET Preco = Preco * 1.08
+WHERE CategoriaID = 1 AND Preco < 500;
+-- Verificação pós:
+SELECT ProdutoID, NomeProduto, Preco FROM Produtos_Teste WHERE CategoriaID = 1 AND Preco < 540; -- Preço ajustado
+
+-- 3. ATUALIZAR STATUS (Usando ID 2 para Roupas)
+-- Verificação prévia (Boa Prática!)
+SELECT ProdutoID, NomeProduto, Estoque, Ativo FROM Produtos_Teste WHERE CategoriaID = 2 AND Estoque < 10;
+-- Update para inativar
+UPDATE Produtos_Teste SET Ativo = FALSE WHERE CategoriaID = 2 AND Estoque < 10;
+-- Verificação pós:
+SELECT ProdutoID, NomeProduto, Estoque, Ativo FROM Produtos_Teste WHERE CategoriaID = 2 AND Ativo = FALSE;
+  </code></pre>

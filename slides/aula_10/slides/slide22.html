@@ -1,0 +1,14 @@
+
+  <h2 style="color: var(--red-error);"><i class="fas fa-dumpster-fire fa-3x"></i> PERIGO! <code>DELETE</code> sem <code>WHERE</code>!</h2>
+   <p style="font-size: 1.2rem; color: var(--text-light);">Executar um comando <code>DELETE</code> sem a cláusula <code>WHERE</code> é uma das ações mais perigosas em SQL, pois <strong>APAGA TODOS OS DADOS DA TABELA</strong>.</p>
+   <pre><code class="language-sql" style="background-color: #503030; border-color: var(--red-error);">
+-- EXEMPLO DE DESASTRE TOTAL:
+DELETE FROM Clientes; -- << SEM WHERE!!
+-- ISTO APAGA TODOS OS REGISTROS DE CLIENTES!
+   </code></pre>
+    <pre><code class="language-sql" style="background-color: #503030; border-color: var(--red-error);">
+-- OUTRO EXEMPLO DE DESASTRE:
+DELETE FROM Produtos; -- << SEM WHERE!!
+-- ISTO APAGA TODO O CATÁLOGO DE PRODUTOS!
+   </code></pre>
+   <p style="font-weight: bold; color: var(--accent-yellow); margin-top: 20px;">A recuperação depende exclusivamente de BACKUPS. Verifique o <code>WHERE</code> DEZ VEZES se necessário!</p>

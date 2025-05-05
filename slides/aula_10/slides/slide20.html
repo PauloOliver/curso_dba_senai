@@ -1,0 +1,15 @@
+
+  <h2><i class="fas fa-trash-alt" style="color:var(--red-error)"></i> <code>DELETE</code>: Visão Geral</h2>
+  <p>O comando <code>DELETE</code> é usado para <strong>REMOVER</strong> linhas inteiras de uma tabela.</p>
+   <p><strong>Sintaxe Geral:</strong></p>
+  <pre><code class="language-sql">
+DELETE FROM nome_da_tabela
+WHERE condicao_para_filtrar_linhas; -- IGUALMENTE IMPORTANTE!
+  </code></pre>
+  <p>Precisamos especificar:</p>
+  <ul>
+      <li>De qual <strong>tabela</strong> remover linhas (<code>DELETE FROM nome_da_tabela</code>).</li>
+      <li><strong>Quais linhas</strong> devem ser removidas (<code>WHERE condicao</code>).</li>
+  </ul>
+   <i class="fas fa-eraser" style="font-size: 3rem; color: var(--red-error); margin-top: 20px;"></i>
+   <p><strong>Nota:</strong> <code>DELETE</code> remove as linhas, mas geralmente não libera o espaço em disco imediatamente (depende do SGBD). Ele é logado (permite rollback em transação).</p>

@@ -1,0 +1,17 @@
+
+  <h2><i class="fas fa-cogs"></i> <code>UPDATE</code>: Cláusula <code>SET</code></h2>
+  <p>A cláusula <code>SET</code> define as alterações a serem feitas.</p>
+  <ul>
+    <li><strong>Atualizando uma coluna:</strong>
+      <pre><code class="language-sql">SET Email = 'email.corrigido@provider.com'</code></pre>
+    </li>
+    <li><strong>Atualizando múltiplas colunas (separadas por vírgula):</strong>
+      <pre><code class="language-sql">SET Preco = 99.90, Estoque = 50, Ativo = TRUE</code></pre>
+    </li>
+    <li><strong>Usando expressões ou o valor atual da coluna:</strong>
+      <pre><code class="language-sql">SET Preco = Preco * 1.10 -- Aumenta o preço em 10%</code></pre>
+      <pre><code class="language-sql">SET QuantidadeVendida = QuantidadeVendida + 1</code></pre>
+      <pre><code class="language-sql">SET NomeCompleto = CONCAT(PrimeiroNome, ' ', Sobrenome) -- Exemplo com função</code></pre>
+    </li>
+  </ul>
+  <p>Os novos valores devem ser compatíveis com os tipos de dados das colunas.</p>

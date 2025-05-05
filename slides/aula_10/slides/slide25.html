@@ -1,0 +1,28 @@
+
+  <h2><i class="fas fa-bomb"></i> vs <i class="fas fa-eraser"></i> <code>TRUNCATE TABLE</code> vs <code>DELETE</code> sem WHERE</h2>
+  <p>Ambos podem esvaziar uma tabela, mas funcionam de forma diferente:</p>
+  <div style="display: flex; justify-content: space-around; width: 100%; margin-top: 15px; text-align: left;">
+      <div>
+          <p><strong><code>DELETE FROM tabela;</code></strong></p>
+          <ul>
+              <li><i class="fas fa-pencil-alt fa-fw"></i> É <strong>DML</strong>.</li>
+              <li>Remove linhas <strong>uma por uma</strong> (logicamente).</li>
+              <li>Dispara gatilhos (Triggers) <code>ON DELETE</code>.</li>
+              <li>É registrado no log de transações (permite <code>ROLLBACK</code> dentro de uma transação).</li>
+              <li>Pode ser lento para tabelas muito grandes.</li>
+              <li>Geralmente não reseta contadores <code>AUTO_INCREMENT</code>.</li>
+          </ul>
+      </div>
+      <div>
+          <p><strong><code>TRUNCATE TABLE tabela;</code></strong></p>
+          <ul>
+              <li><i class="fas fa-tools fa-fw"></i> É <strong>DDL</strong> (geralmente).</li>
+              <li>Remove <strong>todas as linhas</strong> de forma mais direta (muitas vezes desalocando páginas de dados).</li>
+              <li>Geralmente <strong>não</strong> dispara gatilhos <code>ON DELETE</code>.</li>
+              <li>Log menos detalhado ou inexistente (<code>ROLLBACK</code> pode não funcionar ou ser diferente).</li>
+              <li><strong>Muito mais rápido</strong> para tabelas grandes.</li>
+              <li>Geralmente <strong>reseta</strong> contadores <code>AUTO_INCREMENT</code>.</li>
+          </ul>
+      </div>
+  </div>
+  <p><strong>Conclusão:</strong> Use <code>DELETE</code> com <code>WHERE</code> para remoções controladas. Use <code>TRUNCATE</code> com extrema cautela para limpar tabelas inteiras rapidamente (geralmente em ambientes de teste ou cenários específicos de ETL).</p>

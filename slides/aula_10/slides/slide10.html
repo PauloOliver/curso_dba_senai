@@ -1,0 +1,16 @@
+
+  <h2><i class="fas fa-copy"></i> <code>INSERT</code>: Múltiplas Linhas de Uma Vez</h2>
+  <p>É possível inserir várias linhas com um único comando <code>INSERT</code>, separando os conjuntos de valores por vírgulas.</p>
+  <pre><code class="language-sql">
+INSERT INTO Categorias (NomeCategoria) VALUES
+  ('Eletrônicos'), -- Primeira linha
+  ('Roupas'),      -- Segunda linha
+  ('Alimentos');   -- Terceira linha
+  </code></pre>
+   <pre><code class="language-sql">
+INSERT INTO Produtos (NomeProduto, CategoriaID, Preco, Estoque) VALUES
+  ('Smartphone Y', 1, 2500.00, 15), -- Produto 1
+  ('Camiseta Polo', 2, 120.00, 50), -- Produto 2
+  ('Arroz Integral 1kg', 3, 8.50, 100); -- Produto 3
+   </code></pre>
+  <p><strong>Vantagem:</strong> Geralmente mais performático do que executar múltiplos comandos <code>INSERT</code> individuais, pois reduz a comunicação com o banco de dados.</p>

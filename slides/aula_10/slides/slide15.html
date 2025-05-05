@@ -1,0 +1,13 @@
+
+  <h2><i class="fas fa-map-pin" style="color:var(--red-error)"></i> <code>UPDATE</code>: A Cláusula <code>WHERE</code> - NÃO NEGOCIÁVEL!</h2>
+   <p>Esta é, talvez, a parte <strong>MAIS IMPORTANTE</strong> do comando <code>UPDATE</code>.</p>
+   <p>A cláusula <code>WHERE</code> funciona <strong>exatamente</strong> como no <code>SELECT</code>: ela <strong>filtra</strong> e seleciona <strong>QUAIS LINHAS</strong> serão afetadas pela alteração definida no <code>SET</code>.</p>
+   <pre><code class="language-sql">
+-- Atualizar APENAS o cliente com ID 50
+UPDATE Clientes SET Cidade = 'Nova Cidade' WHERE ClienteID = 50;
+
+-- Atualizar APENAS produtos inativos de uma categoria específica
+UPDATE Produtos SET Estoque = 0 WHERE Ativo = FALSE AND CategoriaID = 3;
+   </code></pre>
+   <p><strong>Se você OMITIR a cláusula <code>WHERE</code>...</strong></p>
+   <p style="font-size: 1.5rem; color: var(--red-error); font-weight: bold; margin-top: 15px;">...O <code>UPDATE</code> será aplicado a <span style="text-decoration: underline;">TODAS AS LINHAS</span> da tabela!</p>

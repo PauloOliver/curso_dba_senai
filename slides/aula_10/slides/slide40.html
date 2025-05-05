@@ -1,0 +1,37 @@
+
+  <h2><i class="fas fa-check-double"></i> Exercício 3 - Solução Comentada</h2>
+  <pre><code class="language-sql">
+-- (Opcional: Crie a tabela Vendas_Teste se não existir)
+-- CREATE TABLE Vendas_Teste ( VendaID INT AUTO_INCREMENT PRIMARY KEY, ClienteID INT, DataVenda DATE );
+
+-- Verificar estoque inicial do ProdutoID 10 (Exemplo)
+SELECT ProdutoID, Estoque FROM Produtos_Teste WHERE ProdutoID = 10; -- Anote o valor inicial
+
+-- 1. Iniciar Transação
+BEGIN;
+
+-- 2. Inserir Venda (Exemplo)
+INSERT INTO Vendas_Teste (ClienteID, DataVenda) VALUES (5, NOW());
+-- Verificar se inseriu DENTRO da transação
+SELECT * FROM Vendas_Teste ORDER BY VendaID DESC LIMIT 1;
+
+-- 3. Atualizar Estoque (Exemplo: Produto 10)
+UPDATE Produtos_Teste SET Estoque = Estoque - 2 WHERE ProdutoID = 10;
+-- Verificar estoque DENTRO da transação
+SELECT ProdutoID, Estoque FROM Produtos_Teste WHERE ProdutoID = 10; -- Deve mostrar valor diminuído
+
+-- 4. Simular erro / Decidir cancelar
+-- (Nenhum comando SQL aqui, apenas a decisão)
+-- PRINT 'Operação cancelada!'; -- Comentário ou mensagem
+
+-- 5. Desfazer a transação
+ROLLBACK;
+
+-- 6. Verificar PÓS-ROLLBACK
+-- Verificar Vendas: NÃO deve encontrar a venda inserida
+SELECT * FROM Vendas_Teste ORDER BY VendaID DESC LIMIT 1; -- Deve estar vazia ou mostrar a venda anterior
+-- Verificar Estoque: Deve ter voltado ao valor ORIGINAL anotado no início
+SELECT ProdutoID, Estoque FROM Produtos_Teste WHERE ProdutoID = 10;
+
+  </code></pre>
+  <p><strong>Conclusão:</strong> O <code>ROLLBACK</code> desfez tanto o <code>INSERT</code> na <code>Vendas_Teste</code> quanto o <code>UPDATE</code> na <code>Produtos_Teste</code>, mantendo a consistência.</p>

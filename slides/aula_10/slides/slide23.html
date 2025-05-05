@@ -1,0 +1,18 @@
+
+  <h2><i class="fas fa-laptop-code"></i> Demo 3a: <code>DELETE</code> Seguro com <code>WHERE</code></h2>
+  <p>Removendo dados específicos com segurança:</p>
+  <ol>
+      <li><strong>Identificar a(s) linha(s):</strong> Use <code>SELECT</code> com a condição <code>WHERE</code>.
+          <pre><code class="language-sql">-- Verificar produtos inativos (Ativo = FALSE) que quero remover
+SELECT * FROM Produtos_Teste WHERE Ativo = FALSE;</code></pre>
+      </li>
+      <li><strong>Executar o <code>DELETE</code>:</strong> Use a <strong>MESMA</strong> condição <code>WHERE</code>.
+           <pre><code class="language-sql">-- Remover os produtos inativos
+DELETE FROM Produtos_Teste WHERE Ativo = FALSE;</code></pre>
+      </li>
+       <li><strong>Verificar a Remoção:</strong> Use <code>SELECT</code> novamente para confirmar.
+          <pre><code class="language-sql">-- Deve retornar 0 linhas
+SELECT * FROM Produtos_Teste WHERE Ativo = FALSE;</code></pre>
+       </li>
+  </ol>
+  <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--accent-blue); margin-top: 30px;"></i>
