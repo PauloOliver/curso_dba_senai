@@ -95,8 +95,8 @@ const ask = {
     correct: 3,
   },
   12: {
-    type: "fill",
-    ask: "Para atualizar SOMENTE o cliente com `id = 100`, a cláusula essencial é ____ `id = 100`.",
+    type: "complete",
+    ask: "Para atualizar SOMENTE o cliente com `id = 100`, a cláusula essencial é _ `id = 100`.",
     correct: ["WHERE"], // Aceita apenas "WHERE" (case-insensitive será tratado pelo JS)
   },
   13: {
@@ -106,8 +106,8 @@ const ask = {
     correct: 3,
   },
   14: {
-    type: "fill",
-    ask: "Transações garantem a ________ das operações DML, o que significa 'tudo ou nada'. (Propriedade ACID)",
+    type: "complete",
+    ask: "Transações garantem a _ das operações DML, o que significa 'tudo ou nada'. (Propriedade ACID)",
     correct: ["Atomicidade", "atomicidade"],
   },
   15: {
@@ -122,8 +122,8 @@ const ask = {
     correct: 3,
   },
   16: {
-    type: "fill",
-    ask: "Para inserir múltiplas linhas com um único `INSERT`, separamos os conjuntos de valores na cláusula `VALUES` usando ____.",
+    type: "complete",
+    ask: "Para inserir múltiplas linhas com um único `INSERT`, separamos os conjuntos de valores na cláusula `VALUES` usando _.",
     correct: ["vírgulas", "virgulas", ","],
   },
   17: {
@@ -138,8 +138,8 @@ const ask = {
     correct: 2,
   },
   18: {
-    type: "fill",
-    ask: "Tentar deletar um registro que é referenciado por uma chave ________ em outra tabela geralmente resulta em erro, a menos que exista uma regra como `ON DELETE CASCADE`.",
+    type: "complete",
+    ask: "Tentar deletar um registro que é referenciado por uma chave _ em outra tabela geralmente resulta em erro, a menos que exista uma regra como `ON DELETE CASCADE`.",
     correct: ["estrangeira", "FOREIGN KEY", "foreign key"],
   },
   19: {
@@ -149,8 +149,8 @@ const ask = {
     correct: 4, // CREATE TABLE é DDL
   },
   20: {
-    type: "fill",
-    ask: "Ao usar `UPDATE` ou `DELETE` para afetar uma ÚNICA linha específica de forma segura, a melhor prática é filtrar pela coluna de chave ________ na cláusula `WHERE`.",
+    type: "complete",
+    ask: "Ao usar `UPDATE` ou `DELETE` para afetar uma ÚNICA linha específica de forma segura, a melhor prática é filtrar pela coluna de chave _ na cláusula `WHERE`.",
     correct: ["primária", "primaria", "PRIMARY KEY", "primary key"],
   },
   21: {
@@ -165,8 +165,8 @@ const ask = {
     correct: 2,
   },
   22: {
-    type: "fill",
-    ask: "Para incrementar o valor da coluna `Contador` em 1 para uma linha específica, você usaria `UPDATE tabela SET Contador = Contador + ____ WHERE condicao;`",
+    type: "complete",
+    ask: "Para incrementar o valor da coluna `Contador` em 1 para uma linha específica, você usaria `UPDATE tabela SET Contador = Contador + _ WHERE condicao;`",
     correct: ["1"],
   },
   23: {
@@ -181,8 +181,8 @@ const ask = {
     correct: 3,
   },
   24: {
-    type: "fill",
-    ask: "Dentro de uma transação longa, você pode definir um ________ `nome_ponto` para permitir um `ROLLBACK TO nome_ponto;` parcial.",
+    type: "complete",
+    ask: "Dentro de uma transação longa, você pode definir um _ `nome_ponto` para permitir um `ROLLBACK TO nome_ponto;` parcial.",
     correct: ["SAVEPOINT", "savepoint"],
   },
   25: {

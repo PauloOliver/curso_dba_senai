@@ -1,0 +1,54 @@
+<h2><i class="fas fa-book-dead"></i> O Pergaminho da Criação: RPG_Mundo</h2>
+  <p>Antes de manipularmos os dados, bravos escribas, precisamos entender a estrutura do nosso reino, <strong>RPG_Mundo</strong>. O script SQL a seguir é o mapa ancestral que define as terras, criaturas, heróis e magias.</p>
+  <p>Este pergaminho contém os comandos <code>CREATE DATABASE</code> e <code>CREATE TABLE</code>, que são parte da <strong>DDL (Data Definition Language)</strong> - a linguagem dos Arquitetos Divinos - e também comandos <code>INSERT</code> iniciais para popular nosso mundo com suas primeiras lendas.</p>
+  <p>Vocês podem copiar e executar este script em seu SGBD (MySQL Workbench ou similar) para ter seu próprio reino de <strong>RPG_Mundo</strong> para praticar os feitiços DML!</p>
+  
+  <div class="slide-svg-container" style="max-width:150px; margin-bottom:10px;">
+    <svg viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 64 64">
+        <path class="svg-accent1-fill" d="M57.68,27.947c-0.028-0.082-0.052-0.166-0.084-0.246c-0.065-0.172-0.142-0.338-0.221-0.505	c-0.079-0.166-0.162-0.328-0.256-0.485c-0.092-0.154-0.19-0.302-0.293-0.448c-0.105-0.148-0.212-0.291-0.328-0.428	c-0.116-0.137-0.238-0.266-0.363-0.396c-0.128-0.132-0.259-0.258-0.398-0.378c-0.14-0.122-0.282-0.242-0.432-0.355	c-0.148-0.111-0.304-0.213-0.46-0.312c-0.159-0.1-0.318-0.198-0.484-0.288c-0.168-0.091-0.338-0.176-0.513-0.256	c-0.174-0.078-0.353-0.148-0.536-0.212c-0.181-0.063-0.369-0.118-0.559-0.168c-0.284-0.074-0.57-0.133-0.863-0.179l-26.409-4.109	c-0.349-0.054-0.691-0.054-1.038,0L5.427,18.678c-0.293,0.046-0.579,0.105-0.863,0.179c-0.19,0.05-0.378,0.104-0.559,0.168	c-0.183,0.064-0.362,0.134-0.536,0.212c-0.175,0.08-0.345,0.165-0.513,0.256c-0.166,0.09-0.325,0.188-0.484,0.288	c-0.156,0.099-0.312,0.201-0.46,0.312c-0.15,0.113-0.292,0.233-0.432,0.355c-0.139,0.12-0.27,0.246-0.398,0.378	c-0.125,0.13-0.247,0.259-0.363,0.396c-0.116,0.137-0.223,0.28-0.328,0.428c-0.103,0.146-0.201,0.294-0.293,0.448	c-0.094,0.157-0.177,0.319-0.256,0.485c-0.079,0.167-0.156,0.333-0.221,0.505c-0.032,0.08-0.056,0.164-0.084,0.246	C0.321,28.235,0,29.055,0,30v19c0,1.657,1.343,3,3,3h11.5c0.829,0,1.5-0.671,1.5-1.5S15.329,49,14.5,49H3c-0.552,0-1-0.448-1-1v-3h10	c1.657,0,3-1.343,3-3V32c0-1.657-1.343-3-3-3H2V6.31l28-4.356v38.07c0,1.59,0.776,3.034,2.021,3.898L46.5,52.367	C47.362,52.903,48,53.896,48,54.949V59c0,0.552,0.448,1,1,1h8c1.657,0,3-1.343,3-3V30C60,29.055,59.679,28.235,57.68,27.947z M30,4.053	L4.061,8.184C4.03,8.232,4,8.283,4,8.335V27H2V6.31L30,1.612V4.053z M14,32v10H4V32H14z M58,56c0,0.552-0.448,1-1,1h-8v-4.051	c0-0.018-0.002-0.036-0.005-0.054C48.998,52.91,49,52.926,49,52.943L34.021,44.93c-0.747-0.518-1.201-1.318-1.225-2.188L32.768,5.06	l25.911,4.032C58.83,9.122,58.979,9.202,59.12,9.29L59.12,9.29c0.141,0.088,0.273,0.182,0.403,0.284	c0.003,0.002,0.007,0.004,0.01,0.007c0.131,0.104,0.253,0.217,0.374,0.334c0.003,0.003,0.005,0.006,0.008,0.009	c0.119,0.118,0.232,0.242,0.341,0.37c0.006,0.007,0.011,0.013,0.017,0.02c0.106,0.126,0.203,0.258,0.299,0.395	c0.006,0.009,0.012,0.017,0.018,0.026c0.092,0.134,0.178,0.274,0.259,0.418c0.005,0.009,0.008,0.019,0.013,0.028	c0.079,0.142,0.152,0.288,0.221,0.439c0.003,0.008,0.007,0.015,0.01,0.023c0.065,0.147,0.126,0.297,0.181,0.452	c0.002,0.007,0.003,0.013,0.005,0.02c0.053,0.151,0.102,0.305,0.145,0.464c0.001,0.005,0.002,0.009,0.003,0.014	c0.042,0.155,0.078,0.312,0.109,0.473c0.001,0.005,0.001,0.01,0.002,0.015c0.028,0.161,0.051,0.323,0.067,0.488	c0.001,0.006,0.001,0.012,0.001,0.018c0.015,0.164,0.023,0.33,0.023,0.498V27h-2.12c-0.001-0.168-0.009-0.334-0.023-0.498	c0-0.006,0-0.012-0.001-0.018c-0.016-0.165-0.039-0.327-0.067-0.488c-0.001-0.005-0.001-0.01-0.002-0.015	c-0.031-0.161-0.067-0.318-0.109-0.473c-0.001-0.005-0.002-0.009-0.003-0.014c-0.043-0.159-0.092-0.313-0.145-0.464	c-0.002-0.007-0.003-0.013-0.005-0.02c-0.055-0.155-0.116-0.305-0.181-0.452c-0.003-0.008-0.007-0.015-0.01-0.023	c-0.069-0.151-0.142-0.297-0.221-0.439c-0.005-0.009-0.008-0.019-0.013-0.028c-0.081-0.144-0.167-0.284-0.259-0.418	c-0.006-0.009-0.012-0.017-0.018-0.026c-0.097-0.137-0.194-0.269-0.299-0.395c-0.006-0.007-0.011-0.013-0.017-0.02	c-0.109-0.128-0.222-0.252-0.341-0.37c-0.003-0.003-0.005-0.006-0.008-0.009c-0.121-0.117-0.243-0.23-0.374-0.334	c-0.003-0.003-0.007-0.005-0.01-0.007C56.279,24.319,56.147,24.225,56,24.137V56z" fill="var(--rpg-parchment-light)"/> <!-- Changed to light text on accent fill -->
+        <path class="svg-bg-fill" d="M48.5,51H48c-0.792,0-1.539,0.319-2.09,0.86L32,63.604V8H20v55h10v-2.396L41.743,50.86C41.902,50.741,42,50.578,42,50.396V30h6v20.396c0,0.707,0.304,1.377,0.821,1.853L56,58.311V51.5C56,51.224,48.776,51,48.5,51z" fill="var(--rpg-wood-light)"/> <!-- Changed to wood light -->
+    </svg>
+  </div>
+
+  <pre><code class="language-sql">
+-- =============================================
+-- Script para Criação do Banco de Dados RPG_Mundo
+-- (Pergaminho dos Arquitetos)
+-- =============================================
+
+-- 1. CRIAR O REINO DIGITAL (SE NÃO EXISTIR)
+CREATE DATABASE IF NOT EXISTS RPG_Mundo
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+-- 2. SINTONIZAR-SE COM O REINO
+USE RPG_Mundo;
+
+-- 3. ERGUER AS ESTRUTURAS (Conteúdo Omitido por Brevidade - Veja o script completo)
+-- Tabela de Racas (Linhagens Ancestrais)
+CREATE TABLE IF NOT EXISTS Racas ( RacaID INT AUTO_INCREMENT PRIMARY KEY, NomeRaca VARCHAR(50) NOT NULL UNIQUE, /*...*/ );
+-- Tabela de Classes (Caminhos do Herói)
+CREATE TABLE IF NOT EXISTS Classes ( ClasseID INT AUTO_INCREMENT PRIMARY KEY, NomeClasse VARCHAR(50) NOT NULL UNIQUE, /*...*/ );
+-- Tabela de Personagens (Lendas em Formação)
+CREATE TABLE IF NOT EXISTS Personagens ( PersonagemID INT AUTO_INCREMENT PRIMARY KEY, NomePersonagem VARCHAR(100) NOT NULL, /*...*/ );
+-- ... (demais tábuas sagradas: TiposMagia, Magias, PersonagemMagias, TiposMonstro, Monstros, MonstroMagias, Cenarios, CenarioMonstros, TiposItem, Itens, Inventarios, InventarioItens)
+
+-- 4. INVOCAR OS PRIMEIROS HABITANTES (Conteúdo Omitido por Brevidade)
+INSERT INTO Racas (NomeRaca, DescricaoRaca, /*...*/) VALUES ('Humano', /*...*/);
+INSERT INTO Classes (NomeClasse, DescricaoClasse, /*...*/) VALUES ('Guerreiro', /*...*/);
+-- ... (demais invocações)
+
+-- =============================================
+-- FIM DO PERGAMINHO DOS ARQUITETOS
+-- =============================================
+SELECT 'O Reino de RPG_Mundo foi forjado e as primeiras lendas despertaram!' AS StatusDaCriacao;
+
+-- NOTA: O pergaminho completo está disponível no Grimório de Apoio.
+-- Transcreva-o com cuidado em seu altar de SGBD (MySQL Workbench).
+  </code></pre>
+
+  <a href="./aventura.sql" download="rpg_mundo_script.sql" class="download-script-button" style="display: block; width: fit-content; margin: 20px auto; padding: 12px 20px; background-color: var(--rpg-gold-accent); color: var(--rpg-wood-dark); border-radius: 5px; font-family: var(--font-headings); text-decoration: none; border: 1px solid var(--rpg-wood-dark); box-shadow: 2px 2px 3px rgba(0,0,0,0.2);">
+    <i class="fas fa-scroll"></i> Baixar Pergaminho da Criação
+  </a>
+
+  <p><i class="fas fa-copy"></i> <strong>Dica do Mestre:</strong> Para facilitar sua jornada, o script completo reside no arquivo <code>rpg_mundo_script.sql</code>, guardado junto a esta lição. Copie e cole seu conteúdo com sabedoria!</p>

@@ -1,0 +1,41 @@
+<h2><i class="fas fa-user-plus"></i> Forjando Lendas: O Poder do <code>INSERT</code></h2>
+  <p>O comando <code>INSERT</code> é o sopro de vida em nosso banco de dados, o feitiço que materializa novas entidades em <strong>RPG_Mundo</strong>. É com ele que registramos <strong>novos heróis</strong> emergindo de vilarejos humildes, <strong>itens mágicos</strong> recém-descobertos em ruínas antigas, ou <strong>bestas temíveis</strong> que surgem das profundezas das masmorras.</p>
+
+  <div class="slide-svg-container" style="max-width: 150px;">
+    <svg viewBox="0 0 100 100">
+      <rect class="svg-bg-fill" fill="var(--rpg-parchment-medium)" x="5" y="5" width="90" height="90" rx="10"/>
+      <path class="svg-accent1-fill" fill="var(--rpg-green-success)" d="M45 20h10v25h25v10h-25v25h-10v-25h-25v-10h25z"/>
+      <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="50" y="90" text-anchor="middle" font-size="12px" font-family="Cinzel, serif">INSERT</text>
+    </svg>
+  </div>
+
+  <p><strong>Inscrição Rúnica (Sintaxe):</strong></p>
+  <pre><code class="language-sql">
+INSERT INTO nome_da_tabua_sagrada (coluna1, coluna2, coluna3, ...)
+VALUES (valor_para_coluna1, valor_para_coluna2, valor_para_coluna3, ...);
+  </code></pre>
+
+  <p><strong>Exemplo: Um novo herói Halfling chega à taverna "O Pônei Saltitante"!</strong></p>
+  <p>Vamos registrar 'Bilbo Bolseiro', um Halfling pacato que, contra todas as expectativas, aspira ser um Ladino astuto.</p>
+  <pre><code class="language-sql">
+-- Primeiro, precisamos dos IDs de Raca (Halfling) e Classe (Ladino)
+-- Supondo que Halfling RacaID = 5 e Ladino ClasseID = 3 (consulte suas tábuas Racas e Classes!)
+
+INSERT INTO Personagens (NomePersonagem, RacaID, ClasseID, Nivel, PontosVidaMax, PontosVidaAtuais, Forca, Destreza, Inteligencia, Vitalidade)
+VALUES ('Bilbo Bolseiro', 5, 3, 1, 20, 20, 7, 16, 11, 9);
+  </code></pre>
+  
+  <p><strong><i class="fas fa-exclamation-triangle" style="color: var(--rpg-gold-highlight);"></i> Pergaminhos de Sabedoria (Atenção, Aventureiro):</strong></p>
+  <ul>
+    <li><i class="fas fa-fw fa-shield-alt"></i> Sempre especifique as colunas! Se a ordem das colunas na tábua sagrada (tabela) mudar por algum cataclisma divino (alteração de DDL), seu <code>INSERT</code> sem lista de colunas pode falhar ou, pior, inserir dados nos atributos errados, corrompendo a alma do registro.</li>
+    <li><i class="fas fa-fw fa-gem"></i> Para colunas de identificação divina <code>AUTO_INCREMENT</code> (como <code>PersonagemID</code>), você geralmente não precisa fornecer um valor; o Grande Arquiteto (banco de dados) cuida de atribuir um identificador único.</li>
+    <li><i class="fas fa-fw fa-scroll"></i> Você pode invocar múltiplas entidades de uma vez para poupar mana (tempo):
+      <pre><code class="language-sql">
+INSERT INTO TiposMagia (NomeTipo) VALUES
+('Elementalismo de Fogo'),
+('Restauração Divina'),
+('Ilusionismo Arcano');
+      </code></pre>
+    </li>
+  </ul>
+  <p>Agora, imagine registrar uma nova <strong>Poção de Cura Maior</strong> na tabela <code>Itens</code>, ou um temível <strong>Dragão Negro das Cinzas</strong> na tabela <code>Monstros</code>. O poder do <code>INSERT</code>, a centelha da criação, está em suas mãos!</p>

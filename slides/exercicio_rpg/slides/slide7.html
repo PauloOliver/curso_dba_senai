@@ -1,0 +1,27 @@
+<h2><i class="fas fa-book-reader"></i> O Códice dos Sábios: Práticas Seguras de DML</h2>
+  <p>Empunhar os comandos DML é um grande poder, e com grande poder vem uma responsabilidade ancestral. Seguir estas práticas recomendadas, transmitidas por gerações de Mestres de Banco de Dados, o tornará um Guardião mais sábio e evitará catástrofes dimensionais em <strong>RPG_Mundo</strong> (e nos reinos digitais do mundo real!).</p>
+
+  <div class="slide-svg-container" style="max-width: 200px; margin-bottom: 20px;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120">
+      <!-- Open Book Shape -->
+      <path class="svg-bg-fill" fill="var(--rpg-parchment-medium)" d="M10 10 C 10 0, 40 0, 50 10 C 60 0, 90 0, 90 10 L 90 90 C 90 100, 60 100, 50 90 C 40 100, 10 100, 10 90 Z"/>
+      <path class="svg-accent1-stroke" stroke="var(--rpg-wood-dark)" stroke-width="2" fill="none" d="M10 10 C 10 0, 40 0, 50 10 C 60 0, 90 0, 90 10 L 90 90 C 90 100, 60 100, 50 90 C 40 100, 10 100, 10 90 Z"/>
+      <line class="svg-line-stroke" stroke="var(--rpg-wood-light)" x1="50" y1="10" x2="50" y2="90"/> <!-- Spine -->
+      <!-- Quill Icon (simplified) -->
+      <path class="svg-accent2-fill" fill="var(--rpg-gold-accent)" d="M40 50 Q50 30 60 50 L50 80 Z" transform="rotate(-30 50 60)"/>
+      <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="50" y="110" text-anchor="middle" font-size="10px" font-family="Cinzel, serif">Códice DML</text>
+    </svg>
+  </div>
+
+  <ul>
+    <li><i class="fas fa-fw fa-map-marker-alt"></i> <strong>Sempre use a Cláusula <code>WHERE</code> com <code>UPDATE</code> e <code>DELETE</code>:</strong> A menos que você REALMENTE queira aplicar o feitiço a todos os habitantes do reino (linhas). Para precisão cirúrgica, mire pela chave primária ao afetar um único registro.</li>
+    <li><i class="fas fa-fw fa-binoculars"></i> <strong>Consulte o Oráculo (<code>SELECT</code>) Primeiro:</strong> Antes de executar um <code>UPDATE ... WHERE cond;</code> ou <code>DELETE FROM ... WHERE cond;</code>, conjure um <code>SELECT * FROM ... WHERE cond;</code> para garantir que está mirando nas almas corretas e não em inocentes.</li>
+    <li><i class="fas fa-fw fa-shield-virus"></i> <strong>Use Transações para Rituais Multi-Passo:</strong> Se uma série de encantamentos DML deve ter sucesso ou falhar como um todo (como uma troca de itens entre dois heróis), envolva-os na aura protetora de <code>START TRANSACTION; ... COMMIT; / ROLLBACK;</code>.</li>
+    <li><i class="fas fa-fw fa-database"></i> <strong>Mantenha Cópias de Segurança (Backups) Regulares e Testadas:</strong> Esta é sua Fênix, sua rede de segurança definitiva contra o apocalipse de dados. Não importa quão cuidadoso você seja, erros podem acontecer. Backups são o feitiço de ressurreição do seu reino.</li>
+    <li><i class="fas fa-fw fa-list-ol"></i> <strong>Especifique Nomes de Coluna em <code>INSERT</code>:</strong> Torna seu código mais robusto a mudanças na estrutura da tabela (evita que os deuses do DDL quebrem seus feitiços) e mais legível para outros escribas. <code>INSERT INTO Tabela (Col1, Col2) VALUES (Val1, Val2);</code> é mais seguro que <code>INSERT INTO Tabela VALUES (Val1, Val2);</code>.</li>
+    <li><i class="fas fa-fw fa-bolt"></i> <strong>Cuidado com o Feitiço Devastador <code>TRUNCATE TABLE</code>:</strong> É extremamente rápido para limpar uma tabela inteira, mas geralmente não é logado da mesma forma que <code>DELETE</code>, ignora gatilhos (guardiões da tabela) e não pode ser facilmente desfeito com <code>ROLLBACK</code> (dependendo do SGBD e configuração do altar). Use-o como último recurso, com pleno conhecimento de suas consequências.</li>
+    <li><i class="fas fa-fw fa-lock"></i> <strong>Entenda as Correntes do Destino (Chaves Estrangeiras) e Deleções/Atualizações em Cascata:</strong> Configurações como <code>ON DELETE CASCADE</code> ou <code>ON UPDATE CASCADE</code> podem ser úteis, mas também perigosas, pois podem causar alterações em massa em tabelas relacionadas, como uma reação em cadeia mágica. Saiba quando e por que usá-los.</li>
+    <li><i class="fas fa-fw fa-user-secret"></i> <strong>O Princípio do Privilégio Mínimo:</strong> Usuários e aplicações devem ter apenas as permissões DML estritamente necessárias para suas tarefas. Não conceda o poder de <code>DELETE</code> a um aprendiz que só precisa de <code>SELECT</code> e <code>INSERT</code>.</li>
+    <li><i class="fas fa-fw fa-history"></i> <strong>Registros de Auditoria (O Olho que Tudo Vê):</strong> Para tabelas críticas, considere implementar mecanismos de auditoria (como Triggers ou logs) para rastrear quem alterou o quê e quando. Isso é crucial para investigar mistérios e resolver disputas no reino.</li>
+  </ul>
+  <p>Seguindo este códice, você protegerá a integridade, a história e a própria essência de <strong>RPG_Mundo</strong>!</p>

@@ -1,0 +1,54 @@
+<h2><i class="fas fa-trash-alt"></i> O Crepúsculo dos Indesejados: A Arte do <code>DELETE</code></h2>
+  <p>Nem todos os registros são eternos nos anais de <strong>RPG_Mundo</strong>. Monstros são derrotados e banidos para outros planos, itens são consumidos ou se quebram, missões antigas são concluídas e esquecidas. O comando <code>DELETE</code> é o feitiço que remove essas linhas de suas tábuas sagradas (tabelas), mas deve ser usado com a sabedoria de um arquimago e a precisão de um mestre assassino.</p>
+  
+  <div class="slide-svg-container" style="max-width: 150px;">
+    <svg viewBox="0 0 100 100">
+      <rect class="svg-bg-fill" fill="var(--rpg-parchment-medium)" x="5" y="5" width="90" height="90" rx="10"/>
+      <path class="svg-accent1-fill" fill="var(--rpg-red-error)" d="M20 45h60v10h-60z"/> <!-- Simple minus sign representing delete -->
+      <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="50" y="90" text-anchor="middle" font-size="12px" font-family="Cinzel, serif">DELETE</text>
+    </svg>
+  </div>
+
+  <p><strong>Inscrição Rúnica (Sintaxe):</strong></p>
+  <pre><code class="language-sql">
+DELETE FROM nome_da_tabua_sagrada
+WHERE condicao_de_banimento;
+  </code></pre>
+
+  <p><strong><i class="fas fa-biohazard" style="color: var(--rpg-red-error);"></i> ALERTA DE NÍVEL ÔMEGA! O PODER DEVASTADOR DE <code>DELETE</code> SEM <code>WHERE</code>!</strong><br>
+  Se você, em um momento de loucura ou sob efeito de um feitiço de esquecimento, executar <code>DELETE FROM nome_da_tabua_sagrada;</code> sem uma cláusula <code>WHERE</code>, <strong>TODAS AS ALMAS (LINHAS) DA TABELA SERÃO APAGADAS PARA SEMPRE!</strong> Não há "desfazer" fácil para isso fora de uma transação previamente iniciada ou de um backup divino. Seja triplamente cuidadoso, como se estivesse desarmando a mais volátil das armadilhas mágicas!</p>
+
+  <p><strong>Exemplo: Um Goblin Lanceiro foi derrotado e enviado para o além!</strong></p>
+  <p>Suponha que um 'Goblin Lanceiro' específico (com <code>MonstroID = 101</code>, por exemplo) foi vencido em batalha e seu registro deve ser removido dos anais dos vivos.</p>
+  <pre><code class="language-sql">
+DELETE FROM Monstros
+WHERE MonstroID = 101;
+  </code></pre>
+  <p>Se quiséssemos remover todos os Goblins Lanceiros de Nível 1 que infestam uma determinada região:</p>
+  <pre><code class="language-sql">
+DELETE FROM Monstros
+WHERE NomeMonstro = 'Goblin Lanceiro' AND NivelMonstro = 1;
+  </code></pre>
+
+  <p><strong>Outras Aplicações do Feitiço <code>DELETE</code>:</strong></p>
+  <ul>
+    <li><i class="fas fa-fw fa-prescription-bottle"></i> Remover um item do inventário de 'Frodo' (<code>PersonagemID = 5</code>) após ele usar sua última 'Poção de Cura Leve' (<code>ItemID = X</code>):
+      <pre><code class="language-sql">
+-- Esta operação pode ser mais complexa se houver controle de quantidade.
+-- Se a poção é um item único no slot, ou se a quantidade chegou a zero:
+DELETE FROM InventarioItens
+WHERE InventarioID = (SELECT InventarioID FROM Inventarios WHERE PersonagemID = 5) -- Encontra o inventário de Frodo
+  AND ItemID = (SELECT ItemID FROM Itens WHERE NomeItem = 'Poção de Cura Leve');   -- Encontra o ID da poção
+      </code></pre>
+    </li>
+    <li><i class="fas fa-fw fa-user-slash"></i> Remover um personagem que não será mais usado (CUIDADO! Chaves estrangeiras podem impedir a exclusão ou causar deleções em cascata se configurado <code>ON DELETE CASCADE</code>, um efeito dominó mágico!):
+      <pre><code class="language-sql">
+-- CUIDADO: Isso pode falhar se 'PersonagemEsquecido' tiver magias aprendidas, itens no inventário, etc.,
+-- e não houver ON DELETE CASCADE ou ON DELETE SET NULL nas tabelas relacionadas.
+DELETE FROM Personagens
+WHERE NomePersonagem = 'PersonagemEsquecido';
+      </code></pre>
+    </li>
+  </ul>
+  <p><i class="fas fa-eye" style="color: var(--rpg-gold-highlight);"></i> <strong>Visão do Oráculo (Repetida, mas Essencial):</strong> Assim como com <code>UPDATE</code>, sempre use <code>SELECT * FROM tabela WHERE condicao;</code> ANTES de um <code>DELETE</code> para confirmar quais registros serão enviados para o esquecimento. É melhor prevenir do que ressuscitar dados de backups!</p>
+  <p>Considere também o comando <code>TRUNCATE TABLE nome_tabela;</code>. Ele remove todas as linhas de uma tabela muito rapidamente, como um buraco negro. Mas geralmente não pode ser desfeito com <code>ROLLBACK</code> e não dispara gatilhos <code>ON DELETE</code> (guardiões da tabela). Use-o com conhecimento de suas implicações e apenas quando a aniquilação total for o objetivo desejado e seguro.</p>

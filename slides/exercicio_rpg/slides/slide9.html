@@ -1,0 +1,107 @@
+  <h2><i class="fas fa-pencil-alt"></i> A Forja dos Heróis: Praticando com <code>INSERT</code></h2>
+  <p>Bravos aventureiros, chegou a hora de dar vida a novos elementos em <strong>RPG_Mundo</strong>! Com o poder do <code>INSERT</code>, vocês registrarão novos heróis, descobrirão raças exóticas, revelarão magias ancestrais e desenterrarão itens lendários. Preparem suas penas e pergaminhos (ou melhor, seus teclados e terminais)!</p>
+
+  <div class="slide-svg-container" style="max-width: 120px; margin-bottom:15px;">
+    <svg viewBox="0 0 100 100">
+      <rect class="svg-bg-fill" fill="var(--rpg-parchment-medium)" x="5" y="5" width="90" height="90" rx="10"/>
+      <path class="svg-accent1-fill" fill="var(--rpg-green-success)" d="M45 20h10v25h25v10h-25v25h-10v-25h-25v-10h25z"/>
+      <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="50" y="90" text-anchor="middle" font-family="Cinzel, serif" font-size="10px">Missão INSERT</text>
+    </svg>
+  </div>
+
+  <h3><i class="fas fa-scroll"></i> Missão 1: Novos Recrutas e Descobertas Arcanas</h3>
+  
+  <div style="text-align: left; max-width: 850px; margin: 0 auto;">
+    <p><strong>1. Uma Nova Lenda Chega à Guilda:</strong></p>
+    <ul>
+      <li><i class="fas fa-user-shield fa-fw"></i> Uma nova personagem, a valente "Brienne de Tarth", da raça "Humano" e seguindo o caminho do "Guerreiro", juntou-se à sua comitiva.</li>
+      <li><strong>Sua Tarefa:</strong> Inscreva Brienne na tábua sagrada <code>Personagens</code>. Use os seguintes atributos iniciais, como ditam os pergaminhos de criação de heróis:
+        <ul>
+          <li>Nível: 1, Pontos de Vida Máximos (PVMax): 15, Pontos de Vida Atuais (PVAtuais): 15, Pontos de Mana Máximos (ManaMax): 0, Pontos de Mana Atuais (ManaAtuais): 0</li>
+          <li>Força: 14, Destreza: 12, Inteligência: 8, Vitalidade: 13</li>
+        </ul>
+      </li>
+      <li><i class="fas fa-lightbulb fa-fw" style="color: var(--rpg-gold-highlight);"></i> <em>Dica Arcana: Você precisará dos <code>RacaID</code> e <code>ClasseID</code> correspondentes. Use subconsultas (subqueries) diretamente nos <code>VALUES</code> ou consulte-os separadamente primeiro, como um bom estudioso.</em></li>
+      <li>Verifique se Brienne foi inscrita corretamente, consultando a tábua <code>Personagens</code>.</li>
+    </ul>
+
+    <p><strong>2. Uma Nova Linhagem Descoberta nas Montanhas Distantes:</strong></p>
+    <ul>
+      <li><i class="fas fa-dragon fa-fw"></i> Exploradores relataram o encontro com uma nova raça humanóide chamada "Draconato", conhecidos por sua resistência elemental inata e a capacidade de expelir um sopro dracônico.</li>
+      <li><strong>Sua Tarefa:</strong> Registre a raça "Draconato" na tábua <code>Racas</code>.
+        <ul>
+          <li>Descrição da Linhagem: "Humanoides com escamas dracônicas, naturalmente resistentes e abençoados com um sopro elemental."</li>
+          <li>Bônus de Atributo: Força +2, Vitalidade +1, Inteligência +1 (os outros bônus de atributo podem ser 0 ou assumir o valor padrão do pergaminho da tabela).</li>
+        </ul>
+      </li>
+      <li>Verifique a inscrição da nova raça.</li>
+    </ul>
+
+    <p><strong>3. Magia Antiga Revelada em um Tomo Poeirento:</strong></p>
+    <ul>
+      <li><i class="fas fa-book-sparkles fa-fw"></i> Um pergaminho antigo, encontrado nas ruínas de uma torre de mago, revelou uma nova magia de "Utilidade" chamada "Visão Noturna Elfica".</li>
+      <li><strong>Sua Tarefa:</strong> Inscreva a magia "Visão Noturna Elfica" na tábua <code>Magias</code>.
+        <ul>
+          <li>Descrição da Magia: "Permite ao conjurador enxergar perfeitamente na escuridão total, como se fosse um elfo da floresta, por um período determinado."</li>
+          <li>Custo de Mana: 5, Dano Base: 0, Cura Base: 0, Duração em Turnos: 10, Nível Requerido para Aprender: 2</li>
+        </ul>
+      </li>
+      <li><i class="fas fa-lightbulb fa-fw" style="color: var(--rpg-gold-highlight);"></i> <em>Dica Arcana: Obtenha o <code>TipoMagiaID</code> para "Utilidade" antes de inscrever a magia.</em></li>
+      <li>Verifique a inscrição da nova magia.</li>
+    </ul>
+
+    <p><strong>4. Item Lendário Forjado nas Chamas de um Vulcão:</strong></p>
+    <ul>
+      <li><i class="fas fa-hammer fa-fw"></i> Uma nova arma lendária, "Vorpal, a Ceifadora de Críticos", foi adicionada aos tesouros do reino.</li>
+      <li><strong>Sua Tarefa:</strong> Registre este item na tábua <code>Itens</code>.
+        <ul>
+          <li>Tipo de Item: Arma Longa</li>
+          <li>Valor em Moedas de Ouro: 10000</li>
+          <li>Efeito Mágico: "+20 ao Ataque, Chance de Acerto Crítico Triplicada"</li>
+          <li>Raridade: Lendário</li>
+        </ul>
+      </li>
+      <li>Verifique a inscrição do item lendário.</li>
+    </ul>
+  </div>
+
+  <h3><i class="fas fa-key"></i> Respostas Reveladas pelo Oráculo (Exemplos)</h3>
+  <pre><code class="language-sql">
+-- 1.1 Uma Nova Lenda Chega à Guilda
+INSERT INTO Personagens (NomePersonagem, RacaID, ClasseID, Nivel, PontosVidaMax, PontosVidaAtuais, PontosManaMax, PontosManaAtuais, Forca, Destreza, Inteligencia, Vitalidade)
+VALUES (
+    'Brienne de Tarth',
+    (SELECT RacaID FROM Racas WHERE NomeRaca = 'Humano'),
+    (SELECT ClasseID FROM Classes WHERE NomeClasse = 'Guerreiro'),
+    1, 15, 15, 0, 0, 14, 12, 8, 13
+);
+SELECT * FROM Personagens WHERE NomePersonagem = 'Brienne de Tarth';
+
+-- 1.2 Nova Linhagem Descoberta
+INSERT INTO Racas (NomeRaca, DescricaoRaca, BonusForca, BonusVitalidade, BonusInteligencia)
+VALUES ('Draconato', 'Humanoides com escamas dracônicas, resistentes e com um sopro elemental.', 2, 1, 1);
+SELECT * FROM Racas WHERE NomeRaca = 'Draconato';
+
+-- 1.3 Magia Antiga Revelada
+INSERT INTO Magias (NomeMagia, DescricaoMagia, TipoMagiaID, CustoMana, DanoBase, CuraBase, DuracaoTurnos, NivelRequerido)
+VALUES (
+    'Visão Noturna Elfica',
+    'Permite ao conjurador enxergar perfeitamente na escuridão total, como se fosse um elfo da floresta, por um período determinado.',
+    (SELECT TipoMagiaID FROM TiposMagia WHERE NomeTipo = 'Utilidade'),
+    5, 0, 0, 10, 2
+);
+SELECT * FROM Magias WHERE NomeMagia = 'Visão Noturna Elfica';
+
+-- 1.4 Item Lendário Forjado
+INSERT INTO Itens (NomeItem, DescricaoItem, TipoItemID, Valor, Efeito, Raridade)
+VALUES (
+    'Vorpal, a Ceifadora de Críticos',
+    'Uma arma lendária que parece encontrar os pontos fracos dos inimigos em acertos críticos.', -- Descrição adaptada
+    (SELECT TipoItemID FROM TiposItem WHERE NomeTipoItem = 'Arma Longa'),
+    10000,
+    '+20 ao Ataque, Chance de Acerto Crítico Triplicada',
+    'Lendário'
+);
+SELECT * FROM Itens WHERE NomeItem = 'Vorpal, a Ceifadora de Críticos';
+  </code></pre>
+  <p style="margin-top:15px;">Lembre-se, aventureiro, os IDs exatos podem variar em sua própria base de dados se você já adicionou outros registros. As subconsultas ajudam a manter seus feitiços DML robustos e adaptáveis!</p>

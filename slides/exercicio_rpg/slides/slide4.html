@@ -1,0 +1,47 @@
+<h2><i class="fas fa-edit"></i> A Senda da Evolução: Dominando o <code>UPDATE</code></h2>
+  <p>Heróis treinam, ganham níveis, aprendem novas habilidades e seus equipamentos são aprimorados por ferreiros anões. Monstros podem se tornar mais temíveis após absorverem energia mágica. O comando <code>UPDATE</code> é sua bigorna e martelo para refletir essas transformações em <strong>RPG_Mundo</strong>.</p>
+
+  <div class="slide-svg-container" style="max-width: 150px;">
+    <svg viewBox="0 0 100 100">
+      <rect class="svg-bg-fill" x="5" y="5" width="90" height="90" rx="10" fill="var(--rpg-parchment-medium)"/>
+      <path class="svg-accent1-fill" fill="var(--rpg-wood-dark)" d="M79.29,16.35c-1.46-1.46-3.38-2.2-5.3-2.2s-3.84,0.73-5.3,2.2L20.02,64.99L16,80l15.01-4.02L79.29,27C82.22,24.08,82.22,19.28,79.29,16.35z M29.16,70.84L25.32,67L60,32.32l3.84,3.84L29.16,70.84z M75.46,23.17L72.83,25.8L60.16,13.13l2.63-2.63c0.59-0.59,1.36-0.88,2.12-0.88s1.53,0.29,2.12,0.88l6.29,6.29C76.63,19.94,76.63,21.99,75.46,23.17z"/>
+      <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="50" y="93" text-anchor="middle" font-size="12px" font-family="Cinzel, serif">UPDATE</text>
+    </svg>
+  </div>
+
+  <p><strong>Inscrição Rúnica (Sintaxe):</strong></p>
+  <pre><code class="language-sql">
+UPDATE nome_da_tabua_sagrada
+SET coluna_do_atributo1 = novo_valor1, coluna_do_atributo2 = novo_valor2, ...
+WHERE condicao_especifica;
+  </code></pre>
+
+  <p><strong><i class="fas fa-skull-crossbones" style="color: var(--rpg-red-error);"></i> ALERTA VERMELHO! A Maldição da Cláusula <code>WHERE</code> Ausente!</strong><br>
+  Se você, por descuido ou feitiço de confusão, esquecer a cláusula <code>WHERE</code>, o <code>UPDATE</code> aplicará a mudança a <strong>TODOS OS REGISTROS</strong> da tabela. Imagine todos os seus heróis retornando ao nível 1 ou todos os dragões virando coelhos! Use com extrema cautela, como se manuseasse um artefato amaldiçoado.</p>
+
+  <p><strong>Exemplo: 'Aragorn, o Herdeiro de Isildur' sobe de nível!</strong></p>
+  <p>Nosso herói 'Aragorn' (supondo <code>PersonagemID = 1</code>) completou uma grande missão. Ele ganha um nível, e seus Pontos de Vida Máximos e Atuais aumentam, sua experiência é zerada para a próxima jornada.</p>
+  <pre><code class="language-sql">
+UPDATE Personagens
+SET Nivel = Nivel + 1,
+    PontosVidaMax = PontosVidaMax + 10,
+    PontosVidaAtuais = PontosVidaMax + 10, -- Assume cura total ao subir de nível
+    Experiencia = 0 -- Zera a XP para o próximo nível
+WHERE PersonagemID = 1; -- Ou WHERE NomePersonagem = 'Aragorn'; (Cuidado com nomes duplicados!)
+  </code></pre>
+  
+  <p><strong>Outros Feitos de <code>UPDATE</code>:</strong></p>
+  <ul>
+    <li><i class="fas fa-fw fa-coins"></i> Inflacionar o preço de um item raro:
+      <pre><code class="language-sql">UPDATE Itens SET Valor = Valor * 1.10 WHERE Raridade = 'Raro';</code></pre>
+      (Aumenta o preço de todos os itens Raros em 10%)
+    </li>
+    <li><i class="fas fa-fw fa-magic"></i> 'Gandalf, o Cinzento' (<code>PersonagemID = 3</code>) gasta mana ao conjurar 'Bola de Fogo':
+      <pre><code class="language-sql">
+UPDATE Personagens
+SET PontosManaAtuais = PontosManaAtuais - (SELECT CustoMana FROM Magias WHERE NomeMagia = 'Bola de Fogo')
+WHERE PersonagemID = 3 AND PontosManaAtuais >= (SELECT CustoMana FROM Magias WHERE NomeMagia = 'Bola de Fogo');
+      </code></pre>
+    </li>
+  </ul>
+  <p><i class="fas fa-lightbulb" style="color: var(--rpg-gold-highlight);"></i> <strong>Conselho do Oráculo:</strong> Antes de um <code>UPDATE</code> complexo que afete múltiplos registros, use um <code>SELECT</code> com a mesma cláusula <code>WHERE</code> para prever exatamente quais almas (linhas) serão alteradas!</p>

@@ -1,0 +1,796 @@
+:root {
+  /* RPG Theme Palette */
+  --rpg-parchment-light: #FDF5E6; /* Lighter Parchment for main content */
+  --rpg-parchment-medium: #F5EABD; /* Medium Parchment for accents */
+  --rpg-parchment-dark: #E0D6C1; /* Darker Parchment / Light text on dark bg */
+
+  --rpg-wood-dark: #4A3B31; /* Dark Wood for frames, sidebars (was #5D4037) */
+  --rpg-wood-medium: #6B5B50; /* Medium Wood (was #795548) */
+  --rpg-wood-light: #8D7A70; /* Light Wood accents (was #A1887F) */
+
+  --rpg-stone-dark: #363636; /* Dark Stone for backgrounds (was #424242) */
+  --rpg-stone-medium: #505050; /* Medium Stone for UI elements (was #616161) */
+  --rpg-stone-light: #6A6A6A; /* Light stone accents (was #757575) */
+
+  --rpg-text-dark: #3A2E27;   /* Dark brown/black for text on light backgrounds (was #3E2723) */
+  --rpg-text-parchment: var(--rpg-parchment-dark); /* Light text for dark backgrounds */
+  
+  --rpg-gold-accent: #B8860B; /* DarkGoldenRod - Primary accent */
+  --rpg-gold-highlight: #FFD700; /* Gold - Brighter highlight */
+  
+  --rpg-red-error: #A84343; /* Darker, richer red (was #962E2E) */
+  --rpg-green-success: #4E854E; /* Darker, richer green (was #38761D) */
+  --rpg-blue-magic: #3A5FCD; /* Deeper magical blue (was #2952A3) */
+  --rpg-blue-magic-hover: #4A6FDA; /* Lighter for hover (was #3263C2) */
+
+  --header-height: 60px; 
+  --footer-height: 45px;
+  --sidebar-width: 280px; 
+  --nav-button-bottom: 65px;
+
+  /* Fonts */
+  --font-primary: 'Sorts Mill Goudy', serif;
+  --font-headings: 'Cinzel', serif;
+}
+
+::selection {
+  color: var(--rpg-text-dark);
+  background-color: var(--rpg-gold-highlight);
+}
+
+::-webkit-scrollbar {
+  width: 12px; /* Wider for a more 'chunky' feel */
+  background-color: var(--rpg-wood-medium);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--rpg-gold-accent);
+  border-radius: 2px;
+  border: 2px solid var(--rpg-wood-dark);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--rpg-gold-highlight);
+}
+::-webkit-scrollbar-track {
+  background: var(--rpg-wood-medium);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+}
+
+
+body {
+  font-family: var(--font-primary);
+  margin: 0;
+  padding-top: var(--header-height); /* Ensure content below fixed header */
+  padding-bottom: var(--footer-height); /* Ensure content above fixed footer */
+  background-color: var(--rpg-stone-dark);
+  /* background-image: url('your-subtle-stone-texture.png'); /* Optional texture */
+  color: var(--rpg-text-parchment);
+  min-height: 100vh;
+  position: relative;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+header {
+  background-color: var(--rpg-wood-dark);
+  color: var(--rpg-parchment-dark);
+  padding: 0 25px;
+  height: var(--header-height);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+  position: fixed; /* Fixed header */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1010;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border-bottom: 3px solid var(--rpg-gold-accent);
+}
+
+header .back-link {
+  color: var(--rpg-gold-highlight);
+  text-decoration: none;
+  font-family: var(--font-headings);
+  font-weight: bold;
+  font-size: 1rem; /* Increased size */
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border: 1px solid var(--rpg-gold-accent);
+}
+header .back-link i {
+  margin-right: 8px;
+  color: var(--rpg-gold-accent);
+}
+header .back-link:hover {
+  background-color: var(--rpg-gold-accent);
+  color: var(--rpg-wood-dark);
+}
+header .back-link:hover i {
+    color: var(--rpg-wood-dark);
+}
+
+#lesson-title-header {
+  font-family: var(--font-headings);
+  font-size: 1.5rem; /* Larger title */
+  font-weight: bold;
+  color: var(--rpg-gold-highlight);
+  margin-left: 20px;
+  margin-right: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  flex-grow: 1;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+#header-progress-bar {
+  position: absolute;
+  bottom: -3px; /* Align with border */
+  left: 0;
+  height: 5px; /* Thicker bar */
+  background-color: var(--rpg-gold-highlight);
+  width: 0%;
+  transition: width 0.3s ease-out;
+  z-index: 1011;
+  box-shadow: 0 0 8px var(--rpg-gold-highlight);
+}
+
+.main-content-area {
+  display: flex;
+  margin-top: 20px; /* Space from header */
+  /* padding-right is dynamic based on sidebar visibility/position */
+  padding-left: 15px; /* Added padding for when sidebar is on right */
+  position: relative;
+}
+
+#slide-sidebar {
+  position: fixed;
+  top: var(--header-height); /* Below fixed header */
+  right: 0;
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--header-height) - var(--footer-height));
+  background-color: var(--rpg-wood-medium);
+  /* background-image: url('your-wood-texture-sidebar.png'); */
+  box-shadow: -6px 0 12px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  border-left: 3px solid var(--rpg-gold-accent);
+}
+
+#slide-sidebar h3 {
+  text-align: center;
+  font-family: var(--font-headings);
+  color: var(--rpg-gold-highlight);
+  margin: 0 0 20px 0;
+  font-size: 1.5rem;
+  border-bottom: 2px solid var(--rpg-gold-accent);
+  padding-bottom: 10px;
+  text-shadow: 1px 1px 1px var(--rpg-text-dark);
+}
+
+#slide-sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#slide-sidebar-list li {
+  margin-bottom: 5px;
+}
+#slide-sidebar-list a {
+  display: block;
+  color: var(--rpg-parchment-dark);
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 3px;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  border-left: 3px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#slide-sidebar-list a:hover {
+  background-color: var(--rpg-wood-light);
+  color: var(--rpg-gold-highlight);
+  border-left: 3px solid var(--rpg-gold-highlight);
+  transform: translateX(3px);
+}
+#slide-sidebar-list a.active {
+  background-color: var(--rpg-gold-accent);
+  color: var(--rpg-wood-dark);
+  font-weight: bold;
+  border-left: 3px solid var(--rpg-wood-dark);
+  box-shadow: inset 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.slide-container {
+  flex-grow: 1;
+  padding: 20px;
+  margin-right: calc(var(--sidebar-width) + 15px); /* Space for fixed sidebar */
+  min-height: calc(100vh - var(--header-height) - var(--footer-height) - 40px); /* Account for padding */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.slide {
+  display: none; /* JS will change to flex */
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: var(--rpg-parchment-light);
+  /* background-image: url('your-parchment-texture.png'); */
+  padding: 35px 45px;
+  border-radius: 5px; /* Subtle rounding */
+  border: 3px solid var(--rpg-wood-dark);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(0,0,0,0.1); /* Deeper shadow, inner shadow */
+  width: 100%;
+  max-width: 950px;
+  opacity: 0;
+  animation: fadeInSlide 0.5s forwards ease-out;
+  box-sizing: border-box;
+  color: var(--rpg-text-dark); /* Dark text on parchment */
+}
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.slide h1,
+.slide h2 {
+  font-family: var(--font-headings);
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  color: var(--rpg-wood-dark);
+  text-shadow: 1px 1px 0px var(--rpg-parchment-medium);
+}
+.slide p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--rpg-text-dark);
+  max-width: 800px;
+  margin-bottom: 20px;
+  text-align: left; /* More readable for paragraphs */
+}
+.slide ul {
+  list-style: none;
+  padding-left: 0;
+  text-align: left;
+  max-width: 750px;
+  margin: 15px auto 25px auto; /* Center list block */
+}
+.slide li {
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: flex-start;
+  color: var(--rpg-text-dark);
+}
+.slide li i.fa-fw {
+  width: 1.5em;
+  margin-right: 12px;
+  margin-top: 0.2em;
+  color: var(--rpg-gold-accent);
+  flex-shrink: 0;
+}
+.slide a {
+  color: var(--rpg-blue-magic);
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 1px dashed var(--rpg-blue-magic);
+}
+.slide a:hover {
+  color: var(--rpg-blue-magic-hover);
+  border-bottom: 1px solid var(--rpg-blue-magic-hover);
+}
+#exercicios {
+  display: inline-block;
+  padding: 15px 30px;
+  background-color: var(--rpg-gold-accent);
+  color: var(--rpg-wood-dark);
+  border-radius: 5px;
+  font-family: var(--font-headings);
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-decoration: none;
+  margin-top: 25px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  border: 2px solid var(--rpg-wood-dark);
+  box-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+}
+#exercicios i {
+  margin-right: 10px;
+}
+#exercicios:hover {
+  background-color: var(--rpg-gold-highlight);
+  color: var(--rpg-text-dark);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 12px rgba(212, 175, 55, 0.5);
+}
+
+.slide-image {
+  display: block;
+  max-width: 70%;
+  height: auto;
+  margin: 25px auto;
+  border-radius: 4px;
+  border: 2px solid var(--rpg-wood-light);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  background-color: var(--rpg-parchment-medium);
+}
+pre {
+  background-color: var(--rpg-parchment-medium); /* Lighter than slide bg for contrast */
+  border: 2px inset var(--rpg-wood-light);
+  border-radius: 5px;
+  padding: 20px;
+  overflow-x: auto;
+  color: var(--rpg-text-dark);
+  max-width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  margin: 25px 0;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.2);
+  font-family: 'Courier New', Courier, monospace; /* Keep monospace for code */
+  font-size: 0.95em;
+}
+code.language-sql {
+  /* font-family: var(--font-primary); /* Potentially use primary for a more 'scripted' look */
+  white-space: pre;
+}
+
+code { /* Inline code */
+  background-color: var(--rpg-parchment-dark);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--rpg-text-dark);
+  border: 1px solid var(--rpg-wood-light);
+}
+
+strong {
+  color: var(--rpg-wood-dark); /* More thematic strong color */
+  font-weight: bold;
+}
+
+.slide i { /* General icons in slide content */
+  font-size: 1.1em; /* Relative to parent */
+  margin: 0 5px 0 0;
+  color: var(--rpg-gold-accent); /* Default icon color in slides */
+}
+
+.slide-nav-button {
+  position: fixed;
+  bottom: var(--nav-button-bottom);
+  padding: 0;
+  width: 55px; /* Larger buttons */
+  height: 55px;
+  background-color: var(--rpg-wood-dark);
+  color: var(--rpg-gold-highlight);
+  border: 2px solid var(--rpg-gold-accent);
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+.slide-nav-button:hover {
+  background-color: var(--rpg-gold-accent);
+  color: var(--rpg-wood-dark);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px var(--rpg-gold-accent);
+}
+#prev-slide-button {
+  left: 25px;
+}
+#next-slide-button {
+  right: calc(var(--sidebar-width) + 35px);
+}
+
+#exercise-area {
+  padding: 20px;
+  max-width: 800px;
+  margin: calc(var(--header-height) + 20px) auto 20px auto; /* Below fixed header */
+  background-color: var(--rpg-parchment-light);
+  border: 3px solid var(--rpg-wood-dark);
+  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+  color: var(--rpg-text-dark);
+}
+#progress-bar {
+  width: 100%;
+  height: 12px; /* Thicker bar */
+  background-color: var(--rpg-wood-light);
+  display: none; /* JS enables */
+  margin-bottom: 30px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--rpg-wood-dark);
+}
+#progress {
+  height: 100%;
+  width: 0;
+  background-color: var(--rpg-green-success); /* Thematic progress */
+  transition: width 0.3s ease;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+}
+#exercise-form {
+  margin: 0 auto;
+  padding: 30px;
+  border: 2px dashed var(--rpg-wood-medium); /* Dashed border for form area */
+  border-radius: 5px;
+  background-color: transparent; /* Form on exercise-area background */
+}
+.question {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--rpg-wood-light);
+}
+.question:last-of-type {
+    border-bottom: none;
+}
+.question-title {
+  font-family: var(--font-headings);
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: var(--rpg-wood-dark);
+  text-align: left;
+}
+.inline-input {
+  display: inline-block;
+  width: 200px;
+  padding: 8px 5px;
+  font-size: 1.3rem; /* Match title somewhat */
+  font-family: var(--font-primary); /* Script-like */
+  border: none;
+  border-bottom: 2px solid var(--rpg-wood-light);
+  background-color: var(--rpg-parchment-medium); /* Slightly different bg */
+  text-align: center;
+  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+  color: var(--rpg-text-dark);
+  margin: 0 8px;
+  border-radius: 3px 3px 0 0;
+}
+.inline-input:focus {
+  outline: none;
+  border-color: var(--rpg-gold-accent);
+  background-color: var(--rpg-parchment-light);
+  color: var(--rpg-text-dark);
+  box-shadow: 0 2px 4px var(--rpg-gold-accent);
+}
+
+#exercise-form label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--rpg-text-dark);
+  text-align: left;
+  padding: 12px 15px;
+  border-radius: 4px;
+  border: 2px solid var(--rpg-wood-light);
+  transition: background-color 0.2s, border-color 0.2s;
+  cursor: pointer;
+  background-color: var(--rpg-parchment-medium);
+}
+#exercise-form label:has(input[type="radio"]:checked) {
+  background-color: var(--rpg-gold-accent); /* Gold for selected */
+  border-color: var(--rpg-wood-dark);
+  color: var(--rpg-wood-dark);
+  font-weight: bold;
+}
+#exercise-form label:hover {
+  background-color: var(--rpg-parchment-dark);
+  border-color: var(--rpg-gold-accent);
+}
+#exercise-form input[type="radio"] {
+  margin-right: 12px;
+  accent-color: var(--rpg-wood-dark); /* The dot inside the radio */
+  vertical-align: middle;
+  transform: scale(1.2);
+}
+#exercise-form input[type="radio"] + span {
+  vertical-align: middle;
+}
+
+#student-name-section {
+  text-align: center;
+  margin-top: 30px;
+  padding: 25px;
+  background-color: var(--rpg-parchment-medium);
+  border: 2px solid var(--rpg-wood-dark);
+  border-radius: 5px;
+}
+#student-name-section label {
+  display: block;
+  margin-bottom: 12px;
+  font-family: var(--font-headings);
+  font-weight: bold;
+  color: var(--rpg-wood-dark);
+  font-size: 1.3rem;
+}
+#student-name-input {
+  padding: 12px 15px;
+  border: 2px solid var(--rpg-wood-light);
+  background-color: var(--rpg-parchment-light);
+  color: var(--rpg-text-dark);
+  border-radius: 4px;
+  font-family: var(--font-primary);
+  font-size: 1.1rem;
+  margin-top: 5px;
+  width: 80%;
+  max-width: 400px;
+  box-sizing: border-box;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+#student-name-input:focus {
+    outline: none;
+    border-color: var(--rpg-gold-accent);
+    box-shadow: 0 0 5px var(--rpg-gold-accent);
+}
+
+/* General Button Styling for Exercise Area */
+#submit-name-button,
+.exercise-nav-button,
+.download-pdf-button {
+  display: inline-block;
+  margin: 10px 5px;
+  padding: 12px 25px;
+  background-color: var(--rpg-wood-dark);
+  color: var(--rpg-gold-highlight);
+  border: 2px solid var(--rpg-gold-accent);
+  border-radius: 5px;
+  font-family: var(--font-headings);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+#submit-name-button:hover,
+.exercise-nav-button:hover,
+.download-pdf-button:hover {
+  background-color: var(--rpg-gold-accent);
+  color: var(--rpg-wood-dark);
+  border-color: var(--rpg-wood-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+.download-pdf-button {
+  background-color: var(--rpg-green-success); /* Different color for download */
+  border-color: var(--rpg-wood-dark);
+  color: var(--rpg-parchment-light);
+}
+.download-pdf-button:hover {
+  background-color: #5A955A; /* Lighter green for hover */
+  color: var(--rpg-parchment-light);
+}
+.download-pdf-button i {
+  margin-right: 8px;
+}
+
+#result-summary {
+  background-color: var(--rpg-parchment-medium);
+  padding: 30px;
+  margin: 20px auto;
+  max-width: 700px;
+  border-radius: 8px;
+  border: 3px solid var(--rpg-wood-dark);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  color: var(--rpg-text-dark);
+}
+#result-summary h2 {
+  font-family: var(--font-headings);
+  color: var(--rpg-wood-dark);
+  margin-bottom: 20px;
+  font-size: 2rem;
+  text-shadow: 1px 1px 0px var(--rpg-parchment-light);
+}
+#result-summary p {
+  color: var(--rpg-text-dark);
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+#result-chart {
+  background-color: var(--rpg-parchment-light); /* Chart on parchment */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+  border: 2px solid var(--rpg-wood-medium);
+  box-sizing: border-box;
+  max-width: 100%;
+  height: auto !important;
+  margin-top: 25px;
+}
+
+footer {
+  background-color: var(--rpg-wood-dark);
+  color: var(--rpg-parchment-dark);
+  text-align: center;
+  padding: 10px 15px; /* Adjusted padding */
+  position: fixed; /* Fixed footer */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--footer-height);
+  font-size: 0.9rem;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  border-top: 2px solid var(--rpg-gold-accent);
+  display: flex; /* For centering content */
+  align-items: center;
+  justify-content: center;
+}
+footer p {
+    margin: 0; /* Remove default p margin */
+}
+footer a {
+  color: var(--rpg-gold-highlight);
+  text-decoration: none;
+  font-family: var(--font-headings);
+  font-weight: normal; /* Headings font is already boldish */
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+footer a:hover {
+  color: var(--rpg-parchment-light);
+  text-shadow: 0 0 8px var(--rpg-gold-highlight);
+}
+
+/* Styles for Inline SVGs - Mapped to RPG Theme */
+.slide-svg-container {
+  display: block;
+  margin: 25px auto;
+  max-width: 60%; 
+  height: auto;
+  text-align: center; 
+}
+
+.slide-svg-container svg {
+  max-width: 100%;
+  height: auto;
+  display: inline-block; 
+  vertical-align: middle;
+}
+
+.svg-bg-fill { fill: var(--rpg-stone-medium); }
+.svg-accent1-fill { fill: var(--rpg-gold-accent); }
+.svg-accent1-stroke { stroke: var(--rpg-gold-accent); }
+.svg-accent2-fill { fill: var(--rpg-blue-magic); }
+.svg-accent2-stroke { stroke: var(--rpg-blue-magic); }
+.svg-text-fill { fill: var(--rpg-text-parchment); } /* Text on darker SVG elements */
+.svg-text-light-fill { fill: var(--rpg-parchment-light); } /* Text on very dark SVG elements or light text itself */
+.svg-line-stroke { stroke: var(--rpg-parchment-dark); stroke-width: 2px; }
+.svg-thick-line-stroke { stroke: var(--rpg-parchment-dark); stroke-width: 3px; }
+.svg-accent1-line { stroke: var(--rpg-gold-accent); stroke-width: 2px; }
+.svg-accent2-line { stroke: var(--rpg-blue-magic); stroke-width: 3px; }
+
+.slide-svg-container text {
+  font-family: var(--font-primary); /* Use primary RPG font */
+  font-size: 14px; 
+  fill: var(--rpg-parchment-light); /* Default SVG text color */
+}
+.slide-svg-container .icon-text {
+    font-family: "Font Awesome 5 Free", var(--font-primary); /* Fallback */
+    font-weight: 900;
+}
+
+/* Loading indicator styling */
+#loading-slides {
+    font-family: var(--font-headings);
+    font-size: 1.5rem;
+    color: var(--rpg-gold-highlight);
+    margin-top: 50px;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 220px;
+  }
+  header {
+    padding: 0 10px;
+    height: 50px; /* Smaller header on mobile */
+  }
+  #lesson-title-header {
+    font-size: 1.1rem;
+  }
+  header .back-link {
+    font-size: 0.85rem;
+    padding: 6px 8px;
+  }
+  .main-content-area {
+    padding-left: 10px;
+    margin-top: 10px;
+  }
+  .slide-container {
+    margin-right: calc(var(--sidebar-width) + 10px);
+    padding: 10px;
+  }
+  .slide {
+    padding: 20px;
+  }
+  .slide h1, .slide h2 {
+    font-size: 1.8rem;
+  }
+  .slide p {
+    font-size: 1rem;
+  }
+  #slide-sidebar {
+    padding: 15px;
+    padding-top: 10px; /* space for h3 */
+    height: calc(100vh - 50px - var(--footer-height)); /* adjust for smaller header */
+    top: 50px;
+  }
+  #slide-sidebar h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  #slide-sidebar-list a {
+    font-size: 0.8rem;
+    padding: 8px 10px;
+  }
+  #next-slide-button {
+    right: calc(var(--sidebar-width) + 15px);
+  }
+  #prev-slide-button {
+    left: 15px;
+  }
+  .slide-nav-button {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    bottom: calc(var(--footer-height) + 15px);
+  }
+  #exercise-area {
+    margin-top: calc(50px + 10px); /* adjust for smaller header */
+  }
+  .question-title {
+      font-size: 1.3rem;
+  }
+  .inline-input {
+      font-size: 1.1rem;
+      width: 150px;
+  }
+  footer {
+    font-size: 0.75rem;
+    height: 35px; /* Smaller footer */
+  }
+}
+
+@media (max-width: 600px) {
+  /* Stack sidebar on top or hide completely for very small screens if needed */
+  /* For now, let's assume it still fits, but it could be toggled with JS */
+  .main-content-area {
+    /* flex-direction: column; /* If sidebar were to be hidden or moved */
+  }
+  .slide-container {
+    /* margin-right: 0; /* Full width if sidebar is hidden/moved */
+  }
+  #slide-sidebar { 
+    /* display: none;  /* Example: hide sidebar on very small screens */
+  }
+  #next-slide-button { 
+    /* right: 15px; /* Adjust if sidebar is hidden */
+  } 
+}

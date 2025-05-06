@@ -1,0 +1,108 @@
+  <h2><i class="fas fa-wrench"></i> O Altar da Transformação: Praticando com <code>UPDATE</code></h2>
+  <p>O mundo de <strong>RPG_Mundo</strong> é um organismo vivo e em constante mutação! Heróis evoluem com cada batalha vencida, classes são rebalanceadas pelos deuses do design para manter a harmonia (ou o caos!), e até os monstros se adaptam às táticas dos aventureiros. Com o comando <code>UPDATE</code>, vocês irão moldar a realidade existente, ajustando atributos e refletindo as mudanças da grande aventura. Tenham precisão em seus encantamentos <code>WHERE</code>, pois um erro pode alterar o destino de muitos!</p>
+
+  <div class="slide-svg-container" style="max-width: 120px; margin-bottom:15px;">
+      <svg viewBox="0 0 100 100">
+        <rect class="svg-bg-fill" fill="var(--rpg-parchment-medium)" x="5" y="5" width="90" height="90" rx="10"/>
+        <path class="svg-accent1-fill" fill="var(--rpg-wood-dark)" d="M79.29,16.35c-1.46-1.46-3.38-2.2-5.3-2.2s-3.84,0.73-5.3,2.2L20.02,64.99L16,80l15.01-4.02L79.29,27C82.22,24.08,82.22,19.28,79.29,16.35z M29.16,70.84L25.32,67L60,32.32l3.84,3.84L29.16,70.84z M75.46,23.17L72.83,25.8L60.16,13.13l2.63-2.63c0.59-0.59,1.36-0.88,2.12-0.88s1.53,0.29,2.12,0.88l6.29,6.29C76.63,19.94,76.63,21.99,75.46,23.17z"/>
+        <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="50" y="93" text-anchor="middle" font-size="10px" font-family="Cinzel, serif">Missão UPDATE</text>
+      </svg>
+  </div>
+
+  <h3><i class="fas fa-chart-line"></i> Missão 2: Evolução, Rebalanceamento e Adaptação</h3>
+
+  <div style="text-align: left; max-width: 850px; margin: 0 auto;">
+    <p><strong>1. Ascensão de um Herói:</strong></p>
+    <ul>
+      <li><i class="fas fa-angle-double-up fa-fw"></i> O personagem "Frodo Bolseiro" (<code>PersonagemID 5</code>, se você o criou) completou árduas missões e subiu para o Nível 4. Seus atributos também foram aprimorados por sua bravura e experiência.</li>
+      <li><strong>Sua Tarefa:</strong> Atualize a tábua <code>Personagens</code> para Frodo:
+        <ul>
+          <li>Nivel: 4, Pontos de Vida Máximos (PVMax): 30, Pontos de Vida Atuais (PVAtuais): 30 (assume cura total após o descanso merecido)</li>
+          <li>Forca: 9, Destreza: 19 (ele ficou mais ágil e um pouco mais forte)</li>
+        </ul>
+      </li>
+      <li>Verifique as alterações APENAS para Frodo, para não perturbar o destino de outros heróis.</li>
+    </ul>
+
+    <p><strong>2. Rebalanceamento Divino de Classe:</strong></p>
+    <ul>
+      <li><i class="fas fa-balance-scale fa-fw"></i> A classe "Mago" (<code>ClasseID 2</code>, geralmente) recebeu um ajuste em seus poderes. Sua habilidade principal, antes "Bola de Fogo Simples", agora é "Míssil Mágico Avançado".</li>
+      <li><strong>Sua Tarefa:</strong> Atualize a <code>HabilidadePrincipal</code> da classe "Mago" na tábua <code>Classes</code>.</li>
+      <li>Verifique a alteração na classe Mago.</li>
+    </ul>
+
+    <p><strong>3. Inflação nos Reinos (Crise Econômica):</strong></p>
+    <ul>
+      <li><i class="fas fa-coins fa-fw"></i> Devido a uma escassez de minérios e alta demanda, todos os itens com raridade "Comum" e "Incomum" tiveram seus <code>Valor</code> (preço em moedas de ouro) aumentados em 15%.</li>
+      <li><strong>Sua Tarefa:</strong> Atualize o <code>Valor</code> desses itens na tábua <code>Itens</code>.</li>
+      <li><i class="fas fa-exclamation-triangle fa-fw" style="color: var(--rpg-gold-highlight);"></i> <em>Cuidado com a cláusula <code>WHERE</code>! Consulte o Oráculo (<code>SELECT</code>) antes para ver quais itens serão afetados e não causar um colapso econômico indesejado!</em></li>
+      <li>Verifique os valores de alguns itens comuns/incomuns antes e depois da alteração.</li>
+    </ul>
+
+    <p><strong>4. Monstro Evoluído (Adaptação Selvagem):</strong></p>
+    <ul>
+      <li><i class="fas fa-paw-claws fa-fw"></i> O monstro "Lobo Cinzento Comum" (<code>MonstroID 2</code>, geralmente) tornou-se mais perigoso devido a uma estranha mutação causada por um cometa mágico.</li>
+      <li><strong>Sua Tarefa:</strong> Atualize seus atributos na tábua <code>Monstros</code>:
+        <ul>
+          <li>Pontos de Vida Máximos (PVMax): 35, Ataque Base: 15, Experiência Concedida ao ser Derrotado: 20</li>
+        </ul>
+      </li>
+      <li>Verifique APENAS o Lobo Cinzento Comum.</li>
+    </ul>
+    
+    <p><strong>5. Magia Nerfada (Ajuste Arcano):</strong></p>
+    <ul>
+      <li><i class="fas fa-wand-sparkles fa-fw"></i> A magia "Bola de Fogo" (<code>MagiaID 1</code>, geralmente) foi considerada muito poderosa para magos iniciantes e teve seu <code>CustoMana</code> aumentado para 12 e seu <code>DanoBase</code> reduzido para 22.</li>
+      <li><strong>Sua Tarefa:</strong> Atualize a magia "Bola de Fogo" na tábua <code>Magias</code>.</li>
+      <li>Verifique a alteração na magia.</li>
+    </ul>
+  </div>
+
+  <h3><i class="fas fa-key"></i> Respostas Reveladas pelo Oráculo (Exemplos)</h3>
+  <pre><code class="language-sql">
+-- 2.1 Ascensão de um Herói (Frodo Bolseiro - PersonagemID 5)
+-- Verificar antes:
+SELECT * FROM Personagens WHERE PersonagemID = 5;
+UPDATE Personagens
+SET Nivel = 4, PontosVidaMax = 30, PontosVidaAtuais = 30, Forca = 9, Destreza = 19
+WHERE PersonagemID = 5;
+-- Verificar depois:
+SELECT * FROM Personagens WHERE PersonagemID = 5;
+
+-- 2.2 Rebalanceamento Divino de Classe (Mago - ClasseID 2)
+-- Verificar antes:
+SELECT * FROM Classes WHERE ClasseID = 2; -- Ou NomeClasse = 'Mago'
+UPDATE Classes
+SET HabilidadePrincipal = 'Míssil Mágico Avançado' -- Supondo que a coluna HabilidadePrincipal existe.
+WHERE ClasseID = 2; -- Ou NomeClasse = 'Mago'
+-- Verificar depois:
+SELECT * FROM Classes WHERE ClasseID = 2;
+
+-- 2.3 Inflação nos Reinos
+-- Verificar alguns antes:
+SELECT NomeItem, Valor, Raridade FROM Itens WHERE Raridade IN ('Comum', 'Incomum') LIMIT 5;
+UPDATE Itens
+SET Valor = ROUND(Valor * 1.15, 0) -- Arredondar para inteiro se Valor for do tipo INT
+WHERE Raridade IN ('Comum', 'Incomum');
+-- Verificar alguns depois:
+SELECT NomeItem, Valor, Raridade FROM Itens WHERE Raridade IN ('Comum', 'Incomum') LIMIT 5;
+
+-- 2.4 Monstro Evoluído (Lobo Cinzento Comum - MonstroID 2)
+-- Verificar antes:
+SELECT * FROM Monstros WHERE MonstroID = 2; -- Ou NomeMonstro = 'Lobo Cinzento Comum'
+UPDATE Monstros
+SET PontosVidaMax = 35, AtaqueBase = 15, ExperienciaConcedida = 20
+WHERE MonstroID = 2; -- Ou NomeMonstro = 'Lobo Cinzento Comum'
+-- Verificar depois:
+SELECT * FROM Monstros WHERE MonstroID = 2;
+
+-- 2.5 Magia Nerfada (Bola de Fogo - MagiaID 1)
+-- Verificar antes:
+SELECT * FROM Magias WHERE MagiaID = 1; -- Ou NomeMagia = 'Bola de Fogo'
+UPDATE Magias
+SET CustoMana = 12, DanoBase = 22
+WHERE MagiaID = 1; -- Ou NomeMagia = 'Bola de Fogo'
+-- Verificar depois:
+SELECT * FROM Magias WHERE MagiaID = 1;
+  </code></pre>
+  <p style="margin-top:15px;">Lembre-se, escriba, a precisão da cláusula <code>WHERE</code> é seu escudo contra desastres de dados e alterações indesejadas no grande tapeçar da realidade!</p>

@@ -1,0 +1,70 @@
+<h2><i class="fas fa-hourglass-half"></i> Os Guardiões do Tempo: O Poder das Transações</h2>
+<p>Imagine um ritual arcano complexo: para encantar uma espada com o fogo dos dragões, você precisa gastar escamas de dragão raras E gravar runas de poder na lâmina. Se um passo falhar (as escamas se desintegram ou a runa é gravada incorretamente), o ritual inteiro deve ser desfeito, e a espada retornar ao seu estado original. No mundo dos bancos de dados, as <strong>Transações</strong> são os feitiços que garantem essa integridade sagrada.</p>
+<p>Uma transação é uma sequência de uma ou mais operações SQL (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) tratadas como uma <strong>unidade atômica de trabalho</strong> – um único encantamento indivisível. Ou todas as operações são bem-sucedidas e seus efeitos se manifestam (<code>COMMIT</code>), ou nenhuma delas é aplicada e o mundo retorna ao estado anterior ao feitiço (<code>ROLLBACK</code>).</p>
+
+<div class="slide-svg-container" style="max-width: 280px; margin-bottom: 20px;">
+  <svg viewBox="0 0 150 110">
+      <rect class="svg-bg-fill" fill="var(--rpg-parchment-medium)" x="0" y="0" width="150" height="110" rx="10"/>
+      <path class="svg-accent1-stroke" stroke="var(--rpg-wood-dark)" stroke-width="2" fill="none" d="M0 10 H150 M0 100 H150"/> <!-- Top/Bottom Lines -->
+
+      <!-- BEGIN -->
+      <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="25" y="25" font-size="10px" font-family="Cinzel, serif">BEGIN</text>
+      <line class="svg-thick-line-stroke" stroke="var(--rpg-wood-dark)" x1="10" y1="35" x2="40" y2="35"/>
+      <circle class="svg-accent1-fill" fill="var(--rpg-gold-accent)" cx="40" cy="35" r="5"/>
+      
+      <!-- Operations -->
+      <line class="svg-line-stroke" stroke="var(--rpg-stone-medium)" x1="40" y1="35" x2="70" y2="35"/>
+      <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="55" y="30" font-size="9px">Operação 1</text>
+      <circle class="svg-accent2-fill" fill="var(--rpg-blue-magic)" cx="70" cy="35" r="3"/>
+
+      <line class="svg-line-stroke" stroke="var(--rpg-stone-medium)" x1="70" y1="35" x2="100" y2="35"/>
+      <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="85" y="30" font-size="9px">Operação 2</text>
+      
+      <!-- Commit path -->
+      <line class="svg-accent1-line" stroke="var(--rpg-green-success)" x1="100" y1="35" x2="130" y2="20"/>
+      <path class="svg-accent1-fill" fill="var(--rpg-green-success)" d="M125,10 L140,20 L125,30 Z" />
+      <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="110" y="15" font-size="10px" font-family="Cinzel, serif">COMMIT</text>
+      
+      <!-- Rollback path -->
+      <line class="svg-accent2-line" stroke="var(--rpg-red-error)" x1="100" y1="35" x2="130" y2="50"/>
+      <path class="svg-accent2-fill" fill="var(--rpg-red-error)" d="M125,40 L140,50 L125,60 Z" />
+      <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="100" y="68" font-size="10px" font-family="Cinzel, serif">ROLLBACK</text>
+      
+      <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="75" y="90" font-size="10px" text-anchor="middle" font-family="Sorts Mill Goudy, serif">"Tudo ou Nada"</text>
+  </svg>
+</div>
+
+<p><strong>Palavras de Poder (Comandos de Transação):</strong></p>
+<ul>
+  <li><i class="fas fa-fw fa-play-circle"></i> <code>BEGIN TRANSACTION;</code> ou <code>START TRANSACTION;</code>: Inicia um novo ritual transacional.</li>
+  <li><i class="fas fa-fw fa-check-circle" style="color:var(--rpg-green-success)"></i> <code>COMMIT;</code>: Sela o feitiço, tornando permanentes todas as alterações feitas desde o <code>BEGIN TRANSACTION</code>. O mundo é alterado!</li>
+  <li><i class="fas fa-fw fa-undo-alt" style="color:var(--rpg-red-error)"></i> <code>ROLLBACK;</code>: Desfaz o ritual, revertendo todas as alterações feitas desde o <code>BEGIN TRANSACTION</code>. O mundo retorna ao que era.</li>
+  <li><i class="fas fa-fw fa-save"></i> <code>SAVEPOINT nome_do_selo;</code>: Cria um selo de salvamento (ponto de verificação) dentro do ritual.</li>
+  <li><i class="fas fa-fw fa-redo-alt"></i> <code>ROLLBACK TO SAVEPOINT nome_do_selo;</code>: Desfaz as alterações até um selo específico, mas mantém o ritual transacional ativo para novas tentativas ou correções.</li>
+</ul>
+
+<p><strong>Exemplo: 'Frodo, o Portador do Anel' compra uma 'Espada Longa de Aço Élfico'.</strong></p>
+<p>Esta operação envolve duas etapas cruciais: Frodo perde moedas de sua bolsa, e a espada é adicionada ao seu inventário. Ambas devem ocorrer, ou nenhuma, para manter a justiça e o equilíbrio do comércio.</p>
+<pre><code class="language-sql">
+START TRANSACTION;
+
+-- Identificadores dos envolvidos (exemplo):
+-- Frodo (PersonagemID = 5, que tem um InventarioID digamos 5)
+-- Espada Longa de Aço Élfico (ItemID = 2, Valor = 50 moedas de ouro)
+
+-- Etapa 1: Deduzir moedas da bolsa de Frodo
+-- (Supondo que a tabela 'Personagens' tem uma coluna 'MoedasDeOuro')
+UPDATE Personagens
+SET MoedasDeOuro = MoedasDeOuro - 50
+WHERE PersonagemID = 5 AND MoedasDeOuro >= 50; -- Crucial: verificar se há moedas suficientes!
+
+-- Etapa 2: Adicionar a espada ao inventário de Frodo
+INSERT INTO InventarioItens (InventarioID, ItemID, Quantidade, Equipado)
+VALUES (5, 2, 1, FALSE); 
+
+-- Se ambas as operações parecerem corretas para o Mestre do Jogo (SGBD):
+COMMIT; -- O comércio é concluído, as mudanças são permanentes!
+-- Se algo deu errado (ex: Frodo não tinha moedas suficientes, ou a espada estava fora de estoque):
+-- ROLLBACK; -- O comércio é desfeito, nada mudou!
+</code></pre>
+<p><i class="fas fa-lightbulb" style="color: var(--rpg-gold-highlight);"></i> Muitos SGBDs operam em modo <strong>auto-commit</strong> por padrão. Isso significa que cada instrução SQL é tratada como uma transação individual e confirmada automaticamente se bem-sucedida. Para operações multi-etapas críticas como esta, sempre use <code>START TRANSACTION</code> explícito para garantir o controle total do ritual!</p>

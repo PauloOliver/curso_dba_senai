@@ -1,0 +1,142 @@
+  <h2><i class="fas fa-skull-crossbones"></i> O Ritual da Despedida: <code>DELETE</code> e a Proteção das Transações</h2>
+  <p>Nem tudo é eterno nos reinos de <strong>RPG_Mundo</strong>. Itens são consumidos em batalhas épicas, raças podem ser removidas por desígnios dos Deuses do Jogo (designers), e cenários inteiros podem ser varridos por cataclismas ou simplesmente se tornarem obsoletos. O comando <code>DELETE</code> é a foice do ceifador de dados, poderoso e exigindo extremo respeito. As <strong>Transações</strong> serão seu amuleto de proteção para operações arriscadas, permitindo reverter o feitiço caso algo saia terrivelmente errado!</p>
+
+  <div class="slide-svg-container" style="max-width: 120px; margin-bottom:15px;">
+      <svg viewBox="0 0 100 100">
+        <rect class="svg-bg-fill" fill="var(--rpg-parchment-medium)" x="5" y="5" width="90" height="90" rx="10"/>
+        <path class="svg-accent1-fill" fill="var(--rpg-red-error)" d="M20 45h60v10h-60z"/>
+        <path class="svg-accent2-stroke" stroke="var(--rpg-wood-dark)" stroke-width="4" fill="none" d="M25 20 L75 80 M25 80 L75 20"/> <!-- X mark -->
+        <text class="svg-text-fill" fill="var(--rpg-text-dark)" x="50" y="90" text-anchor="middle" font-size="8px" font-family="Cinzel, serif">Missão DELETE</text>
+      </svg>
+  </div>
+
+  <h3><i class="fas fa-recycle"></i> Missão 3: Consequências, Limpeza e a Arte do Desfazer</h3>
+
+  <div style="text-align: left; max-width: 850px; margin: 0 auto;">
+    <p><strong>1. Missão Falhou - Item Perdido na Batalha:</strong></p>
+    <ul>
+      <li><i class="fas fa-heart-broken fa-fw"></i> O personagem "Aragorn" (<code>PersonagemID 1</code>, geralmente) perdeu sua "Poção de Cura Leve" durante uma emboscada traiçoeira.</li>
+      <li><strong>Sua Tarefa:</strong> Remova UMA "Poção de Cura Leve" do inventário de Aragorn. Se ele tiver mais de uma, apenas diminua a quantidade. Se ele tiver apenas uma, remova a entrada da tabela <code>InventarioItens</code>, pois o frasco se quebrou.</li>
+      <li><i class="fas fa-lightbulb fa-fw" style="color: var(--rpg-gold-highlight);"></i> <em>Dica Arcana: Você precisará do <code>InventarioID</code> de Aragorn (obtido da tabela <code>Inventarios</code> usando seu <code>PersonagemID</code>) e do <code>ItemID</code> da Poção. Pode ser necessário um <code>UPDATE</code> para diminuir a quantidade ou um <code>DELETE</code> se a quantidade chegar a zero.</em></li>
+      <li><i class="fas fa-star fa-fw" style="color: var(--rpg-gold-highlight);"></i> <strong>Desafio Adicional de Mestre:</strong> Realize esta operação delicada dentro de uma transação, para poder reverter caso cometa um erro.</li>
+    </ul>
+
+    <p><strong>2. Raça Extinta por Decreto Divino (Cuidado, Mortal!):</strong></p>
+    <ul>
+      <li><i class="fas fa-ghost fa-fw"></i> A raça "Halfling" (<code>RacaID 5</code>, geralmente) foi removida do jogo por uma decisão dos Deuses do Design (para dar lugar a uma nova raça mais... rentável).</li>
+      <li><strong>Sua Tarefa:</strong>
+        <ol>
+          <li>Antes de deletar, verifique se algum personagem pertence a essa raça. Isso é crucial para entender o impacto.</li>
+          <li>Para este exercício, <strong>assuma que você tem permissão divina para deletar a raça</strong>, mesmo que haja personagens Halflings.</li>
+          <li>Delete a raça "Halfling" da tabela <code>Racas</code>.</li>
+          <li>Verifique o que aconteceu com o personagem "Frodo Bolseiro" na tabela <code>Personagens</code> (seu <code>RacaID</code> deve ter se tornado <code>NULL</code> devido à cláusula <code>ON DELETE SET NULL</code> na chave estrangeira da tabela <code>Personagens</code>, se assim foi definida no Pergaminho da Criação).</li>
+        </ol>
+      </li>
+      <li><i class="fas fa-history fa-fw" style="color: var(--rpg-gold-highlight);"></i> <em>Pratique este ato perigoso dentro de uma transação. Use <code>ROLLBACK</code> primeiro para observar o efeito sem tornar a extinção permanente, depois <code>COMMIT</code> se (e somente se) você estiver em um ambiente de teste seguro e quiser ver o resultado final!</em></li>
+    </ul>
+
+    <p><strong>3. Faxina no Grimório: Remoção de Magias Obsoletas:</strong></p>
+    <ul>
+      <li><i class="fas fa-recycle fa-fw"></i> Todas as magias com <code>NivelRequerido</code> igual a 1 e <code>CustoMana</code> maior que 10 são consideradas desbalanceadas e obsoletas pelos arquimagos.</li>
+      <li><strong>Sua Tarefa:</strong> Delete essas magias da tabela <code>Magias</code>.</li>
+      <li><i class="fas fa-search fa-fw" style="color: var(--rpg-gold-highlight);"></i> <em>Consulte o Oráculo (<code>SELECT</code>) para ver quais magias seriam afetadas ANTES de executar o feitiço <code>DELETE</code>.</em></li>
+      <li>Confirme a exclusão e verifique se as magias foram removidas.</li>
+    </ul>
+
+    <p><strong>4. Cenário Destruído por um Cataclisma (e a Importância da Transação):</strong></p>
+    <ul>
+      <li><i class="fas fa-meteor fa-fw"></i> O "Bosque Assombrado" (crie este cenário primeiro se não existir em seus testes, ou escolha um cenário de teste existente que possa ser sacrificado) foi completamente destruído por um meteoro flamejante e não existe mais no jogo.</li>
+      <li><strong>Sua Tarefa:</strong>
+        <ol>
+          <li>Primeiro, remova todas as associações de monstros a este cenário na tabela de junção <code>CenarioMonstros</code>. (Se não houver monstros, esta etapa não fará nada, mas é importante em um cenário real).</li>
+          <li>Depois, delete o próprio cenário da tabela <code>Cenarios</code>.</li>
+        </ol>
+      </li>
+      <li>Execute estas duas operações dentro de uma ÚNICA TRANSAÇÃO. Se algo der errado em qualquer uma das etapas (por exemplo, uma falha de permissão ou um erro inesperado), desfaça TUDO com <code>ROLLBACK</code> para que o mundo não fique em um estado inconsistente.</li>
+    </ul>
+  </div>
+
+  <h3><i class="fas fa-key"></i> Respostas Reveladas pelo Oráculo (Exemplos)</h3>
+  <pre><code class="language-sql">
+-- 3.1 Missão Falhou - Item Perdido (Aragorn - PersonagemID 1)
+-- Assumindo que já sabemos o InventarioID de Aragorn e o ItemID da Poção
+-- SET @aragorn_inventario_id = (SELECT InventarioID FROM Inventarios WHERE PersonagemID = 1);
+-- SET @pocao_leve_id = (SELECT ItemID FROM Itens WHERE NomeItem = 'Poção de Cura Leve');
+
+-- Verificar quantidade atual (Exemplo):
+-- SELECT Quantidade FROM InventarioItens WHERE InventarioID = @aragorn_inventario_id AND ItemID = @pocao_leve_id;
+
+BEGIN TRANSACTION;
+-- Tentar diminuir a quantidade
+UPDATE InventarioItens
+SET Quantidade = Quantidade - 1
+WHERE InventarioID = (SELECT InventarioID FROM Inventarios WHERE PersonagemID = 1) -- Subquery para InventarioID
+  AND ItemID = (SELECT ItemID FROM Itens WHERE NomeItem = 'Poção de Cura Leve')     -- Subquery para ItemID
+  AND Quantidade > 0;
+
+-- Se a quantidade for zero após o update, deletar a linha (ou se Quantidade não existir e for 1 para 0)
+DELETE FROM InventarioItens
+WHERE InventarioID = (SELECT InventarioID FROM Inventarios WHERE PersonagemID = 1)
+  AND ItemID = (SELECT ItemID FROM Itens WHERE NomeItem = 'Poção de Cura Leve')
+  AND Quantidade &lt;= 0; -- Garante que só deleta se zerou ou já era zero (se Quantidade é nullable)
+
+-- COMMIT; -- Ou ROLLBACK; para testar
+-- Verificar depois (Exemplo):
+-- SELECT * FROM InventarioItens WHERE InventarioID = @aragorn_inventario_id AND ItemID = @pocao_leve_id;
+
+-- 3.2 Raça Extinta (Halfling)
+BEGIN TRANSACTION;
+-- Verificar personagens Halflings:
+SELECT P.NomePersonagem, R.NomeRaca FROM Personagens P JOIN Racas R ON P.RacaID = R.RacaID WHERE R.NomeRaca = 'Halfling';
+
+DELETE FROM Racas WHERE NomeRaca = 'Halfling'; -- Ou use RacaID se souber com certeza
+
+-- Verificar Frodo (RacaID deve ser NULL se ON DELETE SET NULL estava ativo):
+SELECT PersonagemID, NomePersonagem, RacaID FROM Personagens WHERE NomePersonagem LIKE 'Frodo%';
+-- ROLLBACK; -- Para testar sem tornar permanente
+-- COMMIT; -- Para tornar permanente (somente em ambiente de teste seguro!)
+
+-- 3.3 Faxina no Grimório: Remoção de Magias Obsoletas
+-- Verificar ANTES:
+SELECT * FROM Magias WHERE NivelRequerido = 1 AND CustoMana > 10;
+BEGIN TRANSACTION;
+DELETE FROM Magias WHERE NivelRequerido = 1 AND CustoMana > 10;
+-- COMMIT; -- Ou ROLLBACK;
+-- Verificar DEPOIS (deve retornar vazio se COMMITado):
+-- SELECT * FROM Magias WHERE NivelRequerido = 1 AND CustoMana > 10;
+
+
+-- 3.4 Cenário Destruído por um Cataclisma
+-- Primeiro, crie um cenário de teste se não existir:
+-- INSERT INTO Cenarios (NomeCenario, DescricaoCenario, TipoAmbiente, NivelMinimoRecomendado) 
+-- VALUES ('Bosque Crepitante Teste', 'Um bosque destinado à destruição gloriosa.', 'Floresta', 1);
+-- SET @cenario_a_destruir_id = LAST_INSERT_ID(); -- Se MySQL e inserido agora
+-- Ou, para pegar dinamicamente (CUIDADO AO RODAR EM PRODUÇÃO SEM TER CERTEZA DO NOME):
+-- SELECT CenarioID INTO @cenario_a_destruir_id FROM Cenarios WHERE NomeCenario = 'Bosque Crepitante Teste' LIMIT 1;
+
+BEGIN TRANSACTION;
+IF @cenario_a_destruir_id IS NOT NULL THEN
+    -- Remover monstros associados ao cenário
+    DELETE FROM CenarioMonstros WHERE CenarioID = @cenario_a_destruir_id;
+    -- Verificar se foram removidos (dentro da transação)
+    -- SELECT * FROM CenarioMonstros WHERE CenarioID = @cenario_a_destruir_id;
+
+    -- Deletar o cenário
+    DELETE FROM Cenarios WHERE CenarioID = @cenario_a_destruir_id;
+    -- Verificar se foi removido (dentro da transação)
+    -- SELECT * FROM Cenarios WHERE CenarioID = @cenario_a_destruir_id;
+
+    SELECT 'Ritual de destruição do cenário e suas criaturas concluído.' AS StatusDaOperacao;
+    COMMIT;
+ELSE
+    SELECT 'Cenário para destruição não encontrado. O ritual falhou.' AS StatusDaOperacao;
+    ROLLBACK;
+END IF;
+
+-- Verificar final (fora da transação, se COMMITado):
+-- IF @cenario_a_destruir_id IS NOT NULL THEN
+--     SELECT * FROM CenarioMonstros WHERE CenarioID = @cenario_a_destruir_id;
+--     SELECT * FROM Cenarios WHERE CenarioID = @cenario_a_destruir_id;
+-- END IF;
+  </code></pre>
+  <p style="margin-top:15px;">Comandos <code>DELETE</code> e o poder das Transações são seus aliados mais poderosos (e potencialmente perigosos) na manipulação do destino de <strong>RPG_Mundo</strong>. Use-os com sabedoria, precisão e sempre com um plano de contingência (<code>ROLLBACK</code> ou backups)!</p>

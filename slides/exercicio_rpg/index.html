@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Carregando Tomo...</title> <!-- Changed title -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Sorts+Mill+Goudy:ital@0;1&display=swap" rel="stylesheet">
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="ask.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header>
+      <a href="../../index.html" class="back-link"
+        ><i class="fas fa-map-signs"></i> Voltar ao Mapa Principal</a <!-- Changed text & icon -->
+      >
+      <span id="lesson-title-header"></span>
+
+      <div id="header-progress-bar"></div>
+    </header>
+
+    <div class="main-content-area">
+      <div class="slide-container">
+        <p id="loading-slides">Desdobrando pergaminhos...</p> <!-- Changed text -->
+      </div>
+
+      <aside id="slide-sidebar">
+        <h3>Índice do Tomo</h3> <!-- Changed text -->
+        <ul id="slide-sidebar-list"></ul>
+      </aside>
+    </div>
+
+    <div id="exercise-area" style="display: none">
+      <div id="progress-bar">
+        <div id="progress"></div>
+      </div>
+
+      <form id="exercise-form"></form>
+
+      <div id="student-name-section" style="display: none">
+        <label for="student-name-input">Inscreva seu Nome, Aventureiro(a):</label><br /> <!-- Changed text -->
+        <input
+          type="text"
+          id="student-name-input"
+          name="studentName"
+          required
+        />
+        <button id="submit-name-button">Ver Recompensa</button> <!-- Changed text -->
+      </div>
+
+      <div id="result-summary" style="display: none"></div>
+
+      <canvas
+        id="result-chart"
+        style="display: none; max-width: 600px; margin: 20px auto"
+      ></canvas>
+    </div>
+
+    <footer>
+      <p>
+        Forjado por
+        <a href="https://www.linkedin.com/in/erick-porto/" target="_blank"
+          >Mestre Artesão Erick Porto</a <!-- Changed text -->
+        >
+        © 2025 | Todos os direitos reservados aos reinos
+      </p>
+    </footer>
+
+    <script>
+      const teacherName = "Erick Ribeiro Porto";
+      const slideFiles = [
+        "slides/slide1.html",
+        "slides/slide2.html",
+        "slides/slide3.html",
+        "slides/slide4.html",
+        "slides/slide5.html",
+        "slides/slide6.html",
+        "slides/slide7.html",
+        "slides/slide8.html",
+        "slides/slide9.html",
+        "slides/slide10.html",
+        "slides/slide11.html",
+        "slides/slide12.html",
+        "slides/slide_final.html"
+      ];
+
+      const slideContainer = document.querySelector(".slide-container");
+      const loadingIndicator = document.getElementById("loading-slides");
+      const headerProgressBar = document.getElementById("header-progress-bar");
+      const sidebarList = document.getElementById("slide-sidebar-list");
+      const exerciseArea = document.getElementById("exercise-area");
+      const exerciseProgressBarContainer =
+        document.getElementById("progress-bar");
+      const exerciseProgress = document.getElementById("progress");
+      const exerciseForm = document.getElementById("exercise-form");
+      const studentNameSection = document.getElementById(
+        "student-name-section"
+      );
+      const studentNameInput = document.getElementById("student-name-input");
+      const submitNameButton = document.getElementById("submit-name-button");
+      const resultSummaryDiv = document.getElementById("result-summary");
+      const resultChartCanvas = document.getElementById("result-chart");
+      const lessonTitleHeader = document.getElementById("lesson-title-header");
+
+      let slides = [];
+      let currentSlide = 0;
+      let totalSlides = 0;
+      let nextButton;
+      let prevButton;
+      let studentName = "";
+      let userAnswers = {};
+
+      async function loadSlides() {
+        try {
+          const fetchPromises = slideFiles.map((file) =>
+            fetch(file).then((res) =>
+              res.ok
+                ? res.text()
+                : Promise.reject(new Error(`Failed to load ${file}`))
+            )
+          );
+          const htmlContents = await Promise.all(fetchPromises);
+
+          if (loadingIndicator) loadingIndicator.remove();
+          slideContainer.innerHTML = "";
+          sidebarList.innerHTML = "";
+
+          htmlContents.forEach((html, index) => {
+            const slideDiv = document.createElement("div");
+            slideDiv.className = "slide";
+            slideDiv.id = `slide${index}`;
+            slideDiv.innerHTML = html;
+            slideDiv.style.display = index === 0 ? "flex" : "none"; // flex to align center
+            slideContainer.appendChild(slideDiv);
+
+            const titleElement = slideDiv.querySelector("h1, h2");
+            const slideTitle = titleElement
+              ? titleElement.textContent.trim()
+              : `Capítulo ${index + 1}`; // Changed "Slide" to "Capítulo"
+            const listItem = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = `#slide${index}`;
+            link.textContent = slideTitle;
+            link.dataset.slideIndex = index;
+
+            link.onclick = (e) => {
+              e.preventDefault();
+              goToSlide(parseInt(link.dataset.slideIndex, 10));
+            };
+            listItem.appendChild(link);
+            sidebarList.appendChild(listItem);
+          });
+
+          slides = document.querySelectorAll(".slide-container .slide");
+          totalSlides = slides.length;
+
+          const firstTitle = slides[0]?.querySelector("h1, h2")?.textContent;
+          const lessonTitle = firstTitle || "Tomo dos Dados"; // Changed "Lesson Presentation"
+          document.title = lessonTitle;
+          if (lessonTitleHeader)
+            lessonTitleHeader.textContent = `- ${lessonTitle}`;
+
+          initializeNavigation();
+          initializeExercises();
+          updateProgressBar();
+          updateSidebarActiveState();
+        } catch (error) {
+          console.error("Falha ao carregar pergaminhos:", error); // Changed message
+          slideContainer.innerHTML = `<p style='color: var(--rpg-red-error);'>Erro ao decifrar os pergaminhos. Verifique o console (F12) e os caminhos dos arquivos ('slides/' directory).</p>`;
+        }
+      }
+
+      function initializeNavigation() {
+        if (totalSlides <= 1) return;
+
+        prevButton = document.createElement("button");
+        prevButton.innerHTML = '<i class="fas fa-arrow-left"></i>'; // Kept icon, style will change it
+        prevButton.id = "prev-slide-button";
+        prevButton.className = "slide-nav-button";
+        prevButton.setAttribute("aria-label", "Página Anterior");
+        prevButton.onclick = showPrevSlide;
+        document.body.appendChild(prevButton);
+
+        nextButton = document.createElement("button");
+        nextButton.innerHTML = '<i class="fas fa-arrow-right"></i>'; // Kept icon, style will change it
+        nextButton.id = "next-slide-button";
+        nextButton.className = "slide-nav-button";
+        nextButton.setAttribute("aria-label", "Próxima Página");
+        nextButton.onclick = showNextSlide;
+        document.body.appendChild(nextButton);
+      }
+
+      function showPrevSlide() {
+        if (totalSlides === 0) return;
+        goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+      }
+
+      function showNextSlide() {
+        if (totalSlides === 0) return;
+        goToSlide((currentSlide + 1) % totalSlides);
+      }
+
+      function goToSlide(index) {
+        if (
+          index < 0 ||
+          index >= totalSlides ||
+          index === currentSlide ||
+          slides.length === 0
+        )
+          return;
+
+        slides[currentSlide].style.display = "none";
+        currentSlide = index;
+        slides[currentSlide].style.display = "flex"; // flex to align center
+
+        updateProgressBar();
+        updateSidebarActiveState();
+      }
+
+      function updateProgressBar() {
+        if (totalSlides === 0 || !headerProgressBar) return;
+        const percentage =
+          totalSlides > 1 ? (currentSlide / (totalSlides - 1)) * 100 : 100;
+        headerProgressBar.style.width = `${percentage}%`;
+      }
+
+      function updateSidebarActiveState() {
+        const links = sidebarList.querySelectorAll("a");
+        links.forEach((link, index) => {
+          if (index === currentSlide) {
+            link.classList.add("active");
+            link.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          } else {
+            link.classList.remove("active");
+          }
+        });
+      }
+
+      function initializeExercises() {
+        slideContainer.addEventListener("click", function (e) {
+          if (e.target && e.target.closest("#exercicios")) {
+            e.preventDefault();
+            startExercises();
+          }
+        });
+      }
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      function startExercises() {
+        slideContainer.style.display = "none";
+        document.getElementById("slide-sidebar").style.display = "none";
+        if (nextButton) nextButton.style.display = "none";
+        if (prevButton) prevButton.style.display = "none";
+        exerciseArea.style.display = "block";
+        exerciseProgressBarContainer.style.display = "block";
+
+        userAnswers = {};
+        studentName = "";
+        resultSummaryDiv.style.display = "none";
+        resultSummaryDiv.innerHTML = "";
+        resultChartCanvas.style.display = "none";
+        const existingChart = Chart.getChart(resultChartCanvas);
+        if (existingChart) existingChart.destroy();
+        studentNameSection.style.display = "none";
+        studentNameInput.value = "";
+        exerciseForm.style.display = "block";
+
+        let questionIndex = 0;
+
+        if (
+          typeof ask === "undefined" ||
+          !ask ||
+          Object.keys(ask).length === 0
+        ) {
+          console.error(
+            "Erro: Objeto 'ask' (de ask.js) não encontrado ou vazio."
+          );
+          exerciseArea.innerHTML =
+            "<p style='color: var(--rpg-red-error);'>Erro: Desafios não encontrados. Verifique se 'ask.js' foi carregado corretamente.</p>"; // Changed message
+          return;
+        }
+
+        const questionKeys = Object.keys(ask);
+        const totalQuestions = questionKeys.length;
+
+        const updateExerciseProgress = () => {
+          const percentage =
+            totalQuestions > 0
+              ? ((questionIndex + 1) / totalQuestions) * 100
+              : 0;
+          exerciseProgress.style.width = `${percentage}%`;
+        };
+
+        const renderQuestion = () => {
+          exerciseForm.innerHTML = "";
+
+          const questionKey = questionKeys[questionIndex];
+          if (!ask[questionKey]) {
+            console.error(
+              `Desafio com chave '${questionKey}' (índice ${questionIndex}) não encontrado em ask.js` // Changed "Pergunta"
+            );
+            exerciseForm.innerHTML =
+              "<p style='color:var(--rpg-red-error);'>Erro: Desafio não encontrado.</p>";
+            return;
+          }
+          const question = ask[questionKey];
+          const questionNumber = questionIndex + 1;
+
+          const questionDiv = document.createElement("div");
+          questionDiv.className = "question";
+          const questionText = document.createElement("p");
+          questionText.className = "question-title";
+
+          if (question.type === "complete") {
+            const parts = question.ask.split("_");
+            questionText.innerHTML = `Desafio ${questionNumber}: `; // Changed "Questão"
+            parts.forEach((part, index) => {
+              questionText.appendChild(document.createTextNode(part));
+              if (index < parts.length - 1) {
+                const input = document.createElement("input");
+                input.type = "text";
+
+                input.name = `question-${questionNumber}`;
+                input.className = "inline-input";
+                input.required = true;
+                questionText.appendChild(input);
+              }
+            });
+          } else {
+            questionText.textContent = `Desafio ${questionNumber}: ${question.ask}`; // Changed "Questão"
+          }
+          questionDiv.appendChild(questionText);
+
+          if (question.type === "mult") {
+            if (!question.options || typeof question.options !== "object") {
+              console.error(
+                `Opções inválidas ou ausentes para o desafio '${questionKey}'` // Changed "questão"
+              );
+              questionDiv.innerHTML +=
+                "<p style='color:var(--rpg-red-error);'>Erro: Opções não encontradas ou inválidas.</p>";
+            } else {
+              const optionKeys = Object.keys(question.options);
+              const shuffledKeys = shuffleArray([...optionKeys]);
+
+              shuffledKeys.forEach((optionKey) => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = `question-${questionNumber}`;
+                input.value = optionKey;
+                input.required = true;
+                const inputId = `q${questionNumber}_opt${optionKey}`;
+                input.id = inputId;
+                label.htmlFor = inputId;
+                input.style.marginRight = "8px";
+
+                label.appendChild(input);
+                const labelText = document.createElement("span");
+                labelText.textContent = question.options[optionKey];
+                label.appendChild(labelText);
+
+                questionDiv.appendChild(label);
+              });
+            }
+          }
+
+          exerciseForm.appendChild(questionDiv);
+
+          const buttonContainer = document.createElement("div");
+          buttonContainer.style.textAlign = "center";
+          const nextQuestionButton = document.createElement("button");
+          nextQuestionButton.type = "button";
+          nextQuestionButton.textContent =
+            questionIndex + 1 === totalQuestions ? "Concluir Provação" : "Próximo Desafio"; // Changed text
+          nextQuestionButton.className = "exercise-nav-button";
+
+          nextQuestionButton.onclick = () => {
+            if (!exerciseForm.checkValidity()) {
+              exerciseForm.reportValidity();
+              return;
+            }
+
+            const currentQuestionKey = questionKeys[questionIndex];
+            const currentQuestionNumber = questionIndex + 1;
+            const inputName = `question-${currentQuestionNumber}`;
+            let currentAnswer = null;
+
+            if (ask[currentQuestionKey].type === "mult") {
+              const selectedRadio = exerciseForm.querySelector(
+                `input[name="${inputName}"]:checked`
+              );
+              if (selectedRadio) {
+                currentAnswer = selectedRadio.value;
+              }
+            } else if (ask[currentQuestionKey].type === "complete") {
+              const textInput = exerciseForm.querySelector(
+                `input[name="${inputName}"][type="text"]`
+              );
+              if (textInput) {
+                currentAnswer = textInput.value.trim();
+              }
+            }
+            userAnswers[currentQuestionNumber] = currentAnswer;
+
+            if (questionIndex + 1 === totalQuestions) {
+              collectResultsAndAskName();
+            } else {
+              questionIndex++;
+              updateExerciseProgress();
+              renderQuestion();
+            }
+          };
+
+          buttonContainer.appendChild(nextQuestionButton);
+          exerciseForm.appendChild(buttonContainer);
+        };
+
+        updateExerciseProgress();
+        renderQuestion();
+      }
+
+      function collectResultsAndAskName() {
+        exerciseForm.style.display = "none";
+        exerciseProgressBarContainer.style.display = "none";
+        studentNameSection.style.display = "block";
+        studentNameInput.focus();
+
+        submitNameButton.onclick = () => {
+          if (studentNameInput.value.trim() === "") {
+            alert("Por favor, inscreva seu nome, nobre aventureiro(a)."); // Changed message
+            studentNameInput.focus();
+            return;
+          }
+          studentName = studentNameInput.value.trim();
+          studentNameSection.style.display = "none";
+          displayFinalResults();
+        };
+      }
+
+      function displayFinalResults() {
+        let correctAnswers = 0;
+        const results = [];
+
+        if (
+          typeof ask === "undefined" ||
+          !ask ||
+          Object.keys(ask).length === 0
+        ) {
+          console.error(
+            "Objeto 'ask' inválido ou vazio ao calcular resultados."
+          );
+          resultSummaryDiv.innerHTML =
+            "<p style='color: var(--rpg-red-error);'>Erro ao calcular recompensas.</p>"; // Changed message
+          resultSummaryDiv.style.display = "block";
+          return;
+        }
+
+        const questionKeys = Object.keys(ask);
+        const totalQuestions = questionKeys.length;
+
+        questionKeys.forEach((key, index) => {
+          const question = ask[key];
+          if (!question) {
+            console.warn(
+              `Desafio com chave '${key}' não encontrado durante a avaliação. Pulando.` // Changed "Pergunta"
+            );
+            return;
+          }
+
+          const questionNumber = index + 1;
+
+          const userAnswer = userAnswers[questionNumber] ?? null;
+
+          let isCorrect = false;
+          let correctAnswerText = "";
+          let userAnswerText =
+            userAnswer !== null ? String(userAnswer) : "Não respondido";
+
+          if (question.type === "mult") {
+            if (question.options && typeof question.correct !== "undefined") {
+              const correctOptionKey = String(question.correct);
+              correctAnswerText =
+                question.options[correctOptionKey] ??
+                `[Opção Correta Inválida: ${correctOptionKey}]`;
+              isCorrect =
+                userAnswer !== null && String(userAnswer) === correctOptionKey;
+
+              if (userAnswer !== null && question.options[userAnswer]) {
+                userAnswerText = question.options[userAnswer];
+              } else if (userAnswer !== null) {
+                userAnswerText = `[Opção Inválida: ${userAnswer}]`;
+              }
+            } else {
+              correctAnswerText = "[Dados do Desafio Inválidos]"; // Changed "Pergunta"
+            }
+          } else if (question.type === "complete") {
+            if (Array.isArray(question.correct)) { // Support array of correct answers for 'complete'
+                correctAnswerText = question.correct.join(" / ");
+                isCorrect = userAnswer !== null && question.correct.map(c => c.toLowerCase()).includes(userAnswer.toLowerCase());
+            } else if (typeof question.correct === "string") {
+              correctAnswerText = question.correct;
+              isCorrect =
+                userAnswer !== null &&
+                userAnswer.toLowerCase() === question.correct.toLowerCase();
+            } else {
+              correctAnswerText = "[Dados do Desafio Inválidos]"; // Changed "Pergunta"
+            }
+          } else {
+            correctAnswerText = "[Tipo de Desafio Desconhecido]"; // Changed "Pergunta"
+          }
+
+          if (isCorrect) correctAnswers++;
+
+          results.push({
+            questionNumber: questionNumber,
+            questionText: question.ask
+              ? question.ask.replace(/_/g, "...")
+              : "[Desafio Ausente]", // Changed "Questão"
+            userAnswer: userAnswerText,
+            correctAnswer: correctAnswerText,
+            isCorrect,
+          });
+        });
+
+        resultSummaryDiv.style.display = "block";
+        const scorePercentage =
+          totalQuestions > 0
+            ? ((correctAnswers / totalQuestions) * 100).toFixed(1)
+            : 0;
+        resultSummaryDiv.innerHTML = `
+              <h2>Recompensa da Provação</h2> <!-- Changed title -->
+              <p>Aventureiro(a): <strong>${
+                studentName || "Nome não inscrito"
+              }</strong></p>
+              <p style="font-size: 1.4em;">Você superou ${correctAnswers} de ${totalQuestions} desafios (${scorePercentage}%)</p> <!-- Changed text -->
+          `;
+
+        if (resultChartCanvas && totalQuestions > 0) {
+          resultChartCanvas.style.display = "block";
+          const ctx = resultChartCanvas.getContext("2d");
+          const existingChart = Chart.getChart(resultChartCanvas);
+          if (existingChart) existingChart.destroy();
+
+          new Chart(ctx, {
+            type: "pie",
+            data: {
+              labels: ["Acertos", "Erros"],
+              datasets: [
+                {
+                  label: "Desafios Superados", // Changed label
+                  data: [correctAnswers, totalQuestions - correctAnswers],
+                  backgroundColor: ["var(--rpg-green-success)", "var(--rpg-red-error)"], // RPG colors
+                  borderColor: ["var(--rpg-parchment-light)", "var(--rpg-parchment-light)"], // RPG colors
+                  borderWidth: 2,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { position: "top", labels: { color: "var(--rpg-text-dark)", font: { family: "Cinzel" } } }, // RPG Font
+                title: {
+                  display: true,
+                  text: "Balanço da Provação", // Changed title
+                  color: "var(--rpg-text-dark)", // RPG Color
+                  font: { size: 16, family: "Cinzel" } // RPG Font
+                },
+              },
+            },
+          });
+        } else if (resultChartCanvas) {
+          resultChartCanvas.style.display = "none";
+        }
+
+        const downloadButton = document.createElement("button");
+        downloadButton.innerHTML =
+          '<i class="fas fa-scroll"></i> Baixar Pergaminho de Feitos'; // Changed text and icon
+        downloadButton.className = "download-pdf-button";
+        downloadButton.onclick = () =>
+          generatePdfReport(
+            results,
+            correctAnswers,
+            totalQuestions,
+            studentName
+          );
+        resultSummaryDiv.appendChild(downloadButton);
+      }
+
+      function generatePdfReport(
+        resultsData,
+        correctAnswers,
+        totalQuestions,
+        studentName
+      ) {
+        try {
+          const { jsPDF } = window.jspdf;
+          if (!jsPDF) {
+            alert("Erro: Biblioteca jsPDF não forjada corretamente."); // Changed message
+            return;
+          }
+          const doc = new jsPDF();
+
+          // RPG Themed Colors for PDF
+          const PDF_BG_HEADER = getComputedStyle(document.documentElement).getPropertyValue('--rpg-wood-dark').trim(); 
+          const PDF_TEXT_HEADER = getComputedStyle(document.documentElement).getPropertyValue('--rpg-gold-highlight').trim(); 
+          const PDF_TEXT_BODY_DARK = getComputedStyle(document.documentElement).getPropertyValue('--rpg-text-dark').trim(); 
+          const PDF_TEXT_BODY_LIGHT = getComputedStyle(document.documentElement).getPropertyValue('--rpg-parchment-dark').trim(); 
+          const PDF_CORRECT_COLOR = getComputedStyle(document.documentElement).getPropertyValue('--rpg-green-success').trim(); 
+          const PDF_INCORRECT_COLOR = getComputedStyle(document.documentElement).getPropertyValue('--rpg-red-error').trim(); 
+          const PDF_LINE_COLOR = getComputedStyle(document.documentElement).getPropertyValue('--rpg-wood-light').trim(); 
+
+          let yPos = 0;
+          const pageHeight = doc.internal.pageSize.getHeight();
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const margin = 15;
+          const contentWidth = pageWidth - margin * 2;
+
+          // PDF Header
+          doc.setFillColor(PDF_BG_HEADER);
+          doc.rect(0, 0, pageWidth, 35, "F");
+          yPos = 12;
+          doc.setFontSize(18); // Larger title
+          doc.setFont("times", "bold"); // Using a serif font available in jsPDF by default
+          doc.setTextColor(PDF_TEXT_HEADER);
+          const presentationTitle = document.title || "Pergaminho de Feitos"; // Thematic title
+          doc.text(presentationTitle, pageWidth / 2, yPos, { align: "center" });
+          yPos += 10;
+          doc.setFontSize(11);
+          doc.setFont("times", "normal");
+          doc.setTextColor(PDF_TEXT_BODY_LIGHT); // Light text on dark header
+          doc.text(`Aventureiro(a): ${studentName || "Anônimo"}`, margin, yPos); // Thematic
+          doc.text(
+            `Data da Provação: ${new Date().toLocaleDateString()}`, // Thematic
+            pageWidth - margin,
+            yPos,
+            { align: "right" }
+          );
+          yPos += 5;
+          doc.text(`Mestre do Tomo: ${teacherName}`, margin, yPos); // Thematic
+          yPos += 12; // Space after header
+
+          // PDF Body
+          doc.setFontSize(14);
+          doc.setFont("times", "bold");
+          doc.setTextColor(PDF_TEXT_BODY_DARK);
+          const scorePercentage =
+            totalQuestions > 0
+              ? ((correctAnswers / totalQuestions) * 100).toFixed(1)
+              : 0;
+          doc.text(
+            `Resultado da Provação: ${correctAnswers} de ${totalQuestions} desafios superados (${scorePercentage}%)`, // Thematic
+            margin,
+            yPos
+          );
+          yPos += 10;
+
+          resultsData.forEach((result) => {
+            // Estimate height (rough)
+            const questionLineHeight = doc.getTextDimensions(result.questionText, {maxWidth: contentWidth, fontSize: 12}).h;
+            const answerLineHeight = doc.getTextDimensions(result.userAnswer, {maxWidth: contentWidth, fontSize: 10}).h;
+            const correctAnswerLineHeight = doc.getTextDimensions(result.correctAnswer, {maxWidth: contentWidth, fontSize: 10}).h;
+            const estimatedHeight = questionLineHeight + answerLineHeight + correctAnswerLineHeight + 20;
+
+
+            if (yPos + estimatedHeight > pageHeight - margin) {
+              doc.addPage();
+              yPos = margin;
+            }
+
+            doc.setFontSize(12); // Slightly larger for question
+            doc.setFont("times", "bold");
+            doc.setTextColor(PDF_TEXT_BODY_DARK);
+            const questionLines = doc.splitTextToSize(
+              `Desafio ${result.questionNumber}: ${result.questionText}`, // Thematic
+              contentWidth
+            );
+            doc.text(questionLines, margin, yPos);
+            yPos += questionLines.length * 5 + 3; // Adjust spacing
+
+            doc.setFontSize(10);
+            doc.setFont("times", "italic"); // Italic for user answer
+
+            doc.setTextColor(
+              result.isCorrect ? PDF_TEXT_BODY_DARK : PDF_INCORRECT_COLOR
+            );
+            const userAnswerLines = doc.splitTextToSize(
+              `Sua Resposta: ${result.userAnswer}`,
+              contentWidth
+            );
+             if (yPos + userAnswerLines.length * 4.5 > pageHeight - margin) { doc.addPage(); yPos = margin; }
+            doc.text(userAnswerLines, margin, yPos);
+            yPos += userAnswerLines.length * 4.5;
+
+            doc.setFont("times", "normal"); // Normal for correct answer
+            doc.setTextColor(PDF_TEXT_BODY_DARK);
+            const correctAnswerLines = doc.splitTextToSize(
+              `Resposta Correta: ${result.correctAnswer}`,
+              contentWidth
+            );
+            if (yPos + correctAnswerLines.length * 4.5 > pageHeight - margin) { doc.addPage(); yPos = margin; }
+            doc.text(correctAnswerLines, margin, yPos);
+            yPos += correctAnswerLines.length * 4.5;
+
+            if (yPos + 7 > pageHeight - margin) { doc.addPage(); yPos = margin; }
+            doc.setFont("times", "bold");
+            doc.setTextColor(
+              result.isCorrect ? PDF_CORRECT_COLOR : PDF_INCORRECT_COLOR
+            );
+            doc.text(
+              `Resultado: ${result.isCorrect ? "Correto" : "Incorreto"}`,
+              margin,
+              yPos
+            );
+            yPos += 7;
+
+            if (yPos + 5 > pageHeight - margin) { doc.addPage(); yPos = margin; }
+            doc.setDrawColor(PDF_LINE_COLOR); // Thematic line color
+            doc.setLineWidth(0.3);
+            doc.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += 5;
+          });
+
+          if (
+            resultChartCanvas &&
+            resultChartCanvas.style.display !== "none" &&
+            totalQuestions > 0
+          ) {
+            const chartHeight = 60; // Slightly larger chart
+            const chartWidth = 60;
+            if (yPos + chartHeight > pageHeight - margin) {
+              doc.addPage();
+              yPos = margin;
+            }
+            try {
+              const chartImage = resultChartCanvas.toDataURL("image/png");
+              doc.addImage(
+                chartImage,
+                "PNG",
+                (pageWidth - chartWidth) / 2, // Center chart
+                yPos,
+                chartWidth,
+                chartHeight
+              );
+              yPos += chartHeight + 10;
+            } catch (chartError) {
+              console.error("Erro ao adicionar gráfico ao PDF:", chartError);
+              if (yPos + 10 > pageHeight - margin) {
+                doc.addPage();
+                yPos = margin;
+              }
+              doc.setTextColor(PDF_INCORRECT_COLOR);
+              doc.setFont("times", "italic");
+              doc.text("Falha ao gravar o gráfico no pergaminho.", margin, yPos); // Thematic
+              yPos += 10;
+            }
+          }
+          
+          // Footer for PDF (Page Number)
+          const pageCount = doc.internal.getNumberOfPages();
+          for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            doc.setFontSize(9);
+            doc.setTextColor(PDF_TEXT_BODY_DARK);
+            doc.text(`Página ${i} de ${pageCount}`, pageWidth - margin, pageHeight - 10, {align: 'right'});
+          }
+
+
+          const safePresentationTitle = presentationTitle
+            .replace(/[^a-z0-9]/gi, "_")
+            .toLowerCase();
+          const safeStudentName = studentName
+            .replace(/[^a-z0-9]/gi, "_")
+            .toLowerCase();
+          doc.save(`feitos_${safePresentationTitle}_${safeStudentName}.pdf`); // Thematic filename
+        } catch (pdfError) {
+          console.error("Erro geral ao gerar PDF:", pdfError);
+          alert("Ocorreu uma falha ao tentar selar o pergaminho de feitos (PDF)."); // Thematic
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", loadSlides);
+    </script>
+  </body>
+</html>
