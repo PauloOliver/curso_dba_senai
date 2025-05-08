@@ -1,0 +1,30 @@
+<!-- --- START OF FILE slides/slide10.html --- -->
+  <h2><i class="fas fa-clipboard-check"></i> <code>CREATE TABLE</code>: Exemplo Completo e Boas Práticas</h2>
+  <p>Vamos criar uma tabela <code>Departamentos</code> aplicando o que vimos:</p>
+  <pre><code class="language-sql">
+-- Exemplo para MySQL (AUTO_INCREMENT)
+CREATE TABLE Departamentos (
+    DepartamentoID INT AUTO_INCREMENT PRIMARY KEY, -- Chave Primária auto-gerada
+    NomeDepto VARCHAR(80) NOT NULL UNIQUE,      -- Nome obrigatório e não pode repetir
+    Sigla VARCHAR(10) UNIQUE,                     -- Sigla única, mas pode ser opcional (NULL)
+    CentroCusto VARCHAR(20),                      -- Pode ser nulo
+    DataCriacao DATE DEFAULT CURRENT_DATE        -- Data com valor padrão (data atual)
+);
+
+-- Exemplo para PostgreSQL (SERIAL)
+CREATE TABLE Departamentos (
+    DepartamentoID SERIAL PRIMARY KEY,            -- Chave Primária auto-gerada
+    NomeDepto VARCHAR(80) NOT NULL UNIQUE,
+    Sigla VARCHAR(10) UNIQUE,
+    CentroCusto VARCHAR(20),
+    DataCriacao DATE DEFAULT CURRENT_DATE
+);
+  </code></pre>
+  <p><strong><i class="fas fa-thumbs-up"></i> Boas Práticas Iniciais:</strong></p>
+  <ul>
+      <li><i class="fas fa-signature fa-fw"></i> <strong>Nomenclatura Clara:</strong> Tabela no plural (`Departamentos`), colunas no singular ou descritivas (`NomeDepto`, `DataCriacao`). Use um padrão consistente (`snake_case` ou `CamelCase`). Use `ID` ou `Codigo` claramente na PK.</li>
+      <li><i class="fas fa-ruler-combined fa-fw"></i> <strong>Tipos e Tamanhos Adequados:</strong> `VARCHAR(80)` é suficiente para nome de depto? `VARCHAR(10)` para sigla? Evite `VARCHAR(255)` genérico se não precisar.</li>
+      <li><i class="fas fa-check-square fa-fw"></i> <strong>Restrições Explícitas:</strong> Use <code>NOT NULL</code> onde for mandatório. Use <code>UNIQUE</code> onde a lógica de negócio exigir unicidade. Defina a <code>PRIMARY KEY</code>.</li>
+      <li><i class="fas fa-star fa-fw"></i> <strong>Valores Padrão (DEFAULT):</strong> Útil para colunas como datas de criação ou status iniciais.</li>
+  </ul>
+<!-- --- END OF FILE slides/slide10.html --- -->

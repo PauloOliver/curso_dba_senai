@@ -1,0 +1,26 @@
+
+  <h2><i class="fas fa-check-double"></i> Exercício 1 - Solução Comentada</h2>
+  <p>Código para criar a tabela <code>Produtos</code>:</p>
+  <p><strong>Solução (MySQL):</strong></p>
+  <pre><code class="language-sql">
+CREATE TABLE Produtos (
+    ProdutoID INT AUTO_INCREMENT PRIMARY KEY, -- PK e Auto-incremento
+    NomeProduto VARCHAR(100) NOT NULL,       -- Obrigatório
+    CodigoBarras VARCHAR(13) UNIQUE,          -- Único (permite NULL)
+    PrecoCusto DECIMAL(10, 2) NOT NULL,      -- Obrigatório, precisão monetária
+    DataCadastro DATE DEFAULT CURRENT_DATE   -- Data padrão
+);
+  </code></pre>
+   <p><strong>Solução (PostgreSQL):</strong></p>
+   <pre><code class="language-sql">
+CREATE TABLE Produtos (
+    ProdutoID SERIAL PRIMARY KEY,              -- PK e Auto-incremento (SERIAL)
+    NomeProduto VARCHAR(100) NOT NULL,
+    CodigoBarras VARCHAR(13) UNIQUE,
+    PrecoCusto DECIMAL(10, 2) NOT NULL,
+    DataCadastro DATE DEFAULT CURRENT_DATE
+);
+   </code></pre>
+  <p><strong>Verificação (Exemplo MySQL):</strong> <code>DESCRIBE Produtos;</code></p>
+  <p><strong>Verificação (Exemplo PostgreSQL):</strong> <code>\d Produtos</code></p>
+  <p><em>Confirme se os tipos, nullability, chaves e defaults estão corretos.</em></p>

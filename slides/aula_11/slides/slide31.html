@@ -1,0 +1,26 @@
+<!-- --- START OF FILE slides/slide31.html --- -->
+  <h2><i class="fas fa-laptop-code"></i> Demonstração Ao Vivo 5: Criando um Índice</h2>
+  <p>Vamos otimizar a busca por localização:</p>
+  <ol>
+      <li><strong>Criar o Índice:</strong>
+          <pre><code class="language-sql">-- Criar índice na coluna Localizacao da tabela Departamentos
+CREATE INDEX idx_dept_localizacao ON Departamentos (Localizacao);</code></pre>
+      </li>
+      <li><strong>Verificar Criação:</strong>
+           <ul>
+              <li>MySQL: <code>SHOW INDEX FROM Departamentos;</code></li>
+              <li>PostgreSQL: <code>\di</code> ou <code>\d Departamentos</code> (mostra índices associados).</li>
+           </ul>
+      </li>
+      <li><strong>(Opcional - Conceitual) Discutir `EXPLAIN`:</strong>
+           <pre><code class="language-sql">-- Explicar como analisar a saída (uso do índice vs. table scan)
+EXPLAIN SELECT * FROM Departamentos WHERE Localizacao = 'Sede';</code></pre>
+           <p>(Nota: A interpretação do <code>EXPLAIN</code> é um tópico avançado, mas vale a pena mencionar que é a ferramenta para verificar se um índice está sendo usado).</p>
+      </li>
+      <li><strong>Remover o Índice (se necessário):</strong>
+           <pre><code class="language-sql">DROP INDEX idx_dept_localizacao ON Departamentos; -- MySQL
+-- DROP INDEX idx_dept_localizacao; -- PostgreSQL</code></pre>
+      </li>
+  </ol>
+  <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--accent-blue); margin-top: 30px;"></i>
+<!-- --- END OF FILE slides/slide31.html --- -->

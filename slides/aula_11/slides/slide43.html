@@ -1,0 +1,19 @@
+
+  <h2><i class="fas fa-pencil-ruler"></i> Exercício 3 (Avançado): Relacionamentos e Visões</h2>
+  <p><strong>Sua Missão:</strong> Estruturar categorias, relacioná-las aos produtos e criar uma visão útil.</p>
+   <div class="exercise-task-box" style="text-align:left; margin:15px auto; padding:15px; border:1px dashed var(--accent-yellow); max-width:700px; background-color: #2f2f44;">
+      <p><strong><i class="fas fa-tasks"></i> Tarefas:</strong></p>
+      <ol>
+          <li>Crie uma nova tabela chamada <code>Categorias</code> com:
+              <ul>
+                  <li><code>CategoriaID</code>: Inteiro, PK, auto-incrementada.</li>
+                  <li><code>NomeCategoria</code>: VARCHAR(50), obrigatório (NOT NULL), único (UNIQUE).</li>
+              </ul>
+          </li>
+          <li>Altere a tabela <code>Produtos</code>: adicione uma coluna <code>CategoriaID</code> do tipo Inteiro (<code>INT</code>), que pode ser nula inicialmente.</li>
+          <li>Adicione uma <strong><code>FOREIGN KEY</code></strong> na tabela <code>Produtos</code> (na coluna <code>CategoriaID</code>) que referencie a coluna <code>CategoriaID</code> da tabela <code>Categorias</code>. Defina a regra <code>ON DELETE SET NULL</code> (se uma categoria for apagada, o <code>CategoriaID</code> nos produtos relacionados se tornará <code>NULL</code>). Dê um nome à constraint (ex: `fk_produto_categoria`).</li>
+          <li><strong>Insira</strong> pelo menos 3 categorias de exemplo na tabela <code>Categorias</code> (ex: 'Eletrônicos', 'Vestuário', 'Alimentos').</li>
+          <li>Crie uma <strong><code>VIEW</code></strong> chamada <code>vw_ProdutosComCategoria</code> que mostre o <code>ProdutoID</code>, <code>NomeProduto</code>, <code>PrecoCusto</code> da tabela <code>Produtos</code> e o <code>NomeCategoria</code> da tabela <code>Categorias</code> (você precisará de um <code>JOIN</code>!).</li>
+      </ol>
+   </div>
+   <p><em><i class="fas fa-lightbulb" style="color:var(--accent-yellow)"></i> Dica: Para a view, use um <code>LEFT JOIN</code> de <code>Produtos</code> para <code>Categorias</code> para garantir que produtos sem categoria (<code>CategoriaID</code> NULL) ainda apareçam na view, mas com <code>NomeCategoria</code> NULL. Teste sua view com <code>SELECT * FROM vw_ProdutosComCategoria;</code>.</em></p>

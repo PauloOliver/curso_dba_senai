@@ -1,0 +1,26 @@
+<!-- --- START OF FILE slides/slide26.html --- -->
+  <h2><i class="fas fa-laptop-code"></i> Demonstração Ao Vivo 4: Criando e Usando Views</h2>
+  <p>Vamos criar e consultar nossa visão:</p>
+  <ol>
+      <li><strong>Criar a View:</strong>
+          <pre><code class="language-sql">-- Criar view para deptos da Sede (ajuste conforme seus dados)
+CREATE OR REPLACE VIEW vw_DepartamentosSede AS
+SELECT DepartamentoID, NomeDepto, Sigla -- Omitindo DataCriacao e CentroCusto
+FROM Departamentos
+WHERE Localizacao = 'Sede'; -- Assumindo que 'Sede' existe</code></pre>
+      </li>
+      <li><strong>Consultar a View:</strong> Trate-a como uma tabela.
+          <pre><code class="language-sql">SELECT * FROM vw_DepartamentosSede;
+SELECT NomeDepto FROM vw_DepartamentosSede ORDER BY NomeDepto;</code></pre>
+      </li>
+       <li><strong>Ver o Código da View:</strong>
+           <ul>
+              <li>MySQL: <code>SHOW CREATE VIEW vw_DepartamentosSede;</code></li>
+              <li>PostgreSQL: <code>\d+ vw_DepartamentosSede</code> ou consultar <code>pg_views</code>.</li>
+           </ul>
+       </li>
+       <li><strong>Demonstrar Dependência:</strong> Atualize a <code>Localizacao</code> de um departamento na tabela <strong>base</strong> <code>Departamentos</code> (para algo diferente de 'Sede') e mostre que ele some da view na próxima consulta.</li>
+       <li>(Opcional) Tentar um <code>UPDATE</code> simples na view (se aplicável e permitido pelo SGBD).</li>
+  </ol>
+  <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--accent-blue); margin-top: 30px;"></i>
+<!-- --- END OF FILE slides/slide26.html --- -->

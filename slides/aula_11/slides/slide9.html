@@ -1,0 +1,30 @@
+<!-- --- START OF FILE slides/slide9.html --- -->
+  <h2><i class="fas fa-shield-alt"></i> <code>CREATE TABLE</code>: Constraints Iniciais (As Regras Fundamentais)</h2>
+  <p><strong>Constraints</strong> (Restrições) são regras aplicadas às colunas ou à tabela para garantir a <strong>integridade e a validade</strong> dos dados.</p>
+  <p>As mais comuns definidas diretamente na coluna:</p>
+  <ul>
+    <li><strong><code>PRIMARY KEY</code> (PK):</strong>
+        <ul>
+            <li><i class="fas fa-key fa-fw" style="color: var(--accent-yellow);"></i> Identifica unicamente cada linha na tabela.</li>
+            <li>Só pode haver UMA por tabela (pode ser composta por múltiplas colunas).</li>
+            <li>Implica automaticamente <code>NOT NULL</code> e <code>UNIQUE</code>.</li>
+            <li>Ex: <code>ClienteID INT PRIMARY KEY</code></li>
+        </ul>
+    </li>
+    <li><strong><code>NOT NULL</code> (NN):</strong>
+        <ul>
+            <li><i class="fas fa-times-circle fa-fw" style="color: var(--red-error);"></i> Impede que a coluna aceite valores <code>NULL</code> (vazios).</li>
+            <li>Garante que um campo obrigatório seja sempre preenchido.</li>
+            <li>Ex: <code>Nome VARCHAR(100) NOT NULL</code></li>
+        </ul>
+    </li>
+     <li><strong><code>UNIQUE</code> (UQ):</strong>
+        <ul>
+            <li><i class="fas fa-fingerprint fa-fw"></i> Garante que todos os valores na coluna (ou combinação de colunas) sejam diferentes entre si.</li>
+            <li>Permite valores <code>NULL</code> (geralmente apenas um, mas varia entre SGBDs).</li>
+            <li>Ex: <code>Email VARCHAR(100) UNIQUE</code> (não podem existir dois clientes com o mesmo email).</li>
+             <li>Ex: <code>CONSTRAINT uk_pedido_produto UNIQUE (PedidoID, ProdutoID)</code> (Constraint de tabela para chave única composta).</li>
+        </ul>
+     </li>
+  </ul>
+<!-- --- END OF FILE slides/slide9.html --- -->

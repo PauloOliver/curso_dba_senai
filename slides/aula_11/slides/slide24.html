@@ -1,0 +1,29 @@
+<!-- --- START OF FILE slides/slide24.html --- -->
+  <h2><i class="fas fa-star"></i> Views: Utilidade e Vantagens</h2>
+  <p>Por que usar Views?</p>
+  <ul>
+    <li><i class="fas fa-low-vision fa-fw" style="color: var(--accent-green)"></i> <strong>Abstração / Simplificação:</strong>
+        <ul>
+            <li>Escondem a complexidade de consultas com múltiplos <code>JOIN</code>s, cálculos complexos ou formatações.</li>
+            <li>Usuários ou aplicações podem fazer um <code>SELECT</code> simples na view sem precisar conhecer a estrutura complexa das tabelas base.</li>
+        </ul>
+    </li>
+    <li><i class="fas fa-user-secret fa-fw" style="color: var(--accent-green)"></i> <strong>Segurança:</strong>
+        <ul>
+            <li>Podem restringir o acesso a dados sensíveis, expondo apenas colunas ou linhas específicas permitidas para um grupo de usuários.</li>
+            <li>Ex: Uma view `vw_SalariosRH` pode mostrar nomes e salários, enquanto uma `vw_DadosPublicosFuncionarios` mostra apenas nome e departamento.</li>
+        </ul>
+    </li>
+     <li><i class="fas fa-ruler-combined fa-fw" style="color: var(--accent-green)"></i> <strong>Consistência Lógica:</strong>
+        <ul>
+            <li>Fornecem uma visão padronizada e consistente dos dados, mesmo que as tabelas base mudem (desde que a view seja mantida).</li>
+            <li>Garante que cálculos ou lógicas de negócio complexas sejam aplicados de forma uniforme.</li>
+        </ul>
+     </li>
+      <li><i class="fas fa-backward fa-fw" style="color: var(--accent-green)"></i> <strong>Compatibilidade Reversa (Legado):</strong>
+        <ul>
+            <li>Se você reestrutura tabelas base, pode criar views com a estrutura antiga para manter aplicações legadas funcionando temporariamente.</li>
+        </ul>
+     </li>
+  </ul>
+<!-- --- END OF FILE slides/slide24.html --- -->

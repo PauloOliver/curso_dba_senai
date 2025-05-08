@@ -1,0 +1,38 @@
+
+  <h2><i class="fas fa-check-double"></i> Exercício 2 - Solução Comentada</h2>
+  <p>Comandos para alterar a tabela <code>Produtos</code>:</p>
+  <p><strong>Solução (MySQL):</strong></p>
+  <pre><code class="language-sql">
+-- 1. Adicionar Coluna EstoqueAtual
+ALTER TABLE Produtos
+ADD COLUMN EstoqueAtual INT NOT NULL DEFAULT 0;
+
+-- 2. Adicionar Constraint CHECK
+ALTER TABLE Produtos
+ADD CONSTRAINT chk_preco_positivo CHECK (PrecoCusto > 0);
+
+-- 3. Criar Índice
+CREATE INDEX idx_produto_nome ON Produtos (NomeProduto);
+
+-- 4. Modificar Coluna CodigoBarras
+ALTER TABLE Produtos
+MODIFY COLUMN CodigoBarras VARCHAR(14);
+  </code></pre>
+  <p><strong>Solução (PostgreSQL):</strong></p>
+   <pre><code class="language-sql">
+-- 1. Adicionar Coluna EstoqueAtual
+ALTER TABLE Produtos
+ADD COLUMN EstoqueAtual INT NOT NULL DEFAULT 0;
+
+-- 2. Adicionar Constraint CHECK
+ALTER TABLE Produtos
+ADD CONSTRAINT chk_preco_positivo CHECK (PrecoCusto > 0);
+
+-- 3. Criar Índice
+CREATE INDEX idx_produto_nome ON Produtos (NomeProduto);
+
+-- 4. Modificar Coluna CodigoBarras
+ALTER TABLE Produtos
+ALTER COLUMN CodigoBarras TYPE VARCHAR(14);
+   </code></pre>
+   <p><strong>Verificação:</strong> Use <code>DESCRIBE Produtos;</code> (MySQL) ou <code>\d Produtos</code> (PostgreSQL) para ver a coluna adicionada, o tipo alterado e as novas constraints/índices.</p>

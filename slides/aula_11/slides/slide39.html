@@ -1,0 +1,14 @@
+
+  <h2><i class="fas fa-pencil-ruler"></i> Exercício 1 (Básico): Criando a Tabela `Produtos`</h2>
+  <p><strong>Sua Missão:</strong> Criar a fundação do nosso catálogo!</p>
+  <div class="exercise-task-box" style="text-align:left; margin:15px auto; padding:15px; border:1px dashed var(--accent-yellow); max-width:700px; background-color: #2f2f44;">
+      <p><strong><i class="fas fa-tasks"></i> Tarefa:</strong> Crie uma tabela chamada <code>Produtos</code> com as seguintes especificações:</p>
+      <ul>
+          <li><code>ProdutoID</code>: Tipo Inteiro (<code>INT</code> ou <code>SERIAL</code>). Deve ser a <strong>Chave Primária</strong> e <strong>auto-incrementada</strong>.</li>
+          <li><code>NomeProduto</code>: Tipo Texto Variável (<code>VARCHAR</code>) com máximo de 100 caracteres. <strong>Não pode ser nulo</strong>.</li>
+          <li><code>CodigoBarras</code>: Tipo Texto Variável (<code>VARCHAR</code>) com máximo de 13 caracteres. Deve ser <strong>único</strong> na tabela (<code>UNIQUE</code>), mas pode ser nulo.</li>
+          <li><code>PrecoCusto</code>: Tipo Decimal com precisão total de 10 dígitos e 2 casas decimais (<code>DECIMAL(10, 2)</code>). <strong>Não pode ser nulo</strong>.</li>
+           <li><code>DataCadastro</code>: Tipo Data (<code>DATE</code>). Deve ter como valor padrão a <strong>data atual</strong> em que o registro for inserido (<code>DEFAULT CURRENT_DATE</code>).</li>
+      </ul>
+  </div>
+  <p><em><i class="fas fa-lightbulb" style="color:var(--accent-yellow)"></i> Dica: Use <code>AUTO_INCREMENT</code> (MySQL) ou <code>SERIAL</code> (PostgreSQL) para a chave primária auto-incrementada. Verifique a estrutura criada com <code>DESCRIBE</code> ou <code>\d</code> após a execução.</em></p>

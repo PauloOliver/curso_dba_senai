@@ -1,0 +1,11 @@
+<!-- --- START OF FILE slides/slide30.html --- -->
+  <h2><i class="fas fa-balance-scale-left" style="color:var(--accent-yellow)"></i> Índices: Trade-offs (Nem tudo são flores!)</h2>
+  <p>Embora acelerem <code>SELECT</code>s, índices têm custos:</p>
+  <ul>
+      <li><i class="fas fa-hdd fa-fw" style="color:var(--red-error)"></i> <strong>Ocupam Espaço em Disco:</strong> Cada índice é uma estrutura de dados adicional que precisa ser armazenada. Muitos índices em tabelas grandes podem consumir bastante espaço.</li>
+      <li><i class="fas fa-stopwatch fa-fw" style="color:var(--red-error)"></i> <strong>Tornam DML Mais Lento:</strong> Quando você executa <code>INSERT</code>, <code>UPDATE</code> ou <code>DELETE</code> em uma coluna indexada, o SGBD precisa <strong>atualizar também o(s) índice(s)</strong> associado(s). Muitos índices podem tornar as operações de escrita significativamente mais lentas.</li>
+       <li><i class="fas fa-cogs fa-fw" style="color:var(--red-error)"></i> <strong>Manutenção:</strong> Índices podem precisar de manutenção (rebuild, reindex) ao longo do tempo para manterem sua eficiência, especialmente em tabelas com muitas alterações.</li>
+  </ul>
+   <p style="font-weight: bold; color: var(--accent-yellow); margin-top: 15px;"><i class="fas fa-exclamation-triangle"></i> Conclusão: Não indexe todas as colunas indiscriminadamente!</p>
+   <p>Crie índices <strong>estrategicamente</strong> nas colunas que realmente se beneficiarão, com base no perfil de uso (consultas frequentes, lentas) da sua aplicação. Monitore o desempenho (use <code>EXPLAIN</code>!) antes e depois de criar um índice.</p>
+<!-- --- END OF FILE slides/slide30.html --- -->

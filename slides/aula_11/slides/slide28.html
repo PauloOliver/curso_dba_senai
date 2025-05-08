@@ -1,0 +1,22 @@
+<!-- --- START OF FILE slides/slide28.html --- -->
+  <h2><i class="fas fa-plus-square"></i> Índices: Sintaxe e Criação</h2>
+  <p>Para criar um índice explicitamente (além dos criados por PK/UNIQUE), usamos <code>CREATE INDEX</code>.</p>
+  <p><strong>Sintaxe Básica:</strong></p>
+  <pre><code class="language-sql">
+CREATE INDEX nome_do_indice -- Dê um nome descritivo (ex: idx_tabela_coluna)
+ON nome_da_tabela (coluna1 [ASC | DESC], coluna2 [ASC | DESC], ...);
+  </code></pre>
+  <p><strong>Exemplo:</strong> Criar um índice na coluna <code>NomeDepto</code> da tabela <code>Departamentos</code> para acelerar buscas por nome.</p>
+   <pre><code class="language-sql">
+CREATE INDEX idx_departamentos_nome ON Departamentos (NomeDepto);
+   </code></pre>
+  <p><strong>Exemplo: Índice Composto</strong> (em múltiplas colunas - a ordem importa!). Útil para filtros que usam ambas as colunas.</p>
+  <pre><code class="language-sql">
+-- Para otimizar WHERE CategoriaID = ? AND Preco > ?
+CREATE INDEX idx_produtos_cat_preco ON Produtos (CategoriaID, Preco);
+  </code></pre>
+   <p><strong>Exemplo: Índice Descendente</strong> (Pode ajudar em <code>ORDER BY ... DESC</code>).</p>
+   <pre><code class="language-sql">
+CREATE INDEX idx_pedidos_data_desc ON Pedidos (DataPedido DESC);
+   </code></pre>
+<!-- --- END OF FILE slides/slide28.html --- -->

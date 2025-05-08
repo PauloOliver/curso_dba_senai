@@ -1,0 +1,32 @@
+<!-- --- START OF FILE slides/slide17.html --- -->
+  <h2><i class="fas fa-link"></i> / <i class="fas fa-unlink"></i> <code>ALTER TABLE</code>: Adicionar/Remover Constraints</h2>
+  <p>Podemos adicionar ou remover constraints (além das definidas na criação) usando <code>ALTER TABLE</code>.</p>
+  <p><strong>Adicionar Constraint:</strong></p>
+  <pre><code class="language-sql">
+-- Adicionar UNIQUE constraint na coluna Email
+ALTER TABLE Clientes
+ADD CONSTRAINT uq_cliente_email UNIQUE (Email);
+
+-- Adicionar FOREIGN KEY
+ALTER TABLE Pedidos
+ADD CONSTRAINT fk_pedido_cliente
+    FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID);
+
+-- Adicionar CHECK constraint
+ALTER TABLE Produtos
+ADD CONSTRAINT chk_estoque_nao_negativo CHECK (Estoque >= 0);
+  </code></pre>
+   <p><strong>Remover Constraint:</strong> (Sintaxe pode variar)</p>
+   <pre><code class="language-sql">
+-- MySQL
+ALTER TABLE Clientes DROP CONSTRAINT uq_cliente_email;
+ALTER TABLE Pedidos DROP FOREIGN KEY fk_pedido_cliente; -- Sintaxe especial para FK
+ALTER TABLE Produtos DROP CHECK chk_estoque_nao_negativo; -- Sintaxe especial para CHECK
+
+-- PostgreSQL
+ALTER TABLE Clientes DROP CONSTRAINT uq_cliente_email;
+ALTER TABLE Pedidos DROP CONSTRAINT fk_pedido_cliente;
+ALTER TABLE Produtos DROP CONSTRAINT chk_estoque_nao_negativo;
+  </code></pre>
+   <p>É importante dar <strong>nomes explícitos</strong> às constraints (<code>CONSTRAINT nome_constraint ...</code>) para facilitar a remoção posterior.</p>
+<!-- --- END OF FILE slides/slide17.html --- -->

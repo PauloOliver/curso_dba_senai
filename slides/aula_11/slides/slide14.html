@@ -1,0 +1,19 @@
+<!-- --- START OF FILE slides/slide14.html --- -->
+  <h2><i class="fas fa-plus-square"></i> <code>ALTER TABLE</code>: Adicionar Coluna (<code>ADD COLUMN</code>)</h2>
+  <p>Para adicionar uma nova coluna a uma tabela existente:</p>
+  <p><strong>Sintaxe:</strong></p>
+   <pre><code class="language-sql">
+ALTER TABLE nome_da_tabela
+ADD COLUMN nome_nova_coluna TIPO_DE_DADO [DEFAULT valor_padrao] [CONSTRAINTS];
+   </code></pre>
+  <p><strong>Exemplo:</strong> Adicionar uma coluna `Localizacao` à nossa tabela `Departamentos`.</p>
+  <pre><code class="language-sql">
+ALTER TABLE Departamentos
+ADD COLUMN Localizacao VARCHAR(100) DEFAULT 'Indefinido';
+  </code></pre>
+   <p><strong>Considerações:</strong></p>
+   <ul>
+       <li>Se a coluna for `NOT NULL` sem `DEFAULT`, a operação pode falhar em tabelas com dados (ou exigir um valor padrão inicial).</li>
+       <li>Pode ser uma operação rápida ou lenta dependendo do SGBD e do tamanho da tabela.</li>
+   </ul>
+<!-- --- END OF FILE slides/slide14.html --- -->

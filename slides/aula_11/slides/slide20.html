@@ -1,0 +1,26 @@
+<!-- --- START OF FILE slides/slide20.html --- -->
+  <h2><i class="fas fa-laptop-code"></i> Demonstração Ao Vivo 3: Usando (e Temendo) o <code>DROP TABLE</code></h2>
+  <p>Vamos ver o poder destrutivo (em ambiente seguro!):</p>
+  <ol>
+      <li><strong>Criar Tabela de Teste:</strong>
+          <pre><code class="language-sql">CREATE TABLE TabelaParaDropar (id INT PRIMARY KEY, nome VARCHAR(10));</code></pre>
+      </li>
+      <li><strong>Inserir Dados:</strong>
+          <pre><code class="language-sql">INSERT INTO TabelaParaDropar VALUES (1, 'Teste');</code></pre>
+      </li>
+      <li><strong>Verificar Existência:</strong>
+          <pre><code class="language-sql">SELECT * FROM TabelaParaDropar;
+-- Listar tabelas para confirmar que ela existe.</code></pre>
+      </li>
+       <li><strong>Executar o DROP (com confirmação verbal!):</strong>
+          <pre><code class="language-sql">DROP TABLE TabelaParaDropar;</code></pre>
+       </li>
+       <li><strong>Verificar Desaparecimento:</strong>
+           <pre><code class="language-sql">-- Tentar SELECT (deve dar erro "tabela não encontrada")
+SELECT * FROM TabelaParaDropar;
+-- Listar tabelas novamente (não deve aparecer).</code></pre>
+       </li>
+  </ol>
+  <p style="color: var(--red-error); font-weight:bold;">Enfatizar a natureza permanente e a necessidade de cautela extrema.</p>
+  <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--accent-blue); margin-top: 30px;"></i>
+<!-- --- END OF FILE slides/slide20.html --- -->

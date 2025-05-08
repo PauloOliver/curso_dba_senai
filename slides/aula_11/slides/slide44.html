@@ -1,0 +1,75 @@
+
+  <h2><i class="fas fa-check-double"></i> Exercício 3 - Solução Comentada</h2>
+  <p>Código para criar relacionamentos e view:</p>
+  <p><strong>Solução (MySQL):</strong></p>
+  <pre><code class="language-sql">
+-- 1. Criar Tabela Categorias
+CREATE TABLE Categorias (
+    CategoriaID INT AUTO_INCREMENT PRIMARY KEY,
+    NomeCategoria VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- 2. Alterar Produtos para adicionar CategoriaID
+ALTER TABLE Produtos
+ADD COLUMN CategoriaID INT NULL; -- Permite NULL inicialmente
+
+-- 3. Adicionar Foreign Key
+ALTER TABLE Produtos
+ADD CONSTRAINT fk_produto_categoria
+    FOREIGN KEY (CategoriaID) REFERENCES Categorias(CategoriaID)
+    ON DELETE SET NULL; -- Define a ação ON DELETE
+
+-- 4. Inserir Categorias Exemplo
+INSERT INTO Categorias (NomeCategoria) VALUES ('Eletrônicos'), ('Vestuário'), ('Alimentos');
+
+-- 5. Criar View
+CREATE VIEW vw_ProdutosComCategoria AS
+SELECT
+    p.ProdutoID,
+    p.NomeProduto,
+    p.PrecoCusto,
+    c.NomeCategoria
+FROM
+    Produtos p
+LEFT JOIN -- Importante usar LEFT JOIN aqui
+    Categorias c ON p.CategoriaID = c.CategoriaID;
+
+-- Testar a View
+SELECT * FROM vw_ProdutosComCategoria LIMIT 10;
+  </code></pre>
+  <p><strong>Solução (PostgreSQL - Praticamente Idêntica, muda apenas SERIAL):</strong></p>
+   <pre><code class="language-sql">
+-- 1. Criar Tabela Categorias
+CREATE TABLE Categorias (
+    CategoriaID SERIAL PRIMARY KEY, -- Usa SERIAL
+    NomeCategoria VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- 2. Alterar Produtos para adicionar CategoriaID
+ALTER TABLE Produtos
+ADD COLUMN CategoriaID INT NULL;
+
+-- 3. Adicionar Foreign Key
+ALTER TABLE Produtos
+ADD CONSTRAINT fk_produto_categoria
+    FOREIGN KEY (CategoriaID) REFERENCES Categorias(CategoriaID)
+    ON DELETE SET NULL;
+
+-- 4. Inserir Categorias Exemplo
+INSERT INTO Categorias (NomeCategoria) VALUES ('Eletrônicos'), ('Vestuário'), ('Alimentos');
+
+-- 5. Criar View
+CREATE VIEW vw_ProdutosComCategoria AS
+SELECT
+    p.ProdutoID,
+    p.NomeProduto,
+    p.PrecoCusto,
+    c.NomeCategoria
+FROM
+    Produtos p
+LEFT JOIN
+    Categorias c ON p.CategoriaID = c.CategoriaID;
+
+-- Testar a View
+SELECT * FROM vw_ProdutosComCategoria LIMIT 10;
+   </code></pre>

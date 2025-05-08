@@ -1,0 +1,13 @@
+
+  <h2><i class="fas fa-pencil-ruler"></i> Exercício 2 (Intermediário): Modificando `Produtos`</h2>
+  <p><strong>Sua Missão:</strong> Refinar e melhorar a estrutura da tabela <code>Produtos</code> existente.</p>
+   <div class="exercise-task-box" style="text-align:left; margin:15px auto; padding:15px; border:1px dashed var(--accent-yellow); max-width:700px; background-color: #2f2f44;">
+      <p><strong><i class="fas fa-tasks"></i> Tarefas (usando <code>ALTER TABLE</code>):</strong></p>
+      <ol>
+          <li>Adicione uma nova coluna chamada <code>EstoqueAtual</code> do tipo Inteiro (<code>INT</code>). Ela <strong>não pode ser nula</strong> e seu valor padrão deve ser <code>0</code>.</li>
+          <li>Adicione uma <strong>constraint <code>CHECK</code></strong> chamada <code>chk_preco_positivo</code> para garantir que a coluna <code>PrecoCusto</code> contenha sempre um valor <strong>maior que zero</strong> (<code>> 0</code>).</li>
+          <li>Crie um <strong>índice</strong> chamado <code>idx_produto_nome</code> na coluna <code>NomeProduto</code> para otimizar futuras buscas por nome.</li>
+          <li>Modifique a coluna <code>CodigoBarras</code> para permitir um tamanho maior, alterando seu tipo para <code>VARCHAR(14)</code> (mantendo a constraint UNIQUE).</li>
+      </ol>
+   </div>
+   <p><em><i class="fas fa-lightbulb" style="color:var(--accent-yellow)"></i> Dica: Execute um comando <code>ALTER TABLE</code> para cada tarefa. Lembre-se que a sintaxe de <code>MODIFY</code>/<code>ALTER COLUMN</code> e <code>ADD CONSTRAINT</code> pode variar um pouco entre MySQL e PostgreSQL. Verifique a estrutura após cada alteração.</em></p>

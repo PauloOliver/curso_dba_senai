@@ -1,0 +1,18 @@
+<!-- --- START OF FILE slides/slide27.html --- -->
+  <h2><i class="fas fa-search-plus"></i> Índices (Indexes): O que são?</h2>
+  <p>Um <strong>Índice</strong> é uma estrutura de dados especial, associada a uma tabela, que permite ao SGBD encontrar linhas específicas de forma muito mais <strong>rápida</strong>, sem ter que varrer a tabela inteira.</p>
+  <p>Eles funcionam de forma semelhante ao índice remissivo no final de um livro.</p>
+  <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 25px; margin-bottom: 25px;">
+      <div style="text-align: center;">
+           <i class="fas fa-book-open fa-3x" style="color: var(--accent-yellow);"></i>
+           <p style="color: var(--accent-yellow); font-weight: bold;">Analogia: Índice de Livro</p>
+           <p style="font-size:0.9em; color: var(--text-medium)">Para achar "Constraint" no livro, você vai ao índice, acha a palavra e vê a(s) página(s) (localização rápida), em vez de ler todas as páginas.</p>
+      </div>
+       <div style="text-align: center;">
+           <i class="fas fa-database fa-3x" style="color: var(--accent-blue);"></i><i class="fas fa-bolt fa-lg" style="position:relative; left:-15px; top:-15px; color:var(--accent-green)"></i>
+           <p style="color: var(--accent-blue); font-weight: bold;">Benefício no Banco</p>
+           <p style="font-size:0.9em; color: var(--text-medium)">Para achar <code>WHERE NomeCliente = 'Ana'</code>, o SGBD usa o índice na coluna <code>NomeCliente</code> para ir direto às linhas da Ana, sem ler a tabela toda.</p>
+       </div>
+  </div>
+  <p><strong>Importante:</strong> Chaves Primárias (<code>PRIMARY KEY</code>) e Constraints <code>UNIQUE</code> geralmente criam índices <strong>automaticamente</strong> por baixo dos panos.</p>
+<!-- --- END OF FILE slides/slide27.html --- -->

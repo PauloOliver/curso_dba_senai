@@ -1,0 +1,19 @@
+<!-- --- START OF FILE slides/slide11.html --- -->
+  <h2><i class="fas fa-laptop-code"></i> Demonstração Ao Vivo 1: Criando Nossa Primeira Tabela</h2>
+  <p>Vamos ao SGBD (MySQL/PostgreSQL)!</p>
+  <ol>
+      <li>Conectar ao banco de dados de teste.</li>
+      <li>Executar o comando <code>CREATE TABLE Departamentos</code> (escolha a versão do seu SGBD).</li>
+      <li>Verificar se a tabela foi criada com sucesso (listando tabelas).</li>
+      <li>Examinar a estrutura da tabela criada:
+          <ul>
+              <li>MySQL: <code>DESCRIBE Departamentos;</code> ou <code>SHOW CREATE TABLE Departamentos;</code></li>
+              <li>PostgreSQL: <code>\d Departamentos</code></li>
+          </ul>
+          (Observar os tipos de dados, se aceita NULL, as chaves e defaults).
+      </li>
+      <li>Tentar inserir um departamento sem nome (<code>NOT NULL</code>) e ver o erro.</li>
+      <li>Tentar inserir dois departamentos com o mesmo nome (<code>UNIQUE</code>) e ver o erro.</li>
+  </ol>
+  <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--accent-blue); margin-top: 30px;"></i>
+<!-- --- END OF FILE slides/slide11.html --- -->

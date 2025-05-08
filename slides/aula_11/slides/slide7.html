@@ -1,0 +1,27 @@
+<!-- --- START OF FILE slides/slide7.html --- -->
+  <h2><i class="fas fa-keyboard"></i> <code>CREATE TABLE</code>: Tipos de Dados Comuns (1/2)</h2>
+  <p>Escolher o tipo de dado correto para cada coluna é crucial para eficiência e integridade.</p>
+  <ul>
+    <li><strong><i class="fas fa-sort-numeric-up fa-fw"></i> Inteiros:</strong>
+        <ul>
+            <li><code>INT</code> ou <code>INTEGER</code>: Números inteiros padrão (geralmente 4 bytes). Ex: Idade, Quantidade, IDs.</li>
+            <li><code>SMALLINT</code>: Inteiros menores (2 bytes). Ex: Contagem pequena.</li>
+            <li><code>BIGINT</code>: Inteiros muito grandes (8 bytes). Ex: IDs em tabelas gigantes, contadores de alta volumetria.</li>
+        </ul>
+    </li>
+    <li><strong><i class="fas fa-font fa-fw"></i> Texto:</strong>
+         <ul>
+            <li><code>VARCHAR(n)</code>: String de texto de tamanho <strong>variável</strong> até um máximo de <code>n</code> caracteres. Ocupa espaço apenas pelo tamanho real + pequena sobrecarga. <strong>Mais comum para nomes, emails, títulos curtos.</strong></li>
+            <li><code>CHAR(n)</code>: String de texto de tamanho <strong>fixo</strong> de <code>n</code> caracteres. Sempre ocupa <code>n</code> bytes (preenche com espaços se necessário). Útil para códigos de tamanho fixo (Ex: Siglas de Estado 'SP', 'RJ').</li>
+            <li><code>TEXT</code> (e variações como <code>MEDIUMTEXT</code>, <code>LONGTEXT</code>): Para textos longos sem limite prático definido. Use com moderação, pois pode impactar performance. Ex: Descrições, Conteúdo de artigos.</li>
+         </ul>
+    </li>
+     <li><strong><i class="fas fa-toggle-on fa-fw"></i> Booleanos:</strong>
+        <ul>
+           <li><code>BOOLEAN</code> (Padrão SQL) ou <code>BOOL</code>: Armazena <code>TRUE</code> ou <code>FALSE</code> (e às vezes <code>NULL</code>).</li>
+           <li>MySQL usa <code>TINYINT(1)</code> como sinônimo comum para booleanos (0 = falso, 1 = verdadeiro).</li>
+           <li>Ex: Colunas <code>Ativo</code>, <code>Publicado</code>, <code>EmailVerificado</code>.</li>
+        </ul>
+     </li>
+  </ul>
+<!-- --- END OF FILE slides/slide7.html --- -->

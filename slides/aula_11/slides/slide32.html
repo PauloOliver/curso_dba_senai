@@ -1,0 +1,27 @@
+<!-- --- START OF FILE slides/slide32.html --- -->
+  <h2><i class="fas fa-tasks"></i> Constraints (Revisão e Aprofundamento): As Guardiãs da Integridade</h2>
+  <p>Relembrando: Constraints são regras para garantir a qualidade e a consistência dos dados.</p>
+  <p>Além de <code>PRIMARY KEY</code>, <code>NOT NULL</code>, <code>UNIQUE</code>, temos outras importantes:</p>
+  <ul>
+      <li><strong><i class="fas fa-link fa-fw" style="color:var(--accent-green)"></i> <code>FOREIGN KEY</code> (FK):</strong>
+        <ul>
+            <li>Define um <strong>relacionamento</strong> entre duas tabelas.</li>
+            <li>Garante que o valor em uma coluna (ou colunas) da tabela "filha" <strong>deve existir</strong> como valor de uma <code>PRIMARY KEY</code> (ou <code>UNIQUE</code>) na tabela "pai".</li>
+            <li><strong>Mantém a Integridade Referencial:</strong> Impede "registros órfãos" (ex: um pedido sem um cliente válido).</li>
+            <li>Sintaxe: <code>FOREIGN KEY (coluna_filha) REFERENCES tabela_pai(coluna_pai) [ON DELETE acao] [ON UPDATE acao]</code></li>
+            <li>Ações comuns: <code>RESTRICT</code>/<code>NO ACTION</code> (padrão, impede delete/update no pai se filho existir), <code>CASCADE</code> (propaga delete/update para filhos - CUIDADO!), <code>SET NULL</code> (define FK como NULL no filho), <code>SET DEFAULT</code>.</li>
+            <pre><code class="language-sql">-- Exemplo: Pedido DEVE ter um ClienteID que existe em Clientes
+ALTER TABLE Pedidos ADD CONSTRAINT fk_ped_cli FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID);</code></pre>
+        </ul>
+      </li>
+       <li><strong><i class="fas fa-check-square fa-fw" style="color:var(--accent-green)"></i> <code>CHECK</code>:</strong>
+        <ul>
+            <li>Define uma condição que <strong>deve ser verdadeira</strong> para que um valor seja inserido ou atualizado na coluna.</li>
+            <li>Permite implementar regras de negócio diretamente no banco.</li>
+            <li>Ex: <code>ALTER TABLE Produtos ADD CONSTRAINT chk_preco CHECK (Preco >= 0);</code></li>
+            <li>Ex: <code>ALTER TABLE Funcionarios ADD CONSTRAINT chk_tipo_contrato CHECK (TipoContrato IN ('CLT', 'PJ', 'Estágio'));</code></li>
+        </ul>
+      </li>
+  </ul>
+  <p>Usar constraints adequadamente é fundamental para um banco de dados confiável!</p>
+<!-- --- END OF FILE slides/slide32.html --- -->

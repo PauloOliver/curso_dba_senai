@@ -1,0 +1,25 @@
+<!-- --- START OF FILE slides/slide25.html --- -->
+  <h2><i class="fas fa-exclamation-triangle" style="color: var(--accent-yellow)"></i> Views: Atualização (Cuidado!)</h2>
+  <p>É possível executar comandos DML (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) diretamente em uma View?</p>
+  <p><strong>Resposta:</strong> Depende!</p>
+  <ul>
+      <li><strong>Views Simples (Geralmente Atualizáveis):</strong>
+          <ul>
+              <li>Baseadas em <strong>uma única tabela</strong> base.</li>
+              <li><strong>Não</strong> usam funções agregadas (<code>COUNT</code>, <code>SUM</code>, <code>AVG</code>...).</li>
+              <li><strong>Não</strong> usam <code>GROUP BY</code> ou <code>HAVING</code>.</li>
+              <li><strong>Não</strong> usam <code>DISTINCT</code>.</li>
+              <li>Todas as colunas <code>NOT NULL</code> da tabela base sem valor <code>DEFAULT</code> devem estar incluídas na view para permitir <code>INSERT</code>.</li>
+          </ul>
+          <p>Ex: <code>UPDATE vw_DepartamentosAtivos SET Localizacao = 'Nova Sede' WHERE DepartamentoID = 1;</code> (Provavelmente funcionaria).</p>
+      </li>
+       <li><strong>Views Complexas (Geralmente NÃO Atualizáveis):</strong>
+          <ul>
+              <li>Baseadas em múltiplos <code>JOIN</code>s.</li>
+              <li>Usam agregações, <code>GROUP BY</code>, <code>DISTINCT</code>, etc.</li>
+          </ul>
+           <p>Ex: Tentar inserir em uma view que junta Clientes e Pedidos é ambíguo e geralmente proibido.</p>
+      </li>
+  </ul>
+  <p><strong>Regra Geral:</strong> As regras exatas variam entre SGBDs. Na dúvida, ou para lógica complexa, é <strong>sempre mais seguro e claro</strong> realizar as operações DML diretamente nas <strong>tabelas base</strong>.</p>
+<!-- --- END OF FILE slides/slide25.html --- -->

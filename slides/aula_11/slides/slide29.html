@@ -1,0 +1,17 @@
+<!-- --- START OF FILE slides/slide29.html --- -->
+  <h2><i class="fas fa-map-marker-question"></i> Índices: Quando Usar? (Onde eles brilham <i class="fas fa-star" style="color:var(--accent-yellow)"></i>)</h2>
+  <p>Índices são mais eficazes em colunas que são:</p>
+  <ul>
+      <li><i class="fas fa-filter fa-fw" style="color:var(--accent-green)"></i> Frequentemente usadas na cláusula <strong><code>WHERE</code></strong> para filtrar um subconjunto relativamente pequeno de linhas.
+          <ul><li>Ex: <code>WHERE ClienteID = ?</code>, <code>WHERE StatusPedido = 'Pendente'</code>, <code>WHERE Email = ?</code></li></ul>
+      </li>
+       <li><i class="fas fa-link fa-fw" style="color:var(--accent-green)"></i> Usadas em condições de <strong><code>JOIN</code></strong> (as colunas de chave estrangeira são excelentes candidatas, embora alguns SGBDs possam criá-los automaticamente).
+           <ul><li>Ex: <code>ON Pedidos.ClienteID = Clientes.ClienteID</code> (indexar <code>Pedidos.ClienteID</code>).</li></ul>
+       </li>
+       <li><i class="fas fa-sort-amount-down fa-fw" style="color:var(--accent-green)"></i> Frequentemente usadas na cláusula <strong><code>ORDER BY</code></strong> para classificar os resultados.
+            <ul><li>Ex: <code>ORDER BY DataCadastro DESC</code> (indexar <code>DataCadastro</code>).</li></ul>
+       </li>
+       <li><i class="fas fa-project-diagram fa-fw" style="color:var(--accent-green)"></i> Colunas com <strong>alta cardinalidade</strong> (muitos valores distintos) geralmente se beneficiam mais de índices B-Tree padrão do que colunas com baixa cardinalidade (poucos valores distintos, como um campo 'Sexo' M/F).</li>
+  </ul>
+  <p>O objetivo é sempre <strong>reduzir a quantidade de trabalho</strong> que o SGBD precisa fazer para encontrar os dados solicitados.</p>
+<!-- --- END OF FILE slides/slide29.html --- -->

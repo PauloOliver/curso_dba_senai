@@ -1,0 +1,33 @@
+<!-- --- START OF FILE slides/slide15.html --- -->
+  <h2><i class="fas fa-edit"></i> <code>ALTER TABLE</code>: Modificar Coluna (<code>MODIFY</code>/<code>ALTER COLUMN</code>)</h2>
+  <p>Para alterar as propriedades de uma coluna existente (tipo, tamanho, nullability, default, etc.). A sintaxe varia bastante!</p>
+  <p><strong>Sintaxe (Exemplos):</strong></p>
+  <pre><code class="language-sql">
+-- MySQL: Alterar tipo e adicionar NOT NULL
+ALTER TABLE Departamentos
+MODIFY COLUMN NomeDepto VARCHAR(100) NOT NULL;
+
+-- MySQL: Adicionar valor DEFAULT
+ALTER TABLE Departamentos
+ALTER COLUMN Localizacao SET DEFAULT 'Sede';
+
+-- PostgreSQL: Alterar tipo
+ALTER TABLE Departamentos
+ALTER COLUMN NomeDepto TYPE VARCHAR(100);
+
+-- PostgreSQL: Adicionar NOT NULL
+ALTER TABLE Departamentos
+ALTER COLUMN Sigla SET NOT NULL;
+
+-- PostgreSQL: Remover DEFAULT
+ALTER TABLE Departamentos
+ALTER COLUMN DataCriacao DROP DEFAULT;
+  </code></pre>
+  <p style="color: var(--red-error); font-weight: bold;"><i class="fas fa-exclamation-triangle"></i> CUIDADO EXTREMO:</p>
+  <ul>
+      <li>Alterar o <strong>tipo</strong> de dados (ex: `VARCHAR` para `INT`) pode causar <strong>perda de dados</strong> se a conversão não for possível.</li>
+      <li><strong>Diminuir o tamanho</strong> de um `VARCHAR` ou `DECIMAL` pode truncar dados existentes.</li>
+      <li>Adicionar <code>NOT NULL</code> a uma coluna com `NULL`s existentes falhará (precisa tratar os `NULL`s primeiro).</li>
+  </ul>
+  <p><strong>SEMPRE TESTE extensivamente antes de aplicar em produção!</strong></p>
+<!-- --- END OF FILE slides/slide15.html --- -->

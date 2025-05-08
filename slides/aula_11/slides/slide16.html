@@ -1,0 +1,18 @@
+<!-- --- START OF FILE slides/slide16.html --- -->
+  <h2><i class="fas fa-minus-square" style="color:var(--red-error)"></i> <code>ALTER TABLE</code>: Remover Coluna (<code>DROP COLUMN</code>)</h2>
+  <p>Para remover permanentemente uma coluna existente de uma tabela.</p>
+   <p><strong>Sintaxe:</strong></p>
+   <pre><code class="language-sql">
+ALTER TABLE nome_da_tabela
+DROP COLUMN nome_da_coluna_a_remover;
+   </code></pre>
+    <p><strong>Exemplo:</strong> Remover a coluna `Sigla` da tabela `Departamentos`.</p>
+  <pre><code class="language-sql">
+ALTER TABLE Departamentos
+DROP COLUMN Sigla;
+  </code></pre>
+  <div style="border: 3px dashed var(--red-error); padding: 10px; margin-top: 15px; background-color: rgba(244, 67, 54, 0.1);">
+      <p style="color: var(--red-error); font-weight: bold; margin: 0;"><i class="fas fa-exclamation-triangle"></i> CUIDADO! Operação IRREVERSÍVEL! Todos os dados da coluna removida serão perdidos permanentemente. Tenha certeza absoluta e backup antes de executar.</p>
+  </div>
+  <p style="margin-top: 10px;">Verifique também se a coluna não está sendo usada em Índices, Views ou Chaves Estrangeiras antes de removê-la.</p>
+<!-- --- END OF FILE slides/slide16.html --- -->

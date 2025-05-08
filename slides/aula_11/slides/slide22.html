@@ -1,0 +1,31 @@
+<!-- --- START OF FILE slides/slide22.html --- -->
+  <h2><i class="fas fa-eye"></i> Views (Visões): O que são?</h2>
+  <p>Uma <strong>View</strong> (ou Visão) é um objeto do banco de dados que consiste em uma <strong>consulta <code>SELECT</code> armazenada</strong>.</p>
+  <p>Ela se comporta como uma <strong>tabela virtual</strong>: você pode consultá-la (<code>SELECT * FROM nome_da_view</code>), mas ela geralmente não armazena dados fisicamente.</p>
+  <p>Quando você consulta uma view, o SGBD executa a consulta <code>SELECT</code> subjacente que a define.</p>
+   <div class="slide-svg-container" style="max-width: 65%; margin-top: 20px;">
+      <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="50" width="120" height="60" rx="5" class="svg-bg-fill" stroke="var(--text-medium)"/>
+          <text x="70" y="85" text-anchor="middle" class="svg-text-light-fill">Tabela Base 1</text>
+           <rect x="10" y="120" width="120" height="30" rx="5" fill="#00000011"/> <!-- Shadow -->
+           <rect x="10" y="115" width="120" height="30" rx="5" fill="#00000011"/> <!-- Shadow -->
+
+
+          <rect x="270" y="50" width="120" height="60" rx="5" class="svg-bg-fill" stroke="var(--text-medium)"/>
+          <text x="330" y="85" text-anchor="middle" class="svg-text-light-fill">Tabela Base 2</text>
+           <rect x="270" y="120" width="120" height="30" rx="5" fill="#00000011"/> <!-- Shadow -->
+           <rect x="270" y="115" width="120" height="30" rx="5" fill="#00000011"/> <!-- Shadow -->
+
+          <path d="M130 80 Q 150 40 200 40 Q 250 40 270 80" stroke="var(--accent1-line)" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
+          <path d="M130 80 Q 150 120 200 120 Q 250 120 270 80" stroke="var(--accent1-line)" stroke-width="2" fill="none" stroke-dasharray="5,3"/>
+
+
+           <rect x="150" y="30" width="100" height="50" rx="8" class="svg-accent1-fill" stroke="var(--accent-yellow)" stroke-width="2"/>
+           <text x="200" y="55" text-anchor="middle" class="svg-text-light-fill" font-weight="bold">VIEW</text>
+           <text x="200" y="70" text-anchor="middle" class="svg-text-fill" font-size="10px">(Consulta Salva)</text>
+
+           <text x="200" y="140" text-anchor="middle" class="svg-text-medium" font-size="12px"><tspan font-family='Font Awesome 5 Free' font-weight='900'>&#xf002;</tspan> SELECT * FROM MinhaView;</text>
+      </svg>
+   </div>
+  <p style="font-size: 0.9em; color:var(--text-medium)">Analogia: Uma "janela" personalizada que mostra apenas partes específicas de um ou mais "cômodos" (tabelas), ou uma combinação deles.</p>
+<!-- --- END OF FILE slides/slide22.html --- -->

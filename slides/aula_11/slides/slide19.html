@@ -1,0 +1,22 @@
+<!-- --- START OF FILE slides/slide19.html --- -->
+  <h2><i class="fas fa-times-circle" style="color: var(--red-error)"></i> Comando <code>DROP TABLE</code></h2>
+  <p>Este comando é usado para <strong>remover permanentemente</strong> uma tabela inteira do banco de dados.</p>
+  <p><strong>Sintaxe:</strong></p>
+  <pre><code class="language-sql">
+DROP TABLE nome_da_tabela;
+
+-- Forma mais segura para scripts (evita erro se a tabela não existir)
+DROP TABLE IF EXISTS nome_da_tabela;
+  </code></pre>
+  <div style="border: 5px solid var(--red-error); padding: 15px; margin-top: 20px; background-color: #3b2a2a;">
+      <h3 style="color: var(--red-error); margin-top: 0;"><i class="fas fa-skull-crossbones fa-2x"></i> PERIGO MÁXIMO! IRREVERSÍVEL!</h3>
+      <p style="color: var(--text-light);"><code>DROP TABLE</code> apaga a <strong>estrutura</strong> da tabela E <strong>TODOS OS DADOS</strong> contidos nela. Não há "desfazer" fácil (somente restauração de backup).</p>
+  </div>
+  <p style="margin-top: 15px;"><strong><i class="fas fa-shield-alt"></i> Boas Práticas Essenciais:</strong></p>
+  <ul>
+      <li><strong>Verifique Dependências:</strong> Outras tabelas (via FKs), Views, Procedures, Functions dependem desta tabela? Remova ou ajuste as dependências primeiro.</li>
+      <li><strong>Confirme o Nome:</strong> Tenha 1000% de certeza que está digitando o nome correto da tabela a ser removida.</li>
+      <li><strong>BACKUP! BACKUP! BACKUP!</strong> Garanta que existe um backup recente e testado antes de executar qualquer <code>DROP</code> em produção.</li>
+      <li><strong>Permissões Restritas:</strong> Em produção, o privilégio de executar <code>DROP</code> deve ser muito restrito.</li>
+  </ul>
+<!-- --- END OF FILE slides/slide19.html --- -->

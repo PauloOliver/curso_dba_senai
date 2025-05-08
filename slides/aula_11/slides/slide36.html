@@ -1,0 +1,26 @@
+
+  <h2><i class="fas fa-shield-alt"></i> Boas Práticas Essenciais em DDL (Consolidação 1/2)</h2>
+  <p>Construindo um banco de dados sólido e manutenível:</p>
+  <ul>
+      <li><strong><i class="fas fa-drafting-compass fa-fw" style="color: var(--accent-green)"></i> 1. Planejamento é Tudo:</strong>
+          <ul>
+              <li>Modele seu banco de dados <strong>antes</strong> de começar a criar tabelas (use Diagramas Entidade-Relacionamento - DER).</li>
+              <li>Pense cuidadosamente nos <strong>tipos de dados</strong> e <strong>tamanhos</strong>. Use o tipo mais apropriado e restritivo possível (evita desperdício e erros).</li>
+          </ul>
+      </li>
+       <li><strong><i class="fas fa-signature fa-fw" style="color: var(--accent-green)"></i> 2. Nomenclatura Clara e Consistente:</strong>
+          <ul>
+              <li>Use nomes significativos para tabelas (geralmente plural, ex: <code>Clientes</code>) e colunas (geralmente singular, ex: <code>NomeCliente</code>, <code>DataPedido</code>).</li>
+              <li>Adote um padrão e siga-o: <code>snake_case</code> (preferido em muitos ambientes SQL) ou <code>CamelCase</code>.</li>
+              <li>Seja explícito com chaves: <code>ClienteID</code> (PK), <code>PedidoID</code> (PK), <code>ClienteID</code> (FK em Pedidos).</li>
+          </ul>
+       </li>
+       <li><strong><i class="fas fa-tasks fa-fw" style="color: var(--accent-green)"></i> 3. Constraints são Suas Amigas:</strong>
+           <ul>
+              <li><strong>Não economize em constraints!</strong> Use <code>PRIMARY KEY</code> em toda tabela. Use <code>NOT NULL</code> generosamente para campos obrigatórios.</li>
+              <li>Use <code>UNIQUE</code> onde a lógica ditar unicidade (emails, CPFs, códigos).</li>
+              <li>Use <code>FOREIGN KEY</code> para definir e reforçar todos os relacionamentos lógicos.</li>
+               <li>Use <code>CHECK</code> para validar regras de negócio simples (ex: preço > 0, status em lista válida).</li>
+           </ul>
+       </li>
+  </ul>

@@ -1,0 +1,13 @@
+<!-- --- START OF FILE slides/slide13.html --- -->
+  <h2><i class="fas fa-wrench"></i> Comando <code>ALTER TABLE</code></h2>
+  <p>E se precisarmos modificar uma tabela que já existe?</p>
+  <p>O comando <code>ALTER TABLE</code> permite fazer diversas modificações na estrutura de uma tabela existente, como:</p>
+  <ul>
+      <li><i class="fas fa-plus fa-fw"></i> Adicionar colunas.</li>
+      <li><i class="fas fa-pencil-alt fa-fw"></i> Modificar o tipo, tamanho ou constraints de colunas existentes.</li>
+      <li><i class="fas fa-trash-alt fa-fw"></i> Remover colunas existentes.</li>
+      <li><i class="fas fa-link fa-fw"></i> Adicionar ou remover constraints (PK, FK, UNIQUE, CHECK).</li>
+      <li><i class="fas fa-signature fa-fw"></i> Renomear colunas ou a própria tabela (varia entre SGBDs).</li>
+  </ul>
+  <p style="color: var(--accent-yellow); font-weight: bold;"><i class="fas fa-exclamation-triangle"></i> CUIDADO: <code>ALTER TABLE</code> pode ser uma operação pesada e demorada em tabelas com muitos dados, podendo causar bloqueios. Planeje e teste com cuidado!</p>
+<!-- --- END OF FILE slides/slide13.html --- -->

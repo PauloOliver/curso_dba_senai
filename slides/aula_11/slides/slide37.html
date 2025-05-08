@@ -1,0 +1,30 @@
+
+  <h2><i class="fas fa-shield-alt"></i> Boas Práticas Essenciais em DDL (Consolidação 2/2)</h2>
+  <ul>
+      <li><strong><i class="fas fa-search-plus fa-fw" style="color: var(--accent-green)"></i> 4. Índices com Critério e Monitoramento:</strong>
+          <ul>
+              <li>Crie índices onde eles trarão benefícios claros para as consultas (`WHERE`, `JOIN`, `ORDER BY`).</li>
+              <li>Evite indexar colunas raramente usadas em filtros ou com baixa cardinalidade (poucos valores distintos).</li>
+              <li><strong>Monitore!</strong> Use <code>EXPLAIN</code> ou ferramentas de análise de performance para verificar se os índices estão sendo usados e se não estão impactando DML negativamente.</li>
+          </ul>
+      </li>
+      <li><strong><i class="fas fa-vial fa-fw" style="color: var(--accent-yellow)"></i> 5. <code>ALTER</code> e <code>DROP</code> com Extrema Cautela:</strong>
+           <ul>
+              <li><strong>SEMPRE</strong> teste alterações de estrutura (<code>ALTER</code>) em ambientes de Desenvolvimento e Homologação (DEV/QA) antes de aplicar em Produção.</li>
+              <li>Esteja ciente do impacto de performance e bloqueios (locking) de <code>ALTER</code> em tabelas grandes. Planeje janelas de manutenção se necessário.</li>
+               <li>Comunique as alterações de estrutura para as equipes de desenvolvimento.</li>
+              <li>Use <code>DROP</code> apenas quando tiver certeza absoluta e backups verificados. Verifique dependências antes.</li>
+           </ul>
+      </li>
+       <li><strong><i class="fas fa-database fa-fw" style="color: var(--accent-blue)"></i> 6. Backups, Backups, Backups:</strong>
+           <ul>
+              <li>A melhor defesa contra erros DDL (e DML). Garanta que backups automáticos estejam configurados e, crucialmente, <strong>teste a restauração</strong> periodicamente.</li>
+           </ul>
+       </li>
+       <li><strong><i class="fas fa-book fa-fw" style="color: var(--text-medium)"></i> 7. Documentação:</strong>
+           <ul>
+              <li>Mantenha seu modelo de dados (DER) atualizado.</li>
+              <li>Documente o propósito de tabelas, colunas e quaisquer regras de negócio complexas implementadas via constraints ou triggers.</li>
+           </ul>
+       </li>
+  </ul>

@@ -1,0 +1,15 @@
+<!-- --- START OF FILE slides/slide18.html --- -->
+  <h2><i class="fas fa-laptop-code"></i> Demonstração Ao Vivo 2: Modificando a Tabela `Departamentos`</h2>
+  <p>Vamos aplicar alterações na nossa tabela:</p>
+  <ol>
+      <li><strong>Adicionar Coluna:</strong> <code>ADD COLUMN Localizacao VARCHAR(100);</code></li>
+      <li><strong>Verificar:</strong> <code>DESCRIBE Departamentos;</code> / <code>\d Departamentos</code></li>
+      <li><strong>Modificar Coluna:</strong> <code>MODIFY COLUMN NomeDepto VARCHAR(100) NOT NULL;</code> (MySQL) ou <code>ALTER COLUMN NomeDepto TYPE VARCHAR(100);</code> (PgSQL).</li>
+      <li><strong>Verificar:</strong> <code>DESCRIBE Departamentos;</code> / <code>\d Departamentos</code></li>
+      <li><strong>Adicionar Constraint CHECK:</strong> <code>ADD CONSTRAINT chk_localizacao CHECK (Localizacao IN ('Sede', 'Filial Norte', 'Filial Sul'));</code> (Ajuste a sintaxe do CHECK se necessário para seu SGBD).</li>
+       <li><strong>Verificar Constraints:</strong> <code>SHOW CREATE TABLE Departamentos;</code> (MySQL) / <code>\d Departamentos</code> (PgSQL).</li>
+       <li>(Opcional) Tentar inserir/atualizar violando o CHECK.</li>
+       <li>(Opcional) Remover a constraint: <code>DROP CONSTRAINT chk_localizacao;</code>.</li>
+  </ol>
+  <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--accent-blue); margin-top: 30px;"></i>
+<!-- --- END OF FILE slides/slide18.html --- -->

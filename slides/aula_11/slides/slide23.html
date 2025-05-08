@@ -1,0 +1,25 @@
+<!-- --- START OF FILE slides/slide23.html --- -->
+  <h2><i class="fas fa-plus-square"></i> Views: Sintaxe e Criação</h2>
+  <p>Para criar uma view, usamos o comando <code>CREATE VIEW</code>.</p>
+   <p><strong>Sintaxe Básica:</strong></p>
+  <pre><code class="language-sql">
+CREATE [OR REPLACE] VIEW nome_da_view [(coluna1, coluna2, ...)] -- OR REPLACE atualiza se já existir; Nomes de coluna opcionais
+AS
+SELECT coluna_tabela1, coluna_tabela2, calculo_xyz -- A consulta SELECT que define a view
+FROM tabela_base1
+[JOIN tabela_base2 ON ...]
+[WHERE condicao]
+[GROUP BY ...]
+[ORDER BY ...]; -- ORDER BY em views tem efeito limitado ou nulo em alguns SGBDs
+  </code></pre>
+  <p><strong>Exemplo Simples:</strong> Criar uma view para mostrar apenas departamentos ativos (se tivéssemos uma coluna 'Ativo').</p>
+  <pre><code class="language-sql">
+-- Supondo que Departamentos tenha uma coluna 'Ativo' BOOLEAN
+CREATE VIEW vw_DepartamentosAtivos AS
+SELECT DepartamentoID, NomeDepto, Localizacao
+FROM Departamentos
+WHERE Ativo = TRUE;
+  </code></pre>
+  <p><strong>Consultando a View:</strong> Depois de criada, usamos como uma tabela normal.</p>
+   <pre><code class="language-sql">SELECT * FROM vw_DepartamentosAtivos WHERE Localizacao = 'Sede';</code></pre>
+<!-- --- END OF FILE slides/slide23.html --- -->
