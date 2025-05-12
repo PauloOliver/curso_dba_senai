@@ -1,0 +1,24 @@
+<!-- --- START OF FILE slides/slide25.html --- -->
+  <h2><i class="fas fa-signal"></i> Níveis de Isolamento Padrão SQL (1/2)</h2>
+  <p>O padrão SQL define quatro níveis de isolamento (a implementação exata pode variar um pouco entre SGBDs):</p>
+  <ol>
+      <li><strong><code>READ UNCOMMITTED</code> (Leitura Não Commitada)</strong> <i class="fas fa-eye-slash" style="color:var(--red-error)"></i>
+          <ul>
+              <li>É o nível de isolamento <strong>mais baixo</strong>.</li>
+              <li>Uma transação pode ler alterações feitas por outras transações que <strong>ainda não foram commitadas</strong>.</li>
+              <li><strong>Anomalias Permitidas:</strong> Leitura Suja, Leitura Não Repetível, Leitura Fantasma.</li>
+              <li><strong>Prós:</strong> Máxima concorrência, performance pode ser alta.</li>
+              <li><strong>Contras:</strong> Risco muito alto de ler dados inconsistentes e "falsos". Raramente usado em aplicações críticas.</li>
+          </ul>
+      </li>
+      <li style="margin-top:15px;"><strong><code>READ COMMITTED</code> (Leitura Commitada)</strong> <i class="fas fa-book-reader" style="color:var(--accent-yellow)"></i>
+           <ul>
+              <li>Garante que uma transação <strong>só leia dados que já foram commitados</strong> por outras transações.</li>
+              <li><strong>Previne:</strong> Leitura Suja.</li>
+              <li><strong>Anomalias Ainda Permitidas:</strong> Leitura Não Repetível, Leitura Fantasma.</li>
+              <li>É o nível de isolamento <strong>padrão</strong> em muitos SGBDs populares (PostgreSQL, SQL Server, Oracle).</li>
+              <li>Oferece um bom equilíbrio entre consistência e concorrência para muitas aplicações.</li>
+          </ul>
+      </li>
+  </ol>
+<!-- --- END OF FILE slides/slide25.html --- -->

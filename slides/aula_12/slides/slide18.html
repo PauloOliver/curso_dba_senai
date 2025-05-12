@@ -1,0 +1,32 @@
+<!-- --- START OF FILE slides/slide18.html --- -->
+  <h2><i class="fas fa-laptop-code"></i> Demonstração Ao Vivo 2: Usando <code>SAVEPOINT</code></h2>
+  <p>Vamos ver o rollback parcial (na tabela <code>Contas</code> de teste):</p>
+  <pre><code class="language-sql">
+SELECT * FROM Contas; -- Estado Inicial
+
+START TRANSACTION;
+  UPDATE Contas SET Saldo = Saldo + 10 WHERE ContaID = 1; -- Ana +10
+  SAVEPOINT ponto_A; -- Ponto de salvamento após primeira alteração
+
+  UPDATE Contas SET Saldo = Saldo + 20 WHERE ContaID = 2; -- Beto +20
+  INSERT INTO Contas (ContaID, NomeCliente, Saldo) VALUES (4, 'Diana', 500.00);
+  SAVEPOINT ponto_B; -- Ponto após segunda leva de alterações
+
+  UPDATE Contas SET Saldo = 0 WHERE ContaID = 1; -- Erro! Zerou saldo de Ana
+
+  SELECT * FROM Contas; -- Mostrar estado intermediário (Ana=0, Beto +20, Diana existe)
+
+  -- Oops, quero desfazer SÓ a última operação em Ana e a inserção de Diana
+  ROLLBACK TO SAVEPOINT ponto_A;
+
+  SELECT * FROM Contas; -- Mostrar estado (Ana +10 original, Beto e Diana desfeitos)
+
+  -- Posso continuar:
+  UPDATE Contas SET Saldo = Saldo + 5 WHERE ContaID = 2; -- Beto +5 adicional
+
+COMMIT; -- Salva Ana+10 e Beto+5 adicional.
+
+SELECT * FROM Contas; -- Estado Final
+  </code></pre>
+  <i class="fas fa-play-circle" style="font-size: 3rem; color: var(--accent-blue); margin-top: 20px;"></i>
+<!-- --- END OF FILE slides/slide18.html --- -->

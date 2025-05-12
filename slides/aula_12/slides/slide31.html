@@ -1,0 +1,17 @@
+<!-- --- START OF FILE slides/slide31.html --- -->
+  <h2><i class="fas fa-cogs"></i> Mecanismos de Controle de Concorrência</h2>
+  <p>Para implementar os níveis de isolamento e gerenciar o acesso concorrente, os SGBDs utilizam principalmente duas abordagens filosóficas, que se manifestam em técnicas específicas:</p>
+  <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 25px;">
+      <div style="text-align: center; max-width: 45%;">
+          <h4><i class="fas fa-lock fa-fw" style="color:var(--red-error)"></i> Controle Pessimista</h4>
+          <p style="font-size:0.9em; color: var(--text-medium)">Assume que conflitos entre transações são <strong>prováveis</strong>. A ideia é <strong>prevenir</strong> conflitos antes que aconteçam, geralmente usando <strong>Locks (Bloqueios)</strong>.</p>
+          <p style="font-size:0.8em;"><em>"Melhor prevenir do que remediar."</em></p>
+      </div>
+      <div style="text-align: center; max-width: 45%;">
+           <h4><i class="fas fa-glasses fa-fw" style="color:var(--accent-green)"></i> Controle Otimista</h4>
+           <p style="font-size:0.9em; color: var(--text-medium)">Assume que conflitos entre transações são <strong>raros</strong>. Permite que as transações prossigam sem bloqueios extensivos e verifica a existência de conflitos apenas no momento do <code>COMMIT</code>. Se um conflito é detectado, uma das transações é abortada (<code>ROLLBACK</code>) e precisa ser retentada.</p>
+           <p style="font-size:0.8em;"><em>"É mais fácil pedir perdão (ou tentar de novo) do que pedir permissão."</em> (Ex: MVCC - Multi-Version Concurrency Control)</p>
+      </div>
+  </div>
+  <p style="margin-top: 15px;">A maioria dos SGBDs tradicionais usa uma abordagem predominantemente <strong>pessimista baseada em locks</strong>, embora muitos também incorporem elementos de MVCC (como PostgreSQL e Oracle).</p>
+<!-- --- END OF FILE slides/slide31.html --- -->

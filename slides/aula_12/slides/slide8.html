@@ -1,0 +1,23 @@
+<!-- --- START OF FILE slides/slide8.html --- -->
+  <h2><i class="fas fa-laptop-code"></i> Demonstração Ao Vivo 1: Transações Básicas em Ação</h2>
+  <p>Vamos ao SGBD! (Crie uma tabela <code>Contas (ContaID INT PK, NomeCliente VARCHAR(50), Saldo DECIMAL(10,2))</code> e insira duas contas de exemplo: (1, 'Ana', 100.00), (2, 'Beto', 200.00))</p>
+  <p><strong>Cenário 1: Transferência Bem-Sucedida (COMMIT)</strong></p>
+  <pre><code class="language-sql">
+START TRANSACTION;
+UPDATE Contas SET Saldo = Saldo - 50 WHERE ContaID = 1; -- Debita de Ana
+UPDATE Contas SET Saldo = Saldo + 50 WHERE ContaID = 2; -- Credita para Beto
+COMMIT;
+-- Verificar saldos: Ana=50, Beto=250
+SELECT * FROM Contas;
+  </code></pre>
+  <p><strong>Cenário 2: Operação Cancelada (ROLLBACK)</strong></p>
+  <pre><code class="language-sql">
+START TRANSACTION;
+INSERT INTO Contas (ContaID, NomeCliente, Saldo) VALUES (3, 'Carlos (Teste)', 1000.00);
+-- Oh, não! Carlos não deveria ser criado agora!
+ROLLBACK;
+-- Verificar: Carlos (ID 3) NÃO deve existir. Ana e Beto com saldos da Tx anterior.
+SELECT * FROM Contas;
+  </code></pre>
+  <i class="fas fa-play-circle" style="font-size: 3rem; color: var(--accent-blue); margin-top: 20px;"></i>
+<!-- --- END OF FILE slides/slide8.html --- -->

@@ -1,0 +1,20 @@
+<!-- --- START OF FILE slides/slide24.html --- -->
+  <h2><i class="fas fa-layer-group"></i> Níveis de Isolamento: Controlando a Concorrência</h2>
+  <p>Para lidar com as anomalias de concorrência, os SGBDs oferecem diferentes <strong>Níveis de Isolamento de Transação</strong>.</p>
+  <p>Cada nível define quais das anomalias (Leitura Suja, Não Repetível, Fantasma) são <strong>permitidas</strong> ou <strong>prevenidas</strong>.</p>
+  <p>Existe um <strong>trade-off fundamental</strong> entre o nível de isolamento e a performance/concorrência do sistema:</p>
+  <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 25px;">
+      <div style="text-align: center;">
+          <i class="fas fa-shield-alt fa-2x" style="color: var(--accent-green);"></i> <i class="fas fa-arrow-up fa-fw"></i> <strong>Isolamento Mais Alto</strong>
+          <p style="font-size:0.9em; color: var(--text-medium)">(Ex: Serializable)</p>
+          <p style="font-size:0.9em;"><i class="fas fa-check fa-fw"></i> Mais Proteção (Menos Anomalias)<br><i class="fas fa-users-slash fa-fw" style="color:var(--red-error)"></i> Menor Concorrência (Mais Locks)<br><i class="fas fa-tachometer-alt fa-fw" style="color:var(--red-error)"></i> Potencialmente Mais Lento</p>
+      </div>
+      <div style="font-size: 2rem; color: var(--text-medium);"><i class="fas fa-exchange-alt"></i></div>
+      <div style="text-align: center;">
+          <i class="fas fa-running fa-2x" style="color: var(--accent-yellow);"></i> <i class="fas fa-arrow-down fa-fw"></i> <strong>Isolamento Mais Baixo</strong>
+          <p style="font-size:0.9em; color: var(--text-medium)">(Ex: Read Uncommitted)</p>
+          <p style="font-size:0.9em;"><i class="fas fa-exclamation-triangle fa-fw" style="color:var(--red-error)"></i> Menos Proteção (Mais Anomalias)<br><i class="fas fa-users fa-fw" style="color:var(--green-correct)"></i> Maior Concorrência (Menos Locks)<br><i class="fas fa-rocket fa-fw" style="color:var(--green-correct)"></i> Potencialmente Mais Rápido</p>
+      </div>
+  </div>
+  <p style="margin-top: 15px;">A escolha do nível de isolamento depende dos requisitos da aplicação.</p>
+<!-- --- END OF FILE slides/slide24.html --- -->

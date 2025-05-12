@@ -1,0 +1,31 @@
+<!-- --- START OF FILE slides/slide13.html --- -->
+  <h2><i class="fas fa-users-slash" style="color: var(--accent-yellow);"></i> I - Isolamento (Cada Um no Seu Quadrado)</h2>
+  <p>A propriedade de <strong>Isolamento</strong> garante que transações concorrentes (executando ao mesmo tempo) não interfiram umas nas outras de forma prejudicial.</p>
+  <p>O resultado da execução de múltiplas transações concorrentes deve ser o mesmo que se elas tivessem sido executadas <strong>sequencialmente</strong>, em alguma ordem.</p>
+  <p>Cada transação deve "sentir" que está operando sozinha no banco de dados, sem ver os estados intermediários e não commitados de outras transações.</p>
+  <div class="slide-svg-container" style="max-width: 60%; margin-top: 15px;">
+      <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+          <!-- Transação 1 -->
+          <rect x="10" y="30" width="80" height="90" rx="5" class="svg-accent1-fill" opacity="0.7"/>
+          <text x="50" y="70" text-anchor="middle" class="svg-text-light-fill">T1</text>
+          <path d="M50 80 L130 50" stroke="var(--accent1-line)" stroke-width="1.5" stroke-dasharray="4,2"/>
+
+          <!-- Transação 2 -->
+          <rect x="210" y="30" width="80" height="90" rx="5" class="svg-accent2-fill" opacity="0.7"/>
+          <text x="250" y="70" text-anchor="middle" class="svg-text-light-fill">T2</text>
+          <path d="M250 80 L170 50" stroke="var(--accent2-line)" stroke-width="1.5" stroke-dasharray="4,2"/>
+
+          <!-- Banco de Dados -->
+          <ellipse cx="150" cy="50" rx="30" ry="15" class="svg-bg-fill"/>
+          <text x="150" y="55" text-anchor="middle" class="svg-text-light-fill" font-size="10px">Dados</text>
+
+          <!-- Muro de Isolamento (representação) -->
+           <line x1="150" y1="70" x2="150" y2="130" stroke="var(--text-medium)" stroke-width="4" stroke-linecap="round"/>
+           <text x="135" y="105" text-anchor="end" class="svg-text-fill" font-size="10px" transform="rotate(-90 135 105)">Isolamento</text>
+
+          <text x="150" y="140" text-anchor="middle" class="svg-text-medium" font-size="10px">SGBD gerencia o acesso</text>
+      </svg>
+  </div>
+  <p style="font-size: 0.9em; color:var(--text-medium)"><strong>Analogia dos Caixas de Banco:</strong> Múltiplas pessoas (transações) usando caixas eletrônicos diferentes (conexões) do mesmo banco. A operação de saque de uma pessoa (T1) não deve ser afetada pela consulta de saldo de outra (T2), mesmo que ambas acessem, em última instância, o mesmo "dinheiro" do banco. Cada caixa (transação) opera como se estivesse sozinha.</p>
+  <p>O Isolamento é implementado através de <strong>Níveis de Isolamento</strong> e mecanismos de <strong>locking</strong> (bloqueio), que veremos em breve.</p>
+<!-- --- END OF FILE slides/slide13.html --- -->

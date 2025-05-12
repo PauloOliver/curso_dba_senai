@@ -1,0 +1,26 @@
+<!-- --- START OF FILE slides/slide23.html --- -->
+  <h2><i class="fas fa-ghost" style="color:var(--red-error)"></i> Problemas: Leitura Fantasma (Phantom Read)</h2>
+  <p>Ocorre quando uma Transação 1 (T1) executa uma consulta que retorna um <strong>conjunto de linhas</strong> satisfazendo uma condição <code>WHERE</code>.</p>
+  <p>Antes que T1 termine, uma Transação 2 (T2) <strong>insere novas linhas</strong> ou <strong>deleta linhas existentes</strong> que satisfariam a condição <code>WHERE</code> de T1, e faz <code>COMMIT</code>.</p>
+  <p>Se T1 reexecutar sua consulta original, ela verá "linhas fantasmas" (que não estavam lá antes) ou descobrirá que linhas sumiram.</p>
+  <p>Difere da Leitura Não Repetível porque afeta o <strong>resultado de uma busca por intervalo ou condição</strong>, não a releitura de uma linha específica já identificada.</p>
+  <p><i class="fas fa-users-cog fa-fw" style="color: var(--accent-yellow);"></i> <strong>Analogia da Lista de Convidados:</strong></p>
+  <ol>
+      <li>Você (T1) consulta: "Quantos convidados do departamento 'Vendas' confirmaram presença?" Resposta: 5.</li>
+      <li>Enquanto você analisa, mais 2 vendedores (T2) confirmam presença e são registrados no sistema (<code>COMMIT</code>).</li>
+      <li>Você (T1) refaz a mesma pergunta: "Quantos convidados de 'Vendas' confirmaram?" Resposta: 7. As 2 novas confirmações são "fantasmas" em relação à sua primeira contagem.</li>
+  </ol>
+  <p><strong>Diagrama de Tempo (Simplificado):</strong></p>
+  <pre style="font-size:0.9em; line-height:1.4;">
+  Tempo | Transação 1 (T1)                 | Transação 2 (T2)
+  --------------------------------------------------------------------
+    1   | BEGIN;                           |
+    2   | SELECT * FROM Pedidos WHERE Valor > 1000; | (Retorna N linhas)
+    3   |                                  | BEGIN;
+    4   |                                  | INSERT INTO Pedidos (..., Valor) VALUES (..., 1500);
+    5   |                                  | COMMIT; (Novo pedido > 1000 existe)
+    6   | ... outras operações ...         |
+    7   | SELECT * FROM Pedidos WHERE Valor > 1000; | (Retorna N+1 linhas - FANTASMA!)
+    8   | COMMIT;
+  </pre>
+<!-- --- END OF FILE slides/slide23.html --- -->

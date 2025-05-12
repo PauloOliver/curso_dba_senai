@@ -1,0 +1,23 @@
+<!-- --- START OF FILE slides/slide26.html --- -->
+  <h2><i class="fas fa-signal"></i> Níveis de Isolamento Padrão SQL (2/2)</h2>
+  <ol start="3">
+      <li style="margin-top:15px;"><strong><code>REPEATABLE READ</code> (Leitura Repetível)</strong> <i class="fas fa-redo" style="color:var(--accent-blue)"></i>
+          <ul>
+              <li>Garante que, se uma transação reler dados que já leu anteriormente dentro da mesma transação, ela <strong>encontrará os mesmos valores</strong>, mesmo que outras transações tenham modificado esses dados e commitado.</li>
+              <li><strong>Previne:</strong> Leitura Suja, Leitura Não Repetível.</li>
+              <li><strong>Anomalias Ainda Permitidas:</strong> Leitura Fantasma (novas linhas inseridas por outras transações commitadas podem aparecer em consultas repetidas com a mesma condição <code>WHERE</code>).</li>
+              <li>É o nível de isolamento <strong>padrão</strong> no MySQL (com motor InnoDB).</li>
+          </ul>
+      </li>
+      <li style="margin-top:15px;"><strong><code>SERIALIZABLE</code> (Serializável)</strong> <i class="fas fa-stream" style="color:var(--accent-green)"></i>
+           <ul>
+              <li>É o nível de isolamento <strong>mais alto</strong>.</li>
+              <li>Garante que a execução concorrente de um conjunto de transações produza o <strong>mesmo resultado</strong> que alguma execução serial (uma após a outra, em alguma ordem) dessas mesmas transações.</li>
+              <li><strong>Previne:</strong> Leitura Suja, Leitura Não Repetível, Leitura Fantasma.</li>
+              <li><strong>Prós:</strong> Máxima consistência e previsibilidade.</li>
+              <li><strong>Contras:</strong> Reduz significativamente a concorrência, pois pode exigir muitos locks ou outras técnicas que podem levar a mais esperas ou falhas de transação (ex: serialization failures). Pode impactar bastante a performance.</li>
+          </ul>
+      </li>
+  </ol>
+  <p><strong>Como definir:</strong> <code>SET TRANSACTION ISOLATION LEVEL [NÍVEL];</code> (geralmente no início da transação).</p>
+<!-- --- END OF FILE slides/slide26.html --- -->

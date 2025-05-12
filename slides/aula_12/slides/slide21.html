@@ -1,0 +1,18 @@
+<!-- --- START OF FILE slides/slide21.html --- -->
+  <h2><i class="fas fa-eye-slash" style="color:var(--red-error)"></i> Problemas de Concorrência: Leitura Suja (Dirty Read)</h2>
+  <p>Ocorre quando uma Transação 1 (T1) lê dados que foram modificados por uma Transação 2 (T2) que <strong>ainda não foi confirmada (<code>COMMIT</code>)</strong>.</p>
+  <p>Se T2 posteriormente executar um <code>ROLLBACK</code>, T1 terá lido dados que "nunca existiram" oficialmente no estado final do banco.</p>
+  <p><i class="fas fa-file-alt fa-fw" style="color: var(--accent-yellow);"></i> <strong>Analogia do Rascunho:</strong> Você lê o rascunho de um e-mail que seu colega está escrevendo. Ele decide apagar tudo e começar de novo (<code>ROLLBACK</code>). A informação que você leu do rascunho não é mais válida e nunca se tornou oficial.</p>
+  <p><strong>Diagrama de Tempo (Simplificado):</strong></p>
+  <pre style="font-size:0.9em; line-height:1.4;">
+  Tempo | Transação 1 (T1)                 | Transação 2 (T2)
+  --------------------------------------------------------------------
+    1   | BEGIN;                           |
+    2   |                                  | BEGIN;
+    3   |                                  | UPDATE Contas SET Saldo=50 WHERE ID=X;
+    4   | SELECT Saldo FROM Contas WHERE ID=X; |  (Lê 50 - DADO SUJO)
+    5   |                                  | ROLLBACK; (Saldo de X volta ao original)
+    6   | COMMIT; (T1 usou um valor que não existe mais)
+  </pre>
+  <p>Leituras sujas podem levar a decisões baseadas em dados incorretos e temporários.</p>
+<!-- --- END OF FILE slides/slide21.html --- -->

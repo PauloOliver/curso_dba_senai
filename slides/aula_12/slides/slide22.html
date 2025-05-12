@@ -1,0 +1,25 @@
+<!-- --- START OF FILE slides/slide22.html --- -->
+  <h2><i class="fas fa-redo-alt" style="color:var(--red-error)"></i> Problemas: Leitura Não Repetível (Non-Repeatable Read)</h2>
+  <p>Ocorre quando uma Transação 1 (T1) lê um dado. Antes que T1 termine, uma Transação 2 (T2) <strong>modifica ou deleta</strong> esse mesmo dado e faz <code>COMMIT</code>.</p>
+  <p>Se T1 reler o mesmo dado, ela obterá um valor diferente do que leu anteriormente, ou descobrirá que o dado não existe mais.</p>
+  <p>A mesma leitura, dentro da mesma transação T1, produz resultados diferentes.</p>
+  <p><i class="fas fa-cart-plus fa-fw" style="color: var(--accent-yellow);"></i> <strong>Analogia do Estoque Online:</strong></p>
+  <ol>
+      <li>Você (T1) vê um produto e o site diz "10 em estoque".</li>
+      <li>Enquanto você decide, outra pessoa (T2) compra 5 unidades e o sistema confirma a venda (<code>COMMIT</code>).</li>
+      <li>Você (T1) atualiza a página e agora vê "5 em estoque". Sua leitura anterior de "10" não é mais repetível.</li>
+  </ol>
+   <p><strong>Diagrama de Tempo (Simplificado):</strong></p>
+  <pre style="font-size:0.9em; line-height:1.4;">
+  Tempo | Transação 1 (T1)                 | Transação 2 (T2)
+  --------------------------------------------------------------------
+    1   | BEGIN;                           |
+    2   | SELECT Preco FROM Produtos WHERE ID=Y; | (Lê Preco = 100)
+    3   |                                  | BEGIN;
+    4   |                                  | UPDATE Produtos SET Preco=120 WHERE ID=Y;
+    5   |                                  | COMMIT; (Preço de Y agora é 120)
+    6   | ... outras operações ...         |
+    7   | SELECT Preco FROM Produtos WHERE ID=Y; | (Lê Preco = 120 - DIFERENTE!)
+    8   | COMMIT;
+  </pre>
+<!-- --- END OF FILE slides/slide22.html --- -->

@@ -1,0 +1,21 @@
+<!-- --- START OF FILE slides/slide5.html --- -->
+  <h2><i class="fas fa-project-diagram"></i> O que é uma Transação?</h2>
+  <p>Uma <strong>Transação</strong> é uma sequência de uma ou mais operações SQL (tipicamente DML, mas podem incluir DDL em alguns SGBDs) que são executadas como uma <strong>única unidade lógica e indivisível de trabalho</strong>.</p>
+  <p>O SGBD garante que:</p>
+  <ul>
+      <li><i class="fas fa-check-double fa-fw" style="color:var(--green-correct)"></i> <strong>Todas</strong> as operações dentro da transação sejam concluídas com sucesso e seus resultados aplicados permanentemente ao banco de dados (<code>COMMIT</code>).</li>
+      <li><i class="fas fa-times-circle fa-fw" style="color:var(--red-error)"></i> Ou, se qualquer operação falhar, <strong>nenhuma</strong> das alterações da transação seja aplicada, e o banco de dados seja restaurado ao estado em que estava antes da transação iniciar (<code>ROLLBACK</code>).</li>
+  </ul>
+  <p>Este comportamento "tudo ou nada" é conhecido como <strong>Atomicidade</strong>, a primeira das propriedades ACID.</p>
+  <div class="slide-svg-container" style="max-width: 40%; margin-top: 15px;">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="40" class="svg-accent1-stroke" stroke-width="5" fill="none" stroke-dasharray="10 5" >
+        <animate attributeName="stroke-dashoffset" from="0" to="100" dur="5s" repeatCount="indefinite"/>
+      </circle>
+      <text x="50" y="55" text-anchor="middle" class="svg-text-light-fill" font-size="12px">Tudo</text>
+      <path d="M30 50 L70 50" class="svg-line-stroke" stroke-width="3"/>
+      <text x="50" y="70" text-anchor="middle" class="svg-text-light-fill" font-size="12px">ou Nada</text>
+       <text x="50" y="35" text-anchor="middle" font-family="Font Awesome 5 Free" font-weight="900" font-size="20px" fill="var(--accent-yellow)">&#xf135;</text> <!-- fa-atom -->
+    </svg>
+  </div>
+<!-- --- END OF FILE slides/slide5.html --- -->

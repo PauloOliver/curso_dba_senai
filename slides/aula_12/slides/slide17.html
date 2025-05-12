@@ -1,0 +1,15 @@
+<!-- --- START OF FILE slides/slide17.html --- -->
+  <h2><i class="fas fa-undo-alt"></i> Comandos Avançados: <code>ROLLBACK TO SAVEPOINT</code></h2>
+  <p>Depois de definir um <code>SAVEPOINT</code>, você pode usar <code>ROLLBACK TO SAVEPOINT</code> para reverter a transação <strong>até aquele ponto específico</strong>.</p>
+  <p><strong>Sintaxe:</strong></p>
+  <pre><code class="language-sql">
+ROLLBACK TO SAVEPOINT nome_do_ponto_definido;
+  </code></pre>
+  <p><strong>Efeitos:</strong></p>
+  <ul>
+      <li>Todas as alterações feitas <strong>APÓS</strong> a criação do <code>nome_do_ponto_definido</code> são desfeitas.</li>
+      <li>As alterações feitas <strong>ANTES</strong> do <code>nome_do_ponto_definido</code> (dentro da mesma transação) são <strong>mantidas</strong>.</li>
+      <li>A transação <strong>permanece ATIVA</strong>. Você pode continuar executando outras operações e depois fazer um <code>COMMIT</code> (para salvar o que restou até o savepoint + novas operações) ou um <code>ROLLBACK</code> completo (para desfazer tudo desde o <code>BEGIN</code>).</li>
+  </ul>
+  <p>Isso oferece um controle mais granular sobre o desfazimento de partes de uma transação longa.</p>
+<!-- --- END OF FILE slides/slide17.html --- -->

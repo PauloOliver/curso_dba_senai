@@ -1,0 +1,42 @@
+<!-- --- START OF FILE slides/slide11.html --- -->
+  <h2><i class="fas fa-atom" style="color: var(--accent-green);"></i> A - Atomicidade (Tudo ou Nada)</h2>
+  <p>A propriedade de <strong>Atomicidade</strong> garante que uma transação seja tratada como uma <strong>única unidade indivisível de operação</strong>.</p>
+  <ul>
+      <li><i class="fas fa-check fa-fw"></i> <strong>Todas</strong> as operações DML dentro da transação são executadas com sucesso e aplicadas ao banco de dados (quando ocorre o <code>COMMIT</code>).</li>
+      <li><i class="fas fa-times fa-fw"></i> Ou, se <strong>qualquer uma</strong> das operações falhar (erro de sistema, violação de constraint, <code>ROLLBACK</code> explícito), <strong>nenhuma</strong> das alterações da transação é aplicada, e o banco de dados é revertido ao seu estado anterior ao início da transação.</li>
+  </ul>
+  <p>Não existe "meia transação" aplicada ou "transação parcialmente concluída" no estado final do banco.</p>
+  <div class="slide-svg-container" style="max-width: 50%; margin-top: 20px;">
+      <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+              <marker id="arrowA" markerWidth="7" markerHeight="5" refX="0" refY="2.5" orient="auto" fill="var(--text-medium)"><polygon points="0 0, 7 2.5, 0 5" /></marker>
+          </defs>
+          <rect x="10" y="50" width="60" height="40" rx="5" class="svg-accent1-fill" />
+          <text x="40" y="75" text-anchor="middle" class="svg-text-light-fill">BEGIN</text>
+
+          <rect x="90" y="10" width="20" height="20" rx="3" class="svg-bg-light" />
+          <text x="100" y="25" text-anchor="middle" class="svg-text-fill" font-size="8px">Op1</text>
+          <rect x="90" y="40" width="20" height="20" rx="3" class="svg-bg-light" />
+          <text x="100" y="55" text-anchor="middle" class="svg-text-fill" font-size="8px">Op2</text>
+          <rect x="90" y="70" width="20" height="20" rx="3" class="svg-bg-light" />
+          <text x="100" y="85" text-anchor="middle" class="svg-text-fill" font-size="8px">Op3 <tspan fill="var(--red-error)">X</tspan></text>
+           <rect x="90" y="100" width="20" height="20" rx="3" class="svg-bg-light" filter="url(#disabledEffect)"/>
+           <defs><filter id="disabledEffect"><feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0.33 0.33 0.33 0 0 0 0 0 0.5 0"/></filter></defs>
+          <text x="100" y="115" text-anchor="middle" class="svg-text-fill" font-size="8px" filter="url(#disabledEffect)">Op4</text>
+
+
+          <line x1="70" y1="70" x2="90" y2="20" class="svg-line-stroke" marker-end="url(#arrowA)"/>
+          <line x1="70" y1="70" x2="90" y2="50" class="svg-line-stroke" marker-end="url(#arrowA)"/>
+          <line x1="70" y1="70" x2="90" y2="80" class="svg-line-stroke" marker-end="url(#arrowA)"/>
+           <line x1="70" y1="70" x2="90" y2="110" class="svg-line-stroke" marker-end="url(#arrowA)" filter="url(#disabledEffect)"/>
+
+
+          <path d="M110 80 Q130 60 150 60 Q170 60 190 80" fill="none" stroke="var(--red-error)" stroke-width="2" stroke-dasharray="4 2"/>
+          <text x="150" y="50" text-anchor="middle" class="svg-text-fill" fill="var(--red-error)" font-size="10px">FALHA!</text>
+
+          <text x="40" y="135" text-anchor="middle" class="svg-text-light-fill" font-weight="bold" fill="var(--red-error)">ROLLBACK!</text>
+          <path d="M40 100 Q40 115 40 130" fill="none" stroke="var(--red-error)" stroke-width="2" marker-end="url(#arrowA)"/>
+      </svg>
+  </div>
+  <p style="font-size: 0.9em; color:var(--text-medium)"><strong>Analogia do Kit LEGO:</strong> Ou todas as peças se encaixam para formar o modelo (COMMIT), ou se uma peça chave quebra ou falta, você desmonta tudo e guarda as peças (ROLLBACK). Não há "meio modelo" válido.</p>
+<!-- --- END OF FILE slides/slide11.html --- -->

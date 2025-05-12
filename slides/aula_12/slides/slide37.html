@@ -1,0 +1,21 @@
+  <h2><i class="fas fa-thumbs-up"></i> Boas Práticas: Transações e Concorrência (2/2)</h2>
+  <ol start="4">
+      <li style="margin-top:15px;"><strong><i class="fas fa-user-clock fa-fw" style="color: var(--accent-yellow)"></i> Evite Transações Interativas Longas (User "Think Time"):</strong>
+          <ul>
+              <li>Nunca inicie uma transação, peça dados ao usuário, espere ele digitar e só então execute o <code>COMMIT</code>/<code>ROLLBACK</code>.</li>
+              <li>Colete todos os inputs necessários ANTES de iniciar a transação. A transação deve ser rápida e focada nas operações de banco.</li>
+          </ul>
+      </li>
+      <li style="margin-top:15px;"><strong><i class="fas fa-undo-alt fa-fw" style="color: var(--accent-green)"></i> Trate Erros e Use <code>ROLLBACK</code> Explicitamente:</strong>
+          <ul>
+              <li>Em seu código de aplicação, sempre verifique se as operações DML dentro de um bloco transacional foram bem-sucedidas.</li>
+              <li>Se ocorrer um erro (ex: violação de constraint, falha de sistema, lógica de negócio que impede a continuação), execute um <code>ROLLBACK</code> explícito para garantir que a transação seja desfeita. Não confie apenas no SGBD para fazer rollback em todos os casos de erro da aplicação.</li>
+          </ul>
+      </li>
+      <li style="margin-top:15px;"><strong><i class="fas fa-toggle-off fa-fw" style="color: var(--accent-yellow)"></i> Entenda o Comportamento do <code>AUTOCOMMIT</code>:</strong>
+          <ul>
+              <li>Muitos SGBDs e ferramentas cliente operam com <code>AUTOCOMMIT</code> LIGADO por padrão. Isso significa que cada instrução SQL individual é tratada como sua própria transação e é commitada imediatamente se bem-sucedida.</li>
+              <li>Para controle transacional explícito com <code>BEGIN</code>, <code>COMMIT</code>, <code>ROLLBACK</code>, você pode precisar desligar o autocommit (ex: <code>SET autocommit = 0;</code> em MySQL) para a sessão, ou seu SGBD pode tratar <code>BEGIN</code> como o início de um bloco que suspende o autocommit. Consulte a documentação!</li>
+          </ul>
+      </li>
+  </ol>

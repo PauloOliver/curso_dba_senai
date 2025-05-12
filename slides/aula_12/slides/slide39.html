@@ -1,0 +1,33 @@
+
+  <h2><i class="fas fa-search-dollar"></i> Exercício 1 (Conceitual): Detetive de Anomalias</h2>
+  <p><strong>Instrução:</strong> Analise os cenários de transações concorrentes (T1 e T2) abaixo. Identifique qual anomalia (Leitura Suja, Leitura Não Repetível, Leitura Fantasma) está ocorrendo, se houver. Justifique.</p>
+
+  <div class="exercise-task-box" style="text-align:left; margin:10px auto; padding:10px; border:1px dashed var(--accent-yellow); max-width:700px; background-color: #2f2f44;">
+      <p><strong>Cenário 1: O Saldo Flutuante</strong></p>
+      <ol style="font-size:0.9em">
+          <li>T1: <code>BEGIN; SELECT Saldo FROM Contas WHERE ContaID = 7;</code> (Resultado: R$ 200)</li>
+          <li>T2: <code>BEGIN; UPDATE Contas SET Saldo = R$ 150 WHERE ContaID = 7;</code> (T2 NÃO commita ainda)</li>
+          <li>T1: <code>SELECT Saldo FROM Contas WHERE ContaID = 7;</code> (Resultado: R$ 150)</li>
+          <li>T2: <code>ROLLBACK;</code></li>
+      </ol>
+  </div>
+
+  <div class="exercise-task-box" style="text-align:left; margin:10px auto; padding:10px; border:1px dashed var(--accent-yellow); max-width:700px; background-color: #2f2f44;">
+      <p><strong>Cenário 2: A Contagem Surpresa</strong></p>
+      <ol style="font-size:0.9em">
+          <li>T1: <code>BEGIN; SELECT COUNT(*) FROM Pedidos WHERE Status = 'Pendente';</code> (Resultado: 5)</li>
+          <li>T2: <code>BEGIN; INSERT INTO Pedidos (ClienteID, Data, Status, Valor) VALUES (101, NOW(), 'Pendente', 50.00); COMMIT;</code></li>
+          <li>T1: <code>SELECT COUNT(*) FROM Pedidos WHERE Status = 'Pendente';</code> (Resultado: 6)</li>
+          <li>T1: <code>COMMIT;</code></li>
+      </ol>
+  </div>
+
+   <div class="exercise-task-box" style="text-align:left; margin:10px auto; padding:10px; border:1px dashed var(--accent-yellow); max-width:700px; background-color: #2f2f44;">
+      <p><strong>Cenário 3: O Preço que Muda</strong></p>
+      <ol style="font-size:0.9em">
+          <li>T1: <code>BEGIN; SELECT Preco FROM Produtos WHERE ProdutoID = 42;</code> (Resultado: R$ 99.90)</li>
+          <li>T2: <code>BEGIN; UPDATE Produtos SET Preco = R$ 89.90 WHERE ProdutoID = 42; COMMIT;</code></li>
+          <li>T1: <code>SELECT Preco FROM Produtos WHERE ProdutoID = 42;</code> (Resultado: R$ 89.90)</li>
+          <li>T1: <code>COMMIT;</code></li>
+      </ol>
+  </div>

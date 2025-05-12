@@ -1,0 +1,25 @@
+
+  <h2><i class="fas fa-thumbs-up"></i> Boas Práticas: Transações e Concorrência (1/2)</h2>
+  <p>Para minimizar problemas e maximizar a performance em ambientes concorrentes:</p>
+  <ol>
+      <li><strong><i class="fas fa-stopwatch-20 fa-fw" style="color: var(--accent-green)"></i> Mantenha Transações o Mais Curtas Possível (Short-Lived Transactions):</strong>
+          <ul>
+              <li>Quanto mais tempo uma transação fica aberta, mais tempo ela pode reter locks, bloqueando outras transações.</li>
+              <li>Agrupe apenas as operações que são logicamente atômicas. Faça o trabalho necessário e execute <code>COMMIT</code> ou <code>ROLLBACK</code> o mais rápido possível.</li>
+              <li>Evite deixar transações abertas enquanto espera por input do usuário ou processos externos lentos.</li>
+          </ul>
+      </li>
+      <li style="margin-top:15px;"><strong><i class="fas fa-sort-alpha-down fa-fw" style="color: var(--accent-green)"></i> Acesse Objetos (Tabelas, Linhas) Consistentemente na Mesma Ordem:</strong>
+          <ul>
+              <li>Se múltiplas transações precisam acessar os mesmos recursos (ex: TabelaA e depois TabelaB), se todas tentarem acessá-los na mesma ordem, a chance de deadlock diminui.</li>
+              <li>Ex: Se T1 bloqueia A e depois B, e T2 também bloqueia A e depois B, é menos provável um deadlock do que se T2 bloqueasse B e depois A.</li>
+          </ul>
+      </li>
+      <li style="margin-top:15px;"><strong><i class="fas fa-sliders-h fa-fw" style="color: var(--accent-green)"></i> Escolha o Nível de Isolamento Apropriado:</strong>
+          <ul>
+              <li>Não use um nível de isolamento mais alto (ex: <code>SERIALIZABLE</code>) do que o necessário pela sua aplicação.</li>
+              <li>Entenda as anomalias que sua aplicação pode tolerar e as que não pode. <code>READ COMMITTED</code> é frequentemente um bom ponto de partida.</li>
+              <li>Níveis mais altos aumentam a consistência, mas podem reduzir drasticamente a concorrência.</li>
+          </ul>
+      </li>
+  </ol>

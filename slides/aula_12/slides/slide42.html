@@ -1,0 +1,23 @@
+
+  <h2><i class="fas fa-users-cog"></i> Exercício 3 (Discussão): Estratégias de Isolamento em Cenários Reais</h2>
+  <p><strong>Instrução:</strong> Para cada cenário de negócio abaixo, discuta em grupo:</p>
+  <ol>
+      <li>Qual <strong>Nível de Isolamento</strong> seria o mais apropriado (ou o mínimo aceitável)?</li>
+      <li>Quais <strong>anomalias</strong> seriam problemáticas e quais poderiam ser toleradas?</li>
+      <li>Quais os <strong>trade-offs</strong> (performance vs. consistência)?</li>
+  </ol>
+
+  <div class="exercise-task-box" style="text-align:left; margin:10px auto; padding:10px; border:1px dashed var(--accent-blue); max-width:700px; background-color: #2f2f44;">
+      <p><strong><i class="fas fa-rss-square"></i> Cenário A: Contador de Visualizações de Blog</strong></p>
+      <p style="font-size:0.9em;">Um blog exibe o número de visualizações de cada artigo. A contagem é incrementada a cada acesso. Uma pequena imprecisão momentânea (ex: não ver o incremento mais recente imediatamente) é tolerável, mas a contagem nunca deve "voltar atrás" ou mostrar dados absurdos.</p>
+  </div>
+
+  <div class="exercise-task-box" style="text-align:left; margin:10px auto; padding:10px; border:1px dashed var(--accent-blue); max-width:700px; background-color: #2f2f44;">
+      <p><strong><i class="fas fa-cash-register"></i> Cenário B: Sistema de Inventário E-commerce</strong></p>
+      <p style="font-size:0.9em;">Ao finalizar uma compra, o sistema verifica o estoque do produto e, se disponível, debita a quantidade vendida. É CRUCIAL que o estoque não fique negativo e que dois clientes não consigam comprar o último item "ao mesmo tempo" (resultando em um deles não recebendo o produto).</p>
+  </div>
+
+  <div class="exercise-task-box" style="text-align:left; margin:10px auto; padding:10px; border:1px dashed var(--accent-blue); max-width:700px; background-color: #2f2f44;">
+      <p><strong><i class="fas fa-chart-pie"></i> Cenário C: Geração de Relatório Financeiro Anual</strong></p>
+      <p style="font-size:0.9em;">Um relatório financeiro complexo é gerado, podendo levar várias horas. O relatório precisa refletir uma "fotografia" consistente do estado financeiro do banco no momento em que a geração do relatório começou, sem ser afetado por transações (novos depósitos, saques) que ocorrem durante sua longa execução.</p>
+  </div>

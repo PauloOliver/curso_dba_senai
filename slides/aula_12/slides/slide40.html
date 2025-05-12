@@ -1,0 +1,15 @@
+
+  <h2><i class="fas fa-check-double"></i> Exercício 1 - Solução e Discussão</h2>
+  <p>Vamos analisar os cenários:</p>
+  <ul>
+      <li><strong>Cenário 1 (Saldo Flutuante): <span style="color:var(--red-error)">Leitura Suja (Dirty Read)</span></strong>
+          <ul><li>T1 leu o valor de R$150 que foi alterado por T2, mas T2 desfez (<code>ROLLBACK</code>) essa alteração. T1 baseou-se em um dado que "nunca existiu" no estado final do banco.</li></ul>
+      </li>
+      <li style="margin-top:10px"><strong>Cenário 2 (Contagem Surpresa): <span style="color:var(--red-error)">Leitura Fantasma (Phantom Read)</span></strong>
+          <ul><li>T1 executou uma consulta baseada em um critério (<code>Status = 'Pendente'</code>). T2 inseriu uma nova linha que satisfaz esse critério e commitou. Quando T1 reexecutou a mesma consulta, uma nova linha "fantasma" apareceu no resultado.</li></ul>
+      </li>
+       <li style="margin-top:10px"><strong>Cenário 3 (Preço que Muda): <span style="color:var(--red-error)">Leitura Não Repetível (Non-Repeatable Read)</span></strong>
+          <ul><li>T1 leu o preço de um produto específico. T2 alterou esse mesmo preço e commitou. Quando T1 releu o preço do mesmo produto, obteve um valor diferente. A leitura original não pôde ser repetida com o mesmo resultado.</li></ul>
+      </li>
+  </ul>
+  <p>Compreender essas anomalias é o primeiro passo para escolher os níveis de isolamento corretos!</p>

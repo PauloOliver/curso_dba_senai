@@ -1,0 +1,33 @@
+<!-- --- START OF FILE slides/slide20.html --- -->
+  <h2><i class="fas fa-sync-alt fa-spin" style="color:var(--red-error)"></i> O Desafio da Concorrência</h2>
+  <p>A maioria dos sistemas de banco de dados é <strong>multiusuário</strong> e <strong>multitarefa</strong>.</p>
+  <p>Isso significa que múltiplas transações, originadas por diferentes usuários ou processos da aplicação, podem estar tentando acessar e modificar os <strong>mesmos dados simultaneamente</strong>.</p>
+   <div class="slide-svg-container" style="max-width: 60%; margin-top: 15px;">
+     <svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+        <style>
+            .user-path { animation: pulsePath 2s infinite alternate; }
+            @keyframes pulsePath { 0% {stroke-opacity: 1;} 50% {stroke-opacity: 0.3;} 100% {stroke-opacity: 1;} }
+        </style>
+        <!-- Usuários -->
+        <text x="30" y="30" font-family="Font Awesome 5 Free" font-weight="900" font-size="20px" fill="var(--accent-green)">&#xf007;</text> <!-- User 1 -->
+        <text x="30" y="75" font-family="Font Awesome 5 Free" font-weight="900" font-size="20px" fill="var(--accent-blue)">&#xf007;</text> <!-- User 2 -->
+        <text x="30" y="120" font-family="Font Awesome 5 Free" font-weight="900" font-size="20px" fill="var(--accent-yellow)">&#xf007;</text> <!-- User 3 -->
+
+        <!-- Banco de Dados Central -->
+        <ellipse cx="200" cy="75" rx="60" ry="35" class="svg-bg-fill" stroke="var(--text-medium)" stroke-width="2"/>
+        <text x="200" y="80" text-anchor="middle" font-family="Font Awesome 5 Free" font-weight="900" font-size="25px" fill="var(--text-light)">&#xf1c0;</text> <!-- fa-database -->
+
+        <!-- Linhas de Acesso (Conexões) -->
+        <path d="M50 30 Q120 30 160 60" stroke="var(--accent-green)" stroke-width="1.5" fill="none" class="user-path" style="animation-delay: 0s;"/>
+        <path d="M50 75 Q150 75 165 75" stroke="var(--accent-blue)" stroke-width="1.5" fill="none" class="user-path" style="animation-delay: 0.5s;"/>
+        <path d="M50 120 Q120 120 160 90" stroke="var(--accent-yellow)" stroke-width="1.5" fill="none" class="user-path" style="animation-delay: 1s;"/>
+     </svg>
+   </div>
+  <p>Se não houver um <strong>controle de concorrência</strong> adequado, essa simultaneidade pode levar a:</p>
+  <ul>
+      <li><i class="fas fa-exclamation-circle fa-fw"></i> Resultados de consulta incorretos.</li>
+      <li><i class="fas fa-exclamation-circle fa-fw"></i> Perda de atualizações.</li>
+      <li><i class="fas fa-exclamation-circle fa-fw"></i> Inconsistência geral dos dados.</li>
+  </ul>
+  <p>O SGBD precisa gerenciar isso para manter a propriedade de <strong>Isolamento</strong>.</p>
+<!-- --- END OF FILE slides/slide20.html --- -->

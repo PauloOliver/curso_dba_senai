@@ -1,0 +1,18 @@
+<!-- --- START OF FILE slides/slide19.html --- -->
+  <h2><i class="fas fa-history"></i> Recapitulação Rápida H2</h2>
+  <p>Aprofundamos nossa compreensão em:</p>
+  <ul>
+    <li><i class="fas fa-check-circle fa-fw"></i> As <strong>Propriedades ACID</strong>:
+        <ul>
+            <li><i class="fas fa-atom fa-fw"></i> <strong>Atomicidade:</strong> Tudo ou nada.</li>
+            <li><i class="fas fa-check-double fa-fw"></i> <strong>Consistência:</strong> Do válido ao válido, respeitando regras.</li>
+            <li><i class="fas fa-users-slash fa-fw"></i> <strong>Isolamento:</strong> Transações concorrentes não se atrapalham.</li>
+            <li><i class="fas fa-hdd fa-fw"></i> <strong>Durabilidade:</strong> Alterações commitadas são permanentes.</li>
+        </ul>
+    </li>
+    <li><i class="fas fa-check-circle fa-fw"></i> <code>SAVEPOINT nome_ponto;</code> para criar marcos dentro de uma transação.</li>
+    <li><i class="fas fa-check-circle fa-fw"></i> <code>ROLLBACK TO SAVEPOINT nome_ponto;</code> para desfazer parcialmente uma transação.</li>
+  </ul>
+  <p>Agora, vamos enfrentar o mundo real: múltiplos usuários acessando os dados ao mesmo tempo!</p>
+   <i class="fas fa-users" style="font-size: 3rem; color: var(--accent-yellow); margin-top: 20px;"></i>
+<!-- --- END OF FILE slides/slide19.html --- -->

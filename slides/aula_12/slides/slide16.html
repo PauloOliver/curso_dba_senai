@@ -1,0 +1,18 @@
+<!-- --- START OF FILE slides/slide16.html --- -->
+  <h2><i class="fas fa-flag"></i> Comandos Avançados: <code>SAVEPOINT</code></h2>
+  <p>Dentro de uma transação longa ou complexa, pode ser útil ter a capacidade de desfazer <strong>parcialmente</strong> as operações, sem ter que reverter toda a transação.</p>
+  <p>O comando <code>SAVEPOINT</code> permite criar "marcos" ou "pontos de salvamento nomeados" dentro de uma transação ativa.</p>
+  <p><strong>Sintaxe:</strong></p>
+  <pre><code class="language-sql">
+START TRANSACTION;
+-- Operação A
+-- Operação B
+SAVEPOINT meu_ponto_seguro_1; -- Cria um savepoint
+-- Operação C
+-- Operação D
+SAVEPOINT outro_ponto; -- Pode ter múltiplos savepoints
+-- Operação E
+...
+  </code></pre>
+  <p>Os savepoints só fazem sentido no contexto de uma transação ativa (entre <code>BEGIN</code> e <code>COMMIT</code>/<code>ROLLBACK</code>).</p>
+<!-- --- END OF FILE slides/slide16.html --- -->

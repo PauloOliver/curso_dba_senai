@@ -1,0 +1,47 @@
+<!-- --- START OF FILE slides/slide7.html --- -->
+  <h2><i class="fas fa-code"></i> Comandos Básicos de Controle de Transação (TCL)</h2>
+  <p>Os SGBDs fornecem comandos para gerenciar explicitamente as transações:</p>
+  <ul>
+      <li><strong><code>BEGIN TRANSACTION;</code></strong> ou <strong><code>START TRANSACTION;</code></strong> (ou apenas <code>BEGIN;</code> em alguns SGBDs como PostgreSQL)
+          <ul><li><i class="fas fa-play fa-fw"></i> Marca o início de uma nova transação. Todas as operações SQL subsequentes (até um <code>COMMIT</code> ou <code>ROLLBACK</code>) fazem parte desta transação.</li></ul>
+      </li>
+      <li><code>-- aqui vão os seus comandos SQL (INSERT, UPDATE, DELETE, etc.)</code></li>
+      <li><strong><code>COMMIT;</code></strong> ou <strong><code>COMMIT WORK;</code></strong>
+          <ul><li><i class="fas fa-save fa-fw" style="color: var(--green-correct)"></i> Finaliza a transação atual e torna <strong>permanentes</strong> todas as alterações feitas desde o <code>BEGIN</code>. Os dados são salvos de forma durável.</li></ul>
+      </li>
+      <li><strong><code>ROLLBACK;</code></strong> ou <strong><code>ROLLBACK WORK;</code></strong>
+          <ul><li><i class="fas fa-undo fa-fw" style="color: var(--red-error)"></i> Finaliza a transação atual e <strong>desfaz todas as alterações</strong> feitas desde o <code>BEGIN</code>. O banco de dados retorna ao estado em que estava antes da transação iniciar.</li></ul>
+      </li>
+  </ul>
+  <div class="slide-svg-container" style="max-width: 60%; margin-top:15px;">
+       <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+             <marker id="arrowheadTCL" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="var(--text-medium)" /></marker>
+           </defs>
+           <!-- Nodes -->
+           <rect x="10" y="50" width="80" height="50" rx="5" class="svg-accent1-fill"/>
+           <text x="50" y="80" text-anchor="middle" class="svg-text-light-fill">BEGIN</text>
+
+           <rect x="120" y="50" width="100" height="50" rx="5" class="svg-bg-light"/>
+           <text x="170" y="70" text-anchor="middle" class="svg-text-light-fill" font-size="10px">SQL Op 1</text>
+           <text x="170" y="85" text-anchor="middle" class="svg-text-light-fill" font-size="10px">SQL Op 2...</text>
+
+           <ellipse cx="280" cy="75" rx="50" ry="25" class="svg-bg-light" stroke="var(--accent-yellow)" stroke-width="2"/>
+           <text x="280" y="80" text-anchor="middle" class="svg-text-light-fill">Sucesso?</text>
+
+           <rect x="360" y="20" width="80" height="40" rx="5" class="svg-accent1-fill"/>
+           <text x="400" y="45" text-anchor="middle" class="svg-text-light-fill">COMMIT</text>
+
+           <rect x="360" y="90" width="80" height="40" rx="5" class="svg-accent2-fill" fill="var(--red-error)"/>
+           <text x="400" y="115" text-anchor="middle" class="svg-text-light-fill">ROLLBACK</text>
+
+           <!-- Arrows -->
+           <line x1="90" y1="75" x2="120" y2="75" class="svg-line-stroke" marker-end="url(#arrowheadTCL)"/>
+           <line x1="220" y1="75" x2="255" y2="75" class="svg-line-stroke" marker-end="url(#arrowheadTCL)"/>
+           <path d="M 305 60 Q 330 45 360 38" stroke="var(--text-medium)" fill="none" marker-end="url(#arrowheadTCL)" />
+           <text x="330" y="58" class="svg-text-fill" font-size="10px">Sim</text>
+           <path d="M 305 90 Q 330 105 360 112" stroke="var(--text-medium)" fill="none" marker-end="url(#arrowheadTCL)" />
+           <text x="330" y="100" class="svg-text-fill" font-size="10px">Não</text>
+       </svg>
+   </div>
+<!-- --- END OF FILE slides/slide7.html --- -->

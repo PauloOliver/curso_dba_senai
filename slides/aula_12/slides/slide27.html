@@ -1,0 +1,41 @@
+<!-- --- START OF FILE slides/slide27.html --- -->
+  <h2><i class="fas fa-table"></i> Tabela Comparativa: Níveis de Isolamento vs. Anomalias</h2>
+  <p>Resumo visual de quais fenômenos são possíveis em cada nível de isolamento padrão:</p>
+  <table style="width: 90%; margin: 20px auto; border-collapse: collapse; text-align: center;">
+      <thead>
+          <tr style="background-color: var(--bg-light);">
+              <th style="padding: 8px; border: 1px solid var(--text-medium);">Nível de Isolamento</th>
+              <th style="padding: 8px; border: 1px solid var(--text-medium);">Leitura Suja<br>(Dirty Read)</th>
+              <th style="padding: 8px; border: 1px solid var(--text-medium);">Leitura Não Repetível<br>(Non-Repeatable Read)</th>
+              <th style="padding: 8px; border: 1px solid var(--text-medium);">Leitura Fantasma<br>(Phantom Read)</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); font-weight: bold;">READ UNCOMMITTED</td>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); color: var(--red-error);"><i class="fas fa-exclamation-triangle"></i> POSSÍVEL</td>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); color: var(--red-error);"><i class="fas fa-exclamation-triangle"></i> POSSÍVEL</td>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); color: var(--red-error);"><i class="fas fa-exclamation-triangle"></i> POSSÍVEL</td>
+          </tr>
+          <tr style="background-color: rgba(0,0,0,0.1);">
+              <td style="padding: 8px; border: 1px solid var(--text-medium); font-weight: bold;">READ COMMITTED</td>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); color: var(--green-correct);"><i class="fas fa-check-circle"></i> PREVENIDO</td>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); color: var(--accent-yellow);"><i class="fas fa-exclamation-circle"></i> POSSÍVEL</td>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); color: var(--accent-yellow);"><i class="fas fa-exclamation-circle"></i> POSSÍVEL</td>
+          </tr>
+          <tr>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); font-weight: bold;">REPEATABLE READ</td>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); color: var(--green-correct);"><i class="fas fa-check-circle"></i> PREVENIDO</td>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); color: var(--green-correct);"><i class="fas fa-check-circle"></i> PREVENIDO</td>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); color: var(--accent-yellow);"><i class="fas fa-exclamation-circle"></i> POSSÍVEL*</td>
+          </tr>
+           <tr style="background-color: rgba(0,0,0,0.1);">
+              <td style="padding: 8px; border: 1px solid var(--text-medium); font-weight: bold;">SERIALIZABLE</td>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); color: var(--green-correct);"><i class="fas fa-check-circle"></i> PREVENIDO</td>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); color: var(--green-correct);"><i class="fas fa-check-circle"></i> PREVENIDO</td>
+              <td style="padding: 8px; border: 1px solid var(--text-medium); color: var(--green-correct);"><i class="fas fa-check-circle"></i> PREVENIDO</td>
+          </tr>
+      </tbody>
+  </table>
+  <p style="font-size:0.8em; color:var(--text-medium)">* A prevenção de Phantoms em REPEATABLE READ pode variar conforme a implementação do SGBD (ex: MySQL InnoDB usa next-key locking que geralmente previne phantoms neste nível).</p>
+<!-- --- END OF FILE slides/slide27.html --- -->

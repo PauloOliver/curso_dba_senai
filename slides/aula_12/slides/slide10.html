@@ -1,0 +1,27 @@
+<!-- --- START OF FILE slides/slide10.html --- -->
+  <h2><i class="fas fa-gem"></i> Propriedades ACID: O Alicerce da Confiabilidade</h2>
+  <p>As transações em SGBDs relacionais são projetadas para garantir quatro propriedades críticas, conhecidas pelo acrônimo <strong>ACID</strong>.</p>
+  <p>Estas propriedades são o que tornam os bancos de dados relacionais confiáveis para aplicações críticas.</p>
+  <div style="display: flex; justify-content: space-around; margin-top: 25px;">
+      <div style="text-align:center; padding: 10px; animation: bounceIn 1s;">
+        <i class="fas fa-atom fa-3x" style="color: var(--accent-green);"></i>
+        <p style="font-weight:bold; color:var(--accent-green)">A<span style="color:var(--text-light)">tomicidade</span></p>
+      </div>
+      <div style="text-align:center; padding: 10px; animation: bounceIn 1s .2s;">
+        <i class="fas fa-check-circle fa-3x" style="color: var(--accent-blue);"></i>
+        <p style="font-weight:bold; color:var(--accent-blue)">C<span style="color:var(--text-light)">onsistência</span></p>
+      </div>
+      <div style="text-align:center; padding: 10px; animation: bounceIn 1s .4s;">
+        <i class="fas fa-users-slash fa-3x" style="color: var(--accent-yellow);"></i>
+        <p style="font-weight:bold; color:var(--accent-yellow)">I<span style="color:var(--text-light)">solamento</span></p>
+      </div>
+      <div style="text-align:center; padding: 10px; animation: bounceIn 1s .6s;">
+        <i class="fas fa-hdd fa-3x" style="color: var(--red-error);"></i>
+        <p style="font-weight:bold; color:var(--red-error)">D<span style="color:var(--text-light)">urabilidade</span></p>
+      </div>
+  </div>
+  <p style="margin-top: 20px;">Vamos explorar cada uma em detalhe.</p>
+  <style>
+    @keyframes bounceIn { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-15px);} 60% {transform: translateY(-7px);} }
+  </style>
+<!-- --- END OF FILE slides/slide10.html --- -->

@@ -1,0 +1,30 @@
+<!-- --- START OF FILE slides/slide12.html --- -->
+  <h2><i class="fas fa-check-double" style="color: var(--accent-blue);"></i> C - Consistência (Do Válido ao Válido)</h2>
+  <p>A propriedade de <strong>Consistência</strong> garante que uma transação só pode levar o banco de dados de um <strong>estado válido</strong> para outro <strong>estado válido</strong>.</p>
+  <p>O SGBD não permite que uma transação, ao ser commitada, deixe o banco em um estado que viole quaisquer <strong>regras de integridade</strong> definidas:</p>
+  <ul>
+      <li><i class="fas fa-key fa-fw"></i> Chaves Primárias e Únicas (<code>PRIMARY KEY</code>, <code>UNIQUE</code>)</li>
+      <li><i class="fas fa-link fa-fw"></i> Chaves Estrangeiras (<code>FOREIGN KEY</code>) e integridade referencial</li>
+      <li><i class="fas fa-ban fa-fw"></i> Restrições <code>NOT NULL</code></li>
+      <li><i class="fas fa-check-square fa-fw"></i> Restrições <code>CHECK</code></li>
+      <li><i class="fas fa-cogs fa-fw"></i> (E, em sistemas mais complexos, Triggers e regras de negócio implementadas)</li>
+  </ul>
+  <p>Se uma transação tentar violar uma dessas regras ao fazer <code>COMMIT</code>, o SGBD geralmente a <strong>desfará automaticamente</strong> (<code>ROLLBACK</code>) para manter a consistência.</p>
+  <div class="slide-svg-container" style="max-width: 50%; margin-top: 15px;">
+      <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="30" width="70" height="60" rx="5" class="svg-accent2-fill"/>
+          <text x="45" y="65" text-anchor="middle" class="svg-text-light-fill">Estado</text>
+          <text x="45" y="80" text-anchor="middle" class="svg-text-light-fill">Válido 1</text>
+           <text x="45" y="50" text-anchor="middle" font-family="Font Awesome 5 Free" font-weight="900" font-size="15px" fill="var(--text-light)">&#xf00c;</text>
+
+          <path d="M80 60 L120 60" stroke="var(--text-medium)" stroke-width="2" marker-end="url(#arrowA)"/>
+          <text x="100" y="50" text-anchor="middle" class="svg-text-fill" font-size="10px">Transação</text>
+
+          <rect x="120" y="30" width="70" height="60" rx="5" class="svg-accent2-fill"/>
+          <text x="155" y="65" text-anchor="middle" class="svg-text-light-fill">Estado</text>
+          <text x="155" y="80" text-anchor="middle" class="svg-text-light-fill">Válido 2</text>
+          <text x="155" y="50" text-anchor="middle" font-family="Font Awesome 5 Free" font-weight="900" font-size="15px" fill="var(--text-light)">&#xf00c;</text>
+      </svg>
+  </div>
+  <p style="font-size: 0.9em; color:var(--text-medium)"><strong>Analogia Contábil:</strong> Um balanço deve sempre ter débitos = créditos. Uma transação (um lançamento) não pode deixar o balanço desequilibrado. Começa válido, termina válido.</p>
+<!-- --- END OF FILE slides/slide12.html --- -->

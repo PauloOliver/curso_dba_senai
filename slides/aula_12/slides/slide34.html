@@ -1,0 +1,21 @@
+<!-- --- START OF FILE slides/slide34.html --- -->
+  <h2><i class="fas fa-th-large"></i> Granularidade de Locks</h2>
+  <p>Em qual "tamanho" de recurso o lock é aplicado? Isso é a granularidade.</p>
+  <ul>
+      <li><strong><i class="fas fa-ellipsis-h fa-fw"></i> Nível de Linha (Row-level Lock):</strong>
+          <ul><li>O SGBD bloqueia apenas as linhas específicas que estão sendo acessadas/modificadas.</li>
+          <li><strong>Pró:</strong> Permite a maior concorrência, pois transações diferentes podem operar em linhas diferentes da mesma tabela simultaneamente.</li>
+          <li><strong>Contra:</strong> Maior overhead para o SGBD gerenciar potencialmente muitos locks individuais.</li></ul>
+      </li>
+      <li style="margin-top:10px;"><strong><i class="fas fa-file-alt fa-fw"></i> Nível de Página (Page-level Lock):</strong>
+          <ul><li>O SGBD bloqueia a página inteira de dados no disco que contém a linha acessada. Uma página pode conter múltiplas linhas.</li>
+          <li><strong>Trade-off:</strong> Menos locks para gerenciar que o nível de linha, mas pode bloquear linhas não relacionadas na mesma página.</li></ul>
+      </li>
+      <li style="margin-top:10px;"><strong><i class="fas fa-table fa-fw"></i> Nível de Tabela (Table-level Lock):</strong>
+          <ul><li>O SGBD bloqueia a tabela inteira.</li>
+           <li><strong>Pró:</strong> Menor overhead de gerenciamento de locks.</li>
+           <li><strong>Contra:</strong> Reduz drasticamente a concorrência. Se uma transação tem um lock de escrita na tabela, nenhuma outra pode ler ou escrever nela.</li></ul>
+      </li>
+  </ul>
+  <p>Muitos SGBDs (como MySQL InnoDB, PostgreSQL) usam primariamente locks de nível de linha para DML, mas podem "escalar" para locks de página ou tabela (<strong>Lock Escalation</strong>) se uma única transação estiver adquirindo muitos locks de nível inferior, para economizar recursos de gerenciamento de locks.</p>
+<!-- --- END OF FILE slides/slide34.html --- -->

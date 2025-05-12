@@ -1,0 +1,27 @@
+<!-- --- START OF FILE slides/slide6.html --- -->
+  <h2><i class="fas fa-comments-dollar"></i> Transações no Cotidiano (Analogias)</h2>
+  <p>Entendemos transações intuitivamente em muitas situações:</p>
+  <div style="display: flex; justify-content: space-around; align-items: flex-start; margin-top: 25px;">
+      <div style="text-align: center; max-width: 45%;">
+          <h4><i class="fas fa-exchange-alt fa-fw" style="color:var(--accent-green)"></i> Transferência Bancária</h4>
+          <ol style="text-align: left; font-size:0.9em;">
+              <li>Verificar saldo da Conta A.</li>
+              <li><strong>Debitar</strong> R$100 da Conta A.</li>
+              <li><strong>Creditar</strong> R$100 na Conta B.</li>
+              <li>Registrar a transação.</li>
+          </ol>
+          <p style="font-size:0.9em; color: var(--text-medium)">Se o crédito na Conta B falhar (ex: conta inexistente), o débito na Conta A DEVE ser desfeito. O dinheiro não pode "sumir".</p>
+      </div>
+      <div style="text-align: center; max-width: 45%;">
+          <h4><i class="fas fa-plane-departure fa-fw" style="color:var(--accent-blue)"></i> Reserva de Pacote de Viagem</h4>
+          <ol style="text-align: left; font-size:0.9em;">
+              <li>Reservar assento no voo.</li>
+              <li>Reservar quarto no hotel.</li>
+              <li>Reservar aluguel de carro.</li>
+              <li>Processar pagamento.</li>
+          </ol>
+          <p style="font-size:0.9em; color: var(--text-medium)">Se o hotel estiver lotado após a reserva do voo, todas as outras reservas e o pagamento devem ser cancelados/estornados.</p>
+      </div>
+  </div>
+  <p style="margin-top: 20px;">Em ambos os casos, um conjunto de ações precisa ser tratado como uma <strong>operação única e indivisível</strong>.</p>
+<!-- --- END OF FILE slides/slide6.html --- -->

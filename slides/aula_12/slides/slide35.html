@@ -1,0 +1,43 @@
+<!-- --- START OF FILE slides/slide35.html --- -->
+  <h2><i class="fas fa-traffic-jam" style="color:var(--red-error)"></i> Deadlocks (Impasses Mortais)</h2>
+  <p>Um <strong>Deadlock</strong> (ou bloqueio circular) ocorre quando duas ou mais transações estão indefinidamente esperando uma pela outra para liberar locks que necessitam para prosseguir.</p>
+  <p><strong>Cenário Clássico de Deadlock (2 Transações, 2 Recursos):</strong></p>
+  <ol>
+      <li>Transação 1 (T1) adquire um lock no Recurso A.</li>
+      <li>Transação 2 (T2) adquire um lock no Recurso B.</li>
+      <li>T1 tenta adquirir um lock no Recurso B (que está bloqueado por T2) e espera.</li>
+      <li>T2 tenta adquirir um lock no Recurso A (que está bloqueado por T1) e espera.</li>
+  </ol>
+  <p>Agora, T1 espera por T2, e T2 espera por T1. Nenhuma pode prosseguir: <strong>DEADLOCK!</strong></p>
+   <div class="slide-svg-container" style="max-width: 50%; margin-top: 15px;">
+      <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+              <marker id="arrowD" markerWidth="7" markerHeight="5" refX="5" refY="2.5" orient="auto" fill="var(--red-error)"><polygon points="0 0, 5 2.5, 0 5" /></marker>
+          </defs>
+          <!-- Transações -->
+          <circle cx="50" cy="75" r="20" class="svg-accent1-fill" /> <text x="50" y="80" text-anchor="middle" class="svg-text-light-fill">T1</text>
+          <circle cx="150" cy="75" r="20" class="svg-accent2-fill" /> <text x="150" y="80" text-anchor="middle" class="svg-text-light-fill">T2</text>
+          <!-- Recursos -->
+          <rect x="30" y="20" width="40" height="25" rx="3" class="svg-bg-light"/> <text x="50" y="36" text-anchor="middle" class="svg-text-fill">Rec A</text>
+          <rect x="130" y="20" width="40" height="25" rx="3" class="svg-bg-light"/> <text x="150" y="36" text-anchor="middle" class="svg-text-fill">Rec B</text>
+
+          <!-- T1 tem A, quer B -->
+          <line x1="50" y1="55" x2="50" y2="45" stroke="var(--accent1-line)" marker-end="url(#arrowD)"/>
+          <path d="M65 60 Q100 40 135 50" stroke="var(--red-error)" stroke-width="1.5" fill="none" stroke-dasharray="3 2" marker-end="url(#arrowD)"/>
+          <text x="100" y="60" class="svg-text-fill" font-size="8px">Quer B</text>
+
+
+          <!-- T2 tem B, quer A -->
+          <line x1="150" y1="55" x2="150" y2="45" stroke="var(--accent2-line)" marker-end="url(#arrowD)"/>
+          <path d="M135 90 Q100 110 65 100" stroke="var(--red-error)" stroke-width="1.5" fill="none" stroke-dasharray="3 2" marker-end="url(#arrowD)"/>
+          <text x="100" y="95" class="svg-text-fill" font-size="8px">Quer A</text>
+      </svg>
+   </div>
+  <p><strong>Resolução de Deadlocks pelos SGBDs:</strong></p>
+  <ul>
+      <li>Os SGBDs monitoram por ciclos de espera de locks.</li>
+      <li>Quando um deadlock é detectado, o SGBD escolhe uma das transações como <strong>"vítima"</strong>.</li>
+      <li>A transação vítima é automaticamente terminada com <code>ROLLBACK</code>, liberando seus locks e permitindo que a(s) outra(s) transação(ões) prossiga(m).</li>
+      <li>A aplicação que originou a transação vítima recebe um erro e geralmente deve tentar a transação novamente.</li>
+  </ul>
+<!-- --- END OF FILE slides/slide35.html --- -->
