@@ -1,0 +1,25 @@
+<!-- --- START OF FILE slides/slide16.html --- -->
+  <h2><i class="fas fa-database"></i> Introdução à Modelagem Física: Do Papel ao SGBD Real</h2>
+  <p>A Modelagem Física é a fase final, onde traduzimos o Modelo Lógico (independente de SGBD) para uma implementação concreta em um <strong>Sistema Gerenciador de Banco de Dados (SGBD) específico</strong> (ex: MySQL, PostgreSQL, SQL Server, Oracle).</p>
+  <p><strong>Principais Considerações na Modelagem Física:</strong></p>
+  <ul>
+      <li><i class="fas fa-tools fa-fw"></i> <strong>Escolha do SGBD:</strong> Cada SGBD tem suas próprias características, tipos de dados específicos, sintaxe DDL ligeiramente diferente, e mecanismos de otimização.
+          <ul><li>Para o nosso projeto, vamos focar no <strong>MySQL</strong>.</li></ul>
+      </li>
+      <li><i class="fas fa-keyboard fa-fw"></i> <strong>Mapeamento Exato de Tipos de Dados:</strong> Converter tipos lógicos (Texto, Número, Data) para os tipos específicos do SGBD (<code>VARCHAR</code>, <code>INT</code>, <code>DATE</code>, <code>DECIMAL</code>, etc., com seus tamanhos e precisões).</li>
+      <li><i class="fas fa-search-plus fa-fw"></i> <strong>Definição de Índices:</strong> Além dos índices criados automaticamente por PKs e UNIQUEs, decidir quais outros índices criar para otimizar consultas.</li>
+      <li><i class="fas fa-table fa-fw"></i> <strong>Particionamento de Tabelas (Avançado):</strong> Para tabelas muito grandes, como dividi-las fisicamente.</li>
+      <li><i class="fas fa-cog fa-fw"></i> <strong>Configurações de Storage Engine (MySQL):</strong> Ex: InnoDB (padrão, suporta transações, FKs), MyISAM (mais antigo, menos funcionalidades).</li>
+      <li><i class="fas fa-file-code fa-fw"></i> <strong>Geração dos Scripts SQL DDL:</strong> Escrever os comandos <code>CREATE TABLE</code>, <code>ALTER TABLE</code>, etc.</li>
+  </ul>
+  <div class="slide-svg-container" style="max-width: 50%; margin-top: 15px;">
+      <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="30" width="80" height="60" rx="5" class="svg-accent2-fill" />
+          <text x="50" y="65" text-anchor="middle" class="svg-text-light-fill">Modelo Lógico</text>
+          <path d="M90 60 L120 60" stroke="var(--text-medium)" stroke-width="2" marker-end="url(#arrowM)"/>
+          <text x="105" y="50" text-anchor="middle" class="svg-text-fill" font-size="10px">Implementa em</text>
+          <rect x="120" y="30" width="70" height="60" rx="5" class="svg-bg-fill" />
+          <text x="155" y="65" text-anchor="middle" class="svg-text-light-fill">SGBD (MySQL)</text>
+      </svg>
+  </div>
+<!-- --- END OF FILE slides/slide16.html --- -->

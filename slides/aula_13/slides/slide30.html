@@ -1,0 +1,28 @@
+<!-- --- START OF FILE slides/slide30.html --- -->
+  <h2><i class="fas fa-star-half-alt"></i> Boas Práticas e Padrões Profissionais (Aplicados ao Projeto)</h2>
+  <p>Ao longo do projeto, aplicamos (ou deveríamos aplicar) várias boas práticas:</p>
+  <ul>
+      <li><strong><i class="fas fa-signature fa-fw"></i> Nomenclatura Padronizada:</strong>
+          <ul>
+              <li>Usamos <code>CamelCase</code> ou <code>PascalCase</code> para tabelas e colunas no Modelo Conceitual/Lógico (ex: <code>NomeProduto</code>, <code>DataCadastro</code>).</li>
+              <li>No script SQL (MySQL/PostgreSQL), é comum e recomendado usar <code>snake_case</code> para nomes de tabelas e colunas (ex: <code>nome_produto</code>, <code>data_cadastro</code>, <code>livro_autores</code>). <em>(Adaptar o script se necessário para refletir isso)</em>.</li>
+              <li>Chaves Primárias: <code>NomeDaTabelaID</code> ou apenas <code>ID</code>.</li>
+              <li>Chaves Estrangeiras: <code>NomeDaTabelaPaiID</code>.</li>
+          </ul>
+      </li>
+      <li style="margin-top:10px;"><strong><i class="fas fa-comments fa-fw"></i> Comentários nos Scripts SQL:</strong>
+          <ul>
+              <li>Usar <code>--</code> para comentários de linha e <code>/* ... */</code> para blocos.</li>
+              <li>Comentar o propósito de tabelas complexas, colunas com lógica específica, ou constraints não óbvias.</li>
+          </ul>
+          <pre><code class="language-sql">-- Tabela para armazenar os exemplares físicos dos livros
+CREATE TABLE Exemplares ( ... );</code></pre>
+      </li>
+      <li style="margin-top:10px;"><strong><i class="fas fa-folder-open fa-fw"></i> Organização Modular (Para Projetos Maiores):</strong>
+          <ul><li>Em sistemas grandes, os scripts DDL podem ser divididos em arquivos por módulo funcional ou por tipo de objeto (tabelas, views, índices, etc.) para facilitar a manutenção.</li></ul>
+      </li>
+      <li style="margin-top:10px;"><strong><i class="fas fa-shield-alt fa-fw"></i> Segurança e Validação na Fonte:</strong>
+          <ul><li>Maximizar o uso de constraints (<code>NOT NULL</code>, <code>UNIQUE</code>, <code>CHECK</code>, <code>FOREIGN KEY</code>) para garantir a integridade dos dados diretamente no banco, reduzindo a carga na aplicação.</li></ul>
+      </li>
+  </ul>
+<!-- --- END OF FILE slides/slide30.html --- -->

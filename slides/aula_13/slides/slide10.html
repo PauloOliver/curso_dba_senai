@@ -1,0 +1,37 @@
+<!-- --- START OF FILE slides/slide10.html --- -->
+  <h2><i class="fas fa-filter"></i> MER - Refinando o Modelo</h2>
+  <p>Alguns pontos para refinar nosso DER inicial:</p>
+  <ul>
+      <li><strong>Atributos Multivalorados:</strong>
+          <ul>
+              <li>Exemplo: Se um livro pudesse ter múltiplas "palavras-chave" diretamente como atributo.</li>
+              <li><strong>Solução Correta (1FN):</strong> Criar uma nova entidade fraca ou tabela associativa. Ex: <code>LIVRO_PALAVRASCHAVE</code> (<u>LivroID</u>, <u>PalavraChave</u>).</li>
+              <li>No nosso caso, <code>GENERO</code> foi corretamente modelado como uma entidade separada com relacionamento N:M com <code>LIVRO</code>, o que já resolve isso.</li>
+          </ul>
+      </li>
+      <li style="margin-top:15px;"><strong>Especialização/Generalização (Opcional para este projeto):</strong>
+          <ul>
+              <li>Se tivéssemos atributos comuns e específicos para diferentes tipos de "Pessoas" no sistema (ex: Autores, Membros, Funcionários).</li>
+              <li>Poderíamos ter uma superclasse <code>PESSOA</code> (com Nome, Documento) e subclasses <code>AUTOR</code> (com Biografia), <code>MEMBRO</code> (com DataValidadeCartao).</li>
+              <li><strong>Prós:</strong> Reduz redundância de atributos comuns. <strong>Contras:</strong> Adiciona complexidade.</li>
+              <li>Para o nosso projeto de biblioteca, manter <code>AUTOR</code> e <code>MEMBRO</code> como entidades separadas é provavelmente mais simples e adequado ao escopo, a menos que haja muitos atributos em comum.</li>
+          </ul>
+           <div class="slide-svg-container" style="max-width: 50%; margin-top: 10px;">
+             <svg viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                <rect x="70" y="10" width="60" height="30" rx="3" class="svg-bg-fill" stroke="var(--text-light)"/>
+                <text x="100" y="28" text-anchor="middle" class="svg-text-light-fill" font-size="10px">Pessoa</text>
+                <line x1="100" y1="40" x2="100" y2="60" class="svg-line-stroke"/>
+                <circle cx="100" cy="65" r="10" class="svg-accent1-fill" stroke="var(--text-light)"/>
+                <text x="100" y="68" text-anchor="middle" class="svg-text-light-fill" font-size="10px">d/o</text> <!-- d=disjunto, o=opcional -->
+                <line x1="60" y1="85" x2="100" y2="75" class="svg-line-stroke"/>
+                <line x1="140" y1="85" x2="100" y2="75" class="svg-line-stroke"/>
+                <rect x="30" y="85" width="60" height="30" rx="3" class="svg-bg-fill" stroke="var(--text-light)"/>
+                <text x="60" y="103" text-anchor="middle" class="svg-text-light-fill" font-size="10px">Autor</text>
+                <rect x="110" y="85" width="60" height="30" rx="3" class="svg-bg-fill" stroke="var(--text-light)"/>
+                <text x="140" y="103" text-anchor="middle" class="svg-text-light-fill" font-size="10px">Membro</text>
+                <text x="100" y="135" text-anchor="middle" class="svg-text-fill" font-size="10px">(Exemplo Generalização/Especialização)</text>
+             </svg>
+           </div>
+      </li>
+  </ul>
+<!-- --- END OF FILE slides/slide10.html --- -->

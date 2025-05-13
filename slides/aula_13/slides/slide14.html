@@ -1,0 +1,34 @@
+<!-- --- START OF FILE slides/slide14.html --- -->
+  <h2><i class="fas fa-project-diagram"></i> Mapeamento Lógico: Relacionamento N:M (Muitos-para-Muitos)</h2>
+  <p>Relacionamentos N:M (como <code>LIVRO</code> (N) --escrito_por-- (M) <code>AUTOR</code>) <strong>não podem</strong> ser representados diretamente no modelo relacional apenas com FKs nas tabelas originais.</p>
+  <p><strong>Solução:</strong> Criar uma nova <strong>Tabela Associativa</strong> (também chamada de Tabela de Junção ou Tabela de Ligação).</p>
+  <ul style="text-align:left; max-width:700px; margin:10px auto;">
+      <li>Esta nova tabela terá (no mínimo) duas colunas, que serão as Chaves Estrangeiras (FKs) referenciando as Chaves Primárias (PKs) das duas tabelas originais envolvidas no relacionamento N:M.</li>
+      <li>A <strong>Chave Primária</strong> da tabela associativa é geralmente a <strong>combinação</strong> dessas duas FKs.</li>
+      <li>Quaisquer atributos que pertençam <strong>ao próprio relacionamento N:M</strong> (e não a uma das entidades individualmente) se tornam colunas nesta tabela associativa.</li>
+  </ul>
+  <p><strong>Exemplo:</strong> <code>AUTOR</code> (N) --escreve-- (M) <code>LIVRO</code></p>
+  <div class="slide-svg-container" style="max-width: 90%; margin-top: 10px;">
+      <svg viewBox="0 0 550 150" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="50" width="150" height="60" rx="5" class="svg-bg-fill" stroke="var(--text-medium)"/>
+          <text x="85" y="70" text-anchor="middle" class="svg-text-light-fill" font-weight="bold">Autores</text>
+          <text x="85" y="90" text-anchor="middle" class="svg-text-fill" font-size="10px"><u>AutorID (PK)</u></text>
+          <text x="85" y="100" text-anchor="middle" class="svg-text-fill" font-size="10px">NomeAutor</text>
+
+          <rect x="390" y="50" width="150" height="60" rx="5" class="svg-bg-fill" stroke="var(--text-medium)"/>
+          <text x="465" y="70" text-anchor="middle" class="svg-text-light-fill" font-weight="bold">Livros</text>
+          <text x="465" y="90" text-anchor="middle" class="svg-text-fill" font-size="10px"><u>LivroID (PK)</u></text>
+          <text x="465" y="100" text-anchor="middle" class="svg-text-fill" font-size="10px">Titulo</text>
+
+          <rect x="200" y="30" width="150" height="90" rx="5" class="svg-accent1-fill" stroke="var(--accent-yellow)" stroke-width="2"/>
+          <text x="275" y="50" text-anchor="middle" class="svg-text-light-fill" font-weight="bold">Livro_Autores</text>
+          <text x="275" y="70" text-anchor="middle" class="svg-text-fill" font-size="10px"><u>AutorID (FK, PK)</u></text>
+          <text x="275" y="80" text-anchor="middle" class="svg-text-fill" font-size="10px"><u>LivroID (FK, PK)</u></text>
+          <text x="275" y="90" text-anchor="middle" class="svg-text-fill" font-size="10px">(OrdemAutoria)</text>
+
+          <path d="M160 80 Q180 80 200 70" stroke="var(--accent-yellow)" stroke-width="1.5" fill="none" marker-end="url(#arrowM)"/>
+          <path d="M390 80 Q370 80 350 70" stroke="var(--accent-yellow)" stroke-width="1.5" fill="none" marker-start="url(#arrowMRev)"/>
+      </svg>
+  </div>
+  <p>No nosso caso, <code>LIVRO_GENEROS</code> (<u>LivroID</u>, <u>GeneroID</u>) seria outra tabela associativa.</p>
+<!-- --- END OF FILE slides/slide14.html --- -->

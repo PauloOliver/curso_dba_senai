@@ -1,0 +1,23 @@
+<!-- --- START OF FILE slides/slide19.html --- -->
+  <h2><i class="fas fa-list-ol"></i> Normalização: 1FN (Primeira Forma Normal)</h2>
+  <p><strong>Regra Principal da 1FN: Atomicidade dos Valores e Sem Grupos Repetitivos.</strong></p>
+  <ol style="text-align:left; max-width:700px; margin:10px auto;">
+      <li><strong>Valores Atômicos:</strong> Cada célula (interseção de linha e coluna) na tabela deve conter apenas <strong>um único valor</strong>, indivisível do ponto de vista do modelo.
+          <ul>
+              <li><strong>Exemplo Ruim (Não 1FN):</strong> Uma coluna <code>Telefones</code> contendo " (11)9999-1, (11)8888-2 ".</li>
+              <li><strong>Solução:</strong> Criar uma tabela separada <code>Membro_Telefones</code> (<u>MembroID (FK)</u>, <u>Telefone</u>).</li>
+          </ul>
+      </li>
+      <li style="margin-top:10px;"><strong>Sem Grupos Repetitivos de Colunas:</strong> A tabela não deve ter múltiplas colunas representando o mesmo tipo de informação para uma única entidade.
+          <ul>
+              <li><strong>Exemplo Ruim (Não 1FN):</strong> Colunas <code>Produto1</code>, <code>Produto2</code>, <code>Produto3</code> em uma tabela <code>Pedido</code>. E se um pedido tiver 4 produtos? E se a maioria tiver só 1?</li>
+              <li><strong>Solução:</strong> Criar uma tabela separada <code>Pedido_Itens</code> (<u>PedidoID (FK)</u>, <u>ProdutoID (FK)</u>, Quantidade).</li>
+          </ul>
+      </li>
+  </ol>
+  <p><strong>No nosso Projeto Biblioteca:</strong></p>
+  <ul>
+      <li>Se tivéssemos uma coluna `GenerosDoLivro` com "Ficção, Aventura", violaria 1FN. A solução foi criar a entidade <code>GENERO</code> e a tabela associativa <code>LIVRO_GENEROS</code> (<u>LivroID</u>, <u>GeneroID</u>), garantindo atomicidade.</li>
+  </ul>
+  <p>Geralmente, um bom design conceitual inicial já tende a satisfazer a 1FN.</p>
+<!-- --- END OF FILE slides/slide19.html --- -->

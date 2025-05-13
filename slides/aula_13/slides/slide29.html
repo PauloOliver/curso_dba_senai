@@ -1,0 +1,41 @@
+<!-- --- START OF FILE slides/slide29.html --- -->
+  <h2><i class="fas fa-pencil-alt"></i> Scripts SQL: Populando com <code>INSERT INTO</code> (Exemplos)</h2>
+  <p>Após criar as estruturas, precisamos de alguns dados para testar!</p>
+  <p><strong>Ordem de Inserção Importa (Devido às FKs):</strong></p>
+  <ol>
+      <li>Tabelas "pai" (sem FKs ou com FKs para tabelas já populadas): <code>Editoras</code>, <code>Autores</code>, <code>Generos</code>, <code>Membros</code>.</li>
+      <li>Tabelas "filhas" que dependem das anteriores: <code>Livros</code>.</li>
+      <li>Tabelas associativas: <code>Livro_Autores</code>, <code>Livro_Generos</code>.</li>
+      <li>Tabela <code>Emprestimos</code> (depende de <code>Livros</code> e <code>Membros</code>).</li>
+  </ol>
+  <pre><code class="language-sql">
+-- Editoras
+INSERT INTO Editoras (NomeEditora) VALUES ('Intrínseca'), ('Rocco'), ('Sextante');
+
+-- Autores
+INSERT INTO Autores (NomeAutor, Nacionalidade) VALUES
+('J.R.R. Tolkien', 'Britânico'), ('Agatha Christie', 'Britânica'), ('Machado de Assis', 'Brasileiro');
+
+-- Generos
+INSERT INTO Generos (NomeGenero) VALUES ('Fantasia'), ('Mistério'), ('Romance Brasileiro'), ('Ficção Científica');
+
+-- Livros (Supondo que os IDs das editoras sejam 1, 2, 3)
+INSERT INTO Livros (Titulo, AnoPublicacao, EditoraID, QtdExemplaresDisponiveis) VALUES
+('O Senhor dos Anéis', 1954, 1, 5),
+('Assassinato no Expresso do Oriente', 1934, 2, 3),
+('Dom Casmurro', 1899, 3, 7);
+
+-- Livro_Autores (Supondo IDs dos livros e autores)
+INSERT INTO Livro_Autores (LivroID, AutorID) VALUES
+((SELECT LivroID FROM Livros WHERE Titulo = 'O Senhor dos Anéis'), (SELECT AutorID FROM Autores WHERE NomeAutor = 'J.R.R. Tolkien')),
+((SELECT LivroID FROM Livros WHERE Titulo = 'Assassinato no Expresso do Oriente'), (SELECT AutorID FROM Autores WHERE NomeAutor = 'Agatha Christie')),
+((SELECT LivroID FROM Livros WHERE Titulo = 'Dom Casmurro'), (SELECT AutorID FROM Autores WHERE NomeAutor = 'Machado de Assis'));
+
+-- Membros
+INSERT INTO Membros (NomeMembro, EmailMembro, DataCadastroMembro) VALUES
+('Ana Silva', 'ana.silva@email.com', CURDATE()),
+('Bruno Costa', 'bruno.costa@email.com', CURDATE());
+
+-- (Continuar com Empréstimos e outras tabelas de junção como Livro_Generos)
+  </code></pre>
+<!-- --- END OF FILE slides/slide29.html --- -->

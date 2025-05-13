@@ -1,0 +1,35 @@
+<!-- --- START OF FILE slides/slide28.html --- -->
+  <h2><i class="fas fa-link"></i> Scripts SQL: Tabela Associativa (Ex: `Livro_Autores`)</h2>
+  <p>Para o relacionamento N:M entre <code>Livros</code> e <code>Autores</code>:</p>
+   <pre><code class="language-sql">
+CREATE TABLE Autores (
+    AutorID INT AUTO_INCREMENT PRIMARY KEY,
+    NomeAutor VARCHAR(150) NOT NULL,
+    DataNascimento DATE,
+    Nacionalidade VARCHAR(50)
+    -- Biografia TEXT, etc.
+) ENGINE=InnoDB;
+
+CREATE TABLE Livro_Autores (
+    LivroID INT,
+    AutorID INT,
+    -- OrdemContribuicao INT, -- Atributo opcional do relacionamento
+    PRIMARY KEY (LivroID, AutorID), -- Chave primária COMPOSTA
+
+    CONSTRAINT fk_la_livro
+        FOREIGN KEY (LivroID) REFERENCES Livros(LivroID)
+        ON DELETE CASCADE, -- Se o livro for deletado, esta associação some
+
+    CONSTRAINT fk_la_autor
+        FOREIGN KEY (AutorID) REFERENCES Autores(AutorID)
+        ON DELETE CASCADE  -- Se o autor for deletado, esta associação some
+) ENGINE=InnoDB;
+   </code></pre>
+   <p><strong>Discussão sobre <code>ON DELETE CASCADE</code>:</strong></p>
+   <ul>
+       <li><strong>Pró:</strong> Mantém a integridade automaticamente. Se um livro é removido, não faz sentido manter registros em <code>Livro_Autores</code> apontando para ele.</li>
+       <li><strong>Contra:</strong> Pode causar exclusões em cascata inesperadas se não for bem compreendido. Exige cuidado.</li>
+       <li>Alternativa: <code>ON DELETE RESTRICT</code> impediria a exclusão de um Livro ou Autor se eles ainda estiverem referenciados em <code>Livro_Autores</code>, forçando uma remoção manual da associação primeiro.</li>
+   </ul>
+   <p><em>Similarmente, criaríamos <code>Livro_Generos</code> (<u>LivroID</u>, <u>GeneroID</u>).</em></p>
+<!-- --- END OF FILE slides/slide28.html --- -->

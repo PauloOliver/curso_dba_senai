@@ -1,0 +1,26 @@
+<!-- --- START OF FILE slides/slide8.html --- -->
+  <h2><i class="fas fa-drafting-compass"></i> Modelagem Conceitual (MER/DER): Ferramentas e Notação</h2>
+  <p>Agora, vamos transformar os requisitos em um diagrama visual: o Modelo Entidade-Relacionamento (MER ou DER).</p>
+  <p><strong>Ferramentas Sugeridas:</strong></p>
+  <ul>
+      <li><i class="fas fa-mouse-pointer fa-fw"></i> <strong>Online/Desktop:</strong> <a href="https://app.diagrams.net/" target="_blank">diagrams.net (draw.io)</a> (gratuito), Lucidchart (freemium).</li>
+      <li><i class="fas fa-project-diagram fa-fw"></i> <strong>Específicas:</strong> brModelo (acadêmica), MySQL Workbench (ferramenta EER).</li>
+      <li><i class="fas fa-pencil-alt fa-fw"></i> Ou até mesmo papel e caneta para esboços rápidos!</li>
+  </ul>
+  <p><strong>Notação Chen (Clássica - que usaremos como base):</strong></p>
+  <div style="display: flex; justify-content: space-around; text-align: center; margin-top:15px;">
+      <div>
+          <svg width="80" height="60" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="10" width="70" height="40" fill="var(--bg-light)" stroke="var(--text-light)" stroke-width="1"/><text x="40" y="35" text-anchor="middle" font-size="10" fill="var(--text-light)">ENTIDADE</text></svg>
+          <p style="font-size:0.8em">Entidade (Retângulo)</p>
+      </div>
+      <div>
+          <svg width="80" height="60" xmlns="http://www.w3.org/2000/svg"><ellipse cx="40" cy="30" rx="35" ry="20" fill="var(--bg-light)" stroke="var(--text-light)" stroke-width="1"/><text x="40" y="33" text-anchor="middle" font-size="10" fill="var(--text-light)"><u>AtributoPK</u></text></svg>
+          <p style="font-size:0.8em">Atributo (Elipse)<br>PK Sublinhada</p>
+      </div>
+      <div>
+          <svg width="80" height="60" xmlns="http://www.w3.org/2000/svg"><path d="M5 30 L40 5 L75 30 L40 55 Z" fill="var(--bg-light)" stroke="var(--text-light)" stroke-width="1"/><text x="40" y="33" text-anchor="middle" font-size="8" fill="var(--text-light)">Relação</text></svg>
+          <p style="font-size:0.8em">Relacionamento (Losango)</p>
+      </div>
+  </div>
+  <p style="font-size:0.9em; color:var(--text-medium)">Outras notações como "Pé de Galinha" (Crow's Foot) também são comuns, especialmente para modelos lógicos.</p>
+<!-- --- END OF FILE slides/slide8.html --- -->

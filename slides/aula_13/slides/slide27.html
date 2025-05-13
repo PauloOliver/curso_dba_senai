@@ -1,0 +1,34 @@
+<!-- --- START OF FILE slides/slide27.html --- -->
+  <h2><i class="fas fa-code"></i> Scripts SQL: Exemplo <code>Editoras</code> e <code>Livros</code></h2>
+  <p>Vamos começar com algumas tabelas centrais (sintaxe MySQL):</p>
+  <pre><code class="language-sql">
+CREATE TABLE Editoras (
+    EditoraID INT AUTO_INCREMENT PRIMARY KEY,
+    NomeEditora VARCHAR(100) NOT NULL UNIQUE
+    -- Poderia ter: Endereco, Contato, etc.
+) ENGINE=InnoDB; -- Boa prática especificar o engine
+
+CREATE TABLE Livros (
+    LivroID INT AUTO_INCREMENT PRIMARY KEY,
+    Titulo VARCHAR(255) NOT NULL,
+    ISBN VARCHAR(13) UNIQUE,        -- Pode ser nulo para livros antigos sem ISBN
+    AnoPublicacao INT,              -- Pode ser SMALLINT ou YEAR
+    EditoraID INT,                  -- Chave estrangeira
+    NumPaginas INT,
+    QtdExemplaresDisponiveis INT NOT NULL DEFAULT 0,
+    -- Outras colunas como PrecoCapa, Idioma, etc.
+
+    CONSTRAINT fk_livro_editora
+        FOREIGN KEY (EditoraID) REFERENCES Editoras(EditoraID)
+        ON DELETE SET NULL -- Se uma editora for excluída, o livro fica sem editora
+        ON UPDATE CASCADE  -- Se o EditoraID mudar na tabela Editoras, atualiza aqui
+) ENGINE=InnoDB;
+  </code></pre>
+  <p><strong>Discussão:</strong></p>
+  <ul>
+      <li>Por que <code>EditoraID</code> em <code>Livros</code> permite <code>NULL</code> (inicialmente)? E se a editora não estiver cadastrada ainda?</li>
+      <li>Ações <code>ON DELETE SET NULL</code> vs <code>ON DELETE RESTRICT</code> para <code>EditoraID</code>. Qual seria melhor?</li>
+      <li><code>ENGINE=InnoDB</code> é importante no MySQL para ter suporte a FKs e transações.</li>
+  </ul>
+  <p><em>O instrutor continuará com as outras tabelas: <code>Autores</code>, <code>Generos</code>, <code>Livro_Autores</code>, <code>Livro_Generos</code>, <code>Membros</code>, <code>Emprestimos</code>, destacando as FKs, PKs compostas e constraints.</em></p>
+<!-- --- END OF FILE slides/slide27.html --- -->
