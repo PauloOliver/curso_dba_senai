@@ -1,34 +1,21 @@
-<!-- --- START OF FILE slides/slide27.html --- -->
-  <h2><i class="fas fa-code"></i> Scripts SQL: Exemplo <code>Editoras</code> e <code>Livros</code></h2>
-  <p>Vamos começar com algumas tabelas centrais (sintaxe MySQL):</p>
-  <pre><code class="language-sql">
-CREATE TABLE Editoras (
-    EditoraID INT AUTO_INCREMENT PRIMARY KEY,
-    NomeEditora VARCHAR(100) NOT NULL UNIQUE
-    -- Poderia ter: Endereco, Contato, etc.
-) ENGINE=InnoDB; -- Boa prática especificar o engine
 
-CREATE TABLE Livros (
-    LivroID INT AUTO_INCREMENT PRIMARY KEY,
-    Titulo VARCHAR(255) NOT NULL,
-    ISBN VARCHAR(13) UNIQUE,        -- Pode ser nulo para livros antigos sem ISBN
-    AnoPublicacao INT,              -- Pode ser SMALLINT ou YEAR
-    EditoraID INT,                  -- Chave estrangeira
-    NumPaginas INT,
-    QtdExemplaresDisponiveis INT NOT NULL DEFAULT 0,
-    -- Outras colunas como PrecoCapa, Idioma, etc.
-
-    CONSTRAINT fk_livro_editora
-        FOREIGN KEY (EditoraID) REFERENCES Editoras(EditoraID)
-        ON DELETE SET NULL -- Se uma editora for excluída, o livro fica sem editora
-        ON UPDATE CASCADE  -- Se o EditoraID mudar na tabela Editoras, atualiza aqui
-) ENGINE=InnoDB;
-  </code></pre>
-  <p><strong>Discussão:</strong></p>
-  <ul>
-      <li>Por que <code>EditoraID</code> em <code>Livros</code> permite <code>NULL</code> (inicialmente)? E se a editora não estiver cadastrada ainda ou for desconhecida?</li>
-      <li>Ações <code>ON DELETE SET NULL</code> vs <code>ON DELETE RESTRICT</code> para <code>EditoraID</code>. Qual seria melhor para este caso? Por quê?</li>
-      <li><code>ENGINE=InnoDB</code> é importante no MySQL para ter suporte a Chaves Estrangeiras e transações ACID.</li>
-  </ul>
-  <p><em>O instrutor continuará com as outras tabelas: <code>Autores</code>, <code>Generos</code>, <code>Livro_Autores</code>, <code>Livro_Generos</code>, <code>Membros</code>, <code>Emprestimos</code>, destacando as FKs, PKs compostas e constraints relevantes.</em></p>
-<!-- --- END OF FILE slides/slide27.html --- -->
+  <h2><i class="fas fa-star" style="color: var(--accent-yellow);"></i><i class="fas fa-star" style="color: var(--accent-yellow);"></i><i class="fas fa-star" style="color: var(--accent-yellow);"></i> Exercício 3: Auditando Alterações de Estoque</h2>
+   <div class="exercise-box" style="text-align:left; background-color:var(--bg-light); padding:20px; border-radius:8px;">
+    <p><strong>Enunciado:</strong></p>
+    <ol>
+      <li>Crie um Trigger chamado <code>trg_AuditarEstoqueProdutos</code>.</li>
+      <li>O Trigger deve ser disparado <code>AFTER UPDATE</code> na tabela <code>Produtos</code>.</li>
+      <li>Se a coluna <code>Estoque</code> for alterada, o trigger deve inserir um registro na tabela <code>LogEstoque</code>.</li>
+      <li>O registro em <code>LogEstoque</code> deve conter:
+        <ul>
+          <li><code>IDProduto</code>: O ID do produto atualizado (<code>NEW.IDProduto</code>).</li>
+          <li><code>Alteracao</code>: A diferença (<code>NEW.Estoque - OLD.Estoque</code>).</li>
+          <li><code>EstoqueAnterior</code>: (<code>OLD.Estoque</code>).</li>
+          <li><code>EstoqueNovo</code>: (<code>NEW.Estoque</code>).</li>
+          <li><code>DataLog</code>: Data e hora atuais.</li>
+          <li><code>Motivo</code>: Um texto, ex: "Atualização manual de estoque".</li>
+        </ul>
+      </li>
+    </ol>
+    <p><strong><i class="fas fa-stopwatch"></i> Tempo Sugerido:</strong> 25-30 minutos.</p>
+  </div>

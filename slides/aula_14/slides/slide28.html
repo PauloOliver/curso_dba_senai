@@ -1,35 +1,21 @@
-<!-- --- START OF FILE slides/slide28.html --- -->
-  <h2><i class="fas fa-link"></i> Scripts SQL: Tabela Associativa (Ex: <code>Livro_Autores</code>)</h2>
-  <p>Para o relacionamento N:M entre <code>Livros</code> e <code>Autores</code>:</p>
-   <pre><code class="language-sql">
-CREATE TABLE Autores (
-    AutorID INT AUTO_INCREMENT PRIMARY KEY,
-    NomeAutor VARCHAR(150) NOT NULL,
-    DataNascimento DATE,
-    Nacionalidade VARCHAR(50)
-    -- Biografia TEXT, etc.
-) ENGINE=InnoDB;
 
-CREATE TABLE Livro_Autores (
-    LivroID INT,
-    AutorID INT,
-    -- OrdemContribuicao INT, -- Atributo opcional do relacionamento (ex: 1º autor, 2º autor)
-    PRIMARY KEY (LivroID, AutorID), -- Chave primária COMPOSTA
+  <h2><i class="fas fa-check-circle" style="color: var(--green-correct);"></i> Solução: Exercício 1 - <code>sp_BuscarProdutosPorFaixaDePreco</code></h2>
+  <pre><code class="language-sql">
+DELIMITER $$
+CREATE PROCEDURE sp_BuscarProdutosPorFaixaDePreco (
+    IN preco_minimo DECIMAL(10,2),
+    IN preco_maximo DECIMAL(10,2)
+)
+BEGIN
+    -- Seleciona os produtos dentro da faixa de preço especificada
+    SELECT IDProduto, Nome, Preco, Estoque
+    FROM Produtos
+    WHERE Preco >= preco_minimo AND Preco <= preco_maximo
+    ORDER BY Preco ASC;
+END $$
+DELIMITER ;
 
-    CONSTRAINT fk_la_livro
-        FOREIGN KEY (LivroID) REFERENCES Livros(LivroID)
-        ON DELETE CASCADE, -- Se o livro for deletado, esta associação some
-
-    CONSTRAINT fk_la_autor
-        FOREIGN KEY (AutorID) REFERENCES Autores(AutorID)
-        ON DELETE CASCADE  -- Se o autor for deletado, esta associação some
-) ENGINE=InnoDB;
-   </code></pre>
-   <p><strong>Discussão sobre <code>ON DELETE CASCADE</code> para tabelas associativas:</strong></p>
-   <ul>
-       <li><strong>Pró:</strong> Mantém a integridade automaticamente de forma limpa. Se um livro é removido, não faz sentido manter registros em <code>Livro_Autores</code> apontando para um livro inexistente. O mesmo para autores.</li>
-       <li><strong>Contra (Raro neste caso, mas a considerar):</strong> Em cenários muito específicos, pode-se querer manter um log de associações passadas mesmo se uma das entidades for deletada. Mas para N:M puros, <code>CASCADE</code> é comum.</li>
-       <li>Alternativa mais segura (e mais trabalhosa): <code>ON DELETE RESTRICT</code>, que impediria a exclusão de um Livro ou Autor se eles ainda estiverem referenciados em <code>Livro_Autores</code>, forçando uma remoção manual da associação primeiro.</li>
-   </ul>
-   <p><em>Similarmente, criaríamos <code>Livro_Generos</code> (<u>LivroID</u>, <u>GeneroID</u>).</em></p>
-<!-- --- END OF FILE slides/slide28.html --- -->
+-- Exemplo de chamada:
+-- CALL sp_BuscarProdutosPorFaixaDePreco(10.00, 50.00);
+  </code></pre>
+  <p><strong>Comentários:</strong> A SP recebe os limites de preço, filtra os produtos usando <code>WHERE</code> e ordena com <code>ORDER BY</code>.</p>

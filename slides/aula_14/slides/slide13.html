@@ -1,18 +1,17 @@
-<!-- --- START OF FILE slides/slide13.html --- -->
-  <h2><i class="fas fa-history"></i> Recapitulação Rápida H2</h2>
-  <p>Consolidamos a primeira parte da modelagem:</p>
-  <ul>
-    <li><i class="fas fa-check-circle fa-fw"></i> Iniciamos com o <strong>Estudo de Caso</strong> da Biblioteca e fizemos o <strong>Levantamento de Requisitos</strong>.</li>
-    <li><i class="fas fa-check-circle fa-fw"></i> Esboçamos colaborativamente o <strong>Modelo Entidade-Relacionamento (MER/DER)</strong>, identificando entidades, atributos, PKs candidatas, relacionamentos e cardinalidades.</li>
-    <li><i class="fas fa-check-circle fa-fw"></i> Discutimos como tratar atributos multivalorados (levando a novas entidades/tabelas).</li>
-    <li><i class="fas fa-check-circle fa-fw"></i> Começamos a <strong>Modelagem Lógica</strong>, entendendo as regras básicas de mapeamento:
-        <ul style="margin-left:20px; font-size:0.9em;">
-            <li>Entidade Forte <i class="fas fa-arrow-right"></i> Tabela</li>
-            <li>Atributo <i class="fas fa-arrow-right"></i> Coluna</li>
-            <li>Identificador da Entidade <i class="fas fa-arrow-right"></i> Chave Primária (PK) da Tabela</li>
-        </ul>
-    </li>
-     <li><i class="fas fa-check-circle fa-fw"></i> Aprendemos a mapear relacionamentos <strong>1:N</strong> (a PK do lado "1" migra como FK para o lado "N").</li>
+
+  <h2><i class="fas fa-bell" style="color: var(--accent-yellow);"></i> E se Precisarmos de Ações Automáticas? <br/>Entram os Triggers!</h2>
+  <p>Stored Procedures são executadas sob demanda (<code>CALL</code>).</p>
+  <p>Mas e se precisarmos que uma ação ocorra <em>automaticamente</em> quando algo muda no banco?</p>
+  <ul style="text-align: left; max-width: 700px; margin: 15px auto;">
+    <li><i class="fas fa-question-circle fa-fw" style="color:var(--accent-yellow)"></i> Registrar quem alterou um salário?</li>
+    <li><i class="fas fa-question-circle fa-fw" style="color:var(--accent-yellow)"></i> Atualizar um estoque após uma venda?</li>
+    <li><i class="fas fa-question-circle fa-fw" style="color:var(--accent-yellow)"></i> Impedir a exclusão de um cliente com pedidos ativos?</li>
   </ul>
-  <p>Próximo passo: Mapear relacionamentos N:M e mergulhar na Normalização!</p>
-<!-- --- END OF FILE slides/slide13.html --- -->
+  <p style="font-size: 1.3rem; color: var(--accent-green); margin-top: 20px;"><strong>Triggers (Gatilhos) são a resposta!</strong></p>
+  <div style="background-color: var(--bg-light); padding: 15px; border-radius: 8px; margin-top:20px;">
+    <h4><i class="fas fa-lightbulb" style="color: var(--accent-yellow);"></i> Analogias:</h4>
+    <ul>
+      <li><i class="fas fa-sensor-on fa-fw"></i> Sensor de presença que acende a luz (Trigger <code>AFTER INSERT</code> em <code>LogAcesso</code>).</li>
+      <li><i class="fas fa-alarm-exclamation fa-fw"></i> Alarme que dispara se uma porta é aberta (Trigger <code>BEFORE DELETE</code> em <code>ContasImportantes</code>).</li>
+    </ul>
+  </div>

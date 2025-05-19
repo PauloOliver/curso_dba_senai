@@ -1,31 +1,45 @@
-<!-- --- START OF FILE slides/slide4.html --- -->
-  <h2><i class="fas fa-history"></i> Revisão Rápida: A Importância da Modelagem</h2>
-  <p>Antes de mergulhar no nosso projeto, vamos relembrar por que a modelagem de dados é tão crucial:</p>
-  <ul>
-      <li><i class="fas fa-lightbulb fa-fw"></i> <strong>Clareza e Comunicação:</strong> Traduz requisitos de negócio em uma estrutura compreensível.</li>
-      <li><i class="fas fa-exclamation-triangle fa-fw"></i> <strong>Prevenção de Problemas:</strong> Identifica ambiguidades e inconsistências antes da implementação, economizando tempo e recursos.</li>
-      <li><i class="fas fa-database fa-fw"></i> <strong>Base Sólida:</strong> Garante a integridade, consistência e eficiência do banco de dados.</li>
-      <li><i class="fas fa-tachometer-alt fa-fw"></i> <strong>Performance:</strong> Um bom modelo facilita a otimização de consultas.</li>
-      <li><i class="fas fa-book fa-fw"></i> <strong>Documentação Viva:</strong> O modelo serve como documentação essencial do sistema.</li>
-  </ul>
-  <p><strong>Fases da Modelagem que Aplicaremos Hoje:</strong></p>
-  <div class="slide-svg-container" style="max-width: 80%; margin-top: 15px;">
-      <svg viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg">
-          <defs><marker id="arrowM" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto" fill="var(--text-medium)"><polygon points="0 0, 10 3.5, 0 7" /></marker></defs>
-          <g>
-              <rect x="10" y="30" width="140" height="40" rx="5" class="svg-accent1-fill" />
-              <text x="80" y="55" text-anchor="middle" class="svg-text-light-fill">Conceitual (O quê?)</text>
-          </g>
-          <line x1="150" y1="50" x2="180" y2="50" class="svg-line-stroke" marker-end="url(#arrowM)"/>
-          <g>
-              <rect x="180" y="30" width="140" height="40" rx="5" class="svg-accent2-fill" />
-              <text x="250" y="55" text-anchor="middle" class="svg-text-light-fill">Lógica (Como?)</text>
-          </g>
-          <line x1="320" y1="50" x2="350" y2="50" class="svg-line-stroke" marker-end="url(#arrowM)"/>
-          <g>
-              <rect x="350" y="30" width="140" height="40" rx="5" class="svg-bg-fill" />
-              <text x="420" y="55" text-anchor="middle" class="svg-text-light-fill">Física (Onde? Detalhes)</text>
-          </g>
+
+  <h2><i class="fas fa-puzzle-piece" style="color: var(--accent-yellow);"></i> Conhecendo as Ferramentas: SPs, Funções e Triggers</h2>
+  <div style="display: flex; justify-content: space-around; align-items: flex-start; width:100%;">
+      <div style="flex:1; padding:10px;">
+          <h4><i class="fas fa-scroll"></i> Stored Procedures (SPs)</h4>
+          <p>Blocos de código SQL nomeados. Podem ter parâmetros (IN, OUT, INOUT). Executam DML/DDL. Invocadas com <code>CALL</code>/<code>EXEC</code>.</p>
+      </div>
+      <div style="flex:1; padding:10px;">
+          <h4><i class="fas fa-calculator"></i> Functions (UDFs)</h4>
+          <p>Sempre retornam um valor. Usadas em expressões SQL. Geralmente não modificam dados.</p>
+      </div>
+      <div style="flex:1; padding:10px;">
+          <h4><i class="fas fa-robot"></i> Triggers</h4>
+          <p>Executados AUTOMATICAMENTE em resposta a eventos DML (INSERT, UPDATE, DELETE) em uma tabela.</p>
+      </div>
+  </div>
+  <div class="slide-svg-container" style="max-width: 90%; margin-top: 20px;">
+      <svg viewBox="0 0 450 170">
+          <style>
+            .svg-label { font-size: 12px; fill: var(--text-light); }
+            .svg-desc { font-size: 10px; fill: var(--text-medium); }
+          </style>
+          <!-- Stored Procedure -->
+          <rect x="10" y="30" width="120" height="70" rx="8" class="svg-bg-fill" stroke="var(--accent-green)" stroke-width="2.5"/>
+          <text x="70" y="55" text-anchor="middle" class="svg-label" font-weight="bold">Stored Proc</text>
+          <text x="70" y="75" text-anchor="middle" class="svg-desc"><i class="fas fa-running"></i> CALL / EXEC</text>
+          <text x="70" y="90" text-anchor="middle" class="svg-desc">(IN, OUT params)</text>
+
+          <!-- Function -->
+          <rect x="165" y="30" width="120" height="70" rx="8" class="svg-bg-fill" stroke="var(--accent-blue)" stroke-width="2.5"/>
+          <text x="225" y="55" text-anchor="middle" class="svg-label" font-weight="bold">Function (UDF)</text>
+          <text x="225" y="75" text-anchor="middle" class="svg-desc"><i class="fas fa-undo"></i> Retorna Valor</text>
+          <text x="225" y="90" text-anchor="middle" class="svg-desc">(Em SELECTs)</text>
+
+          <!-- Trigger -->
+          <rect x="320" y="30" width="120" height="70" rx="8" class="svg-bg-fill" stroke="var(--accent-yellow)" stroke-width="2.5"/>
+          <text x="380" y="55" text-anchor="middle" class="svg-label" font-weight="bold">Trigger</text>
+          <text x="380" y="75" text-anchor="middle" class="svg-desc"><i class="fas fa-magic"></i> Automático</text>
+          <text x="380" y="90" text-anchor="middle" class="svg-desc">(Evento DML)</text>
+
+          <text x="225" y="10" text-anchor="middle" class="svg-text-light-fill" font-size="14px" font-weight="bold">Objetos de Programação SQL</text>
+          <line x1="20" y1="120" x2="430" y2="120" class="svg-line-stroke" />
+          <text x="225" y="140" text-anchor="middle" class="svg-text-fill" font-size="12px">Todos são blocos de código SQL armazenados no banco.</text>
       </svg>
   </div>
-<!-- --- END OF FILE slides/slide4.html --- -->

@@ -1,29 +1,16 @@
-<!-- --- START OF FILE slides/slide32.html --- -->
-  <h2><i class="fas fa-chalkboard-teacher"></i> Apresentação do Projeto (Simulação Rápida)</h2>
-  <p>Saber comunicar seu trabalho é tão importante quanto fazê-lo bem!</p>
 
-  <div style="display: flex; justify-content: space-around; margin-top: 20px;">
-      <div style="width:45%; padding:10px; border: 1px solid var(--accent-blue); border-radius:5px; background-color:rgba(13,71,161,0.1);">
-          <h4><i class="fas fa-user-tie fa-fw" style="color:var(--accent-blue)"></i> Para o Cliente (Sr. Arquimedes - Foco nos Benefícios)</h4>
-          <ul style="font-size:0.9em; text-align:left;">
-              <li>"Sr. Arquimedes, com este novo sistema, agora podemos..."</li>
-              <li>Mostrar o DER simplificado, explicando as caixinhas (Livros, Membros, Empréstimos) e como se conectam de forma intuitiva ("um Membro pode pegar vários Livros").</li>
-              <li>Demonstrar com <code>INSERT</code>s e <code>SELECT</code>s simples como as informações são registradas e recuperadas (ex: cadastrar novo livro, ver quais livros Ana pegou).</li>
-              <li>Enfatizar como as regras de negócio foram implementadas ("o sistema não deixará emprestar um livro já emprestado").</li>
-              <li>Foco em como o sistema resolve os problemas e facilita o trabalho dele.</li>
-          </ul>
-      </div>
-       <div style="width:45%; padding:10px; border: 1px solid var(--accent-green); border-radius:5px; background-color:rgba(0,230,118,0.1);">
-          <h4><i class="fas fa-users-cog fa-fw" style="color:var(--accent-green)"></i> Para Gestor Técnico / Equipe (Foco na Estrutura e Integridade)</h4>
-          <ul style="font-size:0.9em; text-align:left;">
-              <li>Apresentar o DER lógico/físico completo. Discutir PKs, FKs, cardinalidades e os tipos de dados escolhidos.</li>
-              <li>Justificar as decisões de normalização (como a 3FN foi alcançada e por quê).</li>
-              <li>Explicar as constraints implementadas (<code>UNIQUE</code>, <code>CHECK</code>, ações de FKs) e como elas garantem a integridade dos dados.</li>
-              <li>Mostrar os scripts SQL DDL e o Dicionário de Dados.</li>
-              <li>Discutir possíveis pontos de otimização (índices) ou futuras evoluções do modelo.</li>
-              <li>Foco na robustez, manutenibilidade e escalabilidade do modelo.</li>
-          </ul>
-      </div>
-  </div>
-  <p style="margin-top:15px;">Adaptar a linguagem e o foco da apresentação ao seu público é essencial!</p>
-<!-- --- END OF FILE slides/slide32.html --- -->
+  <h2><i class="fas fa-forward" style="color: var(--accent-green);"></i> Continuando sua Jornada</h2>
+  <p><strong><i class="fas fa-code"></i> Pratique!</strong> Crie seus próprios SPs e Triggers em cenários diversos.</p>
+  <h4><i class="fas fa-book-reader"></i> Aprofunde-se:</h4>
+  <ul style="text-align:left; max-width: 600px; margin: 0 auto;">
+    <li>Tratamento de erros avançado (<code>DECLARE HANDLER</code>, <code>TRY...CATCH</code>).</li>
+    <li>Cursores (use com moderação!).</li>
+    <li>SQL Dinâmico (com MUITA cautela).</li>
+    <li>Funções Definidas pelo Usuário (UDFs).</li>
+    <li>Controle de transações dentro de SPs (<code>COMMIT</code>, <code>ROLLBACK</code>).</li>
+  </ul>
+  <h4><i class="fas fa-link"></i> Material Complementar (Referências):</h4>
+  <ul style="text-align:left; font-size:0.9em; max-width: 700px; margin: 0 auto;">
+    <li>Documentação Oficial: MySQL (<a href="https://dev.mysql.com/doc/refman/8.0/en/stored-routines.html" target="_blank">Stored Routines</a>, <a href="https://dev.mysql.com/doc/refman/8.0/en/triggers.html" target="_blank">Triggers</a>), PostgreSQL, SQL Server.</li>
+    <li>Artigos sobre "Stored Procedures Best Practices", "Trigger Pitfalls".</li>
+  </ul>

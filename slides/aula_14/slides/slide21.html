@@ -1,27 +1,38 @@
-<!-- --- START OF FILE slides/slide21.html --- -->
-  <h2><i class="fas fa-list-ol"></i> Normalização: 3FN (Terceira Forma Normal)</h2>
-  <p><strong>Pré-requisitos:</strong> A tabela já deve estar na 1FN e na 2FN.</p>
-  <p><strong>Regra Principal da 3FN: Sem Dependências Transitivas de Atributos Não-Chave.</strong></p>
-  <ul style="text-align:left; max-width:700px; margin:10px auto;">
-      <li>Um atributo não-chave <strong>não pode</strong> depender funcionalmente de outro atributo não-chave.</li>
-      <li>Ou seja, todos os atributos não-chave devem depender <strong>diretamente</strong> da chave primária (ou de toda a PK composta, se for o caso), e não indiretamente através de outro atributo não-chave.</li>
-  </ul>
-  <p><strong>Exemplo Ruim (Não 3FN, mas em 2FN se FuncID é PK simples):</strong></p>
-  <p>Tabela <code>Funcionarios</code> (<u>FuncID (PK)</u>, NomeFunc, DeptID, NomeDepartamento, LocalizacaoDepartamento)</p>
-  <ul>
-      <li><code>NomeDepartamento</code> depende de <code>DeptID</code>.</li>
-      <li><code>LocalizacaoDepartamento</code> depende de <code>DeptID</code>.</li>
-      <li><code>DeptID</code> depende de <code>FuncID</code> (um funcionário pertence a um departamento).</li>
-      <li>Portanto, <code>NomeDepartamento</code> e <code>LocalizacaoDepartamento</code> dependem transitivamente de <code>FuncID</code> via <code>DeptID</code>. <span style="color:var(--red-error)">Viola 3FN!</span></li>
-  </ul>
-  <p><strong>Solução:</strong> Decompor.</p>
-  <ul style="font-size:0.9em;">
-      <li><code>Funcionarios</code> (<u>FuncID</u> PK, NomeFunc, DeptID FK)</li>
-      <li><code>Departamentos</code> (<u>DeptID</u> PK, NomeDepartamento, LocalizacaoDepartamento)</li>
-  </ul>
-   <p><strong>No nosso Projeto Biblioteca:</strong></p>
-  <ul>
-      <li>Se na tabela <code>Livros</code> tivéssemos <code>EditoraID</code> e também <code>CidadeDaEditora</code>, e <code>CidadeDaEditora</code> dependesse apenas da <code>Editora</code> (identificada por <code>EditoraID</code>), então <code>CidadeDaEditora</code> teria uma dependência transitiva da PK de <code>Livros</code> via <code>EditoraID</code>.</li>
-      <li>A solução correta (que fizemos) é ter a tabela <code>Editoras</code> (<u>EditoraID</u>, NomeEditora, CidadeEditora) e apenas <code>EditoraID (FK)</code> em <code>Livros</code>.</li>
-  </ul>
-<!-- --- END OF FILE slides/slide21.html --- -->
+
+  <h2><i class="fas fa-balance-scale" style="color: var(--accent-green);"></i> Onde Colocar a Lógica: Banco de Dados ou Aplicação?</h2>
+  <p>Não há resposta única, é uma questão de arquitetura e trade-offs.</p>
+  <div class="slide-svg-container" style="max-width: 90%; margin-top:10px;">
+      <svg viewBox="0 0 450 220">
+        <style>
+          .bal-arm { stroke: var(--text-light); stroke-width: 3px; }
+          .bal-pivot { fill: var(--accent-yellow); }
+          .bal-pan { fill: var(--bg-light); stroke: var(--text-medium); stroke-width: 1.5px; }
+          .bal-text-header { font-size: 14px; font-weight: bold; }
+          .bal-text-item { font-size: 10px; fill: var(--text-medium); }
+          .bal-text-pro { fill: var(--green-correct); }
+          .bal-text-con { fill: var(--red-error); }
+        </style>
+        <!-- Balança -->
+        <line x1="225" y1="30" x2="225" y2="100" class="bal-arm"/> <!-- Haste central -->
+        <line x1="100" y1="30" x2="350" y2="30" class="bal-arm"/> <!-- Trave -->
+        <circle cx="225" cy="30" r="6" class="bal-pivot"/>
+        <path d="M70 30 Q100 70 130 30Z" class="bal-pan" transform="translate(0 30)"/> <!-- Prato Esquerdo (BD) -->
+        <path d="M320 30 Q350 70 380 30Z" class="bal-pan" transform="translate(0 30)"/> <!-- Prato Direito (App) -->
+
+        <text x="100" y="80" text-anchor="middle" class="bal-text-header svg-accent1-fill">Lógica no BD</text>
+        <text x="100" y="100" text-anchor="middle" class="bal-text-item bal-text-pro"><i class="fas fa-plus-circle fa-fw"></i> Centralização</text>
+        <text x="100" y="115" text-anchor="middle" class="bal-text-item bal-text-pro"><i class="fas fa-plus-circle fa-fw"></i> Performance (lote)</text>
+        <text x="100" y="130" text-anchor="middle" class="bal-text-item bal-text-pro"><i class="fas fa-plus-circle fa-fw"></i> Segurança Granular</text>
+        <text x="100" y="145" text-anchor="middle" class="bal-text-item bal-text-con"><i class="fas fa-minus-circle fa-fw"></i> Portabilidade</text>
+        <text x="100" y="160" text-anchor="middle" class="bal-text-item bal-text-con"><i class="fas fa-minus-circle fa-fw"></i> Debugging</text>
+
+        <text x="350" y="80" text-anchor="middle" class="bal-text-header svg-accent2-fill">Lógica na Aplicação</text>
+        <text x="350" y="100" text-anchor="middle" class="bal-text-item bal-text-pro"><i class="fas fa-plus-circle fa-fw"></i> Flexibilidade Linguagem</text>
+        <text x="350" y="115" text-anchor="middle" class="bal-text-item bal-text-pro"><i class="fas fa-plus-circle fa-fw"></i> Escalabilidade App</text>
+        <text x="350" y="130" text-anchor="middle" class="bal-text-item bal-text-pro"><i class="fas fa-plus-circle fa-fw"></i> Ferramentas Debug</text>
+        <text x="350" y="145" text-anchor="middle" class="bal-text-item bal-text-con"><i class="fas fa-minus-circle fa-fw"></i> Tráfego de Rede</text>
+        <text x="350" y="160" text-anchor="middle" class="bal-text-item bal-text-con"><i class="fas fa-minus-circle fa-fw"></i> Duplicação Lógica</text>
+        
+        <text x="225" y="190" text-anchor="middle" class="svg-text-light-fill" font-size="12px">Abordagem Híbrida é frequentemente a melhor solução!</text>
+      </svg>
+  </div>

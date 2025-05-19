@@ -1,23 +1,11 @@
-<!-- --- START OF FILE slides/slide19.html --- -->
-  <h2><i class="fas fa-list-ol"></i> Normalização: 1FN (Primeira Forma Normal)</h2>
-  <p><strong>Regra Principal da 1FN: Atomicidade dos Valores e Sem Grupos Repetitivos.</strong></p>
-  <ol style="text-align:left; max-width:700px; margin:10px auto;">
-      <li><strong>Valores Atômicos:</strong> Cada célula (interseção de linha e coluna) na tabela deve conter apenas <strong>um único valor</strong>, indivisível do ponto de vista do modelo.
-          <ul>
-              <li><strong>Exemplo Ruim (Não 1FN):</strong> Uma coluna <code>Telefones</code> contendo " (11)9999-1, (11)8888-2 ".</li>
-              <li><strong>Solução:</strong> Criar uma tabela separada <code>Membro_Telefones</code> (<u>MembroID (FK)</u>, <u>Telefone</u>).</li>
-          </ul>
-      </li>
-      <li style="margin-top:10px;"><strong>Sem Grupos Repetitivos de Colunas:</strong> A tabela não deve ter múltiplas colunas representando o mesmo tipo de informação para uma única entidade.
-          <ul>
-              <li><strong>Exemplo Ruim (Não 1FN):</strong> Colunas <code>Produto1</code>, <code>Produto2</code>, <code>Produto3</code> em uma tabela <code>Pedido</code>. E se um pedido tiver 4 produtos? E se a maioria tiver só 1?</li>
-              <li><strong>Solução:</strong> Criar uma tabela separada <code>Pedido_Itens</code> (<u>PedidoID (FK)</u>, <u>ProdutoID (FK)</u>, Quantidade).</li>
-          </ul>
-      </li>
-  </ol>
-  <p><strong>No nosso Projeto Biblioteca:</strong></p>
-  <ul>
-      <li>Se tivéssemos uma coluna `GenerosDoLivro` com "Ficção, Aventura", violaria 1FN. A solução foi criar a entidade <code>GENERO</code> e a tabela associativa <code>Livro_Generos</code> (<u>LivroID</u>, <u>GeneroID</u>), garantindo atomicidade.</li>
+
+  <h2><i class="fas fa-check-double" style="color: var(--accent-blue);"></i> Boas Práticas ao Escrever Triggers</h2>
+  <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
+    <li><i class="fas fa-signature fa-fw" style="color: var(--accent-green);"></i> <strong>Nomeação Descritiva:</strong> Ex: <code>trg_AfterInsert_Cliente_Log</code>. Inclua timing, evento, tabela.</li>
+    <li><i class="fas fa-feather-alt fa-fw" style="color: var(--accent-green);"></i> <strong>Mantenha-os Leves e Rápidos:</strong> Lógica complexa pode degradar performance de DMLs.</li>
+    <li><i class="fas fa-ban fa-fw" style="color: var(--accent-green);"></i> <strong>Evite Lógica de Negócio Complexa:</strong> Prefira SPs para isso.</li>
+    <li><i class="fas fa-infinity fa-fw" style="color: var(--red-error);"></i> <strong>Cuidado com Loops Infinitos (Recursão):</strong> Trigger A atualiza TabelaB, Trigger B atualiza TabelaA <i class="fas fa-skull-crossbones svg-red-error"></i>.</li>
+    <li><i class="fas fa-list-ol fa-fw" style="color: var(--accent-green);"></i> <strong>Ordem de Execução:</strong> Se múltiplos triggers do mesmo tipo, a ordem pode não ser garantida (MySQL: ordem de criação).</li>
+    <li><i class="fas fa-file-alt fa-fw" style="color: var(--accent-green);"></i> <strong>Documentação:</strong> Comente o propósito e funcionamento.</li>
+    <li><i class="fas fa-bug fa-fw" style="color: var(--accent-green);"></i> <strong>Teste Exaustivamente:</strong> Todos os cenários DML.</li>
   </ul>
-  <p>Geralmente, um bom design conceitual inicial já tende a satisfazer a 1FN.</p>
-<!-- --- END OF FILE slides/slide19.html --- -->

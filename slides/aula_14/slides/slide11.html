@@ -1,14 +1,18 @@
-<!-- --- START OF FILE slides/slide11.html --- -->
-  <h2><i class="fas fa-exchange-alt"></i> Modelagem Lógica: Do MER para Tabelas Relacionais</h2>
-  <p>A Modelagem Lógica é o processo de <strong>transformar</strong> o Modelo Entidade-Relacionamento (conceitual) em um conjunto de <strong>tabelas relacionais</strong>, com chaves primárias (PK) e estrangeiras (FK) definidas.</p>
-  <p>Este modelo é independente do SGBD específico, mas já se aproxima da estrutura física.</p>
-  <p><strong><i class="fas fa-book-dead"></i> Regras Básicas de Mapeamento (Simplificadas):</strong></p>
-  <ol style="text-align:left; max-width:700px; margin:10px auto;">
-      <li><i class="fas fa-arrow-right fa-fw"></i> Cada <strong>Entidade Forte</strong> no MER se torna uma <strong>Tabela</strong> no modelo relacional.</li>
-      <li><i class="fas fa-arrow-right fa-fw"></i> Cada <strong>Atributo Simples</strong> da entidade se torna uma <strong>Coluna</strong> na tabela correspondente.</li>
-      <li><i class="fas fa-arrow-right fa-fw"></i> O <strong>Atributo Identificador (PK)</strong> da entidade se torna a <strong>Chave Primária</strong> da tabela.</li>
-      <li><i class="fas fa-arrow-right fa-fw"></i> <strong>Atributos Compostos:</strong> Seus componentes individuais se tornam colunas separadas na tabela (Ex: Endereço {Rua, Numero, Cidade} -> colunas Rua, Numero, Cidade).</li>
-      <li><i class="fas fa-arrow-right fa-fw"></i> <strong>Atributos Multivalorados:</strong> Criam uma nova tabela separada, com uma FK para a tabela da entidade original, e a PK dessa nova tabela é a combinação da FK + o atributo multivalorado. (Ex: Telefones do Membro).</li>
-  </ol>
-  <p>O mapeamento de <strong>Relacionamentos</strong> depende da sua cardinalidade (1:1, 1:N, N:M).</p>
-<!-- --- END OF FILE slides/slide11.html --- -->
+
+  <h2><i class="fas fa-file-export" style="color: var(--accent-green);"></i> DEMO: SP <code>ContarTotalClientes</code> (Parâmetro OUT)</h2>
+  <p><strong>Cenário:</strong> Criar uma SP que conta o número total de clientes e retorna esse valor.</p>
+  <p><strong>Código SQL (MySQL):</strong></p>
+  <pre><code class="language-sql">
+DELIMITER $$
+CREATE PROCEDURE ContarTotalClientes(OUT total INT)
+BEGIN
+    SELECT COUNT(*) INTO total FROM Clientes;
+END $$
+DELIMITER ;
+  </code></pre>
+  <p><strong>Chamando e Usando (MySQL):</strong></p>
+  <pre><code class="language-sql">
+CALL ContarTotalClientes(@numero_clientes);
+SELECT @numero_clientes AS 'Total de Clientes';
+  </code></pre>
+  <p style="font-weight: bold; margin-top: 15px;"><i class="fas fa-desktop"></i> Demonstração ao Vivo: Criar, executar e mostrar o valor da variável <code>@numero_clientes</code>.</p>

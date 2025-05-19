@@ -1,10 +1,17 @@
-<!-- --- START OF FILE slides/slide3.html --- -->
-  <h2><i class="fas fa-calendar-alt"></i> Agenda da Aula Prática (4 Horas)</h2>
+
+  <h2><i class="fas fa-database" style="color: var(--accent-blue);"></i> Por que Programar Dentro do Banco de Dados?</h2>
+  <p>O SGBD não é apenas para armazenar dados; ele pode executar lógica!</p>
+  <h3><i class="fas fa-thumbs-up" style="color:var(--green-correct)"></i> Vantagens da Lógica no Banco:</h3>
   <ul>
-    <li><i class="fas fa-clock fa-fw" style="color: var(--accent-blue);"></i> <strong>H1:</strong> Introdução, Apresentação do Estudo de Caso (Biblioteca) e Levantamento de Requisitos Interativo.</li>
-    <li><i class="fas fa-clock fa-fw" style="color: var(--accent-blue);"></i> <strong>H2:</strong> Modelagem Conceitual (MER/DER Colaborativo) e Início da Modelagem Lógica (Mapeamento 1:N).</li>
-    <li><i class="fas fa-clock fa-fw" style="color: var(--accent-blue);"></i> <strong>H3:</strong> Modelagem Lógica (Mapeamento N:M), Início da Modelagem Física, Normalização (1FN-3FN) e <strong>Quiz!</strong> <i class="fas fa-question-circle" style="color: var(--accent-yellow);"></i></li>
-    <li><i class="fas fa-clock fa-fw" style="color: var(--accent-blue);"></i> <strong>H4:</strong> Modelagem Física (Scripts SQL <code>CREATE</code>/<code>INSERT</code>), Boas Práticas, Documentação e Apresentação do Projeto <i class="fas fa-project-diagram" style="color: var(--accent-yellow);"></i>.</li>
+    <li><i class="fas fa-shield-alt fa-fw svg-accent1-fill"></i> <strong>Centralização da Lógica de Negócio:</strong> Regras importantes residem com os dados.</li>
+    <li><i class="fas fa-network-wired fa-fw svg-accent1-fill"></i> <strong>Redução de Tráfego de Rede:</strong> Menos dados entre aplicação e BD.</li>
+    <li><i class="fas fa-tachometer-alt fa-fw svg-accent1-fill"></i> <strong>Performance:</strong> Código pré-compilado e execução próxima aos dados.</li>
+    <li><i class="fas fa-lock fa-fw svg-accent1-fill"></i> <strong>Segurança:</strong> Controle de acesso granular às operações.</li>
+    <li><i class="fas fa-recycle fa-fw svg-accent1-fill"></i> <strong>Reutilização:</strong> Lógica complexa escrita uma vez, usada por muitos.</li>
   </ul>
-  <p><strong>Intervalos:</strong> Pausas para organizar as ideias!</p>
-<!-- --- END OF FILE slides/slide3.html --- -->
+  <h3><i class="fas fa-thumbs-down" style="color:var(--red-error)"></i> Desvantagens:</h3>
+  <ul>
+    <li><i class="fas fa-code-branch fa-fw svg-red-error"></i> <strong>Portabilidade:</strong> Sintaxe pode variar entre SGBDs.</li>
+    <li><i class="fas fa-bug fa-fw svg-red-error"></i> <strong>Debugging:</strong> Pode ser mais complexo que na aplicação.</li>
+    <li><i class="fas fa-weight-hanging fa-fw svg-red-error"></i> <strong>Carga no Servidor BD:</strong> Lógica pesada pode impactar o desempenho do BD.</li>
+  </ul>

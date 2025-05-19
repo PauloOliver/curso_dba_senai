@@ -1,26 +1,47 @@
-<!-- --- START OF FILE slides/slide8.html --- -->
-  <h2><i class="fas fa-drafting-compass"></i> Modelagem Conceitual (MER/DER): Ferramentas e Notação</h2>
-  <p>Agora, vamos transformar os requisitos em um diagrama visual: o Modelo Entidade-Relacionamento (MER ou DER).</p>
-  <p><strong>Ferramentas Sugeridas:</strong></p>
-  <ul>
-      <li><i class="fas fa-mouse-pointer fa-fw"></i> <strong>Online/Desktop:</strong> <a href="https://app.diagrams.net/" target="_blank">diagrams.net (draw.io)</a> (gratuito), Lucidchart (freemium).</li>
-      <li><i class="fas fa-project-diagram fa-fw"></i> <strong>Específicas:</strong> brModelo (acadêmica), MySQL Workbench (ferramenta EER).</li>
-      <li><i class="fas fa-pencil-alt fa-fw"></i> Ou até mesmo papel e caneta para esboços rápidos!</li>
-  </ul>
-  <p><strong>Notação Chen (Clássica - que usaremos como base):</strong></p>
-  <div style="display: flex; justify-content: space-around; text-align: center; margin-top:15px;">
-      <div>
-          <svg width="80" height="60" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="10" width="70" height="40" fill="var(--bg-light)" stroke="var(--text-light)" stroke-width="1"/><text x="40" y="35" text-anchor="middle" font-size="10" fill="var(--text-light)">ENTIDADE</text></svg>
-          <p style="font-size:0.8em">Entidade (Retângulo)</p>
+
+  <h2><i class="fas fa-exchange-alt" style="color: var(--accent-yellow);"></i> Parâmetros: A Comunicação com suas SPs</h2>
+  <p>Parâmetros permitem que as SPs sejam flexíveis e recebam/retornem dados.</p>
+  <div style="display: flex; justify-content: space-around; margin-top: 15px;">
+      <div style="text-align:center; padding:10px;">
+          <i class="fas fa-arrow-down fa-2x" style="color:var(--accent-green);"></i>
+          <h4><code>IN</code> (Entrada)</h4>
+          <p>Valor passado <strong>PARA DENTRO</strong> da procedure. Padrão se não especificado. Ex: <code>IN nome_cliente VARCHAR(100)</code></p>
       </div>
-      <div>
-          <svg width="80" height="60" xmlns="http://www.w3.org/2000/svg"><ellipse cx="40" cy="30" rx="35" ry="20" fill="var(--bg-light)" stroke="var(--text-light)" stroke-width="1"/><text x="40" y="33" text-anchor="middle" font-size="10" fill="var(--text-light)" style="text-decoration:underline;">AtributoPK</text></svg>
-          <p style="font-size:0.8em">Atributo (Elipse)<br>PK Sublinhada</p>
+      <div style="text-align:center; padding:10px;">
+          <i class="fas fa-arrow-up fa-2x" style="color:var(--accent-blue);"></i>
+          <h4><code>OUT</code> (Saída)</h4>
+          <p>Valor retornado <strong>PELA</strong> procedure. A procedure atribui um valor a este parâmetro. Ex: <code>OUT total_pedidos INT</code></p>
       </div>
-      <div>
-          <svg width="80" height="60" xmlns="http://www.w3.org/2000/svg"><path d="M5 30 L40 5 L75 30 L40 55 Z" fill="var(--bg-light)" stroke="var(--text-light)" stroke-width="1"/><text x="40" y="33" text-anchor="middle" font-size="8" fill="var(--text-light)">Relação</text></svg>
-          <p style="font-size:0.8em">Relacionamento (Losango)</p>
+      <div style="text-align:center; padding:10px;">
+          <i class="fas fa-sync-alt fa-2x" style="color:var(--accent-yellow);"></i>
+          <h4><code>INOUT</code> (Entrada/Saída)</h4>
+          <p>Valor passado para dentro, pode ser modificado, e o novo valor é retornado. Ex: <code>INOUT contador INT</code></p>
       </div>
   </div>
-  <p style="font-size:0.9em; color:var(--text-medium)">Outras notações como "Pé de Galinha" (Crow's Foot) também são comuns, especialmente para modelos lógicos.</p>
-<!-- --- END OF FILE slides/slide8.html --- -->
+  <div class="slide-svg-container" style="max-width:70%; margin-top:20px;">
+    <svg viewBox="0 0 350 180">
+      <defs>
+        <marker id="arrow-accent-yellow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-yellow)" />
+        </marker>
+      </defs>
+      <rect x="100" y="50" width="150" height="80" rx="10" class="svg-accent2-fill" />
+      <text x="175" y="90" text-anchor="middle" class="svg-text-light-fill" font-size="16px" font-weight="bold">Stored Procedure</text>
+
+      <!-- IN Parameter -->
+      <text x="40" y="65" class="svg-text-fill" font-size="14px">IN (p_valor)</text>
+      <path d="M 75 75 L 100 75" class="svg-line-stroke" marker-end="url(#arrow-accent-yellow)" stroke-width="2.5"/>
+
+      <!-- OUT Parameter -->
+      <text x="260" y="115" class="svg-text-fill" font-size="14px">OUT (p_resultado)</text>
+      <path d="M 250 105 L 275 105" class="svg-line-stroke" marker-start="url(#arrow-accent-yellow)" stroke-width="2.5"/>
+      
+      <!-- INOUT Parameter -->
+      <text x="40" y="155" class="svg-text-fill" font-size="14px">INOUT (p_contador)</text>
+      <path d="M 85 145 L 100 145" class="svg-line-stroke" marker-end="url(#arrow-accent-yellow)" stroke-width="2.5"/>
+      <path d="M 250 145 L 265 145" class="svg-line-stroke" marker-start="url(#arrow-accent-yellow)" stroke-width="2.5"/>
+      <path d="M100 145 Q 175 165 250 145" stroke="var(--text-medium)" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/>
+
+      <text x="175" y="20" text-anchor="middle" class="svg-text-light-fill" font-size="14px">Fluxo de Parâmetros</text>
+    </svg>
+  </div>

@@ -1,31 +1,10 @@
-<!-- --- START OF FILE slides/slide31.html --- -->
-  <h2><i class="fas fa-file-signature"></i> Documentação do Projeto: O Legado do DBA</h2>
-  <p>Um projeto de modelagem não está completo sem uma boa documentação. Ela é essencial para a manutenção, evolução e compreensão do sistema por outros membros da equipe (e por você mesmo no futuro!).</p>
-  <p><strong><i class="fas fa-file-archive fa-fw"></i> Componentes Essenciais da Documentação do Projeto "Biblioteca":</strong></p>
-  <ol style="text-align:left; max-width:700px; margin:10px auto;">
-      <li><strong>Diagrama Entidade-Relacionamento (MER/DER) Final:</strong>
-          <ul style="font-size:0.9em"><li>Uma imagem clara e legível do modelo conceitual/lógico finalizado (exportado da ferramenta de modelagem utilizada). Deve mostrar entidades, atributos chave, relacionamentos e cardinalidades.</li></ul>
-      </li>
-      <li style="margin-top:10px;"><strong>Dicionário de Dados:</strong>
-          <ul style="font-size:0.9em"><li>Uma tabela (ou conjunto de tabelas em um documento) descrevendo cada objeto do banco:
-              <ul>
-                  <li><strong>Para cada Tabela:</strong> Nome da Tabela (SQL), Breve Descrição/Propósito.</li>
-                  <li><strong>Para cada Coluna:</strong> Nome da Coluna (SQL), Tipo de Dado (SQL exato), Tamanho (se aplicável), Permite Nulo? (SIM/NÃO), É PK? (SIM/NÃO), É FK? (SIM/NÃO -> TabelaReferenciada.ColunaReferenciada), Valor Padrão (se houver), Descrição/Regra de Negócio Associada, Exemplos de Valores Válidos.</li>
-              </ul>
-          </li></ul>
-      </li>
-       <li style="margin-top:10px;"><strong>Scripts SQL Comentados:</strong>
-          <ul style="font-size:0.9em"><li>Os arquivos <code>.sql</code> contendo todos os comandos <code>CREATE TABLE</code>, <code>ALTER TABLE</code> (se feitos separadamente), <code>CREATE VIEW</code>, <code>CREATE INDEX</code>, e alguns <code>INSERT INTO</code> de exemplo para popular o banco. Os comentários devem explicar decisões importantes ou lógicas não óbvias.</li></ul>
-      </li>
-      <li style="margin-top:10px;"><strong>Justificativas das Decisões de Modelagem (Breve Relatório):</strong>
-          <ul style="font-size:0.9em"><li>Um pequeno texto explicando as principais decisões tomadas durante a modelagem. Por exemplo:
-              <ul>
-                  <li>Por que uma tabela associativa foi criada para um relacionamento N:M específico?</li>
-                  <li>Como a normalização (1FN, 2FN, 3FN) foi aplicada e quais problemas ela resolveu.</li>
-                  <li>Por que certos tipos de dados foram escolhidos para colunas chave.</li>
-                  <li>Justificativa para as ações referenciais (<code>ON DELETE</code>/<code>ON UPDATE</code>) escolhidas para as FKs.</li>
-              </ul>
-          </li></ul>
-      </li>
-  </ol>
-<!-- --- END OF FILE slides/slide31.html --- -->
+
+  <h2><i class="fas fa-clipboard-list" style="color: var(--accent-blue);"></i> Recapitulando: O Que Vimos Hoje</h2>
+  <ul style="text-align:left; max-width: 750px; margin: 0 auto;">
+    <li><i class="fas fa-angle-right fa-fw"></i> <strong>Stored Procedures:</strong> Blocos SQL reutilizáveis (<code>CALL</code>), com parâmetros (<code>IN</code>, <code>OUT</code>, <code>INOUT</code>). Melhoram performance, segurança, modularidade.</li>
+    <li><i class="fas fa-angle-right fa-fw"></i> <strong>Triggers:</strong> Ações automáticas (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) com timing <code>BEFORE</code>/<code>AFTER</code>. Usam pseudolinhas <code>NEW</code> e <code>OLD</code>.</li>
+    <li><i class="fas fa-angle-right fa-fw"></i> <strong>Vantagens da Lógica no BD:</strong> Centralização, redução de tráfego, segurança.</li>
+    <li><i class="fas fa-angle-right fa-fw"></i> <strong>Boas Práticas:</strong> Nomeação, comentários, simplicidade (especialmente em triggers), testes.</li>
+    <li><i class="fas fa-angle-right fa-fw"></i> <strong>Gerenciamento:</strong> <code>CREATE</code>, <code>DROP</code>. <code>ALTER</code> é limitado (MySQL).</li>
+    <li><i class="fas fa-angle-right fa-fw"></i> <strong>Decisão Crítica:</strong> Equilibrar lógica no BD vs. Aplicação.</li>
+  </ul>

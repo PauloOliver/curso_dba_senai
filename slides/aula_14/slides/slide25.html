@@ -1,12 +1,12 @@
-<!-- --- START OF FILE slides/slide25.html --- -->
-  <h2><i class="fas fa-history"></i> Recapitulação Rápida H3</h2>
-  <p>Refinando nosso modelo e preparando para a implementação:</p>
-  <ul>
-    <li><i class="fas fa-check-circle fa-fw"></i> Mapeamos relacionamentos <strong>N:M</strong> criando <strong>Tabelas Associativas</strong> com PKs compostas por FKs.</li>
-    <li><i class="fas fa-check-circle fa-fw"></i> Definimos <strong>Chaves Estrangeiras (FKs)</strong> para garantir a integridade referencial e especificamos (ou discutimos) ações <code>ON DELETE</code>/<code>ON UPDATE</code>.</li>
-    <li><i class="fas fa-check-circle fa-fw"></i> Iniciamos a <strong>Modelagem Física</strong>, considerando o SGBD (MySQL) e mapeando tipos de dados.</li>
-    <li><i class="fas fa-check-circle fa-fw"></i> Introduzimos a <strong>Normalização</strong> (1FN, 2FN, 3FN) para minimizar redundância e anomalias, aplicando os conceitos ao nosso projeto da biblioteca.</li>
-  </ul>
-  <p>Próximo passo: Escrever os scripts SQL <code>CREATE TABLE</code> e popular nosso banco!</p>
-   <i class="fas fa-code" style="font-size: 3rem; color: var(--accent-blue); margin-top: 20px;"></i>
-<!-- --- END OF FILE slides/slide25.html --- -->
+
+  <h2><i class="fas fa-star" style="color: var(--accent-yellow);"></i> Exercício 1: Buscando Produtos por Preço</h2>
+  <div class="exercise-box" style="text-align:left; background-color:var(--bg-light); padding:20px; border-radius:8px;">
+    <p><strong>Enunciado:</strong></p>
+    <ol>
+      <li>Crie uma Stored Procedure chamada <code>sp_BuscarProdutosPorFaixaDePreco</code>.</li>
+      <li>A SP deve aceitar dois parâmetros <code>IN</code>: <code>preco_minimo DECIMAL(10,2)</code> e <code>preco_maximo DECIMAL(10,2)</code>.</li>
+      <li>A SP deve retornar todos os produtos (<code>IDProduto, Nome, Preco, Estoque</code>) da tabela <code>Produtos</code> cujo <code>Preco</code> esteja entre <code>preco_minimo</code> e <code>preco_maximo</code> (inclusive).</li>
+      <li>Ordene o resultado pelo preço, do menor para o maior.</li>
+    </ol>
+    <p><strong><i class="fas fa-stopwatch"></i> Tempo Sugerido:</strong> 15-20 minutos.</p>
+  </div>

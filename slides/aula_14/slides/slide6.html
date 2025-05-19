@@ -1,25 +1,9 @@
-<!-- --- START OF FILE slides/slide6.html --- -->
-  <h2><i class="fas fa-comments"></i> Levantamento de Requisitos: A "Entrevista"</h2>
-  <p>Vamos simular uma conversa com o Sr. Arquimedes para extrair os requisitos do sistema. O instrutor fará o papel do bibliotecário.</p>
-  <p><strong>Processo Chave:</strong> <i class="fas fa-ear-listen fa-fw" style="font-family:'Font Awesome 5 Free', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; font-weight:900; color:var(--accent-green)"></i> Perguntar <i class="fas fa-arrow-right"></i> Ouvir Atentamente <i class="fas fa-arrow-right"></i> Anotar <i class="fas fa-arrow-right"></i> Esclarecer Dúvidas.</p>
-  <div class="slide-svg-container" style="max-width: 50%; margin-top: 20px;">
-    <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-      <text x="30" y="50" font-family="Font Awesome 5 Free" font-weight="900" font-size="30px" fill="var(--accent-blue)">&#xf007;</text> <!-- User (DBA) -->
-      <text x="85" y="45" text-anchor="middle" class="svg-text-fill" font-size="10px">DBA pergunta</text>
-      <path d="M55 50 Q100 30 145 50" stroke="var(--text-medium)" stroke-width="1.5" fill="none" marker-end="url(#arrowM)"/>
-      <path d="M145 55 Q100 75 55 55" stroke="var(--text-medium)" stroke-width="1.5" fill="none" marker-start="url(#arrowMRev)"/>
-      <defs><marker id="arrowMRev" markerWidth="10" markerHeight="7" refX="2" refY="3.5" orient="auto" fill="var(--text-medium)"><polygon points="10 0, 0 3.5, 10 7" /></marker></defs>
-      <text x="115" y="65" text-anchor="middle" class="svg-text-fill" font-size="10px">Cliente responde</text>
-      <text x="170" y="50" font-family="Font Awesome 5 Free" font-weight="900" font-size="30px" fill="var(--accent-green)">&#xf508;</text> <!-- User Tie (Cliente) -->
-    </svg>
-  </div>
-  <p><strong>Perguntas Guiadas para o "Sr. Arquimedes":</strong> (Instrutor responde como cliente)</p>
-  <ul style="text-align:left; max-width:700px; margin:10px auto; font-size:0.9em;">
-      <li>Sobre um <strong>Livro</strong>: "Além do Título, ISBN, Ano, Editora, N°Págs e QtdExemplares, precisamos de mais alguma informação? Como identificamos um livro unicamente?"</li>
-      <li>Sobre <strong>Autores</strong>: "Um livro pode ter vários autores? Um autor pode ter vários livros? Que dados do autor são importantes?"</li>
-      <li>Sobre <strong>Membros</strong>: "Quais dados cadastrais dos membros? Como identificamos um membro unicamente?"</li>
-      <li>Sobre <strong>Empréstimos</strong>: "O que define um empréstimo? Data de empréstimo, devolução prevista, devolução real, status (ativo, devolvido, atrasado)? Um membro pode pegar vários livros? Um livro (exemplar) pode ser emprestado várias vezes (não ao mesmo tempo)?"</li>
-      <li>Sobre <strong>Gêneros/Categorias</strong>: "Os livros são classificados por gênero (Ficção, História, etc.)? Um livro pode pertencer a mais de um gênero?"</li>
-      <li><strong>Regras de Negócio</strong>: "Qual o limite de livros por empréstimo para um membro? Qual o prazo padrão de devolução? Existem multas (simplificaremos, mas é bom perguntar)?"</li>
+
+  <h2><i class="fas fa-thumbs-up" style="color: var(--accent-green);"></i> Vantagens das Stored Procedures</h2>
+  <ul style="list-style: none; padding: 0;">
+    <li style="margin-bottom: 15px;"><i class="fas fa-recycle fa-fw svg-accent1-fill"></i> <strong>Reutilização de Código:</strong> Escreva uma vez, use várias vezes. Evita duplicação de SQL na aplicação.</li>
+    <li style="margin-bottom: 15px;"><i class="fas fa-shield-alt fa-fw svg-accent1-fill"></i> <strong>Segurança Aprimorada:</strong> Aplicações podem ter permissão para EXECUTAR a SP, mas não para acessar tabelas diretamente. Previne SQL Injection (com parâmetros).</li>
+    <li style="margin-bottom: 15px;"><i class="fas fa-tachometer-alt fa-fw svg-accent1-fill"></i> <strong>Desempenho Otimizado:</strong> Plano de execução cacheado; Reduz tráfego de rede (uma chamada `CALL` vs. múltiplas queries).</li>
+    <li style="margin-bottom: 15px;"><i class="fas fa-code-branch fa-fw svg-accent1-fill"></i> <strong>Modularidade e Manutenção:</strong> Lógica de negócio complexa encapsulada, facilitando atualizações.</li>
+    <li style="margin-bottom: 15px;"><i class="fas fa-layer-group fa-fw svg-accent1-fill"></i> <strong>Abstração:</strong> Simplifica a interface com o banco para os desenvolvedores da aplicação.</li>
   </ul>
-<!-- --- END OF FILE slides/slide6.html --- -->
