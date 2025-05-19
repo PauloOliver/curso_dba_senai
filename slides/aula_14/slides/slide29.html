@@ -1,0 +1,44 @@
+<!-- --- START OF FILE slides/slide29.html --- -->
+  <h2><i class="fas fa-pencil-alt"></i> Scripts SQL: Populando com <code>INSERT INTO</code> (Exemplos)</h2>
+  <p>Após criar as estruturas (<code>CREATE TABLE</code>), precisamos de alguns dados para testar e dar vida ao nosso banco!</p>
+  <p><strong><i class="fas fa-sort-amount-down"></i> Ordem de Inserção Importa (Devido às Chaves Estrangeiras):</strong></p>
+  <ol style="font-size:0.9em">
+      <li>Primeiro, popule as tabelas que <strong>não dependem</strong> de outras (ou cujas dependências já estão satisfeitas). Estas são as tabelas "pai" nos relacionamentos.
+          <ul><li>Ex: <code>Editoras</code>, <code>Autores</code>, <code>Generos</code>, <code>Membros</code>.</li></ul>
+      </li>
+      <li>Depois, popule as tabelas que <strong>possuem Chaves Estrangeiras</strong>, usando os IDs das tabelas "pai" já inseridos.
+          <ul><li>Ex: <code>Livros</code> (que depende de <code>Editoras</code>).</li></ul>
+      </li>
+      <li>Em seguida, as tabelas <strong>associativas</strong> (que dependem de duas ou mais tabelas "pai").
+          <ul><li>Ex: <code>Livro_Autores</code>, <code>Livro_Generos</code>.</li></ul>
+      </li>
+      <li>Finalmente, tabelas que podem depender de múltiplas outras.
+          <ul><li>Ex: <code>Emprestimos</code> (que depende de <code>Livros</code> e <code>Membros</code>).</li></ul>
+      </li>
+  </ol>
+  <pre><code class="language-sql">
+-- Editoras
+INSERT INTO Editoras (NomeEditora) VALUES ('Editora Alpha'), ('Companhia das Letras');
+
+-- Autores
+INSERT INTO Autores (NomeAutor, Nacionalidade) VALUES
+('J.R.R. Tolkien', 'Britânico'), ('Agatha Christie', 'Britânica'), ('Machado de Assis', 'Brasileiro');
+
+-- Generos
+INSERT INTO Generos (NomeGenero) VALUES ('Fantasia'), ('Mistério'), ('Romance Brasileiro'), ('Ficção Científica');
+
+-- Livros (Supondo que os IDs das editoras sejam 1, 2, 3 após inserção)
+INSERT INTO Livros (Titulo, AnoPublicacao, EditoraID, QtdExemplaresDisponiveis) VALUES
+('O Senhor dos Anéis', 1954, 1, 5),
+('Assassinato no Expresso do Oriente', 1934, 2, 3),
+('Dom Casmurro', 1899, 1, 7); -- Exemplo: Machado pela Editora Alpha
+
+-- Livro_Autores (Obtendo IDs dinamicamente com subqueries é mais robusto)
+INSERT INTO Livro_Autores (LivroID, AutorID) VALUES
+((SELECT LivroID FROM Livros WHERE Titulo = 'O Senhor dos Anéis'), (SELECT AutorID FROM Autores WHERE NomeAutor = 'J.R.R. Tolkien')),
+((SELECT LivroID FROM Livros WHERE Titulo = 'Assassinato no Expresso do Oriente'), (SELECT AutorID FROM Autores WHERE NomeAutor = 'Agatha Christie')),
+((SELECT LivroID FROM Livros WHERE Titulo = 'Dom Casmurro'), (SELECT AutorID FROM Autores WHERE NomeAutor = 'Machado de Assis'));
+
+-- (Continuar com Membros, Empréstimos e Livro_Generos)
+  </code></pre>
+<!-- --- END OF FILE slides/slide29.html --- -->

@@ -1,0 +1,29 @@
+<!-- --- START OF FILE slides/slide26.html --- -->
+  <h2><i class="fas fa-file-code"></i> Modelagem Física: Escrevendo os Scripts <code>CREATE TABLE</code></h2>
+  <p>Agora, traduzimos nosso Modelo Lógico finalizado e normalizado para comandos SQL DDL que o SGBD (MySQL) entende.</p>
+  <p><strong>Processo Guiado (Instrutor demonstra, alunos acompanham/replicam):</strong></p>
+  <ol>
+      <li>Criar a tabela <code>Editoras</code>.</li>
+      <li>Criar a tabela <code>Autores</code>.</li>
+      <li>Criar a tabela <code>Generos</code>.</li>
+      <li>Criar a tabela <code>Livros</code> (com FK para <code>Editoras</code>).</li>
+      <li>Criar a tabela associativa <code>Livro_Autores</code> (com FKs para <code>Livros</code> e <code>Autores</code>).</li>
+      <li>Criar a tabela associativa <code>Livro_Generos</code> (com FKs para <code>Livros</code> e <code>Generos</code>).</li>
+      <li>Criar a tabela <code>Membros</code>.</li>
+      <li>Criar a tabela <code>Emprestimos</code> (com FKs para <code>Livros</code> e <code>Membros</code>).</li>
+  </ol>
+  <p><strong>Foco na sintaxe MySQL:</strong></p>
+  <ul style="font-size:0.9em; columns:2; -webkit-columns:2; -moz-columns:2;">
+      <li><code>INT AUTO_INCREMENT PRIMARY KEY</code></li>
+      <li><code>VARCHAR(n) NOT NULL</code></li>
+      <li><code>UNIQUE</code></li>
+      <li><code>DECIMAL(p,s)</code></li>
+      <li><code>DATE</code>, <code>TIMESTAMP DEFAULT CURRENT_TIMESTAMP</code></li>
+      <li><code>FOREIGN KEY (col) REFERENCES tabela_pai(col_pai) [ON DELETE ...]</code></li>
+      <li><code>CONSTRAINT nome_constraint CHECK (condicao)</code></li>
+  </ul>
+  <p><em>Vamos usar o DER final como nossa referência visual constante.</em></p>
+  <div class="slide-svg-container" style="max-width: 30%; margin-top: 10px;">
+    <i class="fab fa-mysql fa-4x" style="color:#00758F;"></i>
+  </div>
+<!-- --- END OF FILE slides/slide26.html --- -->

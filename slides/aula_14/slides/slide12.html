@@ -1,0 +1,32 @@
+<!-- --- START OF FILE slides/slide12.html --- -->
+  <h2><i class="fas fa-network-wired"></i> Mapeamento Lógico: Relacionamento 1:N (Um-para-Muitos)</h2>
+  <p>Esta é a forma mais comum de relacionamento.</p>
+  <p><strong>Regra de Mapeamento:</strong> A Chave Primária (PK) da tabela do lado "1" (um) do relacionamento é adicionada como uma <strong>Chave Estrangeira (FK)</strong> na tabela do lado "N" (muitos).</p>
+  <p><strong>Exemplo da Biblioteca:</strong> <code>EDITORA</code> (1) --publica-- (N) <code>LIVRO</code></p>
+  <ul style="text-align:left; max-width:600px; margin:10px auto;">
+      <li>Tabela <code>Editoras</code>: (<u>EditoraID</u> PK, NomeEditora, ...)</li>
+      <li>Tabela <code>Livros</code>: (<u>LivroID</u> PK, Titulo, ..., <strong>EditoraID FK</strong>)</li>
+  </ul>
+  <p>A coluna <code>EditoraID</code> na tabela <code>Livros</code> referencia a coluna <code>EditoraID</code> na tabela <code>Editoras</code>.</p>
+
+  <div class="slide-svg-container" style="max-width: 70%; margin-top: 15px;">
+      <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="50" width="150" height="60" rx="5" class="svg-bg-fill" stroke="var(--text-medium)"/>
+          <text x="85" y="70" text-anchor="middle" class="svg-text-light-fill" font-weight="bold">Editoras</text>
+          <text x="85" y="90" text-anchor="middle" class="svg-text-fill" font-size="10px"><u>EditoraID (PK)</u></text>
+          <text x="85" y="100" text-anchor="middle" class="svg-text-fill" font-size="10px">NomeEditora</text>
+
+          <rect x="240" y="50" width="150" height="80" rx="5" class="svg-bg-fill" stroke="var(--text-medium)"/>
+          <text x="315" y="70" text-anchor="middle" class="svg-text-light-fill" font-weight="bold">Livros</text>
+          <text x="315" y="90" text-anchor="middle" class="svg-text-fill" font-size="10px"><u>LivroID (PK)</u></text>
+          <text x="315" y="100" text-anchor="middle" class="svg-text-fill" font-size="10px">Titulo</text>
+          <text x="315" y="110" text-anchor="middle" class="svg-text-fill" font-size="10px" fill="var(--accent-yellow)">EditoraID (FK)</text>
+
+          <path d="M160 80 Q200 80 240 80" stroke="var(--accent-yellow)" stroke-width="2" fill="none" marker-end="url(#arrowM)"/>
+          <text x="200" y="75" text-anchor="middle" class="svg-text-fill" font-size="10px">publica (1:N)</text>
+          <text x="165" y="75" text-anchor="start" class="svg-text-fill" font-size="10px">1</text>
+          <text x="230" y="75" text-anchor="end" class="svg-text-fill" font-size="10px">N</text>
+      </svg>
+  </div>
+  <p>Outro exemplo: <code>MEMBRO</code> (1) --realiza-- (N) <code>EMPRESTIMO</code>. A tabela <code>Emprestimos</code> receberá <code>MembroID</code> como FK.</p>
+<!-- --- END OF FILE slides/slide12.html --- -->

@@ -1,0 +1,29 @@
+<!-- --- START OF FILE slides/slide22.html --- -->
+  <h2><i class="fas fa-microscope"></i> Aplicando Normalização ao Projeto Biblioteca</h2>
+  <p>Vamos revisar nosso modelo lógico preliminar da biblioteca (baseado no DER) e verificar as Formas Normais.</p>
+  <p><strong>Modelo Lógico Candidato (Antes da Normalização Fina - para discussão):</strong></p>
+  <ul style="text-align:left; max-width:700px; margin:10px auto; font-size:0.9em;">
+      <li><strong>Livros</strong> (<u>ISBN</u>?, Titulo, Ano, NomeEditora, EnderecoEditora, QtdPags, QtdExemplares, <em>Generos</em>, <em>NomeAutorPrincipal</em>, <em>NacionalidadeAutorPrincipal</em>)</li>
+      <li><strong>Membros</strong> (<u>MembroID</u>, NomeMembro, EnderecoCompletoMembro, <em>TelefonesMembro</em>)</li>
+      <li><strong>Emprestimos</strong> (<u>EmprestimoID</u>, Livro_ISBN?, MembroID, DataEmp, DataDevPrev, DataDevReal, TituloLivro)</li>
+  </ul>
+  <p style="color:var(--red-error); font-style:italic;">(Este modelo acima está propositalmente desnormalizado para o exercício de identificar problemas!)</p>
+
+  <p><strong>Análise Guiada:</strong></p>
+  <ol style="text-align:left; max-width:700px; margin:10px auto;">
+      <li><strong>1FN:</strong>
+          <ul style="font-size:0.9em"><li><code>Generos</code> em Livros é multivalorado? Sim <i class="fas fa-arrow-right"></i> Criar Tabela <code>Generos</code> e Associativa <code>Livro_Generos</code>.</li>
+          <li><code>TelefonesMembro</code> é multivalorado? Sim <i class="fas fa-arrow-right"></i> Criar Tabela <code>Membro_Telefones</code>.</li>
+          <li><code>EnderecoCompletoMembro</code> é composto? Sim (Rua, Num, Bairro, Cidade, UF, CEP) <i class="fas fa-arrow-right"></i> Quebrar em colunas atômicas.</li></ul>
+      </li>
+       <li style="margin-top:5px"><strong>2FN (Após 1FN, focando em tabelas com PK composta que possam surgir):</strong>
+           <ul style="font-size:0.9em"><li>Se <code>Livro_Autores</code> (<u>ISBN</u>, <u>AutorID</u>, NomeAutor) - <code>NomeAutor</code> depende só de <code>AutorID</code>. <i class="fas fa-arrow-right"></i> Mover <code>NomeAutor</code> para Tabela <code>Autores</code>.</li></ul>
+      </li>
+       <li style="margin-top:5px"><strong>3FN (Após 2FN):</strong>
+           <ul style="font-size:0.9em"><li>Em Livros, <code>EnderecoEditora</code> depende de <code>NomeEditora</code> (que não é PK). <i class="fas fa-arrow-right"></i> Criar Tabela <code>Editoras</code> (<u>EditoraID</u>, NomeEditora, EnderecoEditora) e usar <code>EditoraID (FK)</code> em Livros.</li>
+           <li>Em Emprestimos, <code>TituloLivro</code> depende de <code>Livro_ISBN</code> (que é FK). <i class="fas fa-arrow-right"></i> Remover <code>TituloLivro</code> de Emprestimos (já está em Livros).</li>
+           </ul>
+       </li>
+  </ol>
+  <p><em>O instrutor deve guiar essa análise, mostrando como o modelo evolui para um estado mais normalizado, similar ao que foi apresentado nos slides de mapeamento N:M e FKs. O objetivo é chegar ao modelo que será implementado.</em></p>
+<!-- --- END OF FILE slides/slide22.html --- -->

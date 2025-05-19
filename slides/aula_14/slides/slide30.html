@@ -1,0 +1,35 @@
+<!-- --- START OF FILE slides/slide30.html --- -->
+  <h2><i class="fas fa-star-half-alt"></i> Boas Práticas e Padrões Profissionais (Aplicados ao Projeto)</h2>
+  <p>Ao longo do projeto, aplicamos (ou deveríamos aplicar) várias boas práticas:</p>
+  <ul>
+      <li><strong><i class="fas fa-signature fa-fw"></i> Nomenclatura Padronizada:</strong>
+          <ul style="font-size:0.9em">
+              <li>Adotamos <code>PascalCase</code> para nomes de Tabelas e Colunas no Modelo Conceitual/Lógico (ex: <code>NomeProduto</code>, <code>DataCadastro</code>).</li>
+              <li>Para scripts SQL (MySQL/PostgreSQL), a convenção comum e recomendada é <code>snake_case</code> para nomes de tabelas e colunas (ex: <code>nome_produto</code>, <code>data_cadastro</code>, <code>livro_autores</code>). <em>Seus scripts <code>CREATE TABLE</code> devem refletir isso.</em></li>
+              <li>Chaves Primárias: <code>nome_da_tabela_id</code> ou apenas <code>id</code> (se único e claro no contexto da tabela).</li>
+              <li>Chaves Estrangeiras: <code>nome_tabela_pai_id</code> (ex: <code>editora_id</code> na tabela <code>livros</code>).</li>
+          </ul>
+      </li>
+      <li style="margin-top:10px;"><strong><i class="fas fa-comments fa-fw"></i> Comentários nos Scripts SQL:</strong>
+          <ul style="font-size:0.9em">
+              <li>Usar <code>--</code> para comentários de linha.</li>
+              <li>Usar <code>/* ... */</code> para blocos de comentários.</li>
+              <li>Comentar o propósito de tabelas, colunas com lógica não óbvia, constraints complexas, e seções do script.</li>
+          </ul>
+          <pre><code class="language-sql">
+-- Tabela para armazenar os detalhes dos autores dos livros
+CREATE TABLE autores (
+    autor_id INT AUTO_INCREMENT PRIMARY KEY,
+    nome_autor VARCHAR(150) NOT NULL -- Nome completo do autor
+    /* Adicionar mais campos como data_nascimento, nacionalidade, etc. */
+);
+          </code></pre>
+      </li>
+      <li style="margin-top:10px;"><strong><i class="fas fa-folder-open fa-fw"></i> Organização Modular (Para Projetos Maiores):</strong>
+          <ul style="font-size:0.9em"><li>Em sistemas grandes, os scripts DDL (<code>CREATE</code>) são frequentemente separados em arquivos por módulo funcional (ex: <code>schema_financeiro.sql</code>, <code>schema_rh.sql</code>) ou por tipo de objeto (<code>tabelas.sql</code>, <code>views.sql</code>, <code>indices.sql</code>) para facilitar a manutenção e o versionamento.</li></ul>
+      </li>
+      <li style="margin-top:10px;"><strong><i class="fas fa-shield-alt fa-fw"></i> Segurança e Validação na Fonte (Banco de Dados):</strong>
+          <ul style="font-size:0.9em"><li>Maximizar o uso de constraints (<code>NOT NULL</code>, <code>UNIQUE</code>, <code>CHECK</code>, <code>FOREIGN KEY</code> com ações referenciais apropriadas) para garantir a integridade e validade dos dados diretamente no banco. Isso reduz a carga na camada de aplicação e previne dados ruins.</li></ul>
+      </li>
+  </ul>
+<!-- --- END OF FILE slides/slide30.html --- -->

@@ -1,0 +1,27 @@
+<!-- --- START OF FILE slides/slide21.html --- -->
+  <h2><i class="fas fa-list-ol"></i> Normalização: 3FN (Terceira Forma Normal)</h2>
+  <p><strong>Pré-requisitos:</strong> A tabela já deve estar na 1FN e na 2FN.</p>
+  <p><strong>Regra Principal da 3FN: Sem Dependências Transitivas de Atributos Não-Chave.</strong></p>
+  <ul style="text-align:left; max-width:700px; margin:10px auto;">
+      <li>Um atributo não-chave <strong>não pode</strong> depender funcionalmente de outro atributo não-chave.</li>
+      <li>Ou seja, todos os atributos não-chave devem depender <strong>diretamente</strong> da chave primária (ou de toda a PK composta, se for o caso), e não indiretamente através de outro atributo não-chave.</li>
+  </ul>
+  <p><strong>Exemplo Ruim (Não 3FN, mas em 2FN se FuncID é PK simples):</strong></p>
+  <p>Tabela <code>Funcionarios</code> (<u>FuncID (PK)</u>, NomeFunc, DeptID, NomeDepartamento, LocalizacaoDepartamento)</p>
+  <ul>
+      <li><code>NomeDepartamento</code> depende de <code>DeptID</code>.</li>
+      <li><code>LocalizacaoDepartamento</code> depende de <code>DeptID</code>.</li>
+      <li><code>DeptID</code> depende de <code>FuncID</code> (um funcionário pertence a um departamento).</li>
+      <li>Portanto, <code>NomeDepartamento</code> e <code>LocalizacaoDepartamento</code> dependem transitivamente de <code>FuncID</code> via <code>DeptID</code>. <span style="color:var(--red-error)">Viola 3FN!</span></li>
+  </ul>
+  <p><strong>Solução:</strong> Decompor.</p>
+  <ul style="font-size:0.9em;">
+      <li><code>Funcionarios</code> (<u>FuncID</u> PK, NomeFunc, DeptID FK)</li>
+      <li><code>Departamentos</code> (<u>DeptID</u> PK, NomeDepartamento, LocalizacaoDepartamento)</li>
+  </ul>
+   <p><strong>No nosso Projeto Biblioteca:</strong></p>
+  <ul>
+      <li>Se na tabela <code>Livros</code> tivéssemos <code>EditoraID</code> e também <code>CidadeDaEditora</code>, e <code>CidadeDaEditora</code> dependesse apenas da <code>Editora</code> (identificada por <code>EditoraID</code>), então <code>CidadeDaEditora</code> teria uma dependência transitiva da PK de <code>Livros</code> via <code>EditoraID</code>.</li>
+      <li>A solução correta (que fizemos) é ter a tabela <code>Editoras</code> (<u>EditoraID</u>, NomeEditora, CidadeEditora) e apenas <code>EditoraID (FK)</code> em <code>Livros</code>.</li>
+  </ul>
+<!-- --- END OF FILE slides/slide21.html --- -->

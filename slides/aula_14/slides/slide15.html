@@ -1,0 +1,25 @@
+<!-- --- START OF FILE slides/slide15.html --- -->
+  <h2><i class="fas fa-link"></i> Modelagem Lógica: Definindo Chaves Estrangeiras (FK) e Integridade Referencial</h2>
+  <p>Uma <strong>Chave Estrangeira (FK)</strong> é uma coluna (ou conjunto de colunas) em uma tabela que estabelece um link para uma linha em outra (ou na mesma) tabela. A FK deve corresponder à Chave Primária (PK) da tabela referenciada.</p>
+  <p><strong>Propósito:</strong> Garantir a <strong>Integridade Referencial</strong> – ou seja, que os relacionamentos entre tabelas sejam válidos e consistentes.</p>
+  <p><strong>Sintaxe (ao criar ou alterar tabela):</strong></p>
+  <pre><code class="language-sql">
+[CONSTRAINT nome_da_fk] -- Nomear a FK é uma boa prática
+FOREIGN KEY (coluna_local_fk)
+REFERENCES tabela_pai (coluna_pk_da_tabela_pai)
+[ON DELETE acao_referencial]
+[ON UPDATE acao_referencial];
+  </code></pre>
+  <p><strong>Ações Referenciais Comuns (<code>ON DELETE</code> / <code>ON UPDATE</code>):</strong> O que acontece com as linhas "filhas" (com FK) quando a linha "pai" (com PK referenciada) é alterada ou deletada?</p>
+  <ul style="font-size:0.9em">
+      <li><code>RESTRICT</code> ou <code>NO ACTION</code> (Geralmente o padrão): Impede a alteração/deleção na tabela pai se existirem linhas filhas referenciando-a. <strong>Mais seguro.</strong></li>
+      <li><code>CASCADE</code>: Se a linha pai é deletada, as linhas filhas correspondentes também são deletadas. Se a PK pai é atualizada, a FK nas filhas também é atualizada. <strong>Use com MUITO CUIDADO!</strong> <i class="fas fa-biohazard" style="color:var(--red-error)"></i></li>
+      <li><code>SET NULL</code>: Se a linha pai é deletada/atualizada, o valor da FK nas linhas filhas é definido como <code>NULL</code> (a coluna FK deve permitir nulos).</li>
+      <li><code>SET DEFAULT</code>: Define a FK para seu valor padrão (a coluna FK deve ter um valor padrão definido).</li>
+  </ul>
+  <p style="font-weight:bold">Escolha a ação baseada na lógica de negócio! Para nossa biblioteca:</p>
+  <ul style="font-size:0.9em">
+      <li>Se um <code>MEMBRO</code> for deletado, o que acontece com seus <code>EMPRESTIMOS</code>? (<code>SET NULL</code> no <code>MembroID</code> do empréstimo se quisermos manter o histórico, ou <code>RESTRICT</code> se ele tiver empréstimos ativos).</li>
+      <li>Se uma <code>EDITORA</code> for deletada, os <code>LIVROS</code> dela poderiam ficar com <code>EditoraID = NULL</code> (<code>ON DELETE SET NULL</code>).</li>
+  </ul>
+<!-- --- END OF FILE slides/slide15.html --- -->

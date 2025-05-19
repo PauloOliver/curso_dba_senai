@@ -1,0 +1,56 @@
+<!-- --- START OF FILE slides/slide7.html --- -->
+  <h2><i class="fas fa-clipboard-list"></i> Requisitos Iniciais: Entidades e Atributos</h2>
+  <p>Com base na "entrevista", vamos listar as principais informações (Entidades) e seus detalhes (Atributos) que o sistema precisa gerenciar:</p>
+  <div style="display: flex; justify-content: space-around; text-align: left; flex-wrap:wrap;">
+      <div style="margin:10px; padding:10px; background-color:rgba(0,230,118,0.1); border-radius:5px; width:45%;">
+          <h4 style="color:var(--accent-green);"><i class="fas fa-book fa-fw"></i> LIVRO</h4>
+          <ul style="font-size:0.9em;">
+              <li><strong>Titulo</strong> (Texto, Obrigatório)</li>
+              <li><strong>ISBN</strong> (Texto, Único, Opcional)</li>
+              <li>AnoPublicacao (Número)</li>
+              <li>EditoraID (Referência à Editora)</li>
+              <li>NumPaginas (Número)</li>
+              <li>QtdExemplaresTotal (Número)</li>
+              <li>QtdExemplaresDisponiveis (Número)</li>
+          </ul>
+      </div>
+      <div style="margin:10px; padding:10px; background-color:rgba(0,230,118,0.1); border-radius:5px; width:45%;">
+          <h4 style="color:var(--accent-green);"><i class="fas fa-user-edit fa-fw"></i> AUTOR</h4>
+          <ul style="font-size:0.9em;">
+              <li><strong>NomeAutor</strong> (Texto, Obrigatório)</li>
+              <li>DataNascimentoAutor (Data)</li>
+              <li>NacionalidadeAutor (Texto)</li>
+          </ul>
+      </div>
+      <div style="margin:10px; padding:10px; background-color:rgba(0,230,118,0.1); border-radius:5px; width:45%;">
+          <h4 style="color:var(--accent-green);"><i class="fas fa-users fa-fw"></i> MEMBRO</h4>
+          <ul style="font-size:0.9em;">
+              <li><strong>NomeMembro</strong> (Texto, Obrigatório)</li>
+              <li>EnderecoMembro (Texto)</li>
+              <li>TelefoneMembro (Texto)</li>
+              <li>EmailMembro (Texto, Único)</li>
+              <li>DataCadastroMembro (Data)</li>
+          </ul>
+      </div>
+       <div style="margin:10px; padding:10px; background-color:rgba(0,230,118,0.1); border-radius:5px; width:45%;">
+          <h4 style="color:var(--accent-green);"><i class="fas fa-handshake fa-fw"></i> EMPRÉSTIMO</h4>
+          <ul style="font-size:0.9em;">
+              <li>DataEmprestimo (Data/Hora, Obrigatório)</li>
+              <li>DataPrevistaDevolucao (Data, Obrigatório)</li>
+              <li>DataRealDevolucao (Data, Opcional)</li>
+              <li>StatusEmprestimo (Texto: 'Ativo', 'Devolvido', 'Atrasado')</li>
+              <li>LivroID (Referência ao Livro)</li>
+              <li>MembroID (Referência ao Membro)</li>
+          </ul>
+      </div>
+       <div style="margin:10px; padding:10px; background-color:rgba(0,230,118,0.1); border-radius:5px; width:45%;">
+          <h4 style="color:var(--accent-green);"><i class="fas fa-bookmark fa-fw"></i> GÊNERO</h4>
+          <ul style="font-size:0.9em;"><li><strong>NomeGenero</strong> (Texto, Obrigatório, Único)</li></ul>
+      </div>
+       <div style="margin:10px; padding:10px; background-color:rgba(0,230,118,0.1); border-radius:5px; width:45%;">
+          <h4 style="color:var(--accent-green);"><i class="fas fa-building fa-fw"></i> EDITORA</h4>
+          <ul style="font-size:0.9em;"><li><strong>NomeEditora</strong> (Texto, Obrigatório, Único)</li></ul>
+      </div>
+  </div>
+  <p style="margin-top:15px;">Estes são pontos de partida. Identificaremos PKs e refinaremos na modelagem conceitual!</p>
+<!-- --- END OF FILE slides/slide7.html --- -->

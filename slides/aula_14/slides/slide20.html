@@ -1,0 +1,27 @@
+<!-- --- START OF FILE slides/slide20.html --- -->
+  <h2><i class="fas fa-list-ol"></i> Normalização: 2FN (Segunda Forma Normal)</h2>
+  <p><strong>Pré-requisito:</strong> A tabela já deve estar na 1FN.</p>
+  <p><strong>Regra Principal da 2FN: Sem Dependências Parciais em Chaves Primárias Compostas.</strong></p>
+  <ul style="text-align:left; max-width:700px; margin:10px auto;">
+      <li>Esta regra se aplica <strong>APENAS</strong> a tabelas que possuem uma <strong>Chave Primária Composta</strong> (formada por duas ou mais colunas).</li>
+      <li>Diz que todos os atributos <strong>não-chave</strong> (que não fazem parte da PK composta) devem depender <strong>funcionalmente da chave primária completa</strong>, e não de apenas uma parte dela.</li>
+  </ul>
+  <p><strong>Exemplo Ruim (Não 2FN):</strong></p>
+  <p>Tabela <code>Matricula_Curso</code> (<u>AlunoID (PK)</u>, <u>CursoID (PK)</u>, NomeAluno, NomeCurso, DataMatricula)</p>
+  <ul>
+      <li><code>NomeAluno</code> depende <strong>apenas</strong> de <code>AlunoID</code> (parte da PK). <span style="color:var(--red-error)">Viola 2FN!</span></li>
+      <li><code>NomeCurso</code> depende <strong>apenas</strong> de <code>CursoID</code> (parte da PK). <span style="color:var(--red-error)">Viola 2FN!</span></li>
+      <li><code>DataMatricula</code> depende da combinação <code>AlunoID + CursoID</code> (OK).</li>
+  </ul>
+  <p><strong>Solução:</strong> Decompor em múltiplas tabelas.</p>
+  <ul style="font-size:0.9em;">
+      <li><code>Alunos</code> (<u>AlunoID</u> PK, NomeAluno)</li>
+      <li><code>Cursos</code> (<u>CursoID</u> PK, NomeCurso)</li>
+      <li><code>Matriculas</code> (<u>AlunoID</u> PK,FK, <u>CursoID</u> PK,FK, DataMatricula)</li>
+  </ul>
+  <p><strong>No nosso Projeto Biblioteca:</strong></p>
+  <ul>
+      <li>A tabela <code>Livro_Autores</code> (<u>LivroID</u>, <u>AutorID</u>, OrdemAutoria). Se `OrdemAutoria` é um atributo do relacionamento (quem foi o 1º autor, 2º etc. DAQUELE livro), ele depende da PK completa. OK para 2FN.</li>
+       <li>Se tivéssemos, por engano, colocado <code>NomeAutor</code> em <code>LIVRO_AUTORES</code>, violaria 2FN, pois <code>NomeAutor</code> depende só de <code>AutorID</code>.</li>
+  </ul>
+<!-- --- END OF FILE slides/slide20.html --- -->

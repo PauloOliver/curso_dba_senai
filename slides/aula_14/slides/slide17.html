@@ -1,0 +1,29 @@
+<!-- --- START OF FILE slides/slide17.html --- -->
+  <h2><i class="fab fa-mysql" style="color:#00758F;"></i> Modelagem Física: Mapeando Tipos para MySQL</h2>
+  <p>Revisitando os tipos de dados, com foco na sintaxe e opções comuns do MySQL:</p>
+  <ul style="text-align:left; max-width:750px; margin:10px auto; font-size:0.9em;">
+      <li><strong>Inteiros:</strong> <code>TINYINT</code> (-128 a 127 ou 0 a 255 UNSIGNED), <code>SMALLINT</code>, <code>MEDIUMINT</code>, <code>INT</code> (ou <code>INTEGER</code>), <code>BIGINT</code>. Use <code>UNSIGNED</code> se o valor nunca for negativo (economiza um bit, dobra o range positivo).
+        <br><code>ClienteID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY</code></li>
+      <li><strong>Texto:</strong>
+          <ul>
+              <li><code>VARCHAR(n)</code>: 0 a 65,535 caracteres (limite real depende do charset e outras colunas).</li>
+              <li><code>CHAR(n)</code>: 0 a 255 caracteres.</li>
+              <li><code>TINYTEXT</code> (até 255 bytes), <code>TEXT</code> (até 64KB), <code>MEDIUMTEXT</code> (até 16MB), <code>LONGTEXT</code> (até 4GB).</li>
+          </ul>
+          <code>Nome VARCHAR(100) NOT NULL, Descricao TEXT</code>
+      </li>
+      <li><strong>Booleanos:</strong> <code>BOOLEAN</code> ou <code>BOOL</code> são sinônimos para <code>TINYINT(1)</code>. (0 para Falso, 1 para Verdadeiro).
+        <br><code>Ativo BOOLEAN DEFAULT TRUE</code></li>
+      <li><strong>Data e Hora:</strong>
+          <ul>
+              <li><code>DATE</code>: 'YYYY-MM-DD'.</li>
+              <li><code>DATETIME</code>: 'YYYY-MM-DD HH:MM:SS'. Range maior.</li>
+              <li><code>TIMESTAMP</code>: 'YYYY-MM-DD HH:MM:SS'. Armazenado como segundos desde a época Unix (UTC), convertido para/de fuso horário da sessão. Útil para "criado em", "modificado em". Pode ter <code>DEFAULT CURRENT_TIMESTAMP</code> e <code>ON UPDATE CURRENT_TIMESTAMP</code>.</li>
+          </ul>
+          <code>DataCadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP</code>
+      </li>
+      <li><strong>Decimal Exato:</strong> <code>DECIMAL(P,S)</code> ou <code>NUMERIC(P,S)</code>. P = precisão total (máx 65), S = casas decimais (máx 30).
+        <br><code>Preco DECIMAL(10,2) NOT NULL</code></li>
+  </ul>
+  <p>Agora, vamos aplicar esses tipos às colunas do nosso modelo lógico da Biblioteca!</p>
+<!-- --- END OF FILE slides/slide17.html --- -->

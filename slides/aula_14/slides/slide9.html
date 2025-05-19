@@ -1,0 +1,30 @@
+<!-- --- START OF FILE slides/slide9.html --- -->
+  <h2><i class="fas fa-sitemap"></i> MER - Primeira Versão (Construção Colaborativa)</h2>
+  <p>Vamos desenhar juntos o DER da nossa Biblioteca! (Usando a ferramenta escolhida pelo instrutor).</p>
+  <p><strong>Foco Inicial:</strong></p>
+  <ol>
+      <li>Identificar as <strong>Entidades Fortes</strong> principais: <code>LIVRO</code>, <code>AUTOR</code>, <code>MEMBRO</code>, <code>EDITORA</code>, <code>GENERO</code>.</li>
+      <li>Adicionar <strong>Atributos</strong> a cada entidade, sublinhando os candidatos a <strong>Chave Primária (PK)</strong>.
+          <ul style="font-size:0.9em">
+              <li><code>LIVRO</code>: <u>ISBN</u> (se único globalmente) ou <u>LivroID</u> (gerado), Titulo, AnoPublicacao, EditoraID(FK), QtdExemplares...</li>
+              <li><code>AUTOR</code>: <u>AutorID</u>, NomeAutor...</li>
+              <li><code>MEMBRO</code>: <u>MembroID</u>, NomeMembro, EmailMembro(UQ)...</li>
+              <li><code>EDITORA</code>: <u>EditoraID</u>, NomeEditora(UQ)...</li>
+              <li><code>GENERO</code>: <u>GeneroID</u>, NomeGenero(UQ)...</li>
+          </ul>
+      </li>
+      <li>Estabelecer os <strong>Relacionamentos</strong> e suas <strong>Cardinalidades</strong>:
+          <ul style="font-size:0.9em">
+              <li><code>AUTOR</code> (1,N) --escreve-- (1,N) <code>LIVRO</code>  =>  <strong>N:M</strong> (Um autor pode escrever vários livros, um livro pode ter vários autores)</li>
+              <li><code>EDITORA</code> (1,1) --publica-- (0,N) <code>LIVRO</code> => <strong>1:N</strong> (Uma editora publica N livros, um livro tem UMA editora)</li>
+              <li><code>LIVRO</code> (1,N) --pertence_a-- (1,N) <code>GENERO</code> => <strong>N:M</strong></li>
+              <li><code>MEMBRO</code> (1,1) --realiza-- (0,N) <code>EMPRESTIMO</code> => <strong>1:N</strong></li>
+              <li><code>LIVRO</code> (1,1) --é_item_de-- (0,N) <code>EMPRESTIMO</code> => <strong>1:N</strong> (Considerando que um empréstimo é de um *título* de livro e o controle de exemplares é no livro).</li>
+          </ul>
+      </li>
+  </ol>
+  <p><em>[Este slide é ideal para interação ao vivo, desenhando no quadro ou ferramenta digital. O instrutor deve guiar a discussão sobre cada decisão, como a escolha da PK para Livro e a modelagem do Empréstimo.]</em></p>
+  <div class="slide-svg-container" style="max-width: 90%; min-height:200px; border:1px dashed var(--text-medium); display:flex; align-items:center; justify-content:center;">
+      <p style="color:var(--text-medium); font-style:italic;">(Espaço para o Desenho do DER ao vivo ou imagem do esboço inicial)</p>
+  </div>
+<!-- --- END OF FILE slides/slide9.html --- -->
