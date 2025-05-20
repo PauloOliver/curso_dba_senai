@@ -1,0 +1,38 @@
+<h2><i class="fas fa-magic"></i> O Chamado dos Guardiões: Introdução aos Gatilhos (Triggers)</h2>
+<p>Em <strong>RPG_Mundo</strong>, nem todas as ações são realizadas manualmente por heróis ou mestres. Existem forças ancestrais, encantamentos imbuídos nas próprias estruturas do reino, que reagem automaticamente a certos eventos. Estes são os <strong>Gatilhos (Triggers)</strong> – os guardiões silenciosos da integridade e da lógica do seu banco de dados.</p>
+
+<div class="slide-svg-container" style="max-width: 180px; margin-bottom:15px;">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path class="svg-bg-fill" fill="var(--rpg-stone-medium)" d="M50 5 L95 25 L95 75 L50 95 L5 75 L5 25 Z"/>
+    <path class="svg-accent1-stroke" stroke="var(--rpg-gold-accent)" stroke-width="3" fill="none" d="M50 5 L95 25 L95 75 L50 95 L5 75 L5 25 Z"/>
+    <circle class="svg-accent2-fill" fill="var(--rpg-blue-magic)" cx="50" cy="50" r="20"/>
+    <circle fill="var(--rpg-parchment-light)" cx="50" cy="50" r="10"/>
+    <circle fill="var(--rpg-text-dark)" cx="50" cy="50" r="5"/>
+    <text class="svg-text-fill" fill="var(--rpg-gold-highlight)" x="50" y="15" text-anchor="middle" font-size="10px" font-family="Cinzel, serif">Guardião</text>
+  </svg>
+</div>
+
+<p><strong>O que são Gatilhos?</strong></p>
+<p>Um gatilho é um bloco de código SQL (semelhante a uma procedure armazenada) que é executado automaticamente pelo SGBD em resposta a certos eventos de DML (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) em uma tabela específica.</p>
+<p>Pense neles como:</p>
+<ul>
+  <li><i class="fas fa-fw fa-shield-alt"></i> <strong>Sentinelas Mágicas:</strong> Que disparam uma armadilha ou um alarme quando uma regra é violada.</li>
+  <li><i class="fas fa-fw fa-scroll"></i> <strong>Escribas Autômatos:</strong> Que registram eventos importantes em um diário secreto (tabela de log).</li>
+  <li><i class="fas fa-fw fa-link"></i> <strong>Correntes do Destino:</strong> Que desencadeiam ações em outras tabelas quando algo significativo acontece.</li>
+</ul>
+
+<p><strong>Quando eles Despertam (Eventos de Ativação):</strong></p>
+<p>Os gatilhos podem ser configurados para disparar:</p>
+<ul>
+  <li><i class="fas fa-fw fa-hourglass-start"></i> <strong><code>BEFORE</code></strong> (Antes): O gatilho executa <em>antes</em> que a operação DML (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) seja realmente aplicada à tabela. Isso permite modificar os dados que serão inseridos/atualizados ou até mesmo cancelar a operação.</li>
+  <li><i class="fas fa-fw fa-hourglass-end"></i> <strong><code>AFTER</code></strong> (Depois): O gatilho executa <em>após</em> a operação DML ter sido concluída com sucesso. Ideal para registrar logs, enviar notificações ou realizar ações em outras tabelas baseadas na mudança recém-efetuada.</li>
+</ul>
+
+<p><strong>Propósitos Arcanos dos Gatilhos:</strong></p>
+<ul>
+  <li><i class="fas fa-fw fa-book-reader"></i> <strong>Auditoria (Registro de Feitos):</strong> Manter um histórico de quem alterou o quê e quando.</li>
+  <li><i class="fas fa-fw fa-gavel"></i> <strong>Integridade de Dados Complexa:</strong> Implementar regras de negócio que não podem ser facilmente definidas por constraints comuns.</li>
+  <li><i class="fas fa-fw fa-cogs"></i> <strong>Ações em Cascata Personalizadas:</strong> Realizar operações em tabelas relacionadas que vão além do que <code>ON DELETE CASCADE</code> de chaves estrangeiras pode fazer.</li>
+  <li><i class="fas fa-fw fa-bell"></i> <strong>Notificações e Alertas:</strong> Sinalizar eventos críticos no sistema (embora isso seja muitas vezes melhor tratado pela aplicação).</li>
+</ul>
+<p>No próximo pergaminho, aprenderemos a forjar nossos próprios gatilhos!</p>
