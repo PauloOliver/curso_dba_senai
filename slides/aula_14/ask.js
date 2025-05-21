@@ -1,5 +1,5 @@
 // --- START OF FILE ask.js ---
-const ask_sp_triggers_aula = {
+const  = {
   1: {
     type: "mult",
     ask: "Qual é a principal vantagem de usar uma Stored Procedure para uma tarefa SQL complexa e repetitiva?",
