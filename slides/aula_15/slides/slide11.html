@@ -1,0 +1,14 @@
+<h2><i class="fas fa-sitemap" style="color: var(--accent-green);"></i> Tipos de Tabelas Temporárias (Parte 1/2)</h2>
+<p>A nomenclatura e o comportamento exato podem variar entre SGBDs (SQL Server, Oracle, MySQL, PostgreSQL), mas os conceitos gerais são similares.</p>
+<h3 style="color: var(--accent-blue); margin-top: 25px;">1. Temporary Tables (Padrão / Locais)</h3>
+<ul>
+    <li><i class="fas fa-eye-slash fa-fw"></i><strong>Visibilidade:</strong> Visíveis <strong>apenas</strong> durante a sessão que as criou. Nenhuma outra sessão pode vê-las ou acessá-las.</li>
+    <li><i class="fas fa-signature fa-fw"></i><strong>Nomenclatura (Exemplos Comuns):</strong>
+        <ul style="margin-left:20px; font-size:0.9em; color: var(--text-medium)">
+            <li><i class="fab fa-windows" style="color:var(--accent-yellow)"></i> SQL Server: <code>#nome_tabela</code> (local), <code>##nome_tabela</code> (global temporária, mas ainda ligada à sessão criadora para descarte)</li>
+            <li><i class="fas fa-database" style="color:var(--accent-yellow)"></i> MySQL/PostgreSQL: <code>CREATE TEMPORARY TABLE nome_tabela ...</code></li>
+        </ul>
+    </li>
+    <li><i class="fas fa-recycle fa-fw"></i><strong>Ciclo de Vida:</strong> Automaticamente descartadas (<code>DROP</code>) quando a sessão que as criou termina.</li>
+    <li><i class="fas fa-user-friends fa-fw"></i><strong>Isolamento:</strong> Se duas sessões diferentes criarem uma tabela temporária com o <em>mesmo nome</em> (ex: <code>#MinhaTemp</code>), elas são instâncias completamente distintas e isoladas. Uma não afeta a outra.</li>
+</ul>

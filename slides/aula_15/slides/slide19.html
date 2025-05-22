@@ -1,0 +1,22 @@
+<h2><i class="fas fa-history" style="color: var(--accent-green);"></i> H3: Revisão Rápida da Hora 2</h2>
+<p>Vamos recapitular o que aprendemos na Hora 2:</p>
+<ul>
+    <li>
+        <i class="fas fa-sitemap fa-fw" style="color: var(--accent-blue);"></i>
+        <strong>Tipos Comuns:</strong>
+        <ul style="margin-left: 20px; margin-top: 5px; color: var(--text-medium);">
+            <li><i class="fas fa-angle-right fa-fw"></i><strong>Locais (Padrão):</strong> Visíveis apenas na sessão criadora (ex: <code>#tabela</code> no SQL Server, <code>CREATE TEMPORARY TABLE</code> no MySQL/PostgreSQL).</li>
+            <li><i class="fas fa-angle-right fa-fw"></i><strong>Globais (GTTs - ex: Oracle):</strong> Definição da estrutura é persistente e visível a todos, mas os DADOS são isolados por sessão.</li>
+            <li><i class="fas fa-angle-right fa-fw"></i><strong>In-memory:</strong> Otimizadas para residir em memória, oferecendo acesso rápido (específicas de SGBDs).</li>
+        </ul>
+    </li>
+    <li style="margin-top: 15px;">
+        <i class="fas fa-file-code fa-fw" style="color: var(--accent-blue);"></i>
+        <strong>Sintaxe de Criação:</strong> Principalmente com <code>CREATE TEMPORARY TABLE nome_tabela (...)</code> ou sintaxe específica do SGBD (<code>CREATE TABLE #nome_tabela (...)</code>).
+    </li>
+    <li style="margin-top: 15px;">
+        <i class="fas fa-recycle fa-fw" style="color: var(--accent-blue);"></i>
+        <strong>Ciclo de Vida:</strong> Ligado à sessão. Tabelas temporárias locais são geralmente destruídas automaticamente ao final da sessão.
+    </li>
+</ul>
+<p style="margin-top:20px;">Com isso em mente, vamos ver como manipulá-las!</p>

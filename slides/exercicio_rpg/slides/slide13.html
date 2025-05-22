@@ -1,0 +1,103 @@
+<h2><i class="fas fa-tools"></i> A Forja dos Encantamentos: Criando Gatilhos</h2>
+<p>Para imbuir o reino de <strong>RPG_Mundo</strong> com guardiões automáticos, precisamos aprender as palavras de poder para criar gatilhos. A sintaxe pode parecer complexa à primeira vista, mas cada runa tem seu propósito.</p>
+
+<div class="slide-svg-container" style="max-width: 200px; margin-bottom:15px;">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path class="svg-bg-fill" fill="var(--rpg-stone-medium)" d="M10,70 L20,60 L20,30 L30,20 L70,20 L80,30 L80,60 L90,70 L80,80 L20,80 Z" /> <!-- Anvil Base -->
+        <path class="svg-bg-fill" fill="var(--rpg-stone-dark)" d="M15,20 L85,20 L80,30 L20,30 Z" /> <!-- Anvil Top -->
+        <path class="svg-accent1-fill" fill="var(--rpg-gold-accent)" d="M50,10 L55,30 L45,30 Z M40,35 L60,35 L55,50 L60,65 L40,65 L45,50 Z" transform="rotate(15 50 40)"/> <!-- Hammer -->
+        <text class="svg-text-fill" fill="var(--rpg-gold-highlight)" x="50" y="90" text-anchor="middle" font-size="10px" font-family="Cinzel, serif">Forjar Gatilho</text>
+    </svg>
+</div>
+
+<p><strong>Inscrição Rúnica Fundamental (Sintaxe MySQL):</strong></p>
+<pre><code class="language-sql">
+DELIMITER $$ -- Muda o delimitador para podermos usar ; dentro do trigger
+
+CREATE TRIGGER nome_do_gatilho
+{BEFORE | AFTER} {INSERT | UPDATE | DELETE}
+ON nome_da_tabela
+FOR EACH ROW -- Indica que o gatilho executa para cada linha afetada
+BEGIN
+    -- Corpo do gatilho: Lógica SQL aqui
+    -- Ex: IF, SET, INSERT, UPDATE, DELETE (em outras tabelas ou variáveis)
+    -- DECLARE variáveis locais...
+END$$
+
+DELIMITER ; -- Restaura o delimitador padrão
+</code></pre>
+
+<p><strong>As Palavras Chave <code>NEW</code> e <code>OLD</code>:</strong></p>
+<p>Dentro do corpo de um gatilho <code>FOR EACH ROW</code>, podemos acessar os valores das colunas da linha que está sendo afetada:</p>
+<ul>
+  <li><i class="fas fa-fw fa-star"></i> <strong><code>NEW</code></strong>: Refere-se à nova linha.
+    <ul>
+      <li>Em gatilhos <code>INSERT</code>, <code>NEW.coluna</code> contém o valor que está sendo inserido.</li>
+      <li>Em gatilhos <code>UPDATE</code>, <code>NEW.coluna</code> contém o novo valor após a atualização.</li>
+      <li>Não disponível em gatilhos <code>DELETE</code>.</li>
+    </ul>
+  </li>
+  <li><i class="fas fa-fw fa-history"></i> <strong><code>OLD</code></strong>: Refere-se à linha antiga (antes da modificação).
+    <ul>
+      <li>Em gatilhos <code>UPDATE</code>, <code>OLD.coluna</code> contém o valor antes da atualização.</li>
+      <li>Em gatilhos <code>DELETE</code>, <code>OLD.coluna</code> contém o valor da linha que está sendo removida.</li>
+      <li>Não disponível em gatilhos <code>INSERT</code>.</li>
+    </ul>
+  </li>
+</ul>
+<p>Com <code>BEFORE UPDATE</code>, você pode até modificar os valores de <code>NEW.coluna</code> antes que sejam salvos!</p>
+
+<hr style="border-color: var(--rpg-wood-light); margin: 20px 0;">
+
+<h3><i class="fas fa-scroll"></i> Exemplo 1: O Escriba Autômato (Log de Novos Heróis)</h3>
+<p>Vamos criar um gatilho que registra a chegada de cada novo herói em uma tabela de log chamada <code>LogEventosReino</code>.</p>
+<p>Primeiro, o pergaminho para a tabela <code>LogEventosReino</code> (crie-a se ainda não existe):</p>
+<pre><code class="language-sql">
+CREATE TABLE IF NOT EXISTS LogEventosReino (
+    LogID INT AUTO_INCREMENT PRIMARY KEY,
+    TimestampEvento DATETIME DEFAULT CURRENT_TIMESTAMP,
+    TipoEvento VARCHAR(50),
+    Descricao VARCHAR(255)
+);
+</code></pre>
+<p>Agora, o encantamento do gatilho:</p>
+<pre><code class="language-sql">
+DELIMITER $$
+CREATE TRIGGER trg_LogNovoHeroi
+AFTER INSERT ON Personagens
+FOR EACH ROW
+BEGIN
+    INSERT INTO LogEventosReino (TipoEvento, Descricao)
+    VALUES ('NOVO_HEROI', CONCAT('Herói registrado: ', NEW.NomePersonagem, ', ID: ', NEW.PersonagemID));
+END$$
+DELIMITER ;
+
+-- Para testar:
+-- INSERT INTO Personagens (NomePersonagem, RacaID, ClasseID, ...) VALUES ('Elara', 1, 1, ...);
+-- SELECT * FROM LogEventosReino ORDER BY TimestampEvento DESC LIMIT 1;
+</code></pre>
+
+<hr style="border-color: var(--rpg-wood-light); margin: 20px 0;">
+
+<h3><i class="fas fa-gavel"></i> Exemplo 2: O Guardião da Evolução (Impedir Redução de Nível)</h3>
+<p>Este gatilho impedirá que o nível de um personagem seja reduzido acidentalmente (ou maliciosamente!).</p>
+<pre><code class="language-sql">
+DELIMITER $$
+CREATE TRIGGER trg_ImpedirReducaoNivel
+BEFORE UPDATE ON Personagens
+FOR EACH ROW
+BEGIN
+    IF NEW.Nivel < OLD.Nivel THEN
+        -- Impede a atualização alterando o novo valor para o antigo
+        -- SET NEW.Nivel = OLD.Nivel; 
+        -- Ou, de forma mais assertiva, sinaliza um erro (requer MySQL 5.5+):
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'ERRO: O nível de um personagem não pode ser reduzido!';
+    END IF;
+END$$
+DELIMITER ;
+
+-- Para testar:
+-- Suponha que 'Aragorn' (PersonagemID 1) está no Nível 5
+-- UPDATE Personagens SET Nivel = 3 WHERE PersonagemID = 1; -- Deverá falhar ou não reduzir o nível.
+</code></pre>
+<p>Com estes encantamentos, seu reino se torna mais robusto e autogerenciado!</p>

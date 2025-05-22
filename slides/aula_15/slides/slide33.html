@@ -1,0 +1,43 @@
+<h2><i class="fas fa-check-double" style="color: var(--accent-green);"></i> Solução Comentada: Exercício 3</h2>
+<p><strong>Objetivo:</strong> Análise de Clientes VIP e seus pedidos.</p>
+<pre><code class="language-sql">-- Passo 1: Criar a tabela temporária para clientes VIP
+CREATE TEMPORARY TABLE tmp_clientes_vip (
+    id_cliente INT,
+    nome_cliente VARCHAR(255),
+    gasto_total_cliente DECIMAL(12,2) -- Aumentei a precisão para gastos maiores
+);
+
+-- Passo 2: Popular tmp_clientes_vip com clientes que gastaram > R$1000
+INSERT INTO tmp_clientes_vip (id_cliente, nome_cliente, gasto_total_cliente)
+SELECT
+    C.ID_Cliente,
+    C.Nome,
+    SUM(IP.Quantidade * IP.PrecoVendaUnidade) AS GastoTotal
+FROM CLIENTES C
+JOIN PEDIDOS P ON C.ID_Cliente = P.ID_Cliente
+JOIN ITENS_PEDIDO IP ON P.ID_Pedido = IP.ID_Pedido
+GROUP BY C.ID_Cliente, C.Nome
+HAVING SUM(IP.Quantidade * IP.PrecoVendaUnidade) > 1000; -- Filtra apenas os VIPs
+
+-- Passo 3: Verificar os clientes VIP identificados
+SELECT * FROM tmp_clientes_vip ORDER BY gasto_total_cliente DESC;
+
+-- Passo 4: Listar todos os pedidos dos clientes VIP
+SELECT
+    P.ID_Pedido,
+    P.DataPedido,
+    TV.nome_cliente AS NomeClienteVIP, -- Para clareza, mostra o nome do VIP
+    TV.gasto_total_cliente AS GastoTotalDoVIP
+FROM PEDIDOS P
+JOIN tmp_clientes_vip TV ON P.ID_Cliente = TV.id_cliente -- Junta PEDIDOS com nossa temp table VIP
+ORDER BY TV.nome_cliente, P.DataPedido; -- Ordena para melhor visualização
+
+-- Passo 5: (Opcional) Dropar a tabela
+-- DROP TABLE tmp_clientes_vip;
+</code></pre>
+<h4 style="color: var(--accent-blue); margin-top:15px;">Comentários:</h4>
+<ul>
+    <li><i class="fas fa-info-circle fa-fw"></i>Primeiro, identificamos e armazenamos os clientes VIP em <code>tmp_clientes_vip</code>. Isso envolve junções múltiplas (<code>CLIENTES</code> <i class="fas fa-arrow-right"></i> <code>PEDIDOS</code> <i class="fas fa-arrow-right"></i> <code>ITENS_PEDIDO</code>), agregação (<code>SUM</code>) e filtro pós-agregação (<code>HAVING</code>).</li>
+    <li><i class="fas fa-info-circle fa-fw"></i>Depois, a tabela <code>tmp_clientes_vip</code> é usada como uma fonte de dados "pré-processada" para facilmente listar os pedidos apenas desses clientes, juntando-a com a tabela <code>PEDIDOS</code>.</li>
+    <li><i class="fas fa-info-circle fa-fw"></i>Este exemplo demonstra como tabelas temporárias podem quebrar um problema complexo em etapas gerenciáveis.</li>
+</ul>

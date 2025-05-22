@@ -1,0 +1,32 @@
+<h2><i class="fas fa-check-double" style="color: var(--accent-green);"></i> Solução Comentada: Exercício 1</h2>
+<p><strong>Objetivo:</strong> Clientes recentes de 'Rio de Janeiro'.</p>
+<pre><code class="language-sql">-- Passo 1: Criar a tabela temporária
+-- (Exemplo para MySQL/PostgreSQL. Para SQL Server, use: CREATE TABLE #tmp_clientes_recentes_rj)
+CREATE TEMPORARY TABLE tmp_clientes_recentes_rj (
+    id_cliente INT,
+    nome_cliente VARCHAR(255),
+    email_cliente VARCHAR(255)
+);
+
+-- Passo 2: Popular a tabela com clientes do RJ cadastrados desde 2023-01-01
+INSERT INTO tmp_clientes_recentes_rj (id_cliente, nome_cliente, email_cliente)
+SELECT
+    ID_Cliente,  -- Coluna da tabela CLIENTES
+    Nome,        -- Coluna da tabela CLIENTES
+    Email        -- Coluna da tabela CLIENTES
+FROM CLIENTES
+WHERE Cidade = 'Rio de Janeiro'
+  AND DataCadastro >= '2023-01-01'; -- Ajuste a data conforme seu SGBD/necessidade
+
+-- Passo 3: Consultar a tabela temporária para verificar
+SELECT * FROM tmp_clientes_recentes_rj;
+
+-- Passo 4: (Opcional, mas boa prática) Dropar a tabela
+-- DROP TABLE tmp_clientes_recentes_rj;
+</code></pre>
+<h4 style="color: var(--accent-blue); margin-top:15px;">Comentários:</h4>
+<ul>
+    <li><i class="fas fa-info-circle fa-fw"></i>A criação da tabela define a estrutura que queremos para os dados temporários.</li>
+    <li><i class="fas fa-info-circle fa-fw"></i>O <code>INSERT INTO ... SELECT</code> é uma forma eficiente de popular a tabela temporária com base em um filtro na tabela permanente <code>CLIENTES</code>.</li>
+    <li><i class="fas fa-info-circle fa-fw"></i>A consulta final <code>SELECT *</code> apenas verifica o conteúdo da tabela temporária.</li>
+</ul>

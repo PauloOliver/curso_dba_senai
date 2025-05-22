@@ -1,0 +1,25 @@
+<h2><i class="fas fa-code" style="color: var(--accent-blue);"></i> Criação: Sintaxe Padrão (ANSI SQL)</h2>
+<p>A sintaxe mais comum e portável (funciona em MySQL, PostgreSQL, e similar em outros SGBDs) é:</p>
+<pre><code class="language-sql">CREATE TEMPORARY TABLE nome_tabela_temporaria (
+    coluna1 TIPO_DADO [restrições de coluna],
+    coluna2 TIPO_DADO [restrições de coluna],
+    ...
+    [restrições de tabela, ex: PRIMARY KEY]
+);</code></pre>
+
+<h3 style="color: var(--accent-green); margin-top: 20px;">Exemplo Simples (MySQL/PostgreSQL):</h3>
+<pre><code class="language-sql">CREATE TEMPORARY TABLE tmp_pedidos_recentes (
+    id_pedido INT PRIMARY KEY,
+    data_pedido DATE,
+    valor_total DECIMAL(10,2)
+);</code></pre>
+
+<p style="margin-top: 20px; color: var(--text-medium); font-size: 0.9em;">
+    <i class="fab fa-windows fa-fw" style="color: var(--accent-yellow);"></i>
+    <strong>Nota sobre SQL Server:</strong> A sintaxe é ligeiramente diferente, usando o prefixo <code>#</code>:
+</p>
+<pre><code class="language-sql">CREATE TABLE #tmp_pedidos_recentes (
+    id_pedido INT PRIMARY KEY,
+    data_pedido DATE,
+    valor_total DECIMAL(10,2)
+);</code></pre>

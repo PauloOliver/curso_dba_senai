@@ -1,0 +1,22 @@
+<h2><i class="fas fa-project-diagram" style="color: var(--accent-blue);"></i> Tipos de Tabelas Temporárias (Parte 2/2)</h2>
+<h3 style="color: var(--accent-green); margin-top: 25px;">2. Global Temporary Tables (GTTs)</h3>
+<p style="color: var(--text-medium); font-size:0.9em;">Comuns em SGBDs como Oracle e DB2.</p>
+<ul>
+    <li><i class="fas fa-globe fa-fw"></i><strong>Definição Persistente:</strong> A <em>definição</em> (estrutura) da tabela é persistente no banco de dados e visível para todas as sessões, como uma tabela permanente.</li>
+    <li><i class="fas fa-lock fa-fw"></i><strong>Dados Isolados por Sessão:</strong> Apesar da definição ser global, os <em>dados</em> inseridos na GTT são isolados por sessão (ou por transação, dependendo da configuração como <code>ON COMMIT PRESERVE ROWS</code> vs <code>ON COMMIT DELETE ROWS</code> no Oracle).</li>
+    <li><i class="fas fa-code fa-fw"></i><strong>Exemplo (Oracle):</strong>
+        <pre><code class="language-sql">CREATE GLOBAL TEMPORARY TABLE gtt_dados_sessao (
+    id NUMBER,
+    descricao VARCHAR2(100)
+) ON COMMIT PRESERVE ROWS; -- Dados persistem até o fim da sessão
+-- ou ON COMMIT DELETE ROWS; -- Dados são limpos após cada COMMIT</code></pre>
+    </li>
+    <li><i class="fas fa-key fa-fw"></i><strong>Ponto Chave:</strong> Estrutura compartilhada, dados privados por sessão.</li>
+</ul>
+
+<h3 style="color: var(--accent-green); margin-top: 25px;">3. In-memory Temporary Tables</h3>
+<ul>
+    <li><i class="fas fa-memory fa-fw"></i>Alguns SGBDs oferecem otimizações para tabelas temporárias que residem primariamente em memória (ex: Tabelas Temporárias Otimizadas para Memória no SQL Server).</li>
+    <li><i class="fas fa-tachometer-alt fa-fw"></i><strong>Benefício:</strong> Acesso extremamente rápido aos dados.</li>
+    <li><i class="fas fa-exclamation-triangle fa-fw"></i><strong>Cuidado:</strong> Consumo de memória RAM; não adequadas para volumes muito grandes de dados temporários.</li>
+</ul>

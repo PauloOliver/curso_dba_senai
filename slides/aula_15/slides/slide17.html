@@ -1,0 +1,41 @@
+<h2><i class="fas fa-laptop-code" style="color: var(--accent-green);"></i> DEMONSTRAÇÃO AO VIVO (Parte 1)</h2>
+<p>Agora, vamos ver a criação e o ciclo de vida de uma tabela temporária na prática!</p>
+<p style="color: var(--text-medium); font-size: 0.9em;">Ambiente: (Seu SGBD de preferência - MySQL Workbench, pgAdmin, SSMS, etc.)</p>
+
+<h3 style="color: var(--accent-blue); margin-top: 20px;">Modelo de Dados (DER Chen - Simplificado):</h3>
+<div class="slide-svg-container" style="max-width: 60%; margin: 15px auto; border: 1px solid var(--bg-light); padding: 10px; border-radius: 5px;">
+  <svg viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
+    <style>.text-der { font-size: 9px; fill: var(--text-light); } .text-pk {font-weight:bold; fill: var(--accent-yellow);}</style>
+    <defs>
+        <marker id="arrow-diag-s18" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+         <path d="M0,0 L8,3 L0,6 Z" fill="var(--text-medium)"/>
+        </marker>
+    </defs>
+    <rect x="10" y="10" width="120" height="50" rx="3" class="svg-bg-fill"/>
+    <text x="70" y="25" text-anchor="middle" class="text-der" style="font-weight:bold;">CLIENTES</text>
+    <text x="15" y="40" class="text-der"><tspan class="text-pk">ID_Cliente (PK)</tspan></text>
+    <text x="15" y="50" class="text-der">Nome, Email, Cidade</text>
+
+    <rect x="170" y="10" width="120" height="60" rx="3" class="svg-bg-fill"/>
+    <text x="230" y="25" text-anchor="middle" class="text-der" style="font-weight:bold;">PEDIDOS</text>
+    <text x="175" y="40" class="text-der"><tspan class="text-pk">ID_Pedido (PK)</tspan></text>
+    <text x="175" y="50" class="text-der">ID_Cliente (FK)</text>
+    <text x="175" y="60" class="text-der">DataPedido, ValorTotal</text>
+
+    <path d="M130 35 L 170 35" stroke="var(--text-medium)" stroke-width="1.5" marker-end="url(#arrow-diag-s18)"/>
+    <text x="150" y="30" class="text-der">1..N</text>
+  </svg>
+</div>
+
+<h3 style="color: var(--accent-blue); margin-top: 20px;">Passos da Demonstração:</h3>
+<ol style="text-align: left; max-width: 700px; margin: 10px auto;">
+    <li><i class="fas fa-plug fa-fw" style="color:var(--accent-yellow)"></i> Conectar ao SGBD (abrir Sessão 1).</li>
+    <li><i class="fas fa-plus-square fa-fw" style="color:var(--accent-yellow)"></i> Criar <code>tmp_clientes_sp</code> com <code>id_cliente, nome_cliente, email_cliente</code>.</li>
+    <li><i class="fas fa-file-import fa-fw" style="color:var(--accent-yellow)"></i> Inserir dados de <code>CLIENTES</code> onde <code>Cidade = 'São Paulo'</code>.</li>
+    <li><i class="fas fa-search fa-fw" style="color:var(--accent-yellow)"></i> Consultar <code>SELECT * FROM tmp_clientes_sp;</code> (ver os dados).</li>
+    <li><i class="fas fa-desktop fa-fw" style="color:var(--accent-yellow)"></i> Abrir <strong>NOVA conexão/sessão</strong> (Sessão 2).</li>
+    <li><i class="fas fa-search-minus fa-fw" style="color:var(--accent-yellow)"></i> Tentar <code>SELECT * FROM tmp_clientes_sp;</code> na Sessão 2 (deve dar erro - tabela não existe).</li>
+    <li><i class="fas fa-undo fa-fw" style="color:var(--accent-yellow)"></i> Voltar para Sessão 1. Desconectar/Fechar a sessão.</li>
+    <li><i class="fas fa-power-off fa-fw" style="color:var(--accent-yellow)"></i> Reconectar (nova Sessão 3). Tentar <code>SELECT * FROM tmp_clientes_sp;</code> (deve dar erro - tabela foi destruída).</li>
+</ol>
+<p style="margin-top:15px; font-weight:bold; color:var(--accent-yellow);">Foco: Mostrar o escopo da sessão e a destruição automática.</p>

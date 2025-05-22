@@ -1,0 +1,45 @@
+<h2><i class="fas fa-lightbulb" style="color: var(--accent-green);"></i> Quando e Por Que Utilizar? (Parte 2/2)</h2>
+<ul style="text-align: left;">
+    <li>
+        <i class="fas fa-project-diagram fa-fw" style="color: var(--accent-blue);"></i>
+        <strong>Simplificação de Consultas Complexas:</strong>
+        <p style="font-size: 0.9em; margin-left: 2.0em; color: var(--text-medium);">
+            <strong>Cenário:</strong> Relatórios que exigem junções de muitas tabelas, agregações e filtros complexos.<br>
+            <strong>Benefício:</strong> Isolar partes da lógica em tabelas temporárias pode simplificar a consulta principal, facilitar a depuração e a manutenção.
+        </p>
+        <div class="slide-svg-container" style="max-width: 80%; margin: 10px auto;">
+          <svg viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg">
+            <defs><marker id="arrow-b" markerWidth="7" markerHeight="5" refX="0" refY="2.5" orient="auto"><polygon points="0 0, 7 2.5, 0 5" fill="var(--accent-blue)"/></marker></defs>
+            <!-- Confuso -->
+            <rect x="10" y="10" width="40" height="20" rx="2" class="svg-bg-fill"/><text x="30" y="24" class="svg-text-medium" font-size="7">T1</text>
+            <rect x="60" y="25" width="40" height="20" rx="2" class="svg-bg-fill"/><text x="80" y="39" class="svg-text-medium" font-size="7">T2</text>
+            <rect x="10" y="60" width="40" height="20" rx="2" class="svg-bg-fill"/><text x="30" y="74" class="svg-text-medium" font-size="7">T3</text>
+            <rect x="60" y="75" width="40" height="20" rx="2" class="svg-bg-fill"/><text x="80" y="89" class="svg-text-medium" font-size="7">T4</text>
+            <path d="M45 15L65 30" class="svg-line-stroke" stroke-dasharray="2 2"/> <path d="M30 25L70 70" class="svg-line-stroke" stroke-dasharray="2 2"/>
+            <path d="M45 65L65 80" class="svg-line-stroke" stroke-dasharray="2 2"/> <path d="M80 40L30 65" class="svg-line-stroke" stroke-dasharray="2 2"/>
+            <text x="55" y="55" fill="var(--red-error)" font-size="10" font-weight="bold">Caos!</text>
+
+            <path d="M 130 50 L 170 50" class="svg-accent1-line" marker-end="url(#arrow-g)" stroke-width="2"/>
+            <text x="150" y="45" text-anchor="middle" class="svg-text-light-fill" font-size="7">Simplifica</text>
+
+            <!-- Organizado -->
+            <rect x="200" y="10" width="40" height="20" rx="2" class="svg-bg-fill"/><text x="220" y="24" class="svg-text-medium" font-size="7">T1</text>
+            <rect x="250" y="10" width="40" height="20" rx="2" class="svg-bg-fill"/><text x="270" y="24" class="svg-text-medium" font-size="7">T2</text>
+            <rect x="225" y="40" width="60" height="25" rx="3" style="fill:var(--accent-yellow); opacity:0.6;"/><text x="255" y="56" text-anchor="middle" class="svg-text-fill" font-size="7">Temp Dados</text>
+            <path d="M 220 30 L 240 40" class="svg-accent2-line" marker-end="url(#arrow-b)"/> <path d="M 270 30 L 255 40" class="svg-accent2-line" marker-end="url(#arrow-b)"/>
+            <rect x="320" y="25" width="40" height="20" rx="2" class="svg-bg-fill"/><text x="340" y="39" class="svg-text-medium" font-size="7">T3</text>
+            <path d="M 285 52 L 320 38" class="svg-accent2-line" marker-end="url(#arrow-b)"/>
+            <rect x="320" y="65" width="40" height="20" rx="2" class="svg-bg-fill"/><text x="340" y="79" class="svg-text-medium" font-size="7">T4</text>
+            <path d="M 285 52 L 320 72" class="svg-accent2-line" marker-end="url(#arrow-b)"/>
+            <text x="280" y="85" fill="var(--green-correct)" font-size="10" font-weight="bold">Ordem!</text>
+          </svg>
+        </div>
+    </li>
+    <li style="margin-top: 15px;">
+        <i class="fas fa-running fa-fw" style="color: var(--accent-blue);"></i>
+        <strong>Alternativa a Cursores (em alguns cenários):</strong>
+        <p style="font-size: 0.9em; margin-left: 2.0em; color: var(--text-medium);">
+            Para processamento linha a linha, pode ser mais eficiente popular uma tabela temporária e iterar sobre ela com queries mais simples do que usar cursores, especialmente para operações que não são facilmente expressas em SQL set-based.
+        </p>
+    </li>
+</ul>

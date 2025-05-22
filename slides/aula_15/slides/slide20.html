@@ -1,0 +1,29 @@
+<h2><i class="fas fa-cogs" style="color: var(--accent-blue);"></i> Utilização de Tabelas Temporárias</h2>
+<p>Uma vez criadas, as tabelas temporárias são manipuladas de forma muito similar às tabelas permanentes, <strong>dentro da sessão que as criou</strong>. Você pode usar os comandos DML (Data Manipulation Language) padrão:</p>
+
+<h3 style="color: var(--accent-green); margin-top: 15px;"><i class="fas fa-plus-circle fa-fw"></i> 1. Inserção de Dados (<code>INSERT</code>)</h3>
+<pre><code class="language-sql">-- Inserir valores diretamente
+INSERT INTO nome_tabela_temporaria (coluna1, coluna2)
+VALUES (valor1, valor2);
+
+-- Inserir dados de outra tabela
+INSERT INTO nome_tabela_temporaria (coluna1, coluna2)
+SELECT campo_origem1, campo_origem2
+FROM outra_tabela
+WHERE condicao;</code></pre>
+
+<h3 style="color: var(--accent-green); margin-top: 15px;"><i class="fas fa-search fa-fw"></i> 2. Consulta de Dados (<code>SELECT</code>)</h3>
+<pre><code class="language-sql">SELECT * FROM nome_tabela_temporaria WHERE condicao;</code></pre>
+
+<h3 style="color: var(--accent-green); margin-top: 15px;"><i class="fas fa-edit fa-fw"></i> 3. Atualização de Dados (<code>UPDATE</code>)</h3>
+<pre><code class="language-sql">UPDATE nome_tabela_temporaria
+SET coluna1 = novo_valor
+WHERE condicao;</code></pre>
+
+<h3 style="color: var(--accent-green); margin-top: 15px;"><i class="fas fa-minus-circle fa-fw"></i> 4. Exclusão de Dados (<code>DELETE</code>)</h3>
+<pre><code class="language-sql">DELETE FROM nome_tabela_temporaria WHERE condicao;</code></pre>
+
+<h3 style="color: var(--accent-green); margin-top: 15px;"><i class="fas fa-trash-alt fa-fw"></i> 5. Exclusão da Tabela (<code>DROP TABLE</code> - Opcional)</h3>
+<p style="font-size:0.9em; color: var(--text-medium)">Embora sejam destruídas automaticamente ao fim da sessão, você pode removê-las explicitamente para liberar recursos mais cedo, especialmente em scripts longos:</p>
+<pre><code class="language-sql">DROP TABLE nome_tabela_temporaria;
+-- No SQL Server: DROP TABLE #nome_tabela_temporaria;</code></pre>

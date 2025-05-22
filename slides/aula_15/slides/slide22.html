@@ -1,0 +1,39 @@
+<h2><i class="fas fa-thumbs-up" style="color: var(--accent-blue);"></i> Boas Práticas no Uso (Parte 1/2)</h2>
+<p>Para usar tabelas temporárias de forma eficaz e evitar problemas:</p>
+<ul style="text-align: left;">
+    <li>
+        <i class="fas fa-check-square fa-fw" style="color: var(--accent-green);"></i>
+        <strong>1. Use Apenas Quando Necessário:</strong>
+        <p style="font-size: 0.9em; margin-left: 2.0em; color: var(--text-medium);">
+            Não são uma solução universal. Para simplificar leituras sem a sobrecarga de I/O de uma tabela temporária física, <strong>CTEs (Common Table Expressions)</strong> podem ser mais adequadas.
+            Avalie se o benefício (clareza, performance em etapas, reuso na sessão) supera o custo (I/O no <code>tempdb</code>, consumo de recursos).
+        </p>
+    </li>
+    <li style="margin-top: 15px;">
+        <i class="fas fa-signature fa-fw" style="color: var(--accent-green);"></i>
+        <strong>2. Nomeie de Forma Clara:</strong>
+        <p style="font-size: 0.9em; margin-left: 2.0em; color: var(--text-medium);">
+            Use prefixos consistentes que identifiquem claramente a tabela como temporária: <code>tmp_</code>, <code>temp_</code>, ou o prefixo específico do SGBD (<code>#</code> no SQL Server).
+            Exemplo: <code>tmp_vendas_consolidadas_mes</code>.
+        </p>
+    </li>
+    <li style="margin-top: 15px;">
+        <i class="fas fa-ban fa-fw" style="color: var(--accent-green);"></i>
+        <strong>3. Evite Nomes Colidentes:</strong>
+        <p style="font-size: 0.9em; margin-left: 2.0em; color: var(--text-medium);">
+            <strong style="color: var(--red-error)"><i class="fas fa-exclamation-triangle"></i> NUNCA</strong> use nomes de tabelas permanentes existentes para suas tabelas temporárias, mesmo que o SGBD permita. Isso é uma receita para confusão e erros graves.
+        </p>
+    </li>
+    <li style="margin-top: 15px;">
+        <i class="fas fa-search-plus fa-fw" style="color: var(--accent-green);"></i>
+        <strong>4. Crie Índices (Se Necessário e Suportado):</strong>
+        <p style="font-size: 0.9em; margin-left: 2.0em; color: var(--text-medium);">
+            Se a tabela temporária for grande e consultada múltiplas vezes na mesma sessão com filtros (cláusulas <code>WHERE</code>, <code>JOINs</code>), criar um índice nela pode melhorar significativamente o desempenho dessas consultas.
+            <pre style="font-size:0.8em; margin-top:5px;"><code class="language-sql">CREATE TEMPORARY TABLE tmp_dados (...);
+-- Popular a tabela...
+INSERT INTO tmp_dados SELECT ...;
+-- Criar índice após popular
+CREATE INDEX idx_tmp_dados_chave ON tmp_dados (coluna_chave);</code></pre>
+        </p>
+    </li>
+</ul>

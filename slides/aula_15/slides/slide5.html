@@ -1,0 +1,35 @@
+<h2><i class="fas fa-table" style="color: var(--accent-blue);"></i> O Que São Tabelas Temporárias?</h2>
+<p><strong>Tabelas Temporárias</strong> são, essencialmente, tabelas "rascunho" que existem apenas durante uma <strong>sessão de usuário</strong> ou, em alguns casos, uma <strong>transação específica</strong>.</p>
+<p>Elas são armazenadas em uma área temporária do banco de dados (como o <code>tempdb</code> no SQL Server ou um tablespace temporário no Oracle/PostgreSQL) e são invisíveis para outras sessões.</p>
+
+<div class="slide-svg-container" style="max-width: 90%; margin: 25px auto;">
+  <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrowhead-svg-blue-s6" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="var(--accent-blue)"/>
+      </marker>
+    </defs>
+    <!-- Banco Principal -->
+    <rect x="150" y="10" width="100" height="40" rx="5" class="svg-bg-fill"/>
+    <text x="200" y="35" text-anchor="middle" class="svg-text-light-fill" font-size="10">BD Principal</text>
+    <text x="200" y="22" text-anchor="middle" class="svg-text-light-fill" font-size="8">(Tabelas Permanentes)</text>
+
+    <!-- Sessão A -->
+    <rect x="10" y="80" width="120" height="60" rx="5" style="fill: var(--bg-light); stroke: var(--accent-green); stroke-width: 1px;"/>
+    <text x="70" y="95" text-anchor="middle" class="svg-text-light-fill" font-size="10">Sessão Usuário A</text>
+    <rect x="25" y="105" width="90" height="25" rx="3" style="fill: var(--accent-green); opacity:0.4;"/>
+    <text x="70" y="120" text-anchor="middle" class="svg-text-fill" font-size="9">#MinhaTempA</text>
+    <path d="M 180 50 Q 150 65, 100 75" stroke="var(--accent-blue)" fill="none" stroke-width="1.5" marker-end="url(#arrowhead-svg-blue-s6)" stroke-dasharray="4 2"/>
+
+    <!-- Sessão B -->
+    <rect x="270" y="80" width="120" height="60" rx="5" style="fill: var(--bg-light); stroke: var(--accent-yellow); stroke-width: 1px;"/>
+    <text x="330" y="95" text-anchor="middle" class="svg-text-light-fill" font-size="10">Sessão Usuário B</text>
+    <rect x="285" y="105" width="90" height="25" rx="3" style="fill: var(--accent-yellow); opacity:0.4;"/>
+    <text x="330" y="120" text-anchor="middle" class="svg-text-fill" font-size="9">#MinhaTempB</text>
+    <path d="M 220 50 Q 250 65, 300 75" stroke="var(--accent-blue)" fill="none" stroke-width="1.5" marker-end="url(#arrowhead-svg-blue-s6)" stroke-dasharray="4 2"/>
+
+    <text x="70" y="142" text-anchor="middle" class="svg-text-medium" font-size="8">Dados isolados!</text>
+    <text x="330" y="142" text-anchor="middle" class="svg-text-medium" font-size="8">Dados isolados!</text>
+  </svg>
+</div>
+<p>Isso significa que, se dois usuários criarem uma tabela temporária com o mesmo nome, cada um terá sua própria instância isolada, sem interferir no outro.</p>

@@ -1,0 +1,38 @@
+<h2><i class="fas fa-check-double" style="color: var(--accent-blue);"></i> Solução Comentada: Exercício 2</h2>
+<p><strong>Objetivo:</strong> Top 5 produtos mais vendidos em quantidade.</p>
+<pre><code class="language-sql">-- Passo 1: Criar a tabela temporária
+CREATE TEMPORARY TABLE tmp_vendas_produto_qtd (
+    id_produto INT,
+    nome_produto VARCHAR(255),
+    quantidade_total_vendida INT
+);
+
+-- Passo 2: Popular a tabela com a quantidade total vendida por produto
+INSERT INTO tmp_vendas_produto_qtd (id_produto, nome_produto, quantidade_total_vendida)
+SELECT
+    P.ID_Produto,
+    P.NomeProduto,
+    SUM(IP.Quantidade) AS total_qtd -- Agrega a quantidade da tabela ITENS_PEDIDO
+FROM PRODUTOS P
+JOIN ITENS_PEDIDO IP ON P.ID_Produto = IP.ID_Produto -- Junta PRODUTOS com ITENS_PEDIDO
+GROUP BY P.ID_Produto, P.NomeProduto; -- Agrupa para calcular a soma por produto
+
+-- Passo 3: Consultar os top 5 produtos mais vendidos
+SELECT
+    id_produto,
+    nome_produto,
+    quantidade_total_vendida
+FROM tmp_vendas_produto_qtd
+ORDER BY quantidade_total_vendida DESC -- Ordena pela maior quantidade
+LIMIT 5; -- Pega apenas os 5 primeiros (Sintaxe pode ser TOP 5 no SQL Server)
+
+-- Passo 4: (Opcional) Dropar a tabela
+-- DROP TABLE tmp_vendas_produto_qtd;
+</code></pre>
+<h4 style="color: var(--accent-green); margin-top:15px;">Comentários:</h4>
+<ul>
+    <li><i class="fas fa-info-circle fa-fw"></i>A tabela temporária armazena o resultado agregado (soma das quantidades por produto).</li>
+    <li><i class="fas fa-info-circle fa-fw"></i>O <code>JOIN</code> entre <code>PRODUTOS</code> e <code>ITENS_PEDIDO</code> é necessário para buscar o nome do produto e as quantidades vendidas.</li>
+    <li><i class="fas fa-info-circle fa-fw"></i><code>GROUP BY</code> é essencial para que <code>SUM()</code> funcione corretamente por produto.</li>
+    <li><i class="fas fa-info-circle fa-fw"></i>A consulta final na tabela temporária é simples, apenas ordenando e limitando os resultados.</li>
+</ul>

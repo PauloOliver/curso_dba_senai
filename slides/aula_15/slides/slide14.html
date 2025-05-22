@@ -1,0 +1,63 @@
+<h2><i class="fas fa-users-cog" style="color: var(--accent-green);"></i> Comparativo Visual: Tipos de Tabelas Temporárias</h2>
+<p>Foco na diferença entre tabelas temporárias locais e globais (GTTs):</p>
+<div class="slide-svg-container" style="max-width: 100%; margin: 20px auto;">
+  <svg viewBox="0 0 450 220" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrow-diag-s15" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+        <path d="M0,0 L8,3 L0,6 Z" fill="var(--accent-blue)"/>
+      </marker>
+      <style>
+        .session-box { fill: var(--bg-light); stroke: var(--accent-green); stroke-width:1; rx:5; }
+        .gtt-box { fill: var(--bg-light); stroke: var(--accent-yellow); stroke-width:1; rx:5; }
+        .temp-table-local { fill: rgba(0, 230, 118, 0.2); stroke: var(--accent-green); stroke-width:0.5; rx:3; }
+        .gtt-data-session { fill: rgba(255, 204, 0, 0.2); stroke: var(--accent-yellow); stroke-width:0.5; rx:3; }
+        .text-label { font-size: 10px; fill: var(--text-light); text-anchor: middle; }
+        .text-data { font-size: 9px; fill: var(--text-medium); text-anchor: middle; }
+        .text-title { font-size: 11px; fill: var(--accent-green); text-anchor: middle; font-weight: bold;}
+        .text-gtt-title { font-size: 11px; fill: var(--accent-yellow); text-anchor: middle; font-weight: bold;}
+      </style>
+    </defs>
+
+    <!-- Local Temporary Tables -->
+    <text x="100" y="15" class="text-title">Tabelas Temporárias Locais</text>
+    <!-- Sessão A -->
+    <rect x="10" y="30" width="180" height="70" class="session-box"/>
+    <text x="100" y="45" class="text-label">Sessão A</text>
+    <rect x="30" y="55" width="140" height="30" class="temp-table-local"/>
+    <text x="100" y="70" class="text-data">CREATE TEMP TABLE temp_X (dados_A)</text>
+    <text x="100" y="90" class="text-data">(Só Sessão A vê dados_A)</text>
+
+    <!-- Sessão B -->
+    <rect x="10" y="110" width="180" height="70" class="session-box"/>
+    <text x="100" y="125" class="text-label">Sessão B</text>
+    <rect x="30" y="135" width="140" height="30" class="temp-table-local"/>
+    <text x="100" y="150" class="text-data">CREATE TEMP TABLE temp_X (dados_B)</text>
+    <text x="100" y="170" class="text-data">(Só Sessão B vê dados_B)</text>
+    <text x="100" y="195" class="text-label" style="font-style:italic; fill:var(--accent-green)">Instâncias completamente separadas!</text>
+
+    <!-- Global Temporary Tables (GTT) -->
+    <text x="340" y="15" class="text-gtt-title">Global Temporary Tables (GTT)</text>
+    <rect x="250" y="30" width="180" height="40" class="gtt-box"/>
+    <text x="340" y="45" class="text-label">Definição Global: GTT_Y</text>
+    <text x="340" y="60" class="text-data">(Estrutura visível a todos)</text>
+
+    <!-- Sessão A com GTT -->
+    <rect x="220" y="80" width="100" height="60" class="session-box" style="stroke: var(--accent-blue)"/>
+    <text x="270" y="95" class="text-label">Sessão A</text>
+    <rect x="230" y="105" width="80" height="25" class="gtt-data-session"/>
+    <text x="270" y="120" class="text-data">Usa GTT_Y</text>
+    <text x="270" y="132" class="text-data">(Insere dados_SessA)</text>
+    <path d="M300 70 L270 85" stroke="var(--accent-blue)" stroke-width="1" marker-end="url(#arrow-diag-s15)"/>
+
+    <!-- Sessão B com GTT -->
+    <rect x="330" y="80" width="100" height="60" class="session-box" style="stroke: var(--accent-blue)"/>
+    <text x="380" y="95" class="text-label">Sessão B</text>
+    <rect x="340" y="105" width="80" height="25" class="gtt-data-session"/>
+    <text x="380" y="120" class="text-data">Usa GTT_Y</text>
+    <text x="380" y="132" class="text-data">(Insere dados_SessB)</text>
+    <path d="M320 70 L360 85" stroke="var(--accent-blue)" stroke-width="1" marker-end="url(#arrow-diag-s15)"/>
+
+    <text x="325" y="155" class="text-label" style="font-style:italic; fill:var(--accent-yellow)">Dados em GTT_Y são isolados por sessão!</text>
+    <text x="325" y="165" class="text-label" style="font-style:italic; fill:var(--accent-yellow)">Sessão A não vê dados_SessB e vice-versa.</text>
+  </svg>
+</div>

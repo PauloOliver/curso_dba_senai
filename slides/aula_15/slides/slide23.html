@@ -1,0 +1,24 @@
+<h2><i class="fas fa-thumbs-up" style="color: var(--accent-green);"></i> Boas Práticas no Uso (Parte 2/2)</h2>
+<ul style="text-align: left;">
+    <li>
+        <i class="fas fa-broom fa-fw" style="color: var(--accent-blue);"></i>
+        <strong>5. Limpe Explicitamente (<code>DROP TABLE</code>) em Scripts Longos:</strong>
+        <p style="font-size: 0.9em; margin-left: 2.0em; color: var(--text-medium);">
+            Embora sejam limpas automaticamente ao final da sessão, se um script/procedure cria muitas tabelas temporárias ou elas são muito grandes e não são mais necessárias em etapas posteriores do script, um <code>DROP TABLE nome_temp_table;</code> explícito libera recursos do <code>tempdb</code> mais cedo.
+        </p>
+    </li>
+    <li style="margin-top: 15px;">
+        <i class="fas fa-infinity fa-fw" style="color: var(--accent-blue);"></i>
+        <strong>6. Cuidado com Sessões Persistentes (Pooling de Conexões):</strong>
+        <p style="font-size: 0.9em; margin-left: 2.0em; color: var(--text-medium);">
+            Em aplicações que utilizam pooling de conexões e mantêm sessões de banco de dados abertas por muito tempo (reutilizando-as), as tabelas temporárias podem não ser limpas tão rapidamente quanto esperado se não forem explicitamente descartadas (<code>DROP</code>) ao final de cada "uso" da conexão. Isso pode levar ao acúmulo de tabelas temporárias "órfãs" ou consumo excessivo do <code>tempdb</code>.
+        </p>
+    </li>
+    <li style="margin-top: 15px;">
+        <i class="fas fa-hdd fa-fw" style="color: var(--accent-blue);"></i>
+        <strong>7. Atenção ao <code>tempdb</code> / Tablespace Temporário:</strong>
+        <p style="font-size: 0.9em; margin-left: 2.0em; color: var(--text-medium);">
+            O uso excessivo de tabelas temporárias, ou tabelas temporárias muito grandes, podem sobrecarregar e lotar o <code>tempdb</code> (SQL Server) ou o tablespace temporário (Oracle/PostgreSQL). Isso pode impactar a performance de todo o servidor, não apenas da sua sessão. Monitore o uso desses recursos.
+        </p>
+    </li>
+</ul>

@@ -1,0 +1,45 @@
+<h2><i class="fas fa-exchange-alt" style="color: var(--accent-green);"></i> Diferenças: Tabelas Permanentes vs. Temporárias</h2>
+<p>É crucial entender as distinções fundamentais entre tabelas permanentes e temporárias:</p>
+<div style="overflow-x: auto; margin-top: 20px; background-color: var(--bg-light); padding:15px; border-radius: 5px;">
+  <table style="width: 100%; border-collapse: collapse; color: var(--text-light);">
+    <thead>
+      <tr style="background-color: var(--accent-blue);">
+        <th style="padding: 10px; border: 1px solid var(--bg-dark); text-align: left;">Característica</th>
+        <th style="padding: 10px; border: 1px solid var(--bg-dark); text-align: left;">Tabelas Permanentes</th>
+        <th style="padding: 10px; border: 1px solid var(--bg-dark); text-align: left;">Tabelas Temporárias</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);"><strong>Persistência</strong></td>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);">Persistem após a sessão/desligamento</td>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);">Destruídas ao final da sessão/transação</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);"><strong>Visibilidade</strong></td>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);">Visíveis para todas as sessões</td>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);">Geralmente visíveis apenas para a sessão criadora</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);"><strong>Armazenamento</strong></td>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);">Tablespace de dados padrão</td>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);">Tablespace/área temporária (ex: tempdb)</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);"><strong>Metadados</strong></td>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);">Registradas no catálogo permanentemente</td>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);">Registradas temporariamente</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);"><strong>Backup/Restore</strong></td>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);">Incluídas</td>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);">Geralmente não incluídas</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);"><strong>Índices/Restrições</strong></td>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);">Comuns e encorajadas</td>
+        <td style="padding: 8px; border: 1px solid var(--bg-medium);">Possíveis, mas menos comuns/limitadas</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

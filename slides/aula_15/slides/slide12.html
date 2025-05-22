@@ -1,0 +1,17 @@
+
+  <h2><i class="fas fa-check-double" style="color: var(--accent-blue);"></i> Boas Práticas ao Escrever SPs</h2>
+  <ul style="text-align: left; max-width: 800px; margin: 0 auto;">
+    <li><i class="fas fa-signature fa-fw" style="color: var(--accent-green);"></i> <strong>Nomeação Clara e Consistente:</strong> Use prefixos (ex: <code>sp_ObterCliente</code>) e seja descritivo.</li>
+    <li><i class="fas fa-comments fa-fw" style="color: var(--accent-green);"></i> <strong>Comentários e Documentação:</strong> Explique a lógica, parâmetros, e o que a SP faz.
+        <pre><code class="language-sql" style="font-size:0.8em;">
+-- Autor: Erick Porto
+-- Data: DD/MM/YYYY
+-- Descrição: Esta procedure busca detalhes de um pedido.
+CREATE PROCEDURE sp_DetalhesPedido(...)
+        </code></pre>
+    </li>
+    <li><i class="fas fa-tasks fa-fw" style="color: var(--accent-green);"></i> <strong>Mantenha-as Coesas (Single Responsibility):</strong> Uma SP, uma tarefa principal.</li>
+    <li><i class="fas fa-exclamation-triangle fa-fw" style="color: var(--accent-green);"></i> <strong>Tratamento de Erros:</strong> Use <code>DECLARE HANDLER</code> (MySQL) ou <code>TRY...CATCH</code> (SQL Server).</li>
+    <li><i class="fas fa-bolt fa-fw" style="color: var(--accent-green);"></i> <strong>Performance:</strong> Evite cursores se possível; indexe colunas usadas em <code>WHERE</code>/<code>JOIN</code>.</li>
+    <li><i class="fas fa-users-cog fa-fw" style="color: var(--accent-green);"></i> <strong>Segurança:</strong> Use <code>DEFINER</code> e <code>SQL SECURITY</code> (MySQL) ou <code>EXECUTE AS</code> (SQL Server) com cautela.</li>
+  </ul>

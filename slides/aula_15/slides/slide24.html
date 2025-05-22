@@ -1,0 +1,15 @@
+<h2><i class="fas fa-exclamation-circle" style="color: var(--accent-yellow);"></i> Limitações e Cuidados Importantes</h2>
+<p>Apesar de úteis, as tabelas temporárias vêm com algumas limitações e pontos de atenção:</p>
+<ul>
+    <li><i class="fas fa-search-minus fa-fw" style="color: var(--accent-yellow);"></i><strong>Índices:</strong> Não possuem índices por padrão. Se necessários para performance, precisam ser criados explicitamente após a criação da tabela (e se o SGBD permitir em tabelas temporárias).</li>
+    <li><i class="fas fa-unlink fa-fw" style="color: var(--accent-yellow);"></i><strong>Restrições de Chave Estrangeira (FKs):</strong> Geralmente não suportam ou não é recomendado criar chaves estrangeiras que referenciem tabelas permanentes ou outras tabelas temporárias. O ciclo de vida e o escopo tornam isso problemático.</li>
+    <li><i class="fas fa-chart-bar fa-fw" style="color: var(--accent-yellow);"></i><strong>Estatísticas:</strong> O otimizador de consultas do SGBD pode não ter estatísticas atualizadas ou precisas para tabelas temporárias (especialmente se pequenas ou criadas e usadas rapidamente). Isso pode levar a planos de execução subótimos. Alguns SGBDs permitem coletar estatísticas manualmente.</li>
+    <li><i class="fas fa-network-wired fa-fw" style="color: var(--accent-yellow);"></i><strong>Replicação/Clusters:</strong> Tabelas temporárias locais (<code>#tabela</code>, <code>CREATE TEMPORARY TABLE</code>) <strong>não são replicadas</strong> em ambientes de replicação ou cluster. Elas existem apenas na instância/nó onde foram criadas.</li>
+    <li><i class="fas fa-database fa-fw" style="color: var(--accent-yellow);"></i><strong>Transações e Logging:</strong>
+        <ul style="margin-left:20px; font-size:0.9em; color: var(--text-medium)">
+            <li>A forma como são logadas varia entre SGBDs. Algumas operações podem ser menos logadas que em tabelas permanentes (para performance), outras podem gerar log significativo no <code>tempdb</code>.</li>
+            <li>São afetadas por <code>ROLLBACK</code> de transações (os dados inseridos/modificados dentro da transação que sofreu rollback serão desfeitos).</li>
+        </ul>
+    </li>
+    <li><i class="fas fa-user-shield fa-fw" style="color: var(--accent-yellow);"></i><strong>Permissões:</strong> Usuários precisam de privilégios específicos para criar tabelas temporárias (ex: <code>CREATE TEMPORARY TABLES</code> no banco de dados ou permissão no <code>tempdb</code>).</li>
+</ul>

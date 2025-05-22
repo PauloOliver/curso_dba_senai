@@ -1,0 +1,31 @@
+<h2><i class="fas fa-star" style="color: var(--accent-green);"></i> Exemplo Prático: <code>CREATE ... AS SELECT</code> (CTAS)</h2>
+<p>Muitos SGBDs suportam uma forma concisa e eficiente de criar e popular uma tabela temporária em um único comando: o <strong>CTAS (Create Table As Select)</strong>. A estrutura da tabela é inferida a partir do resultado do <code>SELECT</code>.</p>
+
+<h3 style="color: var(--accent-blue); margin-top: 15px;">Sintaxe Genérica (pode variar ligeiramente):</h3>
+<pre><code class="language-sql">CREATE TEMPORARY TABLE TempClientesAtivos AS
+SELECT
+    c.id_cliente,
+    c.nome,
+    c.email,
+    MAX(p.DataPedido) AS data_ultimo_pedido -- Exemplo de agregação
+FROM Clientes c
+JOIN Pedidos p ON c.id_cliente = p.id_cliente
+WHERE c.status = 'Ativo'
+GROUP BY c.id_cliente, c.nome, c.email
+HAVING MAX(p.DataPedido) > '2023-01-01';</code></pre>
+
+<h3 style="color: var(--accent-blue); margin-top: 15px;">Vantagens do CTAS:</h3>
+<ul>
+    <li><i class="fas fa-file-alt fa-fw"></i><strong>Concisão:</strong> Menos código para escrever.</li>
+    <li><i class="fas fa-rocket fa-fw"></i><strong>Eficiência:</strong> Muitas vezes, o SGBD otimiza essa operação de forma mais eficaz do que um <code>CREATE TABLE</code> seguido por um <code>INSERT INTO ... SELECT</code>.</li>
+</ul>
+
+<h3 style="color: var(--accent-blue); margin-top: 15px;">Exemplo do Requisito:</h3>
+<pre><code class="language-sql">-- Criar e popular TempClientes com clientes ativos
+CREATE TEMPORARY TABLE TempClientes AS
+SELECT id, nome
+FROM Clientes
+WHERE status = 'Ativo';
+
+-- Consultar a tabela temporária criada
+SELECT * FROM TempClientes;</code></pre>

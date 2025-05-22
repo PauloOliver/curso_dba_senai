@@ -1,0 +1,121 @@
+<h2><i class="fas fa-cogs"></i> Feitiços em Ação: Gatilhos Práticos e Advertências</h2>
+<p>Agora que conhecemos a teoria, vamos colocar nossos gatilhos à prova em <strong>RPG_Mundo</strong> e também discutir algumas advertências importantes sobre o uso desses poderosos encantamentos automáticos.</p>
+
+<div class="slide-svg-container" style="max-width: 180px; margin-bottom:15px;">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Cogwheel 1 (Background) -->
+        <path class="svg-bg-fill" fill="var(--rpg-stone-medium)" d="M50,20 L55,22 L58,28 L55,34 L50,36 L45,34 L42,28 L45,22 Z M50,80 L55,78 L58,72 L55,66 L50,64 L45,66 L42,72 L45,78 Z M20,50 L22,45 L28,42 L34,45 L36,50 L34,55 L28,58 L22,55 Z M80,50 L78,45 L72,42 L66,45 L64,50 L66,55 L72,58 L78,55 Z" />
+        <!-- Cogwheel 2 (Foreground, smaller, different color) -->
+        <path class="svg-accent1-fill" fill="var(--rpg-gold-accent)" d="M50,35 L53,37 L55,42 L53,47 L50,49 L47,47 L45,42 L47,37 Z M50,65 L53,63 L55,58 L53,53 L50,51 L47,53 L45,58 L47,63 Z" transform="rotate(22.5 50 50)"/>
+        <circle class="svg-accent2-fill" fill="var(--rpg-wood-dark)" cx="50" cy="50" r="10"/>
+        <text class="svg-text-fill" fill="var(--rpg-gold-highlight)" x="50" y="90" text-anchor="middle" font-size="9px" font-family="Cinzel, serif">Automação Arcana</text>
+    </svg>
+</div>
+
+<h3><i class="fas fa-flask"></i> Exercício Prático: O Ceifador de Monstros Automático</h3>
+<p>Vamos criar um gatilho que automaticamente atualiza o status de um monstro para 'Derrotado' quando seus Pontos de Vida Atuais chegam a 0 ou menos. Suponha que a tabela <code>Monstros</code> possui uma coluna <code>StatusMonstro VARCHAR(50)</code> que pode armazenar valores como 'Ativo', 'Derrotado', 'Em Fuga', etc.</p>
+
+<p>Primeiro, se sua tabela <code>Monstros</code> não tiver a coluna <code>StatusMonstro</code>, adicione-a:</p>
+<pre><code class="language-sql">
+-- Se necessário:
+-- ALTER TABLE Monstros ADD COLUMN StatusMonstro VARCHAR(50) DEFAULT 'Ativo';
+</code></pre>
+
+<p>Agora, o gatilho:</p>
+<pre><code class="language-sql">
+DELIMITER $$
+CREATE TRIGGER trg_AtualizarStatusMonstroDerrotado
+AFTER UPDATE ON Monstros
+FOR EACH ROW
+BEGIN
+    -- Verifica se os PV Atuais foram atualizados para 0 ou menos
+    -- E se o status anterior não era já 'Derrotado' (para evitar loops ou redundância)
+    IF NEW.PontosVidaAtuais <= 0 AND OLD.StatusMonstro != 'Derrotado' THEN
+        -- Precisamos de um UPDATE aqui, mas triggers não podem modificar
+        -- a tabela que os disparou diretamente em um AFTER UPDATE (em alguns SGBDs como MySQL).
+        -- Uma solução comum é usar um BEFORE UPDATE para modificar NEW,
+        -- ou ter uma procedure que é chamada, ou agendar uma tarefa.
+
+        -- Para este exemplo, vamos simplificar para um BEFORE UPDATE:
+        -- (Remova o trigger AFTER se criou, e crie este BEFORE)
+        -- DROP TRIGGER IF EXISTS trg_AtualizarStatusMonstroDerrotado;
+        -- DELIMITER $$
+        -- CREATE TRIGGER trg_MonstroDerrotado_BeforeUpdate
+        -- BEFORE UPDATE ON Monstros
+        -- FOR EACH ROW
+        -- BEGIN
+        --     IF NEW.PontosVidaAtuais <= 0 THEN
+        --         SET NEW.StatusMonstro = 'Derrotado';
+        --     END IF;
+        -- END$$
+        -- DELIMITER ;
+        
+        -- ***NOTA IMPORTANTE PARA MySQL:***
+        -- Um trigger AFTER UPDATE não pode executar um UPDATE na mesma tabela que o disparou.
+        -- Isso causaria recursão infinita.
+        -- A melhor abordagem para este caso específico é usar um trigger BEFORE UPDATE:
+
+        -- Vamos recriar o trigger como BEFORE UPDATE:
+        -- (Se você executou o AFTER, drope-o primeiro: DROP TRIGGER trg_AtualizarStatusMonstroDerrotado;)
+        -- (Este é o trigger correto para o exercício)
+        -- DELIMITER $$
+        -- CREATE TRIGGER trg_MonstroStatus_BeforeUpdate
+        -- BEFORE UPDATE ON Monstros
+        -- FOR EACH ROW
+        -- BEGIN
+        --    IF NEW.PontosVidaAtuais <= 0 AND NEW.StatusMonstro != 'Derrotado' THEN
+        --        SET NEW.StatusMonstro = 'Derrotado';
+        --        -- Poderia também zerar XP concedida aqui se já foi derrotado uma vez, etc.
+        --    END IF;
+        -- END$$
+        -- DELIMITER ;
+        
+        -- **CORREÇÃO PARA O EXERCÍCIO DIDÁTICO COM AFTER (usando uma tabela de log como alternativa):**
+        -- Se o objetivo é registrar que foi derrotado num log após o UPDATE que zerou os PV:
+        INSERT INTO LogEventosReino (TipoEvento, Descricao)
+        VALUES ('MONSTRO_DERROTADO_PV_ZERO', 
+                CONCAT('Monstro ID: ', NEW.MonstroID, ' (', NEW.NomeMonstro, ') teve PV zerado. Status atual: ', NEW.StatusMonstro));
+        
+        -- Para efetivamente mudar o StatusMonstro, o UPDATE que zerou os PV deveria também setar o Status.
+        -- Ou usar um evento agendado para "limpar" monstros com PV <= 0.
+        -- Gatilhos AFTER são mais para reações em *outras* tabelas ou logging.
+    END IF;
+END$$
+DELIMITER ;
+
+-- Para testar (assumindo que o UPDATE que zera os PV também atualiza o Status, ou usando o BEFORE trigger):
+-- Suponha MonstroID = 1 ('Goblin Comum') tem PV > 0 e StatusMonstro = 'Ativo'
+-- 1. Ver antes: SELECT MonstroID, NomeMonstro, PontosVidaAtuais, StatusMonstro FROM Monstros WHERE MonstroID = 1;
+-- 2. Atualizar PV para 0 (e StatusMonstro para 'Derrotado' se não usar o BEFORE trigger):
+--    UPDATE Monstros SET PontosVidaAtuais = 0, StatusMonstro = 'Derrotado' WHERE MonstroID = 1;
+--    (Se usando o BEFORE trigger, apenas: UPDATE Monstros SET PontosVidaAtuais = 0 WHERE MonstroID = 1;)
+-- 3. Ver depois: SELECT MonstroID, NomeMonstro, PontosVidaAtuais, StatusMonstro FROM Monstros WHERE MonstroID = 1;
+-- 4. Verificar o log: SELECT * FROM LogEventosReino WHERE TipoEvento = 'MONSTRO_DERROTADO_PV_ZERO' ORDER BY TimestampEvento DESC LIMIT 1;
+</code></pre>
+<p class="note" style="background-color: var(--rpg-parchment-medium); border-left: 3px solid var(--rpg-red-error); padding: 10px; color: var(--rpg-text-dark);">
+    <strong>Nota Importante sobre o Exercício Acima:</strong> No MySQL, um trigger <code>AFTER UPDATE</code> não pode executar um <code>UPDATE</code> na mesma tabela que o disparou, pois isso levaria a uma recursão. A maneira correta de modificar a própria linha que está sendo atualizada é com um trigger <code>BEFORE UPDATE</code>, alterando os valores de <code>NEW.coluna</code>.
+    <br>Para o exercício proposto (atualizar <code>StatusMonstro</code> quando <code>PontosVidaAtuais</code> <= 0), um trigger <strong><code>BEFORE UPDATE</code></strong> seria o mais apropriado:
+    <pre><code class="language-sql" style="font-size:0.85em;">DELIMITER $$
+CREATE TRIGGER trg_MonstroStatus_BeforeUpdate
+BEFORE UPDATE ON Monstros
+FOR EACH ROW
+BEGIN
+   IF NEW.PontosVidaAtuais <= 0 AND NEW.StatusMonstro != 'Derrotado' THEN
+       SET NEW.StatusMonstro = 'Derrotado';
+       -- Opcional: SET NEW.ExperienciaConcedida = 0; se já foi derrotado.
+   END IF;
+END$$
+DELIMITER ;</code></pre>
+    O exemplo <code>AFTER UPDATE</code> acima foi adaptado para registrar um log, que é um uso comum para gatilhos <code>AFTER</code>.
+</p>
+
+
+<h3><i class="fas fa-exclamation-triangle" style="color:var(--rpg-red-error)"></i> Advertências dos Antigos (Cuidado com Gatilhos):</h3>
+<ul>
+  <li><i class="fas fa-fw fa-tachometer-alt"></i> <strong>Impacto no Desempenho:</strong> Gatilhos executam para cada linha afetada. Lógica complexa dentro de um gatilho pode tornar suas operações DML lentas, especialmente em grandes volumes de dados.</li>
+  <li><i class="fas fa-fw fa-bug"></i> <strong>Complexidade de Depuração:</strong> Ações automáticas podem ser difíceis de rastrear e depurar. Se algo inesperado acontece, um gatilho pode ser o culpado oculto.</li>
+  <li><i class="fas fa-fw fa-infinity"></i> <strong>Gatilhos em Cascata (Recursão):</strong> Um gatilho pode causar uma ação que dispara outro gatilho, que por sua vez dispara outro... Cuidado com loops infinitos! Alguns SGBDs têm limites de recursão.</li>
+  <li><i class="fas fa-fw fa-layer-group"></i> <strong>Ordem de Execução:</strong> Se você tiver múltiplos gatilhos para o mesmo evento na mesma tabela (ex: dois <code>AFTER INSERT ON Personagens</code>), a ordem em que eles disparam pode não ser garantida ou pode depender de configurações específicas do SGBD (no MySQL, é pela ordem de criação, mas pode ser especificado com <code>FOLLOWS</code> ou <code>PRECEDES</code> a partir de certas versões).</li>
+  <li><i class="fas fa-fw fa-lock"></i> <strong>Manutenção:</strong> Gatilhos adicionam uma camada "escondida" de lógica. Ao alterar a estrutura da tabela ou a lógica da aplicação, lembre-se de verificar e atualizar os gatilhos relevantes.</li>
+</ul>
+<p>Os gatilhos são ferramentas poderosas, como artefatos mágicos de grande poder. Use-os com sabedoria, planejamento e testes exaustivos para garantir que eles sirvam ao seu reino, em vez de amaldiçoá-lo!</p>

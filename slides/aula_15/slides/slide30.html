@@ -1,0 +1,29 @@
+<h2><i class="fas fa-trophy" style="color: var(--accent-green);"></i> Exercício 3: Análise de Clientes VIP (Avançado)</h2>
+<div style="text-align: left; max-width: 750px; margin: 15px auto; padding: 15px; background-color: var(--bg-light); border-radius: 5px;">
+    <p><i class="fas fa-bullseye fa-fw" style="color: var(--accent-blue);"></i><strong>Objetivo:</strong> Identificar clientes "VIP" (que gastaram mais de R$1000 no total) e armazenar seus dados e gasto total em uma tabela temporária. Em seguida, usar essa tabela para listar os pedidos desses clientes VIPs.</p>
+    <h4 style="color: var(--accent-yellow); margin-top: 15px;">Passos:</h4>
+    <ol style="list-style-type: decimal; margin-left: 20px;">
+        <li>Crie uma tabela temporária chamada <code>tmp_clientes_vip</code> com as colunas:
+            <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9em; color: var(--text-medium);">
+                <li><code>id_cliente</code> (INT)</li>
+                <li><code>nome_cliente</code> (VARCHAR)</li>
+                <li><code>gasto_total_cliente</code> (DECIMAL)</li>
+            </ul>
+        </li>
+        <li>Popule a tabela <code>tmp_clientes_vip</code>. Para cada cliente:
+            <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9em; color: var(--text-medium);">
+                <li>Calcule o gasto total somando (<code>Quantidade * PrecoVendaUnidade</code>) de todos os seus itens na tabela <code>ITENS_PEDIDO</code>.
+                <li>Inclua na <code>tmp_clientes_vip</code> apenas os clientes cujo gasto total seja <strong>superior a R$1000,00</strong>.
+            </ul>
+        </li>
+        <li>Consulte a tabela <code>tmp_clientes_vip</code> para verificar os clientes VIPs identificados e seus gastos.</li>
+        <li>Agora, utilizando a tabela <code>tmp_clientes_vip</code>, faça uma consulta que liste:
+            <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9em; color: var(--text-medium);">
+                <li><code>ID_Pedido</code> e <code>DataPedido</code> da tabela <code>PEDIDOS</code>.</li>
+                <li>Apenas para os pedidos que pertencem aos clientes listados em <code>tmp_clientes_vip</code>.</li>
+            </ul>
+        </li>
+        <li>(Opcional) Execute o comando <code>DROP</code> para a tabela temporária.</li>
+    </ol>
+</div>
+<p style="margin-top: 20px;">Desafio de múltiplas etapas! <i class="fas fa-medal"></i></p>

@@ -1,0 +1,29 @@
+<h2><i class="fas fa-exclamation-triangle" style="color: var(--accent-green);"></i> Criação: Regras Importantes e Ciclo de Vida</h2>
+<p>Ao criar e usar tabelas temporárias, lembre-se destas regras cruciais:</p>
+<ul>
+    <li>
+        <i class="fas fa-user-lock fa-fw" style="color: var(--accent-blue);"></i>
+        <strong>Escopo da Sessão:</strong>
+        <p style="font-size: 0.9em; margin-left: 2.0em; color: var(--text-medium);">
+            Tabelas temporárias locais são criadas e acessíveis <strong>apenas</strong> dentro da sessão atual que as criou. Outras sessões não podem vê-las.
+            <br>(<em>Exceção: Global Temporary Tables têm sua definição global, mas os dados ainda são isolados por sessão.</em>)
+        </p>
+    </li>
+    <li style="margin-top: 15px;">
+        <i class="fas fa-trash-alt fa-fw" style="color: var(--accent-blue);"></i>
+        <strong>Destruição Automática:</strong>
+        <p style="font-size: 0.9em; margin-left: 2.0em; color: var(--text-medium);">
+            Geralmente, são destruídas (<code>DROP</code>) automaticamente quando a sessão que as criou é encerrada. Nenhuma limpeza manual é estritamente necessária na maioria dos casos.
+            <br>(<em>Alguns SGBDs oferecem cláusulas como <code>ON COMMIT DELETE ROWS</code> ou <code>ON COMMIT PRESERVE ROWS</code> para GTTs, controlando a limpeza dos dados ao final da transação ou da sessão.</em>)
+        </p>
+    </li>
+    <li style="margin-top: 15px;">
+        <i class="fas fa-clone fa-fw" style="color: var(--accent-blue);"></i>
+        <strong>Conflito de Nomes (Cuidado!):</strong>
+        <p style="font-size: 0.9em; margin-left: 2.0em; color: var(--text-medium);">
+            Em geral, uma tabela temporária <strong>pode</strong> ter o mesmo nome de uma tabela permanente. Dentro da sessão, o SGBD priorizará a tabela temporária.
+            <br><strong style="color: var(--red-error);"><i class="fas fa-skull-crossbones"></i> MÁ PRÁTICA!</strong> Evite isso a todo custo para não causar confusão e erros difíceis de rastrear.
+            <br>Prefira prefixos claros como <code>tmp_</code>, <code>temp_</code>, ou a sintaxe específica do SGBD (<code>#</code> no SQL Server).
+        </p>
+    </li>
+</ul>

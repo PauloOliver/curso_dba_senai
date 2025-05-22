@@ -1,0 +1,23 @@
+<h2><i class="fas fa-tasks" style="color: var(--accent-green);"></i> Exercício 1: Clientes Recentes (Básico)</h2>
+<div style="text-align: left; max-width: 750px; margin: 15px auto; padding: 15px; background-color: var(--bg-light); border-radius: 5px;">
+    <p><i class="fas fa-bullseye fa-fw" style="color: var(--accent-blue);"></i><strong>Objetivo:</strong> Criar uma tabela temporária para armazenar informações básicas de clientes de uma cidade específica que se cadastraram no último ano.</p>
+    <h4 style="color: var(--accent-yellow); margin-top: 15px;">Passos:</h4>
+    <ol style="list-style-type: decimal; margin-left: 20px;">
+        <li>Crie uma tabela temporária chamada <code>tmp_clientes_recentes_rj</code> com as colunas:
+            <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9em; color: var(--text-medium);">
+                <li><code>id_cliente</code> (INT)</li>
+                <li><code>nome_cliente</code> (VARCHAR)</li>
+                <li><code>email_cliente</code> (VARCHAR)</li>
+            </ul>
+        </li>
+        <li>Popule esta tabela com clientes da tabela <code>CLIENTES</code> que atendam aos seguintes critérios:
+            <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9em; color: var(--text-medium);">
+                <li>Cidade seja 'Rio de Janeiro'.</li>
+                <li><code>DataCadastro</code> seja a partir de 01/01/2023 (ou ajuste para "último ano" a partir da data atual).</li>
+            </ul>
+        </li>
+        <li>Consulte todos os dados da tabela <code>tmp_clientes_recentes_rj</code> para verificar o resultado.</li>
+        <li>(Opcional, mas boa prática) Execute o comando para remover (<code>DROP</code>) a tabela temporária criada.</li>
+    </ol>
+</div>
+<p style="margin-top: 20px;">Mãos à obra! <i class="fas fa-laptop-code"></i></p>

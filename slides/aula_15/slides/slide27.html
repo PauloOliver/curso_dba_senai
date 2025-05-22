@@ -1,0 +1,58 @@
+<h2><i class="fas fa-pencil-alt" style="color: var(--accent-blue);"></i> H4: Preparação para os Exercícios Práticos</h2>
+<p>Agora é a hora de aplicar o que aprendemos sobre Tabelas Temporárias! Vamos trabalhar com um modelo de dados um pouco mais completo.</p>
+<h3 style="color: var(--accent-green); margin-top: 15px;">Modelo de Dados de Referência (DER Chen):</h3>
+<div class="slide-svg-container" style="max-width: 95%; margin: 10px auto; border: 1px solid var(--bg-light); padding:10px; border-radius: 5px; font-size:0.8em;">
+  <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+    <style>
+      .entity { fill: var(--bg-fill); stroke: var(--accent-blue); stroke-width:1; rx:3; }
+      .entity-text { font-size: 10px; fill: var(--text-light); }
+      .attr-text { font-size: 8px; fill: var(--text-medium); }
+      .pk-text { font-weight:bold; fill: var(--accent-yellow); }
+      .fk-text { font-style:italic; fill: var(--accent-green); }
+      .line-rel { stroke: var(--text-medium); stroke-width:1; }
+    </style>
+    <defs><marker id="arrow-rel-s29" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0, 7 2.5, 0 5" fill="var(--text-medium)"/></marker></defs>
+
+    <!-- CLIENTES -->
+    <rect x="10" y="10" width="130" height="70" class="entity"/>
+    <text x="75" y="25" text-anchor="middle" class="entity-text" style="font-weight:bold;">CLIENTES</text>
+    <text x="15" y="40" class="attr-text"><tspan class="pk-text">ID_Cliente</tspan> (PK)</text>
+    <text x="15" y="50" class="attr-text">Nome, Email, Cidade</text>
+    <text x="15" y="60" class="attr-text">DataCadastro</text>
+
+    <!-- PRODUTOS -->
+    <rect x="10" y="100" width="130" height="70" class="entity"/>
+    <text x="75" y="115" text-anchor="middle" class="entity-text" style="font-weight:bold;">PRODUTOS</text>
+    <text x="15" y="130" class="attr-text"><tspan class="pk-text">ID_Produto</tspan> (PK)</text>
+    <text x="15" y="140" class="attr-text">NomeProduto, PrecoUnitario</text>
+    <text x="15" y="150" class="attr-text">Categoria</text>
+
+    <!-- PEDIDOS -->
+    <rect x="200" y="10" width="150" height="70" class="entity"/>
+    <text x="275" y="25" text-anchor="middle" class="entity-text" style="font-weight:bold;">PEDIDOS</text>
+    <text x="205" y="40" class="attr-text"><tspan class="pk-text">ID_Pedido</tspan> (PK)</text>
+    <text x="205" y="50" class="attr-text"><tspan class="fk-text">ID_Cliente</tspan> (FK)</text>
+    <text x="205" y="60" class="attr-text">DataPedido</text>
+    <line x1="140" y1="45" x2="200" y2="45" class="line-rel" marker-end="url(#arrow-rel-s29)"/>
+    <text x="165" y="40" class="attr-text">1..N</text>
+
+    <!-- ITENS_PEDIDO -->
+    <rect x="380" y="55" width="200" height="90" class="entity" style="stroke: var(--accent-green);"/>
+    <text x="480" y="70" text-anchor="middle" class="entity-text" style="font-weight:bold;">ITENS_PEDIDO</text>
+    <text x="385" y="85" class="attr-text"><tspan class="pk-text">ID_ItemPedido</tspan> (PK)</text>
+    <text x="385" y="95" class="attr-text"><tspan class="fk-text">ID_Pedido</tspan> (FK)</text>
+    <text x="385" y="105" class="attr-text"><tspan class="fk-text">ID_Produto</tspan> (FK)</text>
+    <text x="385" y="115" class="attr-text">Quantidade</text>
+    <text x="385" y="125" class="attr-text">PrecoVendaUnidade</text>
+    <line x1="350" y1="45" x2="450" y2="55" class="line-rel" marker-end="url(#arrow-rel-s29)"/> 
+    <text x="390" y="50" class="attr-text">1..N</text>
+    <line x1="140" y1="135" x2="380" y2="100" class="line-rel" marker-end="url(#arrow-rel-s29)"/> 
+    <text x="250" y="115" class="attr-text">M..N</text>
+  </svg>
+</div>
+<p style="margin-top: 10px;"><strong>Instruções:</strong></p>
+<ul style="text-align: left; max-width: 700px; margin: 0 auto;">
+    <li><i class="fas fa-keyboard fa-fw"></i>Para cada exercício, escreva o código SQL necessário.</li>
+    <li><i class="fas fa-play fa-fw"></i>Teste suas soluções em seu SGBD.</li>
+    <li><i class="fas fa-database fa-fw"></i>O instrutor pode fornecer scripts para criar e popular essas tabelas permanentes, se necessário.</li>
+</ul>
