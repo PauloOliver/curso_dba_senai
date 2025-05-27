@@ -1,0 +1,34 @@
+<h2><i class="fas fa-pencil-ruler"></i> Exercício Prático 2: Otimização de JOINs</h2>
+<p><strong>Banco de Dados:</strong> <code>sakila</code>.</p>
+<p><strong>Cenário:</strong> Queremos listar o título do filme, o nome da categoria e o nome dos atores para todos os filmes da categoria "Action" que tenham o ator "PENELOPE GUINESS".</p>
+
+<p><strong>Consulta Original (Pode precisar de ajustes):</strong></p>
+<pre><code class="language-sql">
+SELECT
+    f.title AS nome_filme,
+    cat.name AS nome_categoria,
+    a.first_name,
+    a.last_name
+FROM
+    film f,
+    film_category fc,
+    category cat,
+    film_actor fa,
+    actor a
+WHERE
+    f.film_id = fc.film_id AND
+    fc.category_id = cat.category_id AND
+    f.film_id = fa.film_id AND
+    fa.actor_id = a.actor_id AND
+    cat.name = 'Action' AND
+    a.first_name = 'PENELOPE' AND a.last_name = 'GUINESS';
+</code></pre>
+
+<p><strong>Tarefas:</strong></p>
+<ol style="text-align: left; max-width: 700px; margin: 15px auto;">
+    <li>Analise o <code>EXPLAIN</code> da consulta original. Verifique como as junções estão sendo feitas e se índices estão sendo usados nas colunas de junção e filtro.</li>
+    <li>Reescreva a consulta usando a sintaxe explícita <code>JOIN ON</code>.</li>
+    <li>Verifique se existem índices nas colunas: <code>film_category.film_id</code>, <code>film_category.category_id</code>, <code>film_actor.film_id</code>, <code>film_actor.actor_id</code>, <code>category.name</code>, <code>actor.first_name</code>, <code>actor.last_name</code>. (Chaves estrangeiras geralmente criam índices, mas confirme). Crie os que faltarem e forem estratégicos. (Ex: <code>CREATE INDEX idx_cat_name ON category(name);</code>)</li>
+    <li>Analise o <code>EXPLAIN</code> da consulta otimizada (com JOINs explícitos e índices). Compare com o plano original. Houve melhorias no tipo de join, no número de linhas varridas ou no uso de índices?</li>
+</ol>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

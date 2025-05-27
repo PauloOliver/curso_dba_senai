@@ -1,0 +1,13 @@
+<h2><i class="fas fa-map-signs"></i> Análise de Planos de Execução</h2>
+<p>O <strong>Plano de Execução</strong> é a "receita" que o SGBD MySQL decide usar para executar uma consulta SQL.</p>
+<p>Ele detalha:</p>
+<ul style="text-align: left; max-width: 600px; margin: 15px auto;">
+    <li><i class="fas fa-fw fa-table" style="color: var(--accent-green);"></i> Quais tabelas são acessadas e em que ordem.</li>
+    <li><i class="fas fa-fw fa-key" style="color: var(--accent-green);"></i> Quais índices são (ou não são) utilizados.</li>
+    <li><i class="fas fa-fw fa-link" style="color: var(--accent-green);"></i> O tipo de junção (join) entre tabelas.</li>
+    <li><i class="fas fa-fw fa-filter" style="color: var(--accent-green);"></i> Como as condições da cláusula <code>WHERE</code> são aplicadas.</li>
+    <li><i class="fas fa-fw fa-sort-amount-down" style="color: var(--accent-green);"></i> Se ordenações ou agrupamentos exigem operações extras.</li>
+    <li><i class="fas fa-fw fa-calculator" style="color: var(--accent-green);"></i> Uma estimativa do número de linhas a serem lidas (custo).</li>
+</ul>
+<p style="margin-top:20px;"><em>Analisar o plano de execução é o <strong>primeiro e mais importante passo</strong> para otimizar uma consulta! É como pedir ao GPS para mostrar a rota antes de sair.</em></p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

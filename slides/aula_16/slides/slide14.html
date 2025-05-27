@@ -1,0 +1,25 @@
+<h2><i class="fas fa-chart-bar"></i> Monitoramento Específico de BD - MySQL (Outras Métricas)</h2>
+<div style="text-align: left; max-width: 800px; margin: 20px auto;">
+    <h4><i class="fas fa-stopwatch-20" style="color:var(--accent-blue);"></i> Tempo de Execução de Queries:</h4>
+    <ul>
+        <li>Identificar <strong>consultas lentas (Slow Queries)</strong> é fundamental. O MySQL possui o "Slow Query Log" para isso.</li>
+        <li>Métricas como <code>Queries</code> (total de queries) e <code>Slow_queries</code> (status do MySQL) são importantes.</li>
+        <li>Analisar o tempo médio de execução das queries críticas da aplicação.</li>
+    </ul>
+    <h4><i class="fas fa-database" style="color:var(--accent-blue);"></i> Tamanho de Tabelas e Índices:</h4>
+    <ul>
+        <li>Monitorar o crescimento de tabelas e índices ao longo do tempo.</li>
+        <li>Ajuda no planejamento de capacidade e na identificação de tabelas que podem precisar de otimizações (ex: particionamento, arquivamento).</li>
+        <li><code>INFORMATION_SCHEMA.TABLES</code> (colunas <code>DATA_LENGTH</code>, <code>INDEX_LENGTH</code>).</li>
+        <li>Fragmentação de tabelas e índices (especialmente em MyISAM, menos problemático com InnoDB e seu gerenciamento de espaço).</li>
+    </ul>
+    <h4><i class="fas fa-network-wired" style="color:var(--accent-blue);"></i> Conexões e Sessões Ativas:</h4>
+    <ul>
+        <li><strong><code>Threads_connected</code>:</strong> Número de conexões de clientes atualmente abertas.</li>
+        <li><strong><code>Threads_running</code>:</strong> Número de threads que não estão dormindo (ativamente processando queries).</li>
+        <li><strong><code>Max_used_connections</code>:</strong> Pico de conexões desde o último restart.</li>
+        <li>Monitorar para garantir que não se atinja o limite <code>max_connections</code> e para entender a carga de conexões.</li>
+        <li><code>INFORMATION_SCHEMA.PROCESSLIST</code> mostra as sessões ativas.</li>
+    </ul>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

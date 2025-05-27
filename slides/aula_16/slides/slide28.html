@@ -1,0 +1,29 @@
+<h2><i class="fas fa-wrench"></i> Técnicas de Otimização - Parte 3</h2>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4><i class="fas fa-link" style="color:var(--accent-blue);"></i> Otimizando <code>JOIN</code>s:</h4>
+    <ul>
+        <li>Use a sintaxe explícita: <code>INNER JOIN ... ON</code>, <code>LEFT JOIN ... ON</code>.</li>
+        <li>Garanta que as <strong>colunas usadas na cláusula <code>ON</code> estejam indexadas</strong> em ambas as tabelas. Esta é uma das otimizações mais importantes para JOINs!</li>
+        <li>Prefira <code>INNER JOIN</code> se a lógica permitir (quando não precisa de linhas não correspondentes da tabela à esquerda/direita).</li>
+        <li>A ordem das tabelas em <code>LEFT/RIGHT JOIN</code> importa. Em <code>INNER JOIN</code>, o otimizador MySQL geralmente escolhe a melhor ordem.</li>
+    </ul>
+
+    <h4><i class="fas fa-sitemap" style="color:var(--accent-blue);"></i> Subqueries vs. <code>JOIN</code>s:</h4>
+    <ul>
+        <li>Muitas vezes, <code>JOIN</code>s são mais eficientes que subqueries, especialmente subqueries correlacionadas (que dependem da query externa).</li>
+        <li>Subqueries na cláusula <code>SELECT</code> (escalares) podem ser custosas se executadas para cada linha da query externa.</li>
+        <li>Use <code>EXPLAIN</code> para comparar o desempenho de uma subquery com uma formulação equivalente usando <code>JOIN</code>.</li>
+        <li>Exemplo:
+            <pre><code class="language-sql">-- Potencialmente lento
+SELECT c.nome, (SELECT COUNT(*) FROM pedidos p WHERE p.id_cliente = c.id_cliente) AS num_pedidos
+FROM clientes c;
+
+-- Geralmente melhor
+SELECT c.nome, COUNT(p.id_pedido) AS num_pedidos
+FROM clientes c LEFT JOIN pedidos p ON c.id_cliente = p.id_cliente
+GROUP BY c.id_cliente, c.nome;</code></pre>
+        </li>
+    </ul>
+    <p>Sempre <strong>EVITE `SELECT *`</strong> – especifique apenas as colunas necessárias. Isso reduz I/O, uso de memória e tráfego de rede.</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

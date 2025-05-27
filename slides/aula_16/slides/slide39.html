@@ -1,0 +1,39 @@
+<h2><i class="fas fa-check-circle"></i> Solução Comentada - Exercício 2</h2>
+<p><strong>Consulta com JOINs Explícitos:</strong></p>
+<pre><code class="language-sql">
+SELECT
+    f.title AS nome_filme,
+    cat.name AS nome_categoria,
+    a.first_name,
+    a.last_name
+FROM
+    film f
+INNER JOIN film_category fc ON f.film_id = fc.film_id
+INNER JOIN category cat ON fc.category_id = cat.category_id
+INNER JOIN film_actor fa ON f.film_id = fa.film_id
+INNER JOIN actor a ON fa.actor_id = a.actor_id
+WHERE
+    cat.name = 'Action' AND
+    a.first_name = 'PENELOPE' AND a.last_name = 'GUINESS';
+</code></pre>
+<p><strong>Análise e Pontos de Otimização:</strong></p>
+<ul style="text-align: left; max-width: 700px; margin: 15px auto;">
+    <li><strong>Índices Chave:</strong>
+        <ul>
+            <li>Colunas de FK (<code>fc.film_id</code>, <code>fc.category_id</code>, <code>fa.film_id</code>, <code>fa.actor_id</code>) geralmente já são indexadas se as FKs foram criadas corretamente.</li>
+            <li><strong style="color:var(--accent-green);">Importante:</strong> Indexar colunas de filtro: <code>category.name</code>, e um índice composto em <code>actor(last_name, first_name)</code> ou <code>actor(first_name, last_name)</code> seria muito útil.
+            <pre><code class="language-sql" style="font-size:0.8em;">CREATE INDEX idx_cat_name ON category(name);
+CREATE INDEX idx_actor_name ON actor(last_name, first_name);</code></pre>
+            </li>
+        </ul>
+    </li>
+    <li><strong>Plano de Execução Esperado (Após Otimizações):</strong>
+        <ul>
+            <li>O otimizador provavelmente começará filtrando pela tabela menor ou mais seletiva (ex: <code>actor</code> com o nome específico, ou <code>category</code> com 'Action').</li>
+            <li>Os tipos de join (coluna `type` no <code>EXPLAIN</code>) para as junções devem ser <code>eq_ref</code> ou <code>ref</code>, indicando bom uso de índices.</li>
+            <li>O número de <code>rows</code> examinadas em cada etapa deve ser baixo.</li>
+        </ul>
+    </li>
+    <li><strong>Comparação:</strong> O plano com JOINs explícitos e índices adequados será significativamente mais eficiente (menos linhas varridas, uso de chaves) do que um plano sem índices ou com a sintaxe antiga de JOIN no WHERE, que pode levar a produtos cartesianos acidentais se as condições não forem perfeitas.</li>
+</ul>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

@@ -1,0 +1,20 @@
+<h2><i class="fas fa-toolbox"></i> Ferramentas de Otimização no Ecossistema MySQL</h2>
+<p>Além do <code>EXPLAIN</code>, outras ferramentas ajudam na otimização:</p>
+<ul style="text-align: left; max-width: 750px; margin: 15px auto;">
+    <li><i class="fas fa-fw fa-microscope" style="color: var(--accent-green);"></i> <strong><code>SHOW PROFILE</code> / <code>SHOW PROFILES</code>:</strong>
+        <p style="font-size:0.9em; margin-left:25px; margin-top:2px; color: var(--text-medium);">Permite analisar o tempo gasto em cada estágio da execução de uma query específica. (Ativar com <code>SET profiling = 1;</code> na sessão).</p>
+    </li>
+    <li><i class="fas fa-fw fa-chart-bar" style="color: var(--accent-green);"></i> <strong>Performance Schema:</strong>
+        <p style="font-size:0.9em; margin-left:25px; margin-top:2px; color: var(--text-medium);">Coleta detalhada de estatísticas de desempenho em baixo nível (eventos de espera, estágios de query, locks, etc.). Pode ser complexo, mas muito poderoso. O MySQL Workbench utiliza dados do Performance Schema para alguns de seus relatórios.</p>
+    </li>
+    <li><i class="fas fa-fw fa-file-alt" style="color: var(--accent-green);"></i> <strong>Slow Query Log:</strong>
+        <p style="font-size:0.9em; margin-left:25px; margin-top:2px; color: var(--text-medium);">Registra queries que demoram mais que <code>long_query_time</code> para executar. Essencial para identificar as queries mais problemáticas em produção.</p>
+    </li>
+     <li><i class="fab fa-fw fa-periscope" style="color: var(--accent-green);"></i> <strong>Percona Toolkit (e.g., <code>pt-query-digest</code>):</strong>
+        <p style="font-size:0.9em; margin-left:25px; margin-top:2px; color: var(--text-medium);"><code>pt-query-digest</code> é uma ferramenta externa fantástica para analisar e agregar informações do Slow Query Log, gerando relatórios detalhados sobre as queries mais custosas.</p>
+    </li>
+    <li><i class="fas fa-fw fa-desktop" style="color: var(--accent-green);"></i> <strong>MySQL Workbench:</strong>
+        <p style="font-size:0.9em; margin-left:25px; margin-top:2px; color: var(--text-medium);">Além do Visual Explain, oferece relatórios de desempenho e uma interface para explorar o Performance Schema.</p>
+    </li>
+</ul>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

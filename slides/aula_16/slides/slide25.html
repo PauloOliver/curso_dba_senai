@@ -1,0 +1,33 @@
+<h2><i class="fas fa-desktop"></i> Demonstração: Analisando Queries com <code>EXPLAIN</code> no MySQL Workbench</h2>
+<p>Agora, vamos à prática de como usar o <code>EXPLAIN</code> no MySQL Workbench para entender o plano de execução.</p>
+<div style="text-align: left; max-width: 750px; margin: 15px auto;">
+    <p><i class="fas fa-fw fa-play" style="color:var(--accent-green);"></i> <strong>Passos da Demonstração:</strong></p>
+    <ol style="padding-left: 30px; font-size:0.95em;">
+        <li>Pegar uma query simples no banco de exemplo (e.g., <code>SELECT * FROM Clientes WHERE cidade = 'São Paulo';</code> ou <code>SELECT * FROM sakila.actor WHERE last_name = 'DAVIS';</code>).</li>
+        <li>Executar o <strong>Visual Explain Plan</strong> <i class="fas fa-search-location" style="color:var(--accent-yellow);"></i> no MySQL Workbench.
+            <ul style="padding-left:20px; font-size:0.9em;">
+                <li>Analisar a representação gráfica: fluxo de dados, custos estimados, tipos de acesso.</li>
+            </ul>
+        </li>
+        <li>Analisar o output <strong>tabular/JSON do <code>EXPLAIN</code></strong>.
+            <ul style="padding-left:20px; font-size:0.9em;">
+                <li>Identificar colunas chave: <code>type</code>, <code>key</code>, <code>rows</code>, <code>Extra</code>.</li>
+            </ul>
+        </li>
+        <li>Modificar a query e observar as mudanças no plano:
+            <ul style="padding-left:20px; font-size:0.9em;">
+                <li>Remover a cláusula <code>WHERE</code>. O que acontece com <code>type</code> e <code>rows</code>?</li>
+                <li>Adicionar um <code>ORDER BY</code> em uma coluna não indexada. O que aparece em <code>Extra</code>?</li>
+            </ul>
+        </li>
+        <li>Demonstrar o impacto de um índice:
+            <ul style="padding-left:20px; font-size:0.9em;">
+                <li>Executar <code>EXPLAIN</code> em uma query com <code>WHERE</code> em coluna não indexada.</li>
+                <li>Criar um índice nessa coluna (ex: <code>CREATE INDEX idx_cidade ON Clientes(cidade);</code>).</li>
+                <li>Executar o <code>EXPLAIN</code> novamente. Comparar os resultados (<code>type</code>, <code>key</code>, <code>rows</code>).</li>
+            </ul>
+        </li>
+    </ol>
+</div>
+<p style="margin-top:20px; font-style:italic;">O objetivo é familiarizar-se com a ferramenta e como ela nos ajuda a "ver por dentro" da execução da query.</p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

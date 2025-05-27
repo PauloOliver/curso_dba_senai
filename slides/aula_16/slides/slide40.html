@@ -1,0 +1,42 @@
+<h2><i class="fas fa-cogs"></i> Exercício Avançado / Discussão: Subquery vs. JOIN</h2>
+<p><strong>Cenário:</strong> Listar todos os filmes e a contagem de quantos atores participam de cada filme.</p>
+<p><strong>Abordagem com Subquery (Potencialmente Lenta):</strong></p>
+<pre><code class="language-sql">
+SELECT
+    f.title,
+    f.release_year,
+    (SELECT COUNT(*) FROM film_actor fa WHERE fa.film_id = f.film_id) AS numero_atores
+FROM
+    film f
+ORDER BY
+    f.title;
+</code></pre>
+<p><strong>Análise da Subquery:</strong></p>
+<ul style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li>O <code>EXPLAIN</code> provavelmente mostrará <code>select_type: DEPENDENT SUBQUERY</code>. Isso significa que a subquery é executada para <strong>cada linha</strong> da tabela <code>film</code>. Para muitos filmes, isso é muito ineficiente.</li>
+</ul>
+
+<p><strong>Abordagem Otimizada com <code>LEFT JOIN</code> e <code>GROUP BY</code>:</strong></p>
+<pre><code class="language-sql">
+SELECT
+    f.title,
+    f.release_year,
+    COUNT(fa.actor_id) AS numero_atores
+FROM
+    film f
+LEFT JOIN
+    film_actor fa ON f.film_id = fa.film_id
+GROUP BY
+    f.film_id, f.title, f.release_year -- Agrupar por todas as colunas não agregadas do SELECT
+ORDER BY
+    f.title;
+</code></pre>
+<p><strong>Análise da Versão com JOIN:</strong></p>
+<ul style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li>O <code>EXPLAIN</code> mostrará uma junção (<code>LEFT JOIN</code>) e uma operação de agrupamento.</li>
+    <li>Se <code>film_actor.film_id</code> estiver indexado (o que é provável, sendo uma FK), a junção será eficiente.</li>
+    <li>A operação de <code>GROUP BY</code> pode requerer "Using temporary; Using filesort" se não houver um índice que satisfaça o agrupamento e a ordenação, mas geralmente é mais rápido que a subquery dependente para este tipo de problema.</li>
+    <li><strong>Índices:</strong> Um índice em <code>film_actor(film_id)</code> é crucial. Um índice em <code>film(title)</code> ajudaria no <code>ORDER BY</code>.</li>
+</ul>
+<p><strong>Conclusão:</strong> Para contagens ou agregações relacionadas, <code>JOIN</code> + <code>GROUP BY</code> é frequentemente muito superior a subqueries dependentes na cláusula <code>SELECT</code>.</p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

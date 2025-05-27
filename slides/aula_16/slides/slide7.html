@@ -1,0 +1,28 @@
+<h2><i class="fas fa-filter"></i> Conceito de Bottlenecks (Gargalos)</h2>
+<p>Um <strong>bottleneck</strong> é qualquer componente ou recurso do sistema que limita o desempenho geral. É o elo mais fraco da corrente.</p>
+<div style="margin: 20px auto; text-align: center;">
+  <svg width="80" height="80" viewBox="0 0 50 60" style="display: inline-block; vertical-align: middle;">
+    <title>Ícone de Gargalo (Funil)</title>
+    <defs>
+      <linearGradient id="funnelGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:var(--accent-yellow);stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#FFEB3B;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    <polygon points="5,5 45,5 32,35 18,35" style="fill:url(#funnelGradient); stroke:var(--text-light); stroke-width:1.5"/>
+    <rect x="18" y="35" width="14" height="15" style="fill:url(#funnelGradient); stroke:var(--text-light); stroke-width:1.5"/>
+    <path d="M10 10 Q 25 15 40 10" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none" />
+    <path d="M20 40 Q 25 42 30 40" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none" />
+  </svg>
+  <p style="display: inline-block; vertical-align: middle; margin-left: 15px; font-style: italic;">Imagine um funil: não importa o quão largo seja o topo,<br/> a vazão é limitada pela parte estreita.</p>
+</div>
+<p><strong>Tipos comuns de gargalos em SGBDs:</strong></p>
+<ul style="text-align: left; max-width: 500px; margin: 10px auto;">
+    <li><i class="fas fa-fw fa-microchip" style="color: var(--accent-green);"></i> CPU (processamento insuficiente)</li>
+    <li><i class="fas fa-fw fa-memory" style="color: var(--accent-green);"></i> Memória (RAM escassa, swapping excessivo)</li>
+    <li><i class="fas fa-fw fa-hdd" style="color: var(--accent-green);"></i> I/O de Disco (leitura/escrita lenta)</li>
+    <li><i class="fas fa-fw fa-network-wired" style="color: var(--accent-green);"></i> Rede (latência alta, banda insuficiente)</li>
+    <li><i class="fas fa-fw fa-code" style="color: var(--accent-green);"></i> Consultas SQL mal otimizadas</li>
+    <li><i class="fas fa-fw fa-lock" style="color: var(--accent-green);"></i> Contenção de Locks</li>
+</ul>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

@@ -1,0 +1,18 @@
+<h2><i class="fas fa-magic"></i> Como Gerar Planos de Execução no MySQL</h2>
+<p>O comando principal para obter o plano de execução é <code>EXPLAIN</code>.</p>
+<div style="text-align: left; max-width: 700px; margin: 20px auto;">
+    <p><strong>Sintaxe básica:</strong></p>
+    <pre><code class="language-sql">EXPLAIN SELECT col1, col2 FROM sua_tabela WHERE condicao;</code></pre>
+    <p>Pode-se usar formatos diferentes para mais detalhes (especialmente em versões mais recentes do MySQL):</p>
+    <pre><code class="language-sql">EXPLAIN FORMAT=JSON SELECT ... ;
+EXPLAIN FORMAT=TREE SELECT ... ; (MySQL 8.0.16+)</code></pre>
+
+    <p style="margin-top: 20px;"><strong>No MySQL Workbench:</strong></p>
+    <ul style="padding-left: 20px;">
+        <li>Escreva sua consulta no editor SQL.</li>
+        <li>Clique no ícone <i class="fas fa-search-location" style="color:var(--accent-yellow);"></i> ("Explain current statement") na barra de ferramentas do editor SQL.</li>
+        <li>O Workbench exibirá o plano de execução em formato tabular e, mais importante, o <strong>Visual Explain Plan</strong>, que é uma representação gráfica muito intuitiva.</li>
+    </ul>
+</div>
+<p style="font-size:0.9em; margin-top:15px;"><em>Para PostgreSQL (apenas como referência): <code>EXPLAIN (ANALYZE, BUFFERS) SELECT ...;</code></em></p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

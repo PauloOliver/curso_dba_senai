@@ -1,0 +1,29 @@
+<h2><i class="fas fa-tools"></i> Ferramentas de Monitoramento Internas ao MySQL</h2>
+<p>O MySQL oferece comandos e esquemas internos valiosos para monitoramento:</p>
+<div style="display: flex; justify-content: space-around; max-width: 850px; margin: 20px auto; text-align: left;">
+  <div style="flex-basis: 48%; padding:10px; background-color: rgba(0,0,0,0.1); border-radius:5px;">
+    <h4><i class="fas fa-terminal" style="color:var(--accent-blue);"></i> Comandos <code>SHOW STATUS</code>:</h4>
+    <ul>
+      <li><code>SHOW GLOBAL STATUS;</code>: Contadores globais do servidor (Uptime, Queries, Slow_queries, Threads_connected, etc.).</li>
+      <li><code>SHOW SESSION STATUS;</code>: Contadores para a sessão atual.</li>
+      <li>Exemplo: <code>SHOW GLOBAL STATUS LIKE 'Innodb_buffer_pool_read%';</code></li>
+      <li><strong>No MySQL Workbench:</strong> Muitos desses status são exibidos na aba "Server Status".</li>
+    </ul>
+  </div>
+  <div style="flex-basis: 48%; padding:10px; background-color: rgba(0,0,0,0.1); border-radius:5px;">
+    <h4><i class="fas fa-table" style="color:var(--accent-blue);"></i> <code>INFORMATION_SCHEMA</code>:</h4>
+    <ul>
+      <li>Um banco de dados que contém metadados sobre o SGBD.</li>
+      <li>Tabelas úteis:
+        <ul style="padding-left: 20px; font-size:0.9em;">
+          <li><code>PROCESSLIST</code>: Sessões ativas e suas queries.</li>
+          <li><code>TABLES</code>: Informações sobre tabelas (tamanho, engine).</li>
+          <li><code>STATISTICS</code>: Informações sobre índices.</li>
+          <li><code>INNODB_TRX</code>, <code>INNODB_LOCKS</code>, <code>INNODB_LOCK_WAITS</code>: Detalhes sobre transações e locks do InnoDB.</li>
+        </ul>
+      </li>
+      <li><strong>No MySQL Workbench:</strong> Acessível via editor SQL.</li>
+    </ul>
+  </div>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

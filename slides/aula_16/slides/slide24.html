@@ -1,0 +1,24 @@
+<h2><i class="fas fa-search"></i> Como Interpretar o <code>EXPLAIN</code> (Principais Colunas)</h2>
+<p>O output do <code>EXPLAIN</code> (tabular) contém várias colunas importantes:</p>
+<table style="width: 90%; margin: 15px auto; border-collapse: collapse; font-size: 0.85em;">
+  <thead style="background-color: var(--accent-blue);">
+    <tr>
+      <th style="border: 1px solid #ddd; padding: 8px;">Coluna</th>
+      <th style="border: 1px solid #ddd; padding: 8px;">Descrição</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>id</strong></td><td style="border: 1px solid #ddd; padding: 8px; text-align:left;">Ordem de execução das operações.</td></tr>
+    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>select_type</strong></td><td style="border: 1px solid #ddd; padding: 8px; text-align:left;">Tipo de SELECT (SIMPLE, SUBQUERY, UNION, etc.).</td></tr>
+    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>table</strong></td><td style="border: 1px solid #ddd; padding: 8px; text-align:left;">Tabela referenciada.</td></tr>
+    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong style="color:var(--red-error);">type</strong></td><td style="border: 1px solid #ddd; padding: 8px; text-align:left;"><strong>MUITO IMPORTANTE!</strong> Tipo de acesso/join. Do melhor ao pior: system > const > eq_ref > ref > range > index > <strong>ALL</strong> (Full Table Scan - EVITAR!).</td></tr>
+    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>possible_keys</strong></td><td style="border: 1px solid #ddd; padding: 8px; text-align:left;">Índices que o MySQL <em>poderia</em> usar.</td></tr>
+    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>key</strong></td><td style="border: 1px solid #ddd; padding: 8px; text-align:left;">Índice que o MySQL <em>realmente</em> usou. (NULL se nenhum)</td></tr>
+    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>key_len</strong></td><td style="border: 1px solid #ddd; padding: 8px; text-align:left;">Tamanho da parte do índice usada.</td></tr>
+    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>rows</strong></td><td style="border: 1px solid #ddd; padding: 8px; text-align:left;">Estimativa de linhas a serem lidas para produzir o resultado.</td></tr>
+    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>filtered</strong></td><td style="border: 1px solid #ddd; padding: 8px; text-align:left;">Percentual de linhas filtradas pela condição WHERE (após ler 'rows').</td></tr>
+    <tr><td style="border: 1px solid #ddd; padding: 8px;"><strong>Extra</strong></td><td style="border: 1px solid #ddd; padding: 8px; text-align:left;">Informações adicionais: "Using where", "Using index", "Using filesort", "Using temporary".</td></tr>
+  </tbody>
+</table>
+<p style="margin-top:15px;"><em>O <strong>Visual Explain Plan</strong> no MySQL Workbench ajuda muito a entender essas relações!</em></p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

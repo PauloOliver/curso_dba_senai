@@ -1,0 +1,27 @@
+<h2><i class="fas fa-key"></i> Gerenciamento de Índices</h2>
+<p>Índices são estruturas de dados que permitem ao MySQL encontrar linhas rapidamente.</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4>Tipos de Índices no MySQL:</h4>
+    <ul>
+        <li><strong><code>PRIMARY KEY</code>:</strong> Único e não nulo. Identifica unicamente cada linha. Só pode haver um por tabela (geralmente em colunas ID auto-incrementais).</li>
+        <li><strong><code>UNIQUE</code> Index:</strong> Garante que todos os valores na(s) coluna(s) do índice sejam únicos (permite um NULL).</li>
+        <li><strong><code>INDEX</code> (ou <code>KEY</code>):</strong> Índice normal, não necessariamente único. Acelera buscas.</li>
+        <li><strong><code>FULLTEXT</code> Index:</strong> Para buscas em texto completo (palavras-chave em campos de texto longos).</li>
+        <li><strong>Índices Compostos (Multi-coluna):</strong> Um índice sobre múltiplas colunas (ex: <code>INDEX idx_nome_cidade (nome, cidade)</code>). <strong>A ordem das colunas no índice é crucial!</strong></li>
+    </ul>
+    <h4>Quando Criar Índices:</h4>
+    <ul>
+        <li>Colunas frequentemente usadas em cláusulas <code>WHERE</code>.</li>
+        <li>Colunas usadas em cláusulas <code>JOIN ON</code>.</li>
+        <li>Colunas usadas em <code>ORDER BY</code> e <code>GROUP BY</code>.</li>
+        <li>Colunas com alta <strong>seletividade</strong> (muitos valores distintos).</li>
+    </ul>
+    <h4>Quando Evitar (ou ter Cuidado):</h4>
+    <ul>
+        <li>Colunas raramente consultadas.</li>
+        <li>Colunas com baixa seletividade (poucos valores distintos, ex: gênero M/F em uma tabela grande).</li>
+        <li>Tabelas muito pequenas (um full scan pode ser mais rápido).</li>
+        <li>Tabelas com altíssimo volume de escritas (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>), pois cada índice adiciona sobrecarga à escrita. Encontre o equilíbrio!</li>
+    </ul>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

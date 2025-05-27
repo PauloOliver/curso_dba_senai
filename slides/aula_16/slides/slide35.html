@@ -1,0 +1,25 @@
+<h2><i class="fas fa-pencil-ruler"></i> Exercício Prático 1: Otimização Básica</h2>
+<p><strong>Banco de Dados:</strong> Use o banco <code>sakila</code> (padrão do MySQL) ou o banco <code>empresa_vendas</code> (se fornecido).</p>
+<p><strong>Cenário:</strong> Precisamos listar o nome e email de todos os clientes cujo email termina com '@sakilacustomer.org' (ou '@exemplo.com' se usar <code>empresa_vendas</code>).</p>
+
+<p><strong>Consulta Original (Exemplo com <code>sakila.customer</code>):</strong></p>
+<pre><code class="language-sql">
+SELECT *
+FROM customer
+WHERE email LIKE '%@sakilacustomer.org';
+</code></pre>
+
+<p><strong>Tarefas:</strong></p>
+<ol style="text-align: left; max-width: 700px; margin: 15px auto;">
+    <li>Execute a consulta original e analise seu plano de execução (<code>EXPLAIN</code>) no MySQL Workbench. Observe especialmente a coluna <code>type</code> e <code>key</code>.</li>
+    <li>Otimize a consulta selecionando apenas as colunas necessárias (<code>first_name</code>, <code>last_name</code>, <code>email</code>). Execute e analise o <code>EXPLAIN</code> novamente. Houve melhora significativa no plano? Por quê?</li>
+    <li>Agora, modifique a condição para buscar um email específico: <code>WHERE email = 'PATRICIA.JOHNSON@sakilacustomer.org'</code> (ou um email válido do seu BD de exemplo).
+        <ul style="padding-left:20px; font-size:0.9em;">
+            <li>Analise o <code>EXPLAIN</code>.</li>
+            <li>Crie um índice apropriado na coluna <code>email</code> se ainda não existir. (<code>CREATE INDEX idx_customer_email ON customer(email);</code>)</li>
+            <li>Execute a consulta com email específico e o <code>EXPLAIN</code> novamente. Compare o plano antes e depois da criação do índice. O que mudou?</li>
+        </ul>
+    </li>
+</ol>
+<p style="margin-top:15px;"><em>Anote suas observações sobre o plano de execução (<code>type</code>, <code>rows</code>, <code>key</code>, <code>Extra</code>).</em></p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

@@ -1,0 +1,12 @@
+<h2><i class="fas fa-check-double"></i> Boas Práticas de Otimização de Consultas</h2>
+<ul style="text-align: left; max-width: 750px; margin: 15px auto;">
+    <li><i class="fas fa-fw fa-search-dollar" style="color: var(--accent-green);"></i> <strong>Monitore regularmente</strong> as consultas mais lentas (usando o Slow Query Log e ferramentas como <code>pt-query-digest</code>).</li>
+    <li><i class="fas fa-fw fa-drafting-compass" style="color: var(--accent-green);"></i> Use <code>EXPLAIN</code> para <strong>entender o plano de execução</strong> antes e depois de qualquer alteração.</li>
+    <li><i class="fas fa-fw fa-edit" style="color: var(--accent-green);"></i> <strong>Reescreva consultas complexas:</strong> divida-as em passos menores, simplifique a lógica, prefira JOINs a subqueries correlacionadas quando apropriado.</li>
+    <li><i class="fas fa-fw fa-key" style="color: var(--accent-green);"></i> <strong>Crie índices estrategicamente</strong> nas colunas corretas. Não exagere! Revise e atualize índices conforme o crescimento e alteração do perfil de uso dos dados.</li>
+    <li><i class="fas fa-fw fa-columns" style="color: var(--accent-green);"></i> <strong>Evite <code>SELECT *</code>.</strong> Selecione apenas as colunas que você realmente precisa.</li>
+    <li><i class="fas fa-fw fa-flask" style="color: var(--accent-green);"></i> <strong>Teste o impacto</strong> das otimizações em ambiente de desenvolvimento/homologação antes de aplicar em produção.</li>
+    <li><i class="fas fa-fw fa-book" style="color: var(--accent-green);"></i> <strong>Entenda seus dados</strong> e como eles são acessados pela aplicação.</li>
+    <li><i class="fas fa-fw fa-sync" style="color: var(--accent-green);"></i> A otimização é um <strong>processo contínuo</strong>, não um evento único.</li>
+</ul>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

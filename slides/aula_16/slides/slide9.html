@@ -1,0 +1,28 @@
+<h2><i class="fas fa-server"></i> Métricas Fundamentais (Sistema Operacional) - Parte 1</h2>
+<p>O desempenho do MySQL depende diretamente do S.O. subjacente.</p>
+<div style="display: flex; justify-content: space-around; max-width: 850px; margin: 20px auto; text-align: left;">
+  <div style="flex-basis: 48%;">
+    <h4><i class="fas fa-microchip" style="color:var(--accent-blue);"></i> CPU:</h4>
+    <ul>
+      <li><strong>Utilização (%):</strong> O quanto a CPU está ocupada. Picos > 80-90% podem indicar gargalo.</li>
+      <li><strong>Carga Média (Load Average):</strong> Processos na fila esperando CPU. Valores consistentemente altos (maiores que o nº de cores) são um alerta.</li>
+      <li><strong>Tempo de Processamento:</strong>
+        <ul style="padding-left: 20px; font-size:0.9em;">
+          <li><code>%user</code>: Tempo em código de usuário.</li>
+          <li><code>%system</code>: Tempo em código de kernel.</li>
+          <li><code>%iowait</code>: Tempo esperando por I/O (importante!).</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div style="flex-basis: 48%;">
+    <h4><i class="fas fa-memory" style="color:var(--accent-blue);"></i> Memória:</h4>
+    <ul>
+      <li><strong>Uso Total vs. Disponível:</strong> Memória livre é essencial.</li>
+      <li><strong>Buffers/Cache:</strong> Memória usada pelo S.O. para acelerar I/O. Normal e bom.</li>
+      <li><strong>Swap Usage:</strong> Uso de disco como memória RAM. <strong>Sinal crítico de falta de memória!</strong> Impacta drasticamente o desempenho.</li>
+    </ul>
+  </div>
+</div>
+<p style="font-size: 0.9em; margin-top:15px;"><em>Ferramentas comuns no Linux: <code>top</code>, <code>htop</code>, <code>vmstat</code>. Windows: Gerenciador de Tarefas.</em></p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

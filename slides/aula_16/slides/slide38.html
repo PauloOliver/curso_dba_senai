@@ -1,0 +1,41 @@
+<h2><i class="fas fa-check-circle"></i> Solução Comentada - Exercício 1</h2>
+<p><strong>Consulta Original (Exemplo com <code>sakila.customer</code>):</strong></p>
+<pre><code class="language-sql">SELECT * FROM customer WHERE email LIKE '%@sakilacustomer.org';</code></pre>
+<p><strong>Análise e Pontos de Otimização:</strong></p>
+<ul style="text-align: left; max-width: 700px; margin: 15px auto;">
+    <li><strong><code>EXPLAIN</code> Inicial (<code>LIKE '%...'</code>):</strong>
+        <ul>
+            <li>Provavelmente mostrará <code>type: ALL</code> (Full Table Scan) ou <code>type: index</code> (Full Index Scan se houver um índice em email, mas o <code>%</code> no início impede o uso eficiente de um índice B-Tree padrão para busca direta).</li>
+            <li><code>key: NULL</code> (ou o nome do índice, se for full index scan).</li>
+            <li><code>rows:</code> Número total de linhas na tabela <code>customer</code>.</li>
+            <li><code>Extra: Using where</code>.</li>
+        </ul>
+    </li>
+    <li><strong>Otimização 1 (Selecionar Colunas Específicas):</strong>
+        <pre><code class="language-sql" style="font-size:0.9em;">SELECT first_name, last_name, email FROM customer WHERE email LIKE '%@sakilacustomer.org';</code></pre>
+        <ul>
+            <li><strong>Impacto no Plano:</strong> Geralmente, pouco ou nenhum impacto no <em>plano de acesso</em> (<code>type</code>, <code>key</code>, <code>rows</code>) para esta query específica, pois o filtro <code>LIKE '%...'</code> continua sendo o fator dominante.</li>
+            <li><strong>Benefício Real:</strong> Reduz a quantidade de dados transferidos da DB para o cliente e o uso de memória para o conjunto de resultados. Boa prática, mas não resolve o gargalo do <code>LIKE</code>.</li>
+        </ul>
+    </li>
+    <li><strong>Otimização 2 (Busca Específica + Índice):</strong>
+        <pre><code class="language-sql" style="font-size:0.9em;">-- Query
+SELECT first_name, last_name, email FROM customer WHERE email = 'PATRICIA.JOHNSON@sakilacustomer.org';
+
+-- Criação do Índice (se não existir)
+CREATE INDEX idx_customer_email ON customer(email);</code></pre>
+        <ul>
+            <li><strong><code>EXPLAIN</code> ANTES do índice (com <code>email = '...'</code>):</strong> Ainda pode ser <code>type: ALL</code> se não houver índice.</li>
+            <li><strong><code>EXPLAIN</code> APÓS criar <code>idx_customer_email</code> (com <code>email = '...'</code>):</strong>
+                <ul>
+                    <li><code>type: ref</code> (ou <code>const</code>/<code>eq_ref</code> se email for UNIQUE/PRIMARY). Indica uso eficiente do índice.</li>
+                    <li><code>key: idx_customer_email</code>.</li>
+                    <li><code>rows: 1</code> (ou um número muito pequeno).</li>
+                    <li><code>Extra: Using where; Using index</code> (se for um covering index e as colunas selecionadas estiverem no índice, o que não é o caso aqui se o índice for só em `email` e selecionarmos `first_name`, `last_name`). Ou apenas `Using where`.</li>
+                </ul>
+            </li>
+            <li><strong>Conclusão:</strong> Para buscas por igualdade (<code>=</code>) ou prefixo (<code>LIKE 'texto%'</code>), um índice na coluna filtrada faz uma diferença <strong>ENORME</strong> no desempenho. O <code>LIKE '%texto%'</code> é inerentemente difícil de otimizar com índices B-Tree padrão.</li>
+        </ul>
+    </li>
+</ul>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>
