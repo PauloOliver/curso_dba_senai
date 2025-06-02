@@ -1,0 +1,32 @@
+<h2><i class="fas fa-list-ol"></i> Estatísticas de Banco de Dados - Tópicos Importantes (Parte 2)</h2>
+<p>Algumas das estatísticas mais críticas que o otimizador do MySQL utiliza:</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom:15px;">
+            <i class="fas fa-hashtag" style="color:var(--accent-green); font-size:1.2em; margin-right:10px;"></i>
+            <strong>Cardinalidade da Tabela (Table Cardinality / <code>TABLE_ROWS</code>):</strong>
+            <p style="font-size:0.9em; margin-left:30px; color:var(--text-medium);">O número total estimado de linhas na tabela. Ajuda a decidir se um Full Table Scan é viável ou se um índice é preferível.</p>
+        </li>
+        <li style="margin-bottom:15px;">
+            <i class="fas fa-sort-numeric-up-alt" style="color:var(--accent-green); font-size:1.2em; margin-right:10px;"></i>
+            <strong>Cardinalidade da Coluna/Índice (Column/Index Cardinality):</strong>
+            <p style="font-size:0.9em; margin-left:30px; color:var(--text-medium);">O número estimado de valores <strong>distintos</strong> em uma coluna ou nas colunas de um índice. É crucial para avaliar a <strong>seletividade</strong> de um filtro ou índice. Um índice com alta cardinalidade (muitos valores únicos) é geralmente mais seletivo e útil.</p>
+        </li>
+        <li style="margin-bottom:15px;">
+            <i class="fas fa-chart-area" style="color:var(--accent-green); font-size:1.2em; margin-right:10px;"></i>
+            <strong>Distribuição de Valores (Value Distribution / Histogramas):</strong>
+            <p style="font-size:0.9em; margin-left:30px; color:var(--text-medium);">Como os valores estão distribuídos dentro de uma coluna. Ex: A coluna 'status_pedido' tem 70% 'CONCLUÍDO', 20% 'PENDENTE', 10% 'CANCELADO'. O MySQL (especialmente InnoDB) pode coletar histogramas (desde 5.7 para colunas específicas, mais robusto no 8.0) para melhorar as estimativas de cardinalidade para predicados de intervalo e valores não uniformemente distribuídos.</p>
+        </li>
+        <li style="margin-bottom:15px;">
+            <i class="far fa-file-alt" style="color:var(--accent-green); font-size:1.2em; margin-right:10px;"></i>
+            <strong>Número de Páginas/Blocos de Dados (Data Pages):</strong>
+            <p style="font-size:0.9em; margin-left:30px; color:var(--text-medium);">Quantos blocos de disco (geralmente 16KB para InnoDB) a tabela ou índice ocupa. Relacionado ao custo de I/O para varreduras.</p>
+        </li>
+         <li style="margin-bottom:15px;">
+            <i class="fas fa-question" style="color:var(--accent-green); font-size:1.2em; margin-right:10px;"></i>
+            <strong>Presença e Frequência de Valores NULOs:</strong>
+            <p style="font-size:0.9em; margin-left:30px; color:var(--text-medium);">Pode influenciar como os índices são usados e as estimativas para filtros como <code>IS NULL</code> ou <code>IS NOT NULL</code>.</p>
+        </li>
+    </ul>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

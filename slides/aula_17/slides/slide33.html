@@ -1,0 +1,46 @@
+<h2><i class="fas fa-check-circle"></i> Soluções Comentadas - Exercício 2</h2>
+<p><strong>Consulta Base:</strong></p>
+<pre><code class="language-sql">
+EXPLAIN SELECT film_id, title, release_year, length
+FROM sakila.film
+WHERE release_year = 2006 AND length = 120
+ORDER BY title;
+</code></pre>
+
+<ul style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li><strong>1. Estado Inicial:</strong>
+        <ul style="font-size:0.9em;">
+            <li>Sakila tem um índice <code>idx_fk_original_language_id</code> mas não diretamente em `release_year` sozinho, nem em `length`. Pode haver um índice `PRIMARY` em `film_id`.</li>
+            <li><code>EXPLAIN</code> pode mostrar <code>type: ALL</code> para `film` ou usar algum índice menos ideal se o otimizador tentar algo com FKs.</li>
+            <li><code>Extra: Using where; Using filesort</code> é muito provável, pois não há índice para satisfazer <code>release_year</code>, <code>length</code> e <code>ORDER BY title</code> conjuntamente.</li>
+        </ul>
+    </li>
+    <li><strong>2. Com Índice Simples em `length`: <code>CREATE INDEX idx_film_length ON sakila.film(length); ANALYZE TABLE sakila.film;</code></strong>
+        <ul style="font-size:0.9em;">
+            <li>O otimizador pode escolher usar <code>idx_film_length</code> para o filtro <code>length = 120</code> (<code>type: ref</code>).</li>
+            <li>O filtro <code>release_year = 2006</code> ainda seria aplicado em <code>Using where</code>.</li>
+            <li>"Using filesort" provavelmente persistiria, pois o índice em <code>length</code> não ajuda na ordenação por <code>title</code>.</li>
+            <li>Alternativamente, o otimizador poderia ignorar <code>idx_film_length</code> se estimar que filtrar por <code>release_year</code> (se houvesse um índice nele ou se fosse mais seletivo) seria melhor, ou ainda fazer um Full Table Scan se ambos os filtros individualmente não fossem muito seletivos.</li>
+        </ul>
+    </li>
+    <li><strong>3. Com Índice Composto: <code>CREATE INDEX idx_film_relyear_len_title ON sakila.film(release_year, length, title); ANALYZE TABLE sakila.film;</code></strong>
+        <ul style="font-size:0.9em;">
+            <li><strong>Plano Esperado:</strong>
+                <ul>
+                    <li><code>type: ref</code> (ou <code>range</code> dependendo de como o otimizador usa as duas primeiras colunas). O otimizador usará as partes <code>release_year</code> e <code>length</code> do índice para o filtro <code>WHERE</code>.</li>
+                    <li><code>key: idx_film_relyear_len_title</code>.</li>
+                    <li><code>rows:</code> Número significativamente menor.</li>
+                    <li><code>Extra:</code>
+                        <ul>
+                            <li>"Using where" (para as condições de igualdade).</li>
+                            <li>Idealmente, "Using filesort" <strong>desapareceria</strong> porque a terceira coluna do índice é <code>title</code>. Após filtrar por <code>release_year</code> e <code>length</code> usando o índice, os dados recuperados do índice já estarão ordenados por <code>title</code>.</li>
+                            <li>Poderia ser <strong>"Using index"</strong> (Covering Index) porque todas as colunas selecionadas (<code>film_id</code>, <code>title</code>, <code>release_year</code>, <code>length</code>) e usadas no <code>WHERE</code>/<code>ORDER BY</code> estão no índice <code>idx_film_relyear_len_title</code> (assumindo que <code>film_id</code> é a PK e está implicitamente no índice secundário, ou se adicionássemos <code>film_id</code> ao índice). <em>Para ser um covering index perfeito, <code>film_id</code> também deveria estar no índice composto.</em> Se não, ainda seria muito eficiente, mas não "Using index".</li>
+                        </ul>
+                </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li><strong>Conclusão:</strong> Um índice composto bem projetado, considerando as colunas do <code>WHERE</code> e do <code>ORDER BY</code> (na ordem correta), pode eliminar `filesorts` e permitir que a consulta seja muito mais eficiente, potencialmente até mesmo um "Covering Index".</li>
+</ul>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

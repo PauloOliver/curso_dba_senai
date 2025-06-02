@@ -1,0 +1,38 @@
+<h2><i class="fas fa-tools"></i> Exercício 2: Otimização com Índices Simples e Compostos</h2>
+<p><strong>Objetivo:</strong> Observar o impacto da criação de índices simples e compostos no plano de execução.</p>
+<p><strong>Banco de Dados:</strong> <code>sakila</code>.</p>
+
+<p><strong>Consulta Base:</strong> Queremos encontrar filmes lançados em 2006 com uma duração específica (ex: 120 minutos) e ordená-los por título.</p>
+<pre><code class="language-sql">
+EXPLAIN SELECT film_id, title, release_year, length
+FROM sakila.film
+WHERE release_year = 2006 AND length = 120
+ORDER BY title;
+</code></pre>
+
+<p><strong>Tarefas:</strong></p>
+<ol style="text-align: left; max-width: 700px; margin: 15px auto;">
+    <li><strong>Estado Inicial:</strong> Execute o <code>EXPLAIN</code> da consulta base.
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li>Observe o <code>type</code>, <code>key</code>, <code>rows</code> e se "Using filesort" aparece no <code>Extra</code>. (Sakila pode ter um índice em `release_year` por FK, mas não necessariamente em `length` ou combinado).</li>
+        </ul>
+    </li>
+    <li><strong>Criar Índice Simples:</strong> Crie um índice apenas na coluna `length`.
+        <pre><code class="language-sql" style="font-size:0.9em;">CREATE INDEX idx_film_length ON sakila.film(length);</code></pre>
+        Execute <code>ANALYZE TABLE sakila.film;</code>. Re-execute o <code>EXPLAIN</code> da consulta base.
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li>O otimizador usou o novo índice? Houve alguma melhora? O que aconteceu com "Using filesort"?</li>
+        </ul>
+    </li>
+    <li><strong>Criar Índice Composto:</strong> Remova o índice anterior (<code>DROP INDEX idx_film_length ON sakila.film;</code>) e crie um índice composto que possa ajudar tanto o <code>WHERE</code> quanto o <code>ORDER BY</code>.
+        <pre><code class="language-sql" style="font-size:0.9em;">CREATE INDEX idx_film_relyear_len_title ON sakila.film(release_year, length, title);</code></pre>
+        Execute <code>ANALYZE TABLE sakila.film;</code>. Re-execute o <code>EXPLAIN</code> da consulta base.
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li>Qual índice foi usado agora? O <code>type</code> melhorou?</li>
+            <li>O "Using filesort" desapareceu? Por quê?</li>
+            <li>Este índice composto é um "Covering Index" para esta query? (Verifique o <code>Extra</code>).</li>
+        </ul>
+    </li>
+    <li><strong>Limpeza (Opcional):</strong> <code>DROP INDEX idx_film_relyear_len_title ON sakila.film;</code> (e <code>idx_film_length</code> se ainda existir).</li>
+</ol>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

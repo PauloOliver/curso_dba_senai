@@ -1,0 +1,44 @@
+<h2><i class="fas fa-hammer"></i> Índices: Criação e Impactos</h2>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4><i class="fas fa-plus-circle" style="color:var(--accent-blue);"></i> Como Criar Índices:</h4>
+    <p>A sintaxe principal para criar um índice explícito é:</p>
+    <pre><code class="language-sql">CREATE [UNIQUE | FULLTEXT | SPATIAL] INDEX nome_do_indice
+ON nome_da_tabela (coluna1 [ASC|DESC], coluna2 [ASC|DESC], ...);</code></pre>
+    <p style="font-size:0.9em;">Exemplo: <code>CREATE INDEX idx_customer_last_first ON customer (last_name, first_name);</code></p>
+    <p><strong>Índices Automáticos:</strong></p>
+    <ul style="font-size:0.95em;">
+        <li>Ao definir uma <code>PRIMARY KEY</code>, o MySQL automaticamente cria um índice (geralmente chamado PRIMARY).</li>
+        <li>Ao definir uma constraint <code>UNIQUE</code>, o MySQL automaticamente cria um índice único.</li>
+    </ul>
+
+    <h4 style="margin-top:20px;"><i class="fas fa-balance-scale-right" style="color:var(--accent-blue);"></i> Impactos dos Índices: Uma Faca de Dois Gumes</h4>
+    <div style="display:flex; justify-content:space-between;">
+        <div style="flex-basis:48%; border:1px solid var(--accent-green); padding:10px; border-radius:5px;">
+            <h5 style="color:var(--accent-green);"><i class="fas fa-thumbs-up"></i> Benefícios (Leitura - <code>SELECT</code>)</h5>
+            <ul style="font-size:0.9em;">
+                <li>Aceleram drasticamente buscas (<code>WHERE</code>).</li>
+                <li>Otimizam operações de junção (<code>JOIN</code>).</li>
+                <li>Podem ajudar em ordenações (<code>ORDER BY</code>) e agrupamentos (<code>GROUP BY</code>), evitando "filesort".</li>
+                <li>Podem permitir "Covering Indexes" (consultas respondidas apenas pelo índice).</li>
+            </ul>
+        </div>
+        <div style="flex-basis:48%; border:1px solid var(--red-error); padding:10px; border-radius:5px;">
+            <h5 style="color:var(--red-error);"><i class="fas fa-thumbs-down"></i> Custos (Escrita - <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>)</h5>
+            <ul style="font-size:0.9em;">
+                <li>Toda vez que uma linha é inserida, atualizada (se a coluna indexada mudar) ou deletada, <strong>todos os índices relevantes</strong> nessa tabela precisam ser atualizados.</li>
+                <li>Isso adiciona sobrecarga às operações de escrita.</li>
+                <li>Quanto mais índices uma tabela tiver, maior o impacto nas escritas.</li>
+                <li>Consomem espaço em disco adicional.</li>
+            </ul>
+        </div>
+    </div>
+
+    <h4 style="margin-top:20px;"><i class="fas fa-ban" style="color:var(--accent-blue);"></i> Quando NÃO Usar Índices (ou Usar com Cautela):</h4>
+    <ul style="font-size:0.95em;">
+        <li><strong>Colunas raramente usadas em filtros <code>WHERE</code> ou <code>JOINs</code>.</strong></li>
+        <li><strong>Colunas com baixíssima cardinalidade (poucos valores distintos) em tabelas grandes.</strong> Ex: Coluna "status_ativo" (S/N) em uma tabela com milhões de linhas. Um Full Table Scan pode ser mais rápido do que o overhead de usar o índice e depois ler muitas linhas da tabela.</li>
+        <li><strong>Tabelas muito pequenas.</strong> O custo de ler toda a tabela pode ser menor que o de atravessar a estrutura do índice.</li>
+        <li><strong>Excesso de índices em tabelas com altíssima taxa de escrita</strong> e poucas leituras seletivas. É preciso encontrar o equilíbrio certo!</li>
+    </ul>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

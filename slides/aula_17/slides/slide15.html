@@ -1,0 +1,37 @@
+<h2><i class="fas fa-eye"></i> Planos de Execução - Como Visualizar no MySQL</h2>
+<p>O MySQL oferece o comando <code>EXPLAIN</code> para inspecionar os planos de execução:</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4><i class="fas fa-terminal" style="color:var(--accent-blue);"></i> 1. <code>EXPLAIN sua_query;</code></h4>
+    <ul>
+        <li>Este é o comando fundamental e mais utilizado.</li>
+        <li>Ele <strong>NÃO executa</strong> a consulta, apenas mostra como o otimizador <em>planeja</em> executá-la.</li>
+        <li>Retorna o plano em formato tabular, com várias colunas informativas.</li>
+        <li>Pode ser prefixado a instruções <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code> e <code>REPLACE</code>.</li>
+        <pre><code class="language-sql" style="font-size:0.9em;">EXPLAIN SELECT actor_id, first_name, last_name FROM sakila.actor WHERE last_name LIKE 'A%';</code></pre>
+    </ul>
+
+    <h4 style="margin-top:20px;"><i class="fas fa-play-circle" style="color:var(--accent-blue);"></i> 2. <code>EXPLAIN ANALYZE sua_query;</code> (MySQL 8.0.18+)</h4>
+    <ul>
+        <li>Este comando <strong>EXECUTA</strong> a consulta e então mostra o plano de execução, enriquecido com informações reais de tempo e contagem de linhas de cada nó do plano (formato "tree").</li>
+        <li>Muito mais preciso para entender onde o tempo está realmente sendo gasto.</li>
+        <li><strong>CUIDADO:</strong> Use com extrema cautela em ambientes de produção, especialmente com queries DML (<code>UPDATE</code>, <code>DELETE</code>) ou queries <code>SELECT</code> muito lentas, pois ele realmente executa a operação.</li>
+        <pre><code class="language-sql" style="font-size:0.9em;">EXPLAIN ANALYZE SELECT actor_id, first_name, last_name FROM sakila.actor WHERE last_name LIKE 'A%';</code></pre>
+    </ul>
+
+    <h4 style="margin-top:20px;"><i class="fas fa-desktop" style="color:var(--accent-blue);"></i> 3. MySQL Workbench - Visual Explain Plan</h4>
+    <ul>
+        <li>É a forma mais amigável e intuitiva de visualizar planos de execução.</li>
+        <li><strong>Como usar:</strong>
+            <ol style="font-size:0.9em;">
+                <li>Digite ou abra sua consulta SQL no Editor SQL do Workbench.</li>
+                <li>Clique no ícone <i class="fas fa-search-location" style="color:var(--accent-yellow);"></i> ("Explain current statement" ou "Visual Explain") na barra de ferramentas do editor SQL (geralmente o primeiro ícone de execução com uma lupa).</li>
+            </ol>
+        </li>
+        <li>O Workbench exibirá uma representação gráfica do plano, mostrando o fluxo das operações, os métodos de acesso, os custos estimados por nó e outras informações úteis.</li>
+        <li><strong>Demonstração Rápida:</strong>
+            <p style="font-size:0.85em; color:var(--text-medium);">Vamos pegar a query <code>SELECT * FROM sakila.film WHERE rating = 'PG';</code> e gerar o Visual Explain no Workbench.</p>
+        </li>
+    </ul>
+    <p style="font-size:0.9em; color:var(--text-medium);"><em>Formatos adicionais do EXPLAIN (linha de comando): <code>FORMAT=JSON</code> (detalhado), <code>FORMAT=TREE</code> (similar ao ANALYZE, mas sem executar).</em></p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

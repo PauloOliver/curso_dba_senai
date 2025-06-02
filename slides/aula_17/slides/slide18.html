@@ -1,0 +1,55 @@
+<h2><i class="fas fa-search-plus"></i> Planos de Execução - Como Interpretar o <code>EXPLAIN</code> (Parte 1)</h2>
+<p>Vamos focar nas colunas chave do resultado tabular do <code>EXPLAIN</code> e como o Visual Explain do Workbench as representa:</p>
+<div style="text-align: left; max-width: 850px; margin: 10px auto; font-size:0.9em;">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color:var(--accent-blue); color:white;">
+                <th style="border: 1px solid #ddd; padding: 6px;">Coluna</th>
+                <th style="border: 1px solid #ddd; padding: 6px;">Descrição e Importância</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 6px;"><code>id</code></td>
+                <td style="border: 1px solid #ddd; padding: 6px;">Identificador da operação SELECT. Mesmos IDs são executados "juntos" (ex: JOIN). IDs maiores são geralmente executados antes (ex: subqueries).</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 6px;"><code>select_type</code></td>
+                <td style="border: 1px solid #ddd; padding: 6px;">Tipo de SELECT:
+                    <ul>
+                        <li><code>SIMPLE</code>: Query simples (sem UNIONs ou subqueries complexas).</li>
+                        <li><code>PRIMARY</code>: SELECT mais externo em uma query com subqueries/UNIONs.</li>
+                        <li><code>SUBQUERY</code>: Primeiro SELECT em uma subquery.</li>
+                        <li><code>DEPENDENT SUBQUERY</code>: Subquery que depende de valores da query externa (geralmente ruim!).</li>
+                        <li><code>UNION</code>: Segundo ou subsequente SELECT de um UNION.</li>
+                        <li><code>DERIVED</code>: Tabela derivada (subquery na cláusula FROM).</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 6px;"><code>table</code></td>
+                <td style="border: 1px solid #ddd; padding: 6px;">Nome da tabela ou alias referenciado nesta linha do plano. Pode ser <code>&lt;derivedN&gt;</code> para tabelas derivadas.</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 6px;"><strong style="color:var(--red-error);"><code>type</code></strong></td>
+                <td style="border: 1px solid #ddd; padding: 6px;"><strong>MÉTODO DE ACESSO - UMA DAS MAIS IMPORTANTES!</strong> Indica como o MySQL junta as tabelas ou busca linhas. Do melhor para o pior (geralmente):
+                    <ul>
+                        <li><code>system</code>: Tabela tem 0 ou 1 linha (caso especial de <code>const</code>).</li>
+                        <li><code>const</code>: Tabela tem no máximo 1 linha correspondente, lida no início e tratada como constante (ex: busca por PK).</li>
+                        <li><code>eq_ref</code>: Uma linha é lida de uma tabela para cada combinação de linhas das tabelas anteriores. Comum em JOINs usando PK ou índice UNIQUE NOT NULL. Ótimo!</li>
+                        <li><code>ref</code>: Todas as linhas com valores de índice correspondentes são lidas. Usado para JOINs em índices não únicos ou buscas em índices não únicos. Bom.</li>
+                        <li><code>fulltext</code>: Join usando índice FULLTEXT.</li>
+                        <li><code>ref_or_null</code>: Similar a <code>ref</code>, mas também busca por linhas com valor NULL no índice.</li>
+                        <li><code>index_merge</code>: Otimização que usa múltiplos índices e mescla os resultados.</li>
+                        <li><code>unique_subquery</code>: Subquery <code>IN</code> otimizada com índice único.</li>
+                        <li><code>index_subquery</code>: Similar, mas para índices não únicos.</li>
+                        <li><code>range</code>: Apenas linhas em um determinado intervalo do índice são lidas (ex: <code>BETWEEN</code>, <code>></code>, <code><</code> em coluna indexada).</li>
+                        <li><code>index</code>: Full Index Scan. Varre todo o índice. Melhor que <code>ALL</code> se o índice for menor que a tabela e cobrir as colunas.</li>
+                        <li><strong style="color:var(--red-error);"><code>ALL</code></strong>: Full Table Scan. Varre todas as linhas da tabela. Geralmente o pior para tabelas grandes. Tente evitar!</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

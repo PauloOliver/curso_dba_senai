@@ -1,0 +1,42 @@
+<h2><i class="fas fa-tags"></i> Índices: Tipos de Índices no MySQL</h2>
+<p>O MySQL suporta diversos tipos de índices para diferentes necessidades:</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom:12px; background-color:rgba(0,0,0,0.05); padding:8px; border-radius:4px;">
+            <i class="fas fa-square" style="color:var(--accent-green); margin-right: 8px;"></i>
+            <strong>Índice Simples (Single-column Index):</strong>
+            <p style="font-size:0.9em; margin-left:25px; margin-top:2px; color: var(--text-medium);">Criado sobre uma única coluna da tabela. Ex: <code>CREATE INDEX idx_actor_lastname ON actor(last_name);</code></p>
+        </li>
+        <li style="margin-bottom:12px; background-color:rgba(0,0,0,0.05); padding:8px; border-radius:4px;">
+            <i class="fas fa-th-list" style="color:var(--accent-green); margin-right: 8px;"></i>
+            <strong>Índice Composto (Multi-column Index / Composite Index):</strong>
+            <p style="font-size:0.9em; margin-left:25px; margin-top:2px; color: var(--text-medium);">Criado sobre duas ou mais colunas. Ex: <code>CREATE INDEX idx_film_title_release ON film(title, release_year);</code><br/>A <strong>ordem das colunas</strong> no índice composto é FUNDAMENTAL! Um índice em <code>(A, B)</code> pode ser usado para buscas em <code>A</code> ou em <code>(A,B)</code>, mas geralmente não para buscas apenas em <code>B</code> (a menos que seja um "index skip scan" em SGBDs mais avançados, menos comum no MySQL). O MySQL pode usar a parte mais à esquerda do índice (leftmost prefix).</p>
+        </li>
+        <li style="margin-bottom:12px; background-color:rgba(0,0,0,0.05); padding:8px; border-radius:4px;">
+            <i class="fas fa-id-card" style="color:var(--accent-green); margin-right: 8px;"></i>
+            <strong>Chave Primária (<code>PRIMARY KEY</code>):</strong>
+            <p style="font-size:0.9em; margin-left:25px; margin-top:2px; color: var(--text-medium);">Um tipo especial de índice único que identifica unicamente cada linha. No InnoDB, a PK é um <strong>clustered index</strong>, o que significa que os dados da tabela são fisicamente armazenados na ordem da PK. Todas as outras chaves secundárias (índices não-PK) no InnoDB contêm a PK para referenciar a linha.</p>
+        </li>
+        <li style="margin-bottom:12px; background-color:rgba(0,0,0,0.05); padding:8px; border-radius:4px;">
+            <i class="fas fa-lock" style="color:var(--accent-green); margin-right: 8px;"></i>
+            <strong>Índice Único (<code>UNIQUE INDEX</code>):</strong>
+            <p style="font-size:0.9em; margin-left:25px; margin-top:2px; color: var(--text-medium);">Garante que todos os valores na(s) coluna(s) indexada(s) sejam únicos (permite múltiplos NULLs, a menos que a coluna seja NOT NULL).</p>
+        </li>
+        <li style="margin-bottom:12px; background-color:rgba(0,0,0,0.05); padding:8px; border-radius:4px;">
+            <i class="fas fa-calculator" style="color:var(--accent-green); margin-right: 8px;"></i>
+            <strong>Índices em Colunas Virtuais/Geradas (MySQL 5.7+):</strong>
+            <p style="font-size:0.9em; margin-left:25px; margin-top:2px; color: var(--text-medium);">Permite indexar o resultado de uma expressão calculada a partir de outras colunas, armazenada como uma coluna virtual (<code>STORED</code> ou <code>VIRTUAL</code>).</p>
+        </li>
+        <li style="margin-bottom:12px; background-color:rgba(0,0,0,0.05); padding:8px; border-radius:4px;">
+            <i class="fas fa-superscript" style="color:var(--accent-green); margin-right: 8px;"></i>
+            <strong>Índices Funcionais (MySQL 8.0.13+):</strong>
+            <p style="font-size:0.9em; margin-left:25px; margin-top:2px; color: var(--text-medium);">Permite criar um índice sobre o resultado de uma função. Ex: <code>CREATE INDEX idx_name_lower ON t1((LOWER(name)));</code> para buscas case-insensitive.</p>
+        </li>
+        <li style="background-color:rgba(0,0,0,0.05); padding:8px; border-radius:4px;">
+            <i class="fas fa-search-dollar" style="color:var(--accent-green); margin-right: 8px;"></i>
+            <strong>Índice <code>FULLTEXT</code>:</strong>
+            <p style="font-size:0.9em; margin-left:25px; margin-top:2px; color: var(--text-medium);">Para buscas de texto completo (palavras-chave) em colunas <code>CHAR</code>, <code>VARCHAR</code>, ou <code>TEXT</code>. Usa algoritmos diferentes dos B-Trees.</p>
+        </li>
+    </ul>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

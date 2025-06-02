@@ -1,0 +1,33 @@
+<h2><i class="fas fa-pencil-ruler"></i> Exercício 1: Análise Básica e Impacto de <code>SELECT *</code></h2>
+<p><strong>Objetivo:</strong> Familiarizar-se com o <code>EXPLAIN</code> e observar o impacto de selecionar colunas específicas.</p>
+<p><strong>Banco de Dados:</strong> <code>sakila</code>.</p>
+
+<p><strong>Consulta 1.1 (Todas as Colunas):</strong></p>
+<pre><code class="language-sql">
+EXPLAIN SELECT * FROM sakila.actor WHERE last_name = 'CHASE';
+</code></pre>
+
+<p><strong>Consulta 1.2 (Colunas Específicas):</strong></p>
+<pre><code class="language-sql">
+EXPLAIN SELECT actor_id, first_name, last_name
+FROM sakila.actor WHERE last_name = 'CHASE';
+</code></pre>
+
+<p><strong>Tarefas:</strong></p>
+<ol style="text-align: left; max-width: 700px; margin: 15px auto;">
+    <li>Execute o <code>EXPLAIN</code> para a <strong>Consulta 1.1</strong>.
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li>Analise o resultado tabular e o Visual Explain no Workbench.</li>
+            <li>Observe: <code>type</code>, <code>possible_keys</code>, <code>key</code> (deve ser <code>idx_actor_last_name</code>), <code>rows</code>, <code>Extra</code>.</li>
+        </ul>
+    </li>
+    <li>Execute o <code>EXPLAIN</code> para a <strong>Consulta 1.2</strong>.
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li>Compare o plano com o da Consulta 1.1.</li>
+            <li>Houve alguma mudança significativa no plano de acesso (<code>type</code>, <code>key</code>, <code>rows</code>)?</li>
+            <li>O campo <code>Extra</code> mudou? A Consulta 1.2 se tornou um "Covering Index" (mostrando <code>Using index</code>)? Por quê? (Dica: O índice padrão <code>idx_actor_last_name</code> no Sakila é apenas na coluna `last_name`).</li>
+        </ul>
+    </li>
+    <li><strong>Discussão:</strong> Qual o principal benefício de usar <code>SELECT colunas_especificas</code> em vez de <code>SELECT *</code>, mesmo que o plano de acesso não mude drasticamente neste caso específico?</li>
+</ol>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

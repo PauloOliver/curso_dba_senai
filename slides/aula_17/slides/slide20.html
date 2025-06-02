@@ -1,0 +1,46 @@
+<h2><i class="fas fa-link"></i> Planos de Execução - Tipos de Algoritmos de JOIN (Conceitual)</h2>
+<p>O otimizador escolhe um algoritmo de JOIN com base no custo estimado, estatísticas e índices disponíveis:</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <div style="margin-bottom: 15px; background-color:rgba(0,0,0,0.05); padding:10px; border-radius:5px;">
+        <h4><i class="fas fa-sync" style="color:var(--accent-blue);"></i> Nested Loop Join (NLJ) / Block Nested Loop Join (BNLJ)</h4>
+        <p style="font-size:0.9em;">Para cada linha da tabela "externa" (outer table), o SGBD busca linhas correspondentes na tabela "interna" (inner table).</p>
+        <ul style="font-size:0.9em;">
+            <li><strong>NLJ simples:</strong> Se a tabela interna tiver um índice na coluna de junção, a busca é rápida.</li>
+            <li><strong>BNLJ (MySQL padrão para muitos casos sem índice ideal):</strong> Lê blocos de linhas da tabela externa e, para cada bloco, varre a tabela interna. Menos eficiente se a tabela interna for grande e não indexada na junção.</li>
+        </ul>
+        <p style="font-size:0.85em; color:var(--text-medium);">Eficiente se a tabela externa for pequena e/ou houver um bom índice na coluna de junção da tabela interna.</p>
+        <div style="text-align:center;">
+         <svg width="200" height="80" viewBox="0 0 200 80">
+            <rect x="10" y="10" width="60" height="20" fill="#004A7F" rx="3"/><text x="40" y="25" fill="white" font-size="10" text-anchor="middle">Outer (T1)</text>
+            <rect x="10" y="50" width="60" height="20" fill="#2A9D8F" rx="3"/><text x="40" y="65" fill="white" font-size="10" text-anchor="middle">Inner (T2)</text>
+            <path d="M70 20 Q 90 30 110 20" stroke="var(--text-medium)" fill="none" stroke-dasharray="2,2"/>
+            <path d="M70 60 Q 90 50 110 60" stroke="var(--text-medium)" fill="none" stroke-dasharray="2,2"/>
+            <text x="130" y="30" fill="var(--text-light)" font-size="9">Para cada linha</text>
+            <text x="130" y="42" fill="var(--text-light)" font-size="9">em T1, varre T2</text>
+            <text x="130" y="54" fill="var(--text-light)" font-size="9">(ou usa índice em T2)</text>
+         </svg>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 15px; background-color:rgba(0,0,0,0.05); padding:10px; border-radius:5px;">
+        <h4><i class="fas fa-hashtag" style="color:var(--accent-blue);"></i> Hash Join (MySQL 8.0.18+)</h4>
+        <p style="font-size:0.9em;">Usado principalmente para junções de igualdade (<code>T1.col = T2.col</code>) quando não há índices adequados ou quando as tabelas são grandes.</p>
+        <ul style="font-size:0.9em;">
+            <li><strong>Fase de Build:</strong> Cria uma tabela hash (hash table) em memória com base na menor das duas tabelas (na coluna de junção).</li>
+            <li><strong>Fase de Probe:</strong> Lê a tabela maior e, para cada linha, calcula o hash da coluna de junção e busca ("probes") na hash table por correspondências.</li>
+        </ul>
+        <p style="font-size:0.85em; color:var(--text-medium);">Pode ser muito eficiente se a hash table couber na memória. Se não, usa disco (spilling to disk), o que degrada o desempenho.</p>
+    </div>
+
+    <div style="background-color:rgba(0,0,0,0.05); padding:10px; border-radius:5px;">
+        <h4><i class="fas fa-sort-amount-up" style="color:var(--accent-blue);"></i> Sort Merge Join (SMJ)</h4>
+        <p style="font-size:0.9em;">Menos comum como escolha primária no MySQL, mas o conceito é importante.</p>
+        <ul style="font-size:0.9em;">
+            <li><strong>Fase de Sort (se necessário):</strong> Ambas as tabelas são ordenadas pelas colunas de junção. (Se já estiverem ordenadas por um índice, esta etapa é pulada).</li>
+            <li><strong>Fase de Merge:</strong> As duas tabelas ordenadas são "varridas" (merged) simultaneamente, e as linhas com valores de junção correspondentes são combinadas.</li>
+        </ul>
+        <p style="font-size:0.85em; color:var(--text-medium);">Eficiente se os dados já estiverem ordenados ou se o custo de ordenação for menor que outras alternativas de JOIN.</p>
+    </div>
+    <p style="margin-top:10px; font-style:italic;">O Visual Explain do MySQL Workbench geralmente indica o tipo de algoritmo de JOIN usado (ou pode ser inferido pela forma como as tabelas são acessadas).</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

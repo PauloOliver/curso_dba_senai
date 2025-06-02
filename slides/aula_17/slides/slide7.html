@@ -1,0 +1,28 @@
+<h2><i class="fas fa-cogs"></i> Estatísticas de Banco de Dados - Tópicos Importantes (Parte 1)</h2>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4><i class="fas fa-sync-alt" style="color:var(--accent-blue);"></i> Coleta de Estatísticas: Automática vs. Manual</h4>
+    <ul>
+        <li><strong>Automática (Persistent Stats no InnoDB):</strong>
+            <ul style="font-size:0.9em;">
+                <li>Por padrão (desde MySQL 5.6.6 com <code>innodb_stats_persistent=ON</code>), o InnoDB tenta manter as estatísticas persistentes e as atualiza automaticamente em segundo plano (sampling) ou quando <code>ANALYZE TABLE</code> é executado.</li>
+                <li>A frequência e o método da coleta automática podem ser configurados (<code>innodb_stats_auto_recalc</code>, <code>innodb_stats_persistent_sample_pages</code>).</li>
+            </ul>
+        </li>
+        <li><strong>Manual:</strong> O DBA pode (e deve, em certas situações) forçar a atualização das estatísticas.
+            <ul style="font-size:0.9em;">
+                <li><strong>Comando Chave:</strong> <code>ANALYZE TABLE nome_da_tabela;</code></li>
+                <li>Útil após grandes cargas de dados, criação de índices em tabelas povoadas, ou se suspeitar que as estatísticas automáticas não estão precisas.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 style="margin-top:20px;"><i class="far fa-clock" style="color:var(--accent-blue);"></i> Frequência de Atualização</h4>
+    <ul>
+        <li><strong>Objetivo:</strong> Manter as estatísticas o mais próximo possível da realidade dos dados.</li>
+        <li><strong>Tabelas Dinâmicas:</strong> Requerem atualizações mais frequentes (se a coleta automática não for suficiente).</li>
+        <li><strong>Tabelas Estáticas:</strong> Podem ter estatísticas atualizadas com menos frequência.</li>
+        <li><strong>Custo da Coleta:</strong> <code>ANALYZE TABLE</code> lê uma amostra das páginas da tabela/índice, o que tem um custo de I/O. Em tabelas gigantescas, pode levar algum tempo e consumir recursos. É preciso encontrar um equilíbrio.</li>
+        <li>Para tabelas InnoDB, o <code>ANALYZE TABLE</code> recalcula as estatísticas e as armazena nas tabelas persistentes <code>mysql.innodb_table_stats</code> e <code>mysql.innodb_index_stats</code>.</li>
+    </ul>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

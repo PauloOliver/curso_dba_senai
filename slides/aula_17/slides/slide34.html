@@ -1,0 +1,41 @@
+<h2><i class="fas fa-check-circle"></i> Soluções Comentadas - Exercício 3</h2>
+<p><strong>Consulta Base (com filtro de data original):</strong></p>
+<pre><code class="language-sql">
+EXPLAIN SELECT c.first_name, c.last_name, f.title, r.rental_date
+FROM sakila.customer c JOIN sakila.rental r ON c.customer_id = r.customer_id
+JOIN sakila.inventory i ON r.inventory_id = i.inventory_id
+JOIN sakila.film f ON i.film_id = f.film_id
+WHERE c.store_id = 1 AND DATE(r.rental_date) = '2005-05-25';
+</code></pre>
+<ul style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li><strong>1. Análise Inicial:</strong>
+        <ul style="font-size:0.9em;">
+            <li>As junções provavelmente usarão os índices de FK (<code>idx_fk_store_id</code> em `customer`, <code>idx_fk_customer_id</code> em `rental`, etc.), resultando em <code>type: eq_ref</code> ou <code>ref</code>.</li>
+            <li><strong>Problema Principal:</strong> <code>DATE(r.rental_date) = '2005-05-25'</code>. A função <code>DATE()</code> aplicada à coluna <code>r.rental_date</code> impede que o MySQL use um índice B-Tree em <code>rental_date</code> de forma eficiente para essa condição de igualdade/range. O otimizador provavelmente terá que ler muitas linhas da tabela `rental` e aplicar a função para cada uma.</li>
+        </ul>
+    </li>
+    <li><strong>2. Otimizar Filtro de Data:</strong>
+        <pre><code class="language-sql" style="font-size:0.9em;">
+AND r.rental_date >= '2005-05-25 00:00:00' AND r.rental_date < '2005-05-26 00:00:00'
+        </code></pre>
+        <ul style="font-size:0.9em;">
+            <li>Com esta alteração, o MySQL pode usar o índice existente em <code>rental.rental_date</code> (<code>idx_rental_date</code>) para um <code>type: range</code> scan, o que é muito mais eficiente. O número de <code>rows</code> para a tabela `rental` deve diminuir drasticamente.</li>
+        </ul>
+    </li>
+    <li><strong>3. Índices para JOINs e Filtros:</strong>
+        <ul style="font-size:0.9em;">
+            <li>O Sakila é bem indexado por padrão para as FKs. O filtro <code>c.store_id = 1</code> também deve usar o índice <code>idx_fk_store_id</code> na tabela `customer`.</li>
+        </ul>
+    </li>
+    <li><strong>4. Potencial para Covering Index (Discussão):</strong>
+        <p style="font-size:0.9em;">Para tornar esta query um "Covering Index" completo, precisaríamos de índices que contivessem todas as colunas usadas no <code>SELECT</code>, <code>JOIN</code> e <code>WHERE</code> para cada tabela, o que pode ser excessivo. O foco seria cobrir as partes mais críticas ou tabelas com mais leituras.</p>
+        <ul style="font-size:0.9em;">
+            <li><strong>`rental` (após otimização do filtro de data):</strong> Um índice como <code>(rental_date, customer_id, inventory_id)</code> seria muito bom. A query seleciona <code>r.rental_date</code>. O filtro usa <code>rental_date</code>. As junções usam <code>customer_id</code> e <code>inventory_id</code>. Este índice cobriria tudo para a tabela `rental`.</li>
+            <li><strong>`customer`:</strong> A query seleciona <code>c.first_name, c.last_name</code> e filtra por <code>c.store_id</code>, junta por <code>c.customer_id</code>. Um índice <code>(store_id, customer_id, first_name, last_name)</code> poderia cobrir.</li>
+            <li><strong>`inventory`:</strong> A query não seleciona colunas de `inventory`, apenas a usa para JOIN (<code>inventory_id</code>, <code>film_id</code>). Um índice em <code>(inventory_id, film_id)</code> ou <code>(film_id, inventory_id)</code> já existe (ou é parte de FKs).</li>
+            <li><strong>`film`:</strong> A query seleciona <code>f.title</code> e junta por <code>f.film_id</code>. Um índice em <code>(film_id, title)</code> cobriria (<code>film_id</code> é PK, então <code>title</code> seria o foco do índice secundário).</li>
+        </ul>
+        <p style="font-size:0.9em;"><strong>Trade-offs:</strong> Criar índices tão largos para cobrir tudo pode aumentar significativamente a sobrecarga de escrita e o tamanho dos índices. É preciso avaliar se o ganho na leitura desta query específica compensa. Muitas vezes, garantir que as colunas de JOIN e WHERE estejam bem indexadas já traz 80-90% do benefício.</p>
+    </li>
+</ul>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

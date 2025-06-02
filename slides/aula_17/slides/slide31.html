@@ -1,0 +1,49 @@
+<h2><i class="fas fa-link"></i> Exercício 3: Análise de JOINs e Potencial para Covering Index</h2>
+<p><strong>Objetivo:</strong> Analisar uma consulta com múltiplos JOINs e identificar oportunidades para otimização com índices, incluindo covering indexes.</p>
+<p><strong>Banco de Dados:</strong> <code>sakila</code>.</p>
+
+<p><strong>Consulta Base:</strong> Listar nome do cliente, título do filme e data de aluguel para aluguéis feitos em uma data específica por clientes de uma determinada loja.</p>
+<pre><code class="language-sql">
+EXPLAIN SELECT
+    c.first_name, c.last_name,
+    f.title,
+    r.rental_date
+FROM
+    sakila.customer c
+JOIN
+    sakila.rental r ON c.customer_id = r.customer_id
+JOIN
+    sakila.inventory i ON r.inventory_id = i.inventory_id
+JOIN
+    sakila.film f ON i.film_id = f.film_id
+WHERE
+    c.store_id = 1
+    AND DATE(r.rental_date) = '2005-05-25';
+</code></pre>
+
+<p><strong>Tarefas:</strong></p>
+<ol style="text-align: left; max-width: 700px; margin: 15px auto;">
+    <li><strong>Análise Inicial:</strong> Execute o <code>EXPLAIN</code> da consulta base.
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li>Observe a ordem dos JOINs, os <code>type</code> de acesso para cada tabela, as <code>key</code>s usadas e o número de <code>rows</code>.</li>
+            <li>Preste atenção à condição <code>DATE(r.rental_date) = '2005-05-25'</code>. O uso da função <code>DATE()</code> na coluna <code>r.rental_date</code> impede o uso eficiente de um índice normal em <code>rental_date</code> para essa condição.</li>
+        </ul>
+    </li>
+    <li><strong>Otimizar Filtro de Data:</strong> Reescreva a condição de data para ser "SARGable" (Search ARGument ABLE), ou seja, para permitir o uso de índice:
+        <pre><code class="language-sql" style="font-size:0.9em;">AND r.rental_date >= '2005-05-25 00:00:00' AND r.rental_date < '2005-05-26 00:00:00'</code></pre>
+        Re-execute o <code>EXPLAIN</code>. Houve melhora no acesso à tabela `rental`? (O Sakila já tem um índice em `rental_date`).
+    </li>
+    <li><strong>Identificar Índices para JOINs e Filtros:</strong>
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li>Verifique se as colunas de JOIN (<code>customer_id</code>, <code>inventory_id</code>, <code>film_id</code>) e o filtro <code>store_id</code> estão bem indexadas. (No Sakila, as FKs são indexadas, e <code>store_id</code> em `customer` também é FK).</li>
+        </ul>
+    </li>
+    <li><strong>Potencial para Covering Index:</strong>
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li>Se esta query fosse extremamente frequente e crítica, e você quisesse otimizá-la ao máximo, quais colunas você incluiria em índices compostos nas tabelas <code>customer</code>, <code>rental</code>, <code>inventory</code> e <code>film</code> para tentar alcançar "Using index" (Covering Index) para cada uma delas, considerando as colunas no <code>SELECT</code> e <code>WHERE</code>/<code>JOIN</code>?</li>
+            <li>Exemplo para `rental`: Um índice como <code>(rental_date, customer_id, inventory_id)</code> poderia ser útil se `rental_date` for o filtro primário.</li>
+            <li>Discuta a viabilidade e os trade-offs (impacto na escrita) de criar tais índices "largos".</li>
+        </ul>
+    </li>
+</ol>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

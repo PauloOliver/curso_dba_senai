@@ -1,0 +1,39 @@
+<h2><i class="fas fa-check-circle"></i> Soluções Comentadas - Exercício 1</h2>
+<p><strong>Consulta 1.1 (<code>SELECT *</code>):</strong></p>
+<pre><code class="language-sql">EXPLAIN SELECT * FROM sakila.actor WHERE last_name = 'CHASE';</code></pre>
+<ul style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li><strong>Plano Esperado:</strong>
+        <ul>
+            <li><code>type: ref</code> (O MySQL usa o índice <code>idx_actor_last_name</code> para encontrar as linhas onde <code>last_name</code> é 'CHASE').</li>
+            <li><code>possible_keys: idx_actor_last_name</code></li>
+            <li><code>key: idx_actor_last_name</code></li>
+            <li><code>rows:</code> Um número pequeno (ex: 2, o número de atores com sobrenome CHASE).</li>
+            <li><code>Extra: Using where</code> (A condição <code>last_name = 'CHASE'</code> é verificada, mas o acesso principal é pelo índice).</li>
+        </ul>
+    </li>
+</ul>
+
+<p><strong>Consulta 1.2 (<code>SELECT actor_id, first_name, last_name</code>):</strong></p>
+<pre><code class="language-sql">EXPLAIN SELECT actor_id, first_name, last_name
+FROM sakila.actor WHERE last_name = 'CHASE';</code></pre>
+<ul style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li><strong>Plano Esperado:</strong>
+        <ul>
+            <li><code>type</code>, <code>possible_keys</code>, <code>key</code>, <code>rows</code>: Provavelmente <strong>idênticos</strong> à Consulta 1.1. O método de acesso à tabela para encontrar as linhas correspondentes não muda.</li>
+            <li><code>Extra: Using where</code>. Não será "Using index" (Covering Index) porque o índice padrão <code>idx_actor_last_name</code> no Sakila contém apenas a coluna <code>last_name</code>. Para satisfazer <code>actor_id</code> e <code>first_name</code>, o MySQL ainda precisa acessar os dados da tabela após encontrar as linhas pelo índice.</li>
+        </ul>
+    </li>
+</ul>
+<p><strong>Discussão:</strong></p>
+<ul style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li>Neste caso específico, com um filtro seletivo e um índice existente, a mudança de <code>SELECT *</code> para colunas específicas não altera drasticamente o <em>plano de acesso</em>.</li>
+    <li><strong>Principal Benefício da Consulta 1.2:</strong>
+        <ol>
+            <li><strong>Redução de Dados Trafegados:</strong> Menos dados são lidos do disco (se as colunas não selecionadas fossem grandes ou não estivessem no buffer pool), e principalmente, menos dados são enviados pela rede para a aplicação cliente.</li>
+            <li><strong>Menor Uso de Memória (Cliente e Servidor):</strong> Para o conjunto de resultados.</li>
+            <li><strong>Potencial para Covering Index:</strong> Se tivéssemos um índice como <code>(last_name, first_name, actor_id)</code>, a Consulta 1.2 se tornaria um "Covering Index" (<code>Extra: Using index</code>), o que seria ainda mais rápido, pois o MySQL não precisaria tocar na tabela principal.</li>
+        </ol>
+    </li>
+    <li><strong>Conclusão:</strong> É sempre uma boa prática especificar apenas as colunas necessárias. Mesmo que não mude o plano de acesso drasticamente em todos os casos, melhora a eficiência geral e abre portas para otimizações como Covering Indexes.</li>
+</ul>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

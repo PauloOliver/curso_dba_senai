@@ -1,0 +1,29 @@
+<h2><i class="fas fa-graduation-cap"></i> Estratégias Avançadas de Indexação (Introdução)</h2>
+<p>Além dos conceitos básicos, existem estratégias mais sofisticadas para otimizar com índices:</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4><i class="fas fa-puzzle-piece" style="color:var(--accent-blue);"></i> Combinação de Índices e Estatísticas para Otimização Fina:</h4>
+    <p style="font-size:0.95em;">A verdadeira otimização ocorre quando você entende profundamente seus dados (distribuição, cardinalidade - via estatísticas) e projeta índices que se alinham com os padrões de acesso das suas queries mais críticas. Não é apenas sobre criar um índice, mas criar o índice <em>certo</em> e garantir que o otimizador <em>saiba</em> usá-lo (estatísticas atualizadas).</p>
+
+    <h4 style="margin-top:15px;"><i class="fas fa-bolt" style="color:var(--accent-blue);"></i> Index-Only Scans (MySQL: <code>Using index</code> no <code>EXPLAIN</code>)</h4>
+    <p style="font-size:0.95em;">Ocorre quando <strong>todas as colunas</strong> que a consulta precisa (no <code>SELECT</code>, <code>WHERE</code>, <code>GROUP BY</code>, etc.) estão presentes <strong>dentro de um único índice</strong>. Nesse caso, o MySQL pode satisfazer a consulta lendo apenas o índice, sem precisar acessar os dados da tabela principal. Isso é extremamente eficiente, pois os índices são geralmente menores e mais compactos que a tabela.</p>
+    <p style="font-size:0.9em; color:var(--text-medium);"><strong>Exemplo:</strong> <code>SELECT nome, email FROM usuarios WHERE email = 'teste@exemplo.com';</code> Se existir um índice em <code>(email, nome)</code>, esta query pode ser um Index-Only Scan.</p>
+
+    <h4 style="margin-top:15px;"><i class="fas fa-filter" style="color:var(--accent-blue);"></i> Índices Parciais e Filtrados (Conceitual)</h4>
+    <p style="font-size:0.95em;">A ideia é criar um índice que inclua apenas um subconjunto das linhas da tabela, com base em uma condição. Ex: Indexar apenas pedidos com status 'ATIVO'.</p>
+    <ul style="font-size:0.9em;">
+        <li><strong>PostgreSQL:</strong> Suporta diretamente com <code>CREATE INDEX ... WHERE condicao;</code>.</li>
+        <li><strong>MySQL:</strong> Não tem suporte direto da mesma forma.
+            <ul>
+                <li><strong>Alternativas/Simulações:</strong>
+                    <li>Usar índices em Colunas Virtuais/Geradas (MySQL 5.7+) onde a coluna gerada reflete a condição (ex: <code>col_ativa_flag INT AS (IF(status='ATIVO', 1, NULL))</code> e indexar <code>col_ativa_flag</code>).</li>
+                    <li>Se a coluna já tem baixa cardinalidade e você filtra por um valor específico (ex: <code>status = 'ATIVO'</code>), um índice normal na coluna `status` pode ser usado, mas a seletividade depende da distribuição.</li>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 style="margin-top:15px;"><i class="fas fa-archive" style="color:var(--accent-blue);"></i> Cobertura de Consultas (Covering Indexes)</h4>
+    <p style="font-size:0.95em;">É o termo usado para descrever um índice que "cobre" todas as colunas necessárias para uma consulta, permitindo um Index-Only Scan. É um objetivo importante ao projetar índices para queries críticas.</p>
+    <p style="font-size:0.9em; color:var(--text-medium);">Projetar índices compostos pensando cuidadosamente nas colunas do <code>SELECT</code>, <code>WHERE</code>, <code>JOIN</code>, <code>ORDER BY</code> e <code>GROUP BY</code> das suas queries mais frequentes é a chave para criar bons Covering Indexes.</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

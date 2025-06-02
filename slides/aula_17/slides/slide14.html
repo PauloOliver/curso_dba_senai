@@ -1,0 +1,32 @@
+<h2><i class="fas fa-map-signs"></i> Planos de Execução - Definição</h2>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4><i class="fas fa-route" style="color:var(--accent-blue);"></i> O que é um Plano de Execução (Execution Plan)?</h4>
+    <p>É o "mapa do tesouro" ou a "receita detalhada" que o Otimizador de Consultas do SGBD cria para executar uma determinada instrução SQL. Ele descreve, passo a passo, como o SGBD pretende:</p>
+    <ul>
+        <li>Acessar cada tabela envolvida (ex: Full Table Scan, Index Scan).</li>
+        <li>A ordem em que as tabelas serão processadas (em caso de JOINs).</li>
+        <li>O método de junção (JOIN) a ser usado entre as tabelas (ex: Nested Loop, Hash Join).</li>
+        <li>Como os filtros (cláusula <code>WHERE</code>) serão aplicados.</li>
+        <li>Se e como operações de ordenação (<code>ORDER BY</code>) ou agrupamento (<code>GROUP BY</code>) serão realizadas.</li>
+        <li>Estimativas de custo e número de linhas para cada etapa.</li>
+    </ul>
+    <p><strong>O plano de execução é a SAÍDA do processo de otimização.</strong></p>
+
+    <h4 style="margin-top:20px;"><i class="fas fa-balance-scale" style="color:var(--accent-blue);"></i> Como o Otimizador Escolhe entre Várias Estratégias (Planos)?</h4>
+    <p>O otimizador é um programa complexo que considera muitas alternativas:</p>
+    <ol>
+        <li><strong>Geração de Planos Candidatos:</strong> Para uma mesma query, podem existir dezenas, centenas ou até milhares de formas diferentes de executá-la. O otimizador explora um subconjunto dessas possibilidades.</li>
+        <li><strong>Estimativa de Custo:</strong> Para cada plano candidato, o otimizador calcula um "custo" estimado. Esse custo é uma combinação de fatores como:
+            <ul style="font-size:0.9em;">
+                <li>Número estimado de operações de I/O (leitura de páginas do disco).</li>
+                <li>Uso estimado de CPU.</li>
+                <li>Uso de memória (para ordenações, tabelas temporárias, hash joins).</li>
+            </ul>
+            <p style="font-size:0.9em;">Essas estimativas são fortemente baseadas nas <strong>estatísticas</strong> do banco de dados!</p>
+        </li>
+        <li><strong>Seleção do Plano "Mais Barato":</strong> O otimizador seleciona o plano candidato que possui o menor custo total estimado.</li>
+    </ol>
+    <p style="margin-top:15px;"><strong>Importante:</strong> O plano escolhido é baseado em ESTIMATIVAS. Se as estatísticas estiverem incorretas, o "menor custo estimado" pode não ser o melhor plano na prática.</p>
+    <p style="font-style:italic;">Analisar o plano de execução é como verificar a rota que o GPS escolheu antes de iniciar a viagem, para garantir que não há desvios estranhos!</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

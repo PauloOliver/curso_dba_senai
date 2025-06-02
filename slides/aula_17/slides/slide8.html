@@ -1,0 +1,32 @@
+<h2><i class="fas fa-project-diagram"></i> Demonstração: Contextualizando com o Modelo de Dados (DER Chen)</h2>
+<p>Antes de mergulharmos nas estatísticas e planos de consultas específicas, é crucial entendermos a estrutura do nosso banco de dados de exemplo.</p>
+<p>Vamos usar o <strong>MySQL Workbench</strong> para visualizar o modelo:</p>
+<div style="text-align: left; max-width: 700px; margin: 15px auto;">
+    <p><i class="fas fa-fw fa-play" style="color:var(--accent-green);"></i> <strong>Passos da Demonstração:</strong></p>
+    <ol style="padding-left: 30px; font-size:0.95em;">
+        <li>Conectar ao servidor MySQL que contém o banco de dados <code>sakila</code>.</li>
+        <li>No menu "Database", selecionar "Reverse Engineer..." (ou Ctrl+R).</li>
+        <li>Seguir os passos do assistente para se conectar e selecionar o schema <code>sakila</code>.</li>
+        <li>Após a importação dos objetos, o Workbench exibirá o <strong>Diagrama Entidade-Relacionamento (EER Diagram, que pode ser visto como uma representação DER Chen)</strong>.</li>
+        <li>Navegar pelo diagrama:
+            <ul style="padding-left:20px; font-size:0.9em;">
+                <li>Identificar tabelas principais: <code>film</code>, <code>actor</code>, <code>customer</code>, <code>rental</code>, <code>inventory</code>, <code>store</code>, <code>address</code>, <code>city</code>, <code>country</code>.</li>
+                <li>Observar as colunas chave (PKs, FKs) e os relacionamentos entre as tabelas.
+                    <svg width="100" height="50" viewBox="0 0 100 50" style="vertical-align: middle; margin-left:10px;">
+                        <rect x="5" y="10" width="30" height="20" fill="var(--bg-light)" stroke="var(--accent-green)" rx="3"/>
+                        <text x="20" y="25" font-size="8" fill="var(--text-light)" text-anchor="middle">TabelaA</text>
+                        <rect x="65" y="10" width="30" height="20" fill="var(--bg-light)" stroke="var(--accent-green)" rx="3"/>
+                        <text x="80" y="25" font-size="8" fill="var(--text-light)" text-anchor="middle">TabelaB</text>
+                        <line x1="35" y1="20" x2="65" y2="20" stroke="var(--accent-blue)" stroke-width="1.5"/>
+                        <circle cx="35" cy="20" r="2" fill="var(--accent-blue)"/>
+                        <polyline points="60,17 65,20 60,23" fill="none" stroke="var(--accent-blue)" stroke-width="1.5"/>
+                        <text x="50" y="35" font-size="7" fill="var(--text-medium)" text-anchor="middle">1:N</text>
+                    </svg>
+                </li>
+                <li>Entender como as tabelas se conectam para responder a perguntas de negócio (ex: "Quais filmes um cliente alugou?").</li>
+            </ul>
+        </li>
+    </ol>
+</div>
+<p style="margin-top:15px; font-style:italic;">Este entendimento da estrutura é fundamental para escrever JOINs corretos e interpretar como o otimizador acessará os dados.</p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

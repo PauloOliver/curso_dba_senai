@@ -1,0 +1,42 @@
+<h2><i class="fas fa-lightbulb"></i> Introdução: Por que Otimizar? O SGBD "Pensante"</h2>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4><i class="fas fa-tachometer-alt" style="color:var(--accent-blue);"></i> A Importância da Eficiência:</h4>
+    <p>Consultas rápidas significam aplicações responsivas, usuários satisfeitos e uso eficiente dos recursos do servidor (CPU, I/O, memória). Uma query lenta pode paralisar um sistema inteiro!</p>
+    <p><strong>Analogia:</strong> Um carteiro eficiente (SGBD) entregando cartas (dados). Uma rota otimizada (plano de execução) economiza tempo e esforço, garantindo que todas as cartas cheguem no prazo.</p>
+
+    <h4 style="margin-top:20px;"><i class="fas fa-brain" style="color:var(--accent-blue);"></i> Como o SGBD "Pensa": O Otimizador de Consultas</h4>
+    <p>Quando você envia um SQL, o SGBD não o executa cegamente. O <strong>Otimizador de Consultas (Query Optimizer)</strong> entra em ação:</p>
+    <ol>
+        <li><strong>Análise (Parsing):</strong> Verifica a sintaxe e a semântica da query.</li>
+        <li><strong>Reescrita (Opcional):</strong> Pode reescrever a query internamente para uma forma equivalente, mas potencialmente mais fácil de otimizar.</li>
+        <li><strong>Geração de Planos:</strong> Cria vários planos de execução alternativos (diferentes formas de acessar tabelas, ordens de JOIN, uso de índices).</li>
+        <li><strong>Estimativa de Custo:</strong> Para cada plano candidato, estima um "custo" (baseado em I/O, CPU, etc.) usando as <strong>estatísticas</strong> do banco de dados.</li>
+        <li><strong>Seleção do Plano:</strong> Escolhe o plano com o menor custo estimado.</li>
+    </ol>
+
+    <div style="text-align: center; margin: 20px 0;">
+        <svg width="300" height="100" viewBox="0 0 300 100">
+            <title>Fluxo do Otimizador</title>
+            <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--accent-green)" />
+                </marker>
+            </defs>
+            <rect x="10" y="35" width="60" height="30" rx="5" fill="var(--bg-light)" stroke="var(--accent-green)" />
+            <text x="40" y="55" fill="var(--text-light)" font-size="10" text-anchor="middle">Query SQL</text>
+            <line x1="70" y1="50" x2="100" y2="50" stroke="var(--accent-green)" marker-end="url(#arrow)" />
+            <rect x="100" y="20" width="100" height="60" rx="5" fill="var(--accent-blue)" stroke="var(--accent-green)" />
+            <text x="150" y="40" fill="white" font-size="12" text-anchor="middle">Otimizador</text>
+            <text x="150" y="55" fill="white" font-size="9" text-anchor="middle">(Usa Estatísticas</text>
+            <text x="150" y="68" fill="white" font-size="9" text-anchor="middle">& Índices)</text>
+            <line x1="200" y1="50" x2="230" y2="50" stroke="var(--accent-green)" marker-end="url(#arrow)" />
+            <rect x="230" y="35" width="60" height="30" rx="5" fill="var(--bg-light)" stroke="var(--accent-green)" />
+            <text x="260" y="55" fill="var(--text-light)" font-size="9" text-anchor="middle">Plano de Exec.</text>
+        </svg>
+    </div>
+
+    <h4 style="margin-top:10px;"><i class="fas fa-link" style="color:var(--accent-blue);"></i> Relação Chave: Estatísticas, Plano de Execução e Índices</h4>
+    <p><strong>Estatísticas</strong> <i class="fas fa-chart-bar"></i> (sobre os dados) + <strong>Índices</strong> <i class="fas fa-key"></i> (atalhos para os dados) <i class="fas fa-arrow-right"></i> Decisões do Otimizador <i class="fas fa-arrow-right"></i> <strong>Plano de Execução</strong> <i class="fas fa-map-signs"></i> (como a query será executada).</p>
+    <p>Se as estatísticas estão ruins ou faltam índices cruciais, o otimizador pode escolher um plano terrível!</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

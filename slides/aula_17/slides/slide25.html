@@ -1,0 +1,46 @@
+<h2><i class="far fa-eye"></i> Índices: Visualização no MySQL</h2>
+<p>É essencial saber como verificar os índices existentes em suas tabelas:</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4><i class="fas fa-terminal" style="color:var(--accent-blue);"></i> Comando <code>SHOW INDEX FROM nome_da_tabela;</code></h4>
+    <p>Este é o comando SQL principal para listar todos os índices de uma tabela específica.</p>
+    <pre><code class="language-sql">SHOW INDEX FROM sakila.film;</code></pre>
+    <p><strong>Principais Colunas do Resultado:</strong></p>
+    <table style="width:100%; font-size:0.85em; border-collapse:collapse; margin-top:5px;">
+        <thead><tr style="background-color:var(--bg-light);"><th>Coluna</th><th>Descrição</th></tr></thead>
+        <tbody>
+            <tr><td><code>Table</code></td><td>Nome da tabela.</td></tr>
+            <tr><td><code>Non_unique</code></td><td>0 se o índice é único, 1 caso contrário.</td></tr>
+            <tr><td><code>Key_name</code></td><td>Nome do índice (ex: PRIMARY, idx_title, ou o nome da constraint UNIQUE).</td></tr>
+            <tr><td><code>Seq_in_index</code></td><td>Número sequencial da coluna dentro de um índice composto (1 para a primeira coluna, 2 para a segunda, etc.).</td></tr>
+            <tr><td><code>Column_name</code></td><td>Nome da coluna que faz parte do índice.</td></tr>
+            <tr><td><code>Collation</code></td><td>Collation da coluna no índice ('A' para ascendente, NULL para não ordenado/hash).</td></tr>
+            <tr><td><code>Cardinality</code></td><td><strong>Estimativa</strong> do número de valores únicos no índice. Crucial para o otimizador! Valores altos geralmente indicam boa seletividade.</td></tr>
+            <tr><td><code>Sub_part</code></td><td>Comprimento do prefixo indexado para colunas string/blob, ou NULL.</td></tr>
+            <tr><td><code>Packed</code></td><td>Indica como a chave está empacotada (NULL se não estiver).</td></tr>
+            <tr><td><code>Null</code></td><td>'YES' se a coluna pode conter NULLs, '' (vazio) se não.</td></tr>
+            <tr><td><code>Index_type</code></td><td>Tipo de estrutura do índice (ex: BTREE, FULLTEXT, HASH, RTREE).</td></tr>
+            <tr><td><code>Comment</code></td><td>Comentários sobre o índice (ex: "primary key", "disabled").</td></tr>
+            <tr><td><code>Index_comment</code></td><td>Comentário fornecido ao criar o índice com a cláusula COMMENT.</td></tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin-top:20px;"><i class="fas fa-desktop" style="color:var(--accent-blue);"></i> MySQL Workbench:</h4>
+    <ul>
+        <li><strong>Navegador de Schema (Schema Navigator):</strong>
+            <ul style="font-size:0.9em;">
+                <li>Expanda o schema (banco de dados).</li>
+                <li>Expanda a tabela desejada.</li>
+                <li>Expanda a seção "Indexes". Lá você verá a lista de índices.</li>
+            </ul>
+        </li>
+        <li><strong>Table Inspector:</strong>
+            <ul style="font-size:0.9em;">
+                <li>Clique com o botão direito na tabela no Navegador de Schema.</li>
+                <li>Selecione "Table Inspector".</li>
+                <li>Vá para a aba "Indexes".</li>
+            </ul>
+        </li>
+    </ul>
+    <p><strong>Demonstração Rápida:</strong> Executar <code>SHOW INDEX FROM sakila.actor;</code> no Workbench e inspecionar os índices da tabela `actor` usando o Table Inspector.</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

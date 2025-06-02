@@ -1,0 +1,25 @@
+<h2><i class="fas fa-chart-bar"></i> Estatísticas de Banco de Dados - Definição</h2>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4><i class="fas fa-info-circle" style="color:var(--accent-blue);"></i> O que são Estatísticas em Bancos de Dados?</h4>
+    <p>São <strong>metadados</strong> que descrevem as características e a distribuição dos dados armazenados nas tabelas e índices. Elas <strong>NÃO</strong> são os dados em si, mas informações <em>sobre</em> os dados.</p>
+    <p><strong>Analogia: O Censo Demográfico</strong> <i class="fas fa-users"></i></p>
+    <p style="font-size:0.95em;">Imagine que sua tabela é a população de uma cidade. As estatísticas seriam como os resultados de um censo:</p>
+    <ul style="font-size:0.95em;">
+        <li>Número total de habitantes (linhas na tabela).</li>
+        <li>Quantas pessoas existem em cada faixa etária (distribuição de valores em uma coluna).</li>
+        <li>Quantos sobrenomes únicos existem (cardinalidade de uma coluna/índice).</li>
+        <li>O valor mais comum e o menos comum para uma característica.</li>
+    </ul>
+    <p>Essas informações ajudam o "planejador da cidade" (otimizador) a tomar decisões eficientes.</p>
+
+    <h4 style="margin-top:20px;"><i class="fas fa-calculator" style="color:var(--accent-blue);"></i> Como o Otimizador Usa Estatísticas?</h4>
+    <p>O Otimizador de Consultas do MySQL é predominantemente um <strong>Cost-Based Optimizer (CBO)</strong>. Ele tenta encontrar o plano de execução com o menor "custo" estimado.</p>
+    <p>As estatísticas são vitais para essa estimativa de custo:</p>
+    <ul style="font-size:0.95em;">
+        <li><strong>Estimativa de Seletividade:</strong> Quantas linhas um filtro (<code>WHERE</code>) provavelmente retornará? (Ex: <code>WHERE status = 'ATIVO'</code>. Se as estatísticas mostram que 90% dos clientes são ativos, o otimizador sabe que este filtro não é muito seletivo).</li>
+        <li><strong>Estimativa de Custo de JOINs:</strong> Qual a melhor ordem para juntar tabelas? Qual método de JOIN usar?</li>
+        <li><strong>Escolha de Índices:</strong> Qual índice é mais provável de reduzir o número de linhas a serem lidas?</li>
+    </ul>
+    <p style="font-weight:bold;">Sem estatísticas precisas, o otimizador está "voando às cegas" e pode fazer escolhas muito ruins!</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>
