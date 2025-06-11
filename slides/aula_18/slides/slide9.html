@@ -1,0 +1,28 @@
+<h2><i class="fas fa-plus-circle" style="color:var(--accent-green);"></i> Tipos de Backup: Incremental <span style="font-size:1.5em; color:var(--accent-green);">🟢</span></h2>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <p><strong>Definição:</strong> Copia <strong>apenas os dados que foram alterados ou adicionados</strong> desde o <em>último backup realizado</em> (seja ele um backup completo ou outro backup incremental anterior na mesma cadeia).</p>
+    <div style="text-align:center; margin: 20px 0; display:flex; justify-content:center; align-items:center;">
+        <svg width="60" height="60" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="var(--accent-blue)"/><text x="50" y="58" font-family="FontAwesome" font-size="30" fill="white" text-anchor="middle">&#xf0c7;</text></svg>
+        <i class="fas fa-long-arrow-alt-right fa-2x" style="margin:0 10px; color:var(--text-medium);"></i>
+        <svg width="40" height="40" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="var(--accent-green)"/><text x="50" y="60" font-family="FontAwesome" font-size="25" fill="white" text-anchor="middle">&#xf067;</text><animateTransform attributeName="transform" type="scale" values="1;1.2;1" dur="1.5s" repeatCount="indefinite"/></svg>
+        <i class="fas fa-long-arrow-alt-right fa-2x" style="margin:0 10px; color:var(--text-medium);"></i>
+        <svg width="40" height="40" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="var(--accent-green)"/><text x="50" y="60" font-family="FontAwesome" font-size="25" fill="white" text-anchor="middle">&#xf067;</text><animateTransform attributeName="transform" type="scale" values="1;1.2;1" dur="1.5s" repeatCount="indefinite" begin="0.5s"/></svg>
+    </div>
+    <p style="text-align:center; font-size:0.9em; color:var(--text-medium);">Diagrama: [Completo] <i class="fas fa-arrow-right"></i> [Inc 1] <i class="fas fa-arrow-right"></i> [Inc 2] <i class="fas fa-arrow-right"></i> [Inc 3]</p>
+
+    <h4>Vantagens:</h4>
+    <ul style="list-style:none; padding-left:0;">
+        <li style="margin-bottom:8px;"><i class="fas fa-check fa-fw" style="color:var(--accent-green);"></i> <strong>Rápido de Executar:</strong> Geralmente é o tipo de backup mais rápido, pois copia menos dados.</li>
+        <li style="margin-bottom:8px;"><i class="fas fa-check fa-fw" style="color:var(--accent-green);"></i> <strong>Menor Espaço de Armazenamento (por backup):</strong> Cada arquivo de backup incremental individual é pequeno.</li>
+        <li style="margin-bottom:8px;"><i class="fas fa-check fa-fw" style="color:var(--accent-green);"></i> <strong>Menor Impacto no Desempenho:</strong> Menos dados lidos/processados durante o backup.</li>
+    </ul>
+
+    <h4>Desvantagens:</h4>
+    <ul style="list-style:none; padding-left:0;">
+        <li style="margin-bottom:8px;"><i class="fas fa-times fa-fw" style="color:var(--red-error);"></i> <strong>Restauração Mais Complexa e Lenta:</strong> Para restaurar, é necessário o último backup completo <strong>MAIS todos os backups incrementais subsequentes</strong>, na ordem correta.</li>
+        <li style="margin-bottom:8px;"><i class="fas fa-times fa-fw" style="color:var(--red-error);"></i> <strong>Maior Risco na Restauração:</strong> Se qualquer um dos backups incrementais na cadeia estiver corrompido ou faltando, a restauração completa até aquele ponto pode falhar.</li>
+        <li style="margin-bottom:8px;"><i class="fas fa-times fa-fw" style="color:var(--red-error);"></i> <strong>Gerenciamento de Múltiplos Arquivos:</strong> Requer um bom controle da cadeia de backups.</li>
+    </ul>
+    <p style="margin-top:15px; font-style:italic;">Ideal para ser executado com alta frequência (ex: a cada hora, várias vezes ao dia) entre backups completos menos frequentes.</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

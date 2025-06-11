@@ -1,0 +1,47 @@
+<h2><i class="fas fa-file-code"></i> Exercício 3: Criar Script de Backup Simples com Agendamento (Conceitual)</h2>
+<p><strong>Objetivo:</strong> Escrever um script shell básico para automatizar o backup e discutir como agendá-lo.</p>
+<p><strong>Pré-requisito:</strong> Entendimento básico de scripts shell (Bash para Linux/macOS).</p>
+
+<p><strong>Tarefas:</strong></p>
+<ol style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li>Crie um novo arquivo de texto e salve-o como <code>meu_backup_script.sh</code> (ou nome similar).</li>
+    <li>Adicione o shebang no início do arquivo: <code>#!/bin/bash</code>.</li>
+    <li><strong>Defina Variáveis:</strong>
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li><code>DB_USER</code>: Seu usuário do MySQL.</li>
+            <li><code>DB_NAME</code>: O nome do banco a ser backupeado (ex: <code>empresa_simples</code> ou <code>empresa_restaurada</code>).</li>
+            <li><code>BACKUP_DIR</code>: O caminho completo para um diretório onde os backups serão salvos (ex: <code>/home/seu_usuario/mysql_backups</code> - crie este diretório se não existir).</li>
+            <li><code>TIMESTAMP</code>: Use o comando <code>date</code> para gerar um timestamp no formato <code>+%Y-%m-%d_%H%M%S</code>.</li>
+            <li><code>FILENAME</code>: Combine <code>BACKUP_DIR</code>, <code>DB_NAME</code>, e <code>TIMESTAMP</code> para criar um nome de arquivo único para o backup (ex: <code>${BACKUP_DIR}/${DB_NAME}_${TIMESTAMP}.sql</code>).</li>
+        </ul>
+    </li>
+    <li><strong>Comando de Backup:</strong>
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li>Adicione o comando <code>mysqldump</code> usando as variáveis definidas.</li>
+            <li>Inclua opções como <code>--single-transaction</code>.</li>
+            <li>Redirecione a saída para o <code>$FILENAME</code>.</li>
+            <li>(Opcional) Adicione compressão com <code>gzip</code>: <code>... | gzip > "${FILENAME}.gz"</code> (e ajuste <code>$FILENAME</code>).</li>
+        </ul>
+    </li>
+    <li><strong>Mensagens de Log Simples:</strong>
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li>Use <code>echo</code> para imprimir uma mensagem no início do script.</li>
+            <li>Use <code>echo</code> para imprimir uma mensagem de sucesso (incluindo o nome do arquivo) ou falha no final. (Dica: verifique o código de saída <code>$?</code> do <code>mysqldump</code>).</li>
+        </ul>
+    </li>
+    <li><strong>Tornar Executável e Testar:</strong>
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li>No terminal, dê permissão de execução ao script: <code>chmod +x meu_backup_script.sh</code>.</li>
+            <li>Execute o script: <code>./meu_backup_script.sh</code>.</li>
+            <li>Verifique se o arquivo de backup foi criado no <code>BACKUP_DIR</code> com o nome dinâmico.</li>
+        </ul>
+    </li>
+    <li><strong>Discussão (Agendamento Conceitual):</strong>
+        <ul style="font-size:0.9em; padding-left:20px;">
+            <li>Como você adicionaria este script ao <code>cron</code> para ser executado diariamente às 02:30?</li>
+            <li>Como você faria para que a saída do script (mensagens de echo) fosse para um arquivo de log?</li>
+        </ul>
+    </li>
+</ol>
+<p style="font-size:0.85em; color:var(--text-medium);">Nota sobre senhas: Para este exercício, você pode colocar a senha no script ou ser solicitado. Em produção, use arquivos de opção <code>.my.cnf</code> para segurança.</p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

@@ -1,0 +1,31 @@
+<h2><i class="fas fa-tools"></i> Ferramentas de Backup: <code>mysqldump</code> (MySQL)</h2>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <p><code>mysqldump</code> é um utilitário de linha de comando cliente que pode ser usado para realizar <strong>backups lógicos</strong> de bancos de dados MySQL. Ele produz um arquivo de script SQL que pode ser executado para recriar o banco de dados e/ou suas tabelas e dados.</p>
+    <div style="text-align:center; margin:15px 0;">
+        <i class="fas fa-database fa-2x" style="color:var(--accent-blue); vertical-align: middle;"></i>
+        <i class="fas fa-long-arrow-alt-right fa-2x" style="color:var(--text-medium); margin:0 10px; vertical-align: middle;"></i>
+        <span style="display:inline-block; padding:10px; background-color:var(--bg-light); border-radius:5px; color:var(--accent-yellow); font-family:monospace; vertical-align: middle;">mysqldump</span>
+        <i class="fas fa-long-arrow-alt-right fa-2x" style="color:var(--text-medium); margin:0 10px; vertical-align: middle;"></i>
+        <i class="fas fa-file-sql fa-2x" style="color:var(--accent-green); vertical-align: middle;"></i>
+    </div>
+    <h4>Principais Usos do <code>mysqldump</code>:</h4>
+    <ul style="list-style:disc; padding-left:20px;">
+        <li><strong>Backups Completos ou Parciais:</strong>
+            <ul>
+                <li>Backup de todos os bancos de dados no servidor.</li>
+                <li>Backup de um ou mais bancos de dados específicos.</li>
+                <li>Backup de tabelas específicas dentro de um banco de dados.</li>
+            </ul>
+        </li>
+        <li><strong>Migração de Dados:</strong> Transferir dados entre servidores MySQL (mesma versão ou versões diferentes, com atenção a compatibilidade).</li>
+        <li><strong>Criação de Cópias para Ambientes de Desenvolvimento/Teste:</strong> Fornecer uma cópia dos dados de produção para equipes de desenvolvimento.</li>
+        <li><strong>Clonagem de Estrutura:</strong> Exportar apenas a estrutura das tabelas (sem dados) usando a opção <code>--no-data</code>.</li>
+    </ul>
+    <h4>Características Importantes:</h4>
+    <ul style="list-style:disc; padding-left:20px;">
+        <li><strong>Saída Padrão:</strong> Por padrão, envia a saída SQL para <code>stdout</code> (saída padrão), que pode ser redirecionada para um arquivo.</li>
+        <li><strong>Consistência:</strong> Para tabelas InnoDB, a opção <code>--single-transaction</code> é crucial para obter um backup consistente sem bloquear as tabelas por longos períodos. Ele inicia uma transação e faz o dump dentro dessa transação.</li>
+        <li><strong>Flexibilidade:</strong> Oferece uma vasta gama de opções para controlar o que é incluído no backup (dados, estrutura, routines, triggers, events, etc.).</li>
+    </ul>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

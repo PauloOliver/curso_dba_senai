@@ -1,0 +1,54 @@
+<h2><i class="fas fa-scroll"></i> Introdução ao Uso de Scripts para Agendamento</h2>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <p>Scripts são a base da automatização de backups. Eles permitem encapsular todos os comandos e lógicas necessários em um único arquivo executável.</p>
+    <h4><i class="fab fa-linux" style="color:var(--accent-blue);"></i> Scripts Shell (Bash no Linux/macOS)</h4>
+    <p style="font-size:0.95em;">Bash é um interpretador de comandos poderoso e amplamente disponível em sistemas Unix-like.</p>
+    <p><strong>Exemplo Simples de Script Bash para <code>mysqldump</code>:</strong></p>
+    <pre><code class="language-bash">
+#!/bin/bash
+
+# --- Configurações ---
+DB_USER="backupuser"
+DB_PASS_FILE="/etc/mysql/backup_user.cnf" # Arquivo com credenciais
+DB_NAME="meu_banco_de_dados"
+BACKUP_DIR="/var/backups/mysql_data"
+DATE_FORMAT=$(date +%Y-%m-%d_%H%M%S)
+FILENAME="${BACKUP_DIR}/${DB_NAME}_${DATE_FORMAT}.sql.gz"
+LOG_FILE="/var/log/mysql_backup.log"
+
+# --- Funções ---
+log_message() {
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - $1" >> "${LOG_FILE}"
+}
+
+# --- Execução ---
+log_message "Iniciando backup de ${DB_NAME}..."
+mkdir -p "${BACKUP_DIR}" # Garante que o diretório exista
+
+# Usando --defaults-extra-file para ler credenciais de forma segura
+mysqldump --defaults-extra-file="${DB_PASS_FILE}" \
+    -h localhost -u "${DB_USER}" "${DB_NAME}" \
+    --single-transaction --routines --triggers --events \
+    | gzip > "${FILENAME}"
+
+if [ ${PIPESTATUS[0]} -eq 0 ]; then # Verifica o status de mysqldump, não do gzip
+    log_message "Backup de ${DB_NAME} concluído com sucesso: ${FILENAME}"
+    # Adicionar aqui: Limpeza de backups antigos, notificações, etc.
+else
+    log_message "ERRO: Backup de ${DB_NAME} falhou!"
+    # Adicionar aqui: Notificação de erro
+fi
+
+log_message "Script de backup finalizado."
+    </code></pre>
+    <p style="font-size:0.85em; color:var(--text-medium);"><strong>Conteúdo do <code>/etc/mysql/backup_user.cnf</code> (permissões restritas 600):</strong><br/>
+    <code>[client]</code><br/>
+    <code>password="sua_senha_segura"</code>
+    </p>
+
+    <h4 style="margin-top:15px;"><i class="fab fa-windows" style="color:var(--accent-blue);"></i> Scripts PowerShell (Windows)</h4>
+    <p style="font-size:0.95em;">PowerShell é a ferramenta de scripting moderna e poderosa para Windows.</p>
+    <p style="font-size:0.9em; color:var(--text-medium);">A lógica seria similar: definir variáveis, chamar <code>mysqldump.exe</code> (certificando-se de que está no PATH ou especificando o caminho completo), manipular a saída, e usar o Agendador de Tarefas do Windows.</p>
+    <p style="margin-top:15px; font-style:italic;">O script pode ser expandido para incluir compressão, logs mais detalhados, notificações por e-mail, rotação de backups antigos, etc.</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

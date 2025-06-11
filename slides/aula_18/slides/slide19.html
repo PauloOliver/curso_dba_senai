@@ -1,0 +1,44 @@
+<h2><i class="fas fa-terminal"></i> <code>mysqldump</code> - Exemplos de Comandos e Parâmetros</h2>
+<p>Vamos ver alguns exemplos práticos e parâmetros importantes:</p>
+<div style="text-align: left; max-width: 850px; margin: 10px auto; font-size:0.9em;">
+    <p><strong>Sintaxe Base:</strong> <code>mysqldump [opções] [nome_banco [tabelas...]] > arquivo_saida.sql</code></p>
+
+    <h4>Exemplos Comuns:</h4>
+    <pre><code class="language-bash">
+# Backup de um único banco de dados
+mysqldump -u usuario -p senha_do_usuario nome_do_banco > backup_banco.sql
+
+# Backup de todos os bancos de dados no servidor
+mysqldump -u usuario -p --all-databases > backup_servidor_completo.sql
+
+# Backup de tabelas específicas (tabela1 e tabela2) do banco "meu_banco"
+mysqldump -u usuario -p meu_banco tabela1 tabela2 > backup_tabelas_especificas.sql
+
+# Backup apenas da estrutura (sem dados) de um banco
+mysqldump -u usuario -p --no-data nome_do_banco > estrutura_banco.sql
+    </code></pre>
+    <p style="font-size:0.8em; color:var(--text-medium);">Nota: Colocar a senha diretamente na linha de comando (<code>-psenha</code>) é um risco de segurança. É melhor omitir a senha para que seja solicitada, ou usar um arquivo de opções MySQL (<code>.my.cnf</code>).</p>
+
+    <h4>Parâmetros Importantes (Boas Práticas):</h4>
+    <ul style="columns: 2; -webkit-columns: 2; -moz-columns: 2; column-gap: 20px; font-size:0.95em;">
+        <li><code>-u, --user=nome</code>: Usuário MySQL.</li>
+        <li><code>-p, --password[=senha]</code>: Senha (opcional na linha).</li>
+        <li><code>-h, --host=nome_host</code>: Host do servidor MySQL (padrão: localhost).</li>
+        <li><code>-P, --port=numero_porta</code>: Porta TCP/IP (padrão: 3306).</li>
+        <li><strong style="color:var(--accent-green);"><code>--single-transaction</code></strong>: Garante um backup consistente para tabelas InnoDB, iniciando uma transação e fazendo o dump dentro dela. Minimiza o locking. <strong>ALTAMENTE RECOMENDADO para InnoDB.</strong></li>
+        <li><code>--opt</code> (habilitado por padrão): Um conjunto de opções para um dump rápido (inclui <code>--quick</code>, <code>--add-drop-table</code>, <code>--lock-tables</code> (para MyISAM), etc.).</li>
+        <li><code>--quick</code>: Não bufferiza as linhas na memória antes de escrever, útil para tabelas grandes.</li>
+        <li><strong style="color:var(--accent-green);"><code>--routines</code></strong> (ou <code>-R</code>): Inclui Stored Procedures e Functions.</li>
+        <li><strong style="color:var(--accent-green);"><code>--triggers</code></strong>: Inclui Triggers.</li>
+        <li><code>--events</code> (ou <code>-E</code>): Inclui Eventos agendados.</li>
+        <li><code>--all-databases</code> (ou <code>-A</code>): Faz backup de todos os bancos.</li>
+        <li><code>--databases db1 db2 ...</code>: Faz backup dos bancos listados.</li>
+        <li><code>--no-data</code> (ou <code>-d</code>): Exporta apenas a estrutura (DDL), sem os dados (DML).</li>
+        <li><code>--add-drop-table</code>: Adiciona <code>DROP TABLE IF EXISTS</code> antes de cada <code>CREATE TABLE</code>. Útil para restaurações.</li>
+        <li><code>--master-data=2</code>: Inclui um comando <code>CHANGE MASTER TO</code> comentado no dump com as coordenadas do log binário. Útil para PITR e configuração de réplicas. (<code>=1</code> não comenta).</li>
+        <li><code>--dump-slave=2</code>: Similar ao <code>--master-data</code>, mas para usar em uma réplica.</li>
+        <li><code>--compress</code>: Usa compressão entre cliente e servidor (se ambos suportarem). Para comprimir o arquivo de saída, use ferramentas externas como <code>gzip</code>.</li>
+        <li><code>--result-file=/caminho/para/arquivo.sql</code>: Especifica o arquivo de saída diretamente.</li>
+    </ul>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

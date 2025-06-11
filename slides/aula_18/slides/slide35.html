@@ -1,0 +1,35 @@
+<h2><i class="fas fa-check-circle"></i> Soluções Comentadas - Exercício 1</h2>
+<p><strong>Backup Completo Lógico com <code>mysqldump</code></strong></p>
+<p><strong>Comando Esperado (Exemplo):</strong></p>
+<pre><code class="language-bash">
+# Substitua 'seu_usuario_mysql' e 'sua_senha_mysql' pelos seus dados
+# A senha após -p pode ser omitida para ser solicitada interativamente
+
+mysqldump -u seu_usuario_mysql -psua_senha_mysql empresa_simples \
+    --single-transaction \
+    --routines \
+    --triggers \
+    --events \
+    > /caminho/para/seu/diretorio/empresa_simples_backup_COMPLETO_$(date +%Y%m%d).sql
+</code></pre>
+<p style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;"><strong>Para comprimir diretamente (Linux/macOS):</strong></p>
+<pre><code class="language-bash">
+mysqldump -u seu_usuario_mysql -psua_senha_mysql empresa_simples \
+    --single-transaction --routines --triggers --events \
+    | gzip > /caminho/para/seu/diretorio/empresa_simples_backup_COMPLETO_$(date +%Y%m%d).sql.gz
+</code></pre>
+
+<p><strong>Pontos de Verificação e Discussão:</strong></p>
+<ul style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li><i class="fas fa-user-check" style="color:var(--accent-green);"></i> <strong>Usuário e Senha:</strong> Garanta que o usuário MySQL tenha as permissões necessárias (<code>SELECT</code>, <code>LOCK TABLES</code> se não usar <code>--single-transaction</code> ou para MyISAM, <code>SHOW VIEW</code>, <code>TRIGGER</code>, <code>EVENT</code>). Para <code>--single-transaction</code>, <code>RELOAD</code> ou <code>SUPER</code> podem ser necessários para garantir consistência em certos cenários, mas geralmente <code>PROCESS</code> é suficiente.</li>
+    <li><i class="fas fa-lock-open" style="color:var(--accent-green);"></i> <strong><code>--single-transaction</code>:</strong> Essencial para tabelas InnoDB. Cria um snapshot consistente do banco no início do dump, permitindo que outras transações continuem sem bloquear as tabelas por muito tempo. Não funciona bem para MyISAM ou outros engines não transacionais (para esses, <code>--lock-all-tables</code> ou <code>--lock-tables</code> seria necessário, causando mais bloqueio).</li>
+    <li><i class="fas fa-cogs" style="color:var(--accent-green);"></i> <strong><code>--routines</code>, <code>--triggers</code>, <code>--events</code>:</strong> Importante para incluir Stored Procedures/Functions, Triggers e Eventos Agendados no seu backup. Sem eles, você perderia essa lógica de banco de dados.</li>
+    <li><i class="fas fa-file-archive" style="color:var(--accent-green);"></i> <strong>Nome do Arquivo e Compressão:</strong>
+        <ul>
+            <li style="font-size:0.9em;">O uso de <code>$(date +%Y%m%d)</code> (ou formato similar) no nome do arquivo ajuda a identificar e organizar os backups.</li>
+            <li style="font-size:0.9em;">Comprimir com <code>gzip</code> (ou outra ferramenta) é altamente recomendado para economizar espaço, especialmente para backups lógicos que podem ser grandes.</li>
+        </ul>
+    </li>
+    <li><i class="far fa-folder-open" style="color:var(--accent-green);"></i> <strong>Verificação do Arquivo:</strong> Confirme que o arquivo foi criado, tem um tamanho razoável (não zero bytes) e, se possível, abra-o para inspecionar brevemente se contém as instruções <code>CREATE TABLE</code> e <code>INSERT</code>.</li>
+</ul>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

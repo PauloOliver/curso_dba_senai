@@ -1,0 +1,20 @@
+<h2><i class="fas fa-exchange-alt"></i> Backup Lógico vs. Físico - Uma Distinção Crucial <span style="font-size:1.5em; color:var(--red-error);">🔴</span></h2>
+<p>Além dos tipos (Completo, Incremental, Diferencial), os backups também se classificam pela forma como os dados são copiados:</p>
+<div style="display: flex; justify-content: space-around; align-items: flex-start; max-width: 850px; margin: 20px auto; flex-wrap:wrap;">
+  <div style="flex-basis: 48%; min-width:300px; padding: 15px; background-color: rgba(0, 74, 127, 0.1); border-radius: 8px; border: 1px solid var(--accent-blue); margin-bottom:10px;">
+    <h3 style="color: var(--accent-blue); text-align:center;"><i class="fas fa-file-code"></i> Backup Lógico</h3>
+    <p style="font-size: 0.9rem;"><strong>Como:</strong> Exporta os dados e a estrutura do banco como uma série de instruções SQL (<code>CREATE TABLE</code>, <code>INSERT</code>) ou em formatos como CSV/XML.</p>
+    <p style="font-size: 0.9rem;"><strong>Ferramentas:</strong> <code>mysqldump</code>, <code>pg_dump</code>.</p>
+    <p style="font-size: 0.9rem;"><strong>Prós:</strong> Portátil, flexível (restaurar objetos), mais fácil de entender.</p>
+    <p style="font-size: 0.9rem;"><strong>Contras:</strong> Mais lento (especialmente para restaurar), pode não pegar tudo (configurações específicas).</p>
+  </div>
+  <div style="flex-basis: 48%; min-width:300px; padding: 15px; background-color: rgba(42, 157, 143, 0.1); border-radius: 8px; border: 1px solid var(--accent-green); margin-bottom:10px;">
+    <h3 style="color: var(--accent-green); text-align:center;"><i class="fas fa-hdd"></i> Backup Físico</h3>
+    <p style="font-size: 0.9rem;"><strong>Como:</strong> Copia os arquivos binários do banco de dados diretamente do sistema de arquivos.</p>
+    <p style="font-size: 0.9rem;"><strong>Ferramentas:</strong> Percona XtraBackup, <code>pg_basebackup</code>, snapshots de VM/Storage.</p>
+    <p style="font-size: 0.9rem;"><strong>Prós:</strong> Muito mais rápido (especialmente para restaurar BDs grandes), captura estado exato.</p>
+    <p style="font-size: 0.9rem;"><strong>Contras:</strong> Menos portável, mais complexo para restaurar objetos individuais, pode exigir BD offline/modo especial.</p>
+  </div>
+</div>
+<p style="margin-top:15px; text-align:center;">A escolha depende do tamanho do banco, RPO/RTO, e recursos disponíveis.</p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

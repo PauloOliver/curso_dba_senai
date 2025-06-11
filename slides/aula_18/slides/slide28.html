@@ -1,0 +1,48 @@
+<h2><i class="fas fa-hdd"></i> Estratégias de Armazenamento de Backups</h2>
+<p>Onde e como você armazena seus backups é tão importante quanto fazê-los.</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4 style="text-align:center; color:var(--accent-yellow); margin-bottom:15px;"><i class="fas fa-shield-virus"></i> A Regra de Ouro: 3-2-1</h4>
+    <div style="display:flex; justify-content:space-around; align-items:center; text-align:center; margin-bottom:20px;">
+        <div style="animation: popIn 1s ease-out;">
+            <i class="fas fa-copy fa-3x" style="color:var(--accent-blue);"></i>
+            <p><strong>3 Cópias</strong><br/>(Original + 2 Backups)</p>
+        </div>
+        <i class="fas fa-plus fa-2x" style="color:var(--text-medium); margin:0 10px;"></i>
+        <div style="animation: popIn 1s ease-out 0.3s;">
+            <i class="fas fa-compact-disc fa-3x" style="color:var(--accent-green);"></i>
+            <p><strong>2 Mídias Diferentes</strong><br/>(Ex: Disco local + Nuvem)</p>
+        </div>
+        <i class="fas fa-plus fa-2x" style="color:var(--text-medium); margin:0 10px;"></i>
+        <div style="animation: popIn 1s ease-out 0.6s;">
+            <i class="fas fa-cloud-upload-alt fa-3x" style="color:var(--accent-yellow);"></i>
+            <p><strong>1 Cópia Off-site</strong><br/>(Local geograficamente separado)</p>
+        </div>
+    </div>
+    <style> @keyframes popIn { 0% {transform:scale(0)} 70% {transform:scale(1.1)} 100% {transform:scale(1)} } </style>
+
+    <h4>Opções Comuns de Armazenamento:</h4>
+    <ul style="list-style:disc; padding-left:20px; font-size:0.95em;">
+        <li><strong>Disco Local (no mesmo servidor):</strong>
+            <ul><li style="font-size:0.9em;"><strong>Prós:</strong> Rápido para backup e restore. <strong>Contras:</strong> <strong style="color:var(--red-error);">ALTÍSSIMO RISCO!</strong> Se o servidor falhar (disco, placa-mãe, desastre), você perde o original E o backup. Use apenas como um local temporário antes de mover para outro lugar.</li></ul>
+        </li>
+        <li><strong>Outro Disco Local (no mesmo servidor, mas fisicamente separado):</strong>
+            <ul><li style="font-size:0.9em;">Melhor que o anterior, mas ainda vulnerável a falhas do servidor ou desastres locais.</li></ul>
+        </li>
+        <li><strong>Servidor de Backup Dedicado na Rede Local (NAS, SAN, outro servidor):</strong>
+            <ul><li style="font-size:0.9em;"><strong>Prós:</strong> Mais seguro, isola os backups do servidor de produção. <strong>Contras:</strong> Ainda vulnerável a desastres que afetem todo o local (incêndio, inundação).</li></ul>
+        </li>
+        <li><strong>Armazenamento em Nuvem (Cloud Storage):</strong>
+            <ul><li style="font-size:0.9em;">Ex: AWS S3, Google Cloud Storage, Azure Blob Storage, Backblaze B2.</li> <li style="font-size:0.9em;"><strong>Prós:</strong> Excelente para cópia off-site, alta durabilidade, escalabilidade, geralmente custo-efetivo. <strong>Contras:</strong> Velocidade de upload/download pode ser um gargalo, custos de transferência e armazenamento a longo prazo.</li></ul>
+        </li>
+        <li><strong>Servidor FTP/SFTP Remoto:</strong>
+            <ul><li style="font-size:0.9em;">Uma opção para transferir backups para um local off-site. SFTP é preferível por segurança.</li></ul>
+        </li>
+        <li><strong>Fitas Magnéticas (LTO):</strong>
+            <ul><li style="font-size:0.9em;">Menos comum para recuperação rápida, mas ainda usada para arquivamento de longo prazo (arquivamento "cold storage") devido ao baixo custo por TB e durabilidade offline.</li></ul>
+        </li>
+    </ul>
+
+    <h4 style="margin-top:15px;"><i class="far fa-calendar-times" style="color:var(--accent-blue);"></i> Política de Retenção de Backups:</h4>
+    <p style="font-size:0.95em;">Defina por quanto tempo você precisa manter os diferentes tipos de backups (diários, semanais, mensais, anuais). Isso depende dos seus RPOs, requisitos de conformidade legal/setorial, e necessidades de negócio para recuperação histórica.</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

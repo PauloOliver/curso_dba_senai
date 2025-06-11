@@ -1,0 +1,46 @@
+<h2><i class="fas fa-download"></i> Exercício 1: Backup Completo Lógico com <code>mysqldump</code></h2>
+<p><strong>Objetivo:</strong> Realizar um backup lógico completo de um banco de dados de exemplo.</p>
+<p><strong>Banco de Dados de Exemplo:</strong> <code>empresa_simples</code> (a ser criado).</p>
+<pre><code class="language-sql">
+-- Script DDL para criar o banco e tabelas (executar no MySQL)
+CREATE DATABASE IF NOT EXISTS empresa_simples;
+USE empresa_simples;
+
+CREATE TABLE departamentos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome_depto VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE funcionarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cargo VARCHAR(50),
+    data_admissao DATE,
+    id_depto INT,
+    FOREIGN KEY (id_depto) REFERENCES departamentos(id)
+);
+
+-- Script DML para popular (executar no MySQL)
+INSERT INTO departamentos (nome_depto) VALUES ('RH'), ('TI'), ('Vendas');
+INSERT INTO funcionarios (nome, cargo, data_admissao, id_depto) VALUES
+('Ana Silva', 'Gerente de RH', '2020-01-15', 1),
+('Bruno Costa', 'Desenvolvedor Pleno', '2021-06-01', 2),
+('Carla Lima', 'Analista de Vendas', '2022-03-10', 3),
+('Daniel Moreira', 'Estagiário TI', '2023-01-20', 2);
+</code></pre>
+
+<p><strong>Tarefas:</strong></p>
+<ol style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li>No seu cliente MySQL (linha de comando ou Workbench), execute os scripts DDL e DML acima para criar e popular o banco <code>empresa_simples</code>. Verifique se as tabelas e dados foram criados.</li>
+    <li>Abra o terminal do seu sistema operacional (Bash no Linux/macOS ou CMD/PowerShell no Windows).</li>
+    <li>Use o comando <code>mysqldump</code> para realizar um backup lógico completo do banco <code>empresa_simples</code>.
+        <ul>
+            <li style="font-size:0.9em;">Use um usuário MySQL com as permissões necessárias (ex: seu usuário root local para este exercício, ou um usuário de backup).</li>
+            <li style="font-size:0.9em;">Inclua as opções: <code>--single-transaction</code>, <code>--routines</code>, <code>--triggers</code>, <code>--events</code> (mesmo que não tenhamos criado routines/triggers/events neste exemplo, é boa prática incluí-los).</li>
+            <li style="font-size:0.9em;">Redirecione a saída para um arquivo chamado <code>empresa_simples_backup_COMPLETO.sql</code>.</li>
+        </ul>
+    </li>
+    <li>Verifique se o arquivo <code>empresa_simples_backup_COMPLETO.sql</code> foi criado no diretório onde você executou o comando (ou no caminho especificado).</li>
+    <li>(Opcional) Abra o arquivo SQL com um editor de texto e observe seu conteúdo (<code>CREATE TABLE</code>, <code>INSERT INTO</code>).</li>
+</ol>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

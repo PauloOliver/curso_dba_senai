@@ -1,0 +1,14 @@
+<h2><i class="fas fa-list-ul"></i> Sumário da Aula - Pontos-Chave</h2>
+<p>Revisão dos aprendizados mais importantes de hoje sobre backup e recuperação:</p>
+<ul style="text-align: left; max-width: 750px; margin: 15px auto; font-size: 1.05em;">
+    <li><i class="fas fa-fw fa-exclamation-triangle" style="color: var(--accent-green);"></i> <strong>Backup é fundamental</strong> para proteger contra perda de dados devido a falhas, erros ou desastres. Não é opcional!</li>
+    <li><i class="fas fa-fw fa-copy" style="color: var(--accent-green);"></i> Entendemos os tipos de backup: <strong>Completo</strong> (tudo), <strong>Incremental</strong> (mudanças desde o último backup), <strong>Diferencial</strong> (mudanças desde o último completo).</li>
+    <li><i class="fas fa-fw fa-exchange-alt" style="color: var(--accent-green);"></i> Diferenciamos backups <strong>Lógicos</strong> (SQL, portáteis, ex: <code>mysqldump</code>) de <strong>Físicos</strong> (arquivos binários, rápidos, ex: XtraBackup).</li>
+    <li><i class="fas fa-fw fa-history" style="color: var(--accent-green);"></i> <strong>Point-in-Time Recovery (PITR)</strong> permite restauração granular, mas requer backups base e logs de transação (binlogs no MySQL).</li>
+    <li><i class="fas fa-fw fa-stopwatch" style="color: var(--accent-green);"></i> <strong>RPO</strong> (quanta perda de dados é aceitável) e <strong>RTO</strong> (quanto tempo para recuperar) são métricas de negócio que guiam a estratégia de backup.</li>
+    <li><i class="fas fa-fw fa-terminal" style="color: var(--accent-green);"></i> <code>mysqldump</code> é a ferramenta padrão para backups lógicos no MySQL, com opções importantes como <code>--single-transaction</code>.</li>
+    <li><i class="fas fa-fw fa-robot" style="color: var(--accent-green);"></i> A <strong>automatização</strong> de backups com scripts (Bash, PowerShell) e agendadores (<code>cron</code>) é crucial para consistência e confiabilidade.</li>
+    <li><i class="fas fa-fw fa-hdd" style="color: var(--accent-green);"></i> Siga boas práticas de <strong>armazenamento</strong> (Regra 3-2-1, off-site) e <strong>nomenclatura</strong> de arquivos.</li>
+    <li><i class="fas fa-fw fa-clipboard-check" style="color: var(--red-error); font-weight:bold;"></i> <strong>TESTE SEUS BACKUPS REGULARMENTE!</strong> Um backup não testado é uma esperança, não uma garantia.</li>
+</ul>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

@@ -1,0 +1,40 @@
+<h2><i class="fab fa-dev" style="color:var(--accent-blue);"></i> Ferramentas de Backup: <code>pg_dump</code> (PostgreSQL - Breve Menção)</h2>
+<p>Para ampliar o conhecimento, é útil conhecer ferramentas equivalentes em outros SGBDs populares.</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <div style="display:flex; align-items:center; margin-bottom:15px;">
+        <img src="https://www.postgresql.org/media/img/about/press/elephant.png" alt="PostgreSQL Logo" style="height:60px; margin-right:20px; background-color:white; padding:5px; border-radius:5px;">
+        <div>
+            <h4><code>pg_dump</code> e <code>pg_dumpall</code></h4>
+            <p style="font-size:0.95em;">São os utilitários de linha de comando para realizar <strong>backups lógicos</strong> de bancos de dados PostgreSQL.</p>
+        </div>
+    </div>
+
+    <h4>Principais Características:</h4>
+    <ul style="list-style:disc; padding-left:20px; font-size:0.95em;">
+        <li><strong><code>pg_dump nome_banco</code>:</strong> Faz backup de um único banco de dados PostgreSQL.
+            <ul>
+                <li style="font-size:0.9em;">Não faz backup de objetos globais como roles (usuários) ou tablespaces. Para isso, usa-se <code>pg_dumpall --globals-only</code>.</li>
+            </ul>
+        </li>
+        <li><strong><code>pg_dumpall</code>:</strong> Faz backup de todos os bancos de dados em um cluster PostgreSQL, incluindo objetos globais.</li>
+        <li><strong>Formatos de Saída Flexíveis (opção <code>-F</code>):</strong>
+            <ul>
+                <li style="font-size:0.9em;"><code>p</code> (plain): Script SQL em texto plano (similar ao <code>mysqldump</code> padrão). Restaurado com <code>psql</code>.</li>
+                <li style="font-size:0.9em;"><code>c</code> (custom): Formato customizado, comprimido e mais flexível. Permite reordenar itens na restauração e restaurar objetos seletivamente. Restaurado com <code>pg_restore</code>. <strong>Recomendado para backups sérios.</strong></li>
+                <li style="font-size:0.9em;"><code>d</code> (directory): Formato de diretório, com um arquivo por tabela, também comprimido. Restaurado com <code>pg_restore</code>.</li>
+                <li style="font-size:0.9em;"><code>t</code> (tar): Arquivo tar. Restaurado com <code>pg_restore</code>.</li>
+            </ul>
+        </li>
+        <li><strong>Consistência:</strong> <code>pg_dump</code> cria um snapshot consistente do banco no momento em que inicia, sem bloquear operações de escrita normais (usa o sistema MVCC do PostgreSQL).</li>
+        <li><strong>Restauração:</strong>
+            <ul>
+                <li style="font-size:0.9em;">Backups em plain text: <code>psql -U usuario -d banco_destino < arquivo.sql</code></li>
+                <li style="font-size:0.9em;">Backups em custom/directory/tar: <code>pg_restore -U usuario -d banco_destino arquivo.dump</code> (ou diretório)</li>
+            </ul>
+        </li>
+    </ul>
+    <p style="margin-top:15px; font-size:0.9em; color:var(--text-medium);"><em>Exemplo de comando <code>pg_dump</code> (formato custom):</em></p>
+    <pre><code class="language-bash">pg_dump -U meu_usuario -W -F c -f meu_banco_backup.dump meu_banco_original</code></pre>
+    <p style="font-size:0.9em; color:var(--text-medium);">Lembre-se: O foco da aula é MySQL e <code>mysqldump</code>, mas conhecer as ferramentas de outros SGBDs é enriquecedor para um DBA.</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

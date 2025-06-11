@@ -1,0 +1,51 @@
+<h2><i class="fas fa-stopwatch"></i> RPO (Recovery Point Objective) e RTO (Recovery Time Objective)</h2>
+<p>Esses são dois dos termos mais importantes ao definir sua estratégia de backup e recuperação. São SLAs (Service Level Agreements) de negócio.</p>
+<div style="text-align:center; margin: 20px auto;">
+    <svg width="90%" height="150" viewBox="0 0 700 150">
+        <title>RPO e RTO na Linha do Tempo</title>
+        <!-- Linha do tempo principal -->
+        <line x1="30" y1="75" x2="670" y2="75" stroke="var(--text-light)" stroke-width="2"/>
+
+        <!-- Evento de Desastre -->
+        <circle cx="250" cy="75" r="8" fill="var(--red-error)"/>
+        <line x1="250" y1="75" x2="250" y2="30" stroke="var(--red-error)" stroke-width="2"/>
+        <text x="250" y="20" fill="var(--red-error)" font-size="12" text-anchor="middle">DESASTRE!</text>
+        <text x="250" y="95" fill="var(--text-light)" font-size="10" text-anchor="middle">Momento da Falha</text>
+
+        <!-- RPO -->
+        <line x1="150" y1="65" x2="150" y2="85" stroke="var(--accent-yellow)" stroke-width="2"/>
+        <text x="150" y="55" fill="var(--accent-yellow)" font-size="12" text-anchor="middle">RPO</text>
+        <text x="150" y="105" fill="var(--text-light)" font-size="10" text-anchor="middle">Último Ponto Válido</text>
+        <text x="150" y="118" fill="var(--text-light)" font-size="9" text-anchor="middle">(Ex: Último Backup/Log)</text>
+        <path d="M150 75 L242 75" stroke="var(--accent-yellow)" stroke-width="2" stroke-dasharray="5,5" marker-start="url(#dotYellow)" marker-end="url(#dotYellow)"/>
+        <text x="200" y="70" fill="var(--accent-yellow)" font-size="10" text-anchor="middle" dy="-5">Perda Máx. de Dados</text>
+
+        <!-- RTO -->
+        <line x1="500" y1="65" x2="500" y2="85" stroke="var(--accent-green)" stroke-width="2"/>
+        <text x="500" y="55" fill="var(--accent-green)" font-size="12" text-anchor="middle">RTO</text>
+        <text x="500" y="105" fill="var(--text-light)" font-size="10" text-anchor="middle">Sistema Online</text>
+         <path d="M258 75 L500 75" stroke="var(--accent-green)" stroke-width="2" stroke-dasharray="5,5" marker-start="url(#dotGreen)" marker-end="url(#dotGreen)"/>
+        <text x="375" y="70" fill="var(--accent-green)" font-size="10" text-anchor="middle" dy="-5">Tempo Máx. de Recuperação</text>
+
+        <defs>
+            <marker id="dotYellow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5"><circle cx="5" cy="5" r="3" fill="var(--accent-yellow)"/></marker>
+            <marker id="dotGreen" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5"><circle cx="5" cy="5" r="3" fill="var(--accent-green)"/></marker>
+        </defs>
+    </svg>
+</div>
+<div style="display: flex; justify-content: space-around; align-items: flex-start; max-width: 850px; margin: 10px auto; flex-wrap:wrap;">
+  <div style="flex-basis: 48%; min-width:300px; padding: 10px;">
+    <h4 style="color: var(--accent-yellow);"><i class="fas fa-history"></i> RPO - Recovery Point Objective</h4>
+    <p style="font-size: 0.95rem;"><strong>Pergunta:</strong> Quanta perda de dados é aceitável?</p>
+    <p style="font-size: 0.9rem;">Mede a quantidade máxima de dados que sua organização pode perder em caso de falha, expressa em tempo (ex: 15 minutos, 1 hora, 24 horas). <br/><strong>Impacta diretamente a frequência dos seus backups</strong> e a necessidade de arquivamento de logs de transação.</p>
+    <p style="font-size: 0.9rem;"><strong>Exemplo:</strong> Se seu RPO é de 1 hora, você precisa de backups (ou logs) que permitam restaurar os dados até, no máximo, 1 hora antes da falha.</p>
+  </div>
+  <div style="flex-basis: 48%; min-width:300px; padding: 10px;">
+    <h4 style="color: var(--accent-green);"><i class="fas fa-clock"></i> RTO - Recovery Time Objective</h4>
+    <p style="font-size: 0.95rem;"><strong>Pergunta:</strong> Em quanto tempo o sistema precisa estar online novamente?</p>
+    <p style="font-size: 0.9rem;">Mede o tempo máximo que o sistema pode permanecer indisponível após um desastre até que seja completamente restaurado e funcional.<br/><strong>Impacta a escolha das ferramentas de backup/restore</strong>, a infraestrutura de recuperação, a automação e a complexidade do processo.</p>
+    <p style="font-size: 0.9rem;"><strong>Exemplo:</strong> Se seu RTO é de 4 horas, todo o processo de detecção da falha, restauração e validação precisa ser concluído em até 4 horas.</p>
+  </div>
+</div>
+<p style="margin-top:10px; text-align:center; font-style:italic;">RPO e RTO são definidos pelo negócio e orientam as decisões técnicas do DBA.</p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

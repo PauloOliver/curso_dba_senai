@@ -1,0 +1,40 @@
+<h2><i class="fas fa-check-circle"></i> Soluções Comentadas - Exercício 2</h2>
+<p><strong>Restaurar Backup Lógico em Banco Limpo</strong></p>
+<p><strong>Comandos Esperados (Exemplo):</strong></p>
+<ol style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li><strong>Simular Desastre (no cliente MySQL):</strong>
+        <pre><code class="language-sql">DROP DATABASE empresa_simples;
+SHOW DATABASES; -- Para confirmar</code></pre>
+    </li>
+    <li><strong>Preparar para Restauração (no cliente MySQL):</strong>
+        <pre><code class="language-sql">CREATE DATABASE empresa_restaurada;
+USE empresa_restaurada;</code></pre>
+    </li>
+    <li><strong>Restaurar o Backup (no terminal do S.O.):</strong>
+        <p>Se o backup foi comprimido (ex: <code>empresa_simples_backup_DATA.sql.gz</code>):</p>
+        <pre><code class="language-bash">
+gunzip < /caminho/para/seu/diretorio/empresa_simples_backup_DATA.sql.gz | mysql -u seu_usuario_mysql -psua_senha_mysql empresa_restaurada
+        </code></pre>
+        <p>Se o backup não estava comprimido (ex: <code>empresa_simples_backup_COMPLETO.sql</code>):</p>
+        <pre><code class="language-bash">
+mysql -u seu_usuario_mysql -psua_senha_mysql empresa_restaurada < /caminho/para/seu/diretorio/empresa_simples_backup_COMPLETO.sql
+        </code></pre>
+    </li>
+    <li><strong>Verificar a Restauração (no cliente MySQL, conectado a `empresa_restaurada`):</strong>
+        <pre><code class="language-sql">
+SHOW TABLES;
+SELECT * FROM departamentos;
+SELECT * FROM funcionarios;
+        </code></pre>
+    </li>
+</ol>
+
+<p><strong>Pontos de Verificação e Discussão:</strong></p>
+<ul style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li><i class="fas fa-database" style="color:var(--accent-green);"></i> <strong>Criação do Banco de Destino:</strong> Geralmente, é necessário criar o banco de dados de destino vazio antes de importar um dump que não contenha a instrução <code>CREATE DATABASE IF NOT EXISTS nome_banco; USE nome_banco;</code> no início. <code>mysqldump</code> por padrão não inclui <code>CREATE DATABASE</code> a menos que <code>--databases</code> ou <code>--all-databases</code> seja usado (e mesmo assim, você precisa estar "fora" de um banco específico no momento da restauração se quiser que ele crie o banco).</li>
+    <li><i class="fas fa-arrow-left" style="color:var(--accent-green);"></i> <strong>Operador de Redirecionamento (<code><</code>):</strong> O cliente <code>mysql</code> lê as instruções SQL do arquivo especificado e as executa no banco de dados conectado/especificado.</li>
+    <li><i class="fas fa-key" style="color:var(--accent-green);"></i> <strong>Permissões do Usuário:</strong> O usuário MySQL usado para a restauração precisa de permissões para criar tabelas, inserir dados, criar routines/triggers (se presentes no dump), etc., no banco de dados de destino (<code>empresa_restaurada</code>).</li>
+    <li><i class="fas fa-tasks" style="color:var(--accent-green);"></i> <strong>Verificação Pós-Restauração:</strong> Sempre confirme que as tabelas esperadas existem e que os dados parecem corretos. Para bancos maiores, verificações mais robustas seriam necessárias (contagem de linhas, checksums de tabelas se possível, testes de aplicação).</li>
+    <li><i class="fas fa-exclamation-triangle" style="color:var(--accent-yellow);"></i> <strong>Impacto da Restauração:</strong> A restauração de um backup lógico pode ser demorada para bancos grandes, pois envolve a execução de todas as DDLs e DMLs, recriação de índices, etc.</li>
+</ul>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

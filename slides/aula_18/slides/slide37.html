@@ -1,0 +1,81 @@
+<h2><i class="fas fa-check-circle"></i> Soluções Comentadas - Exercício 3</h2>
+<p><strong>Criar Script de Backup Simples com Nome de Arquivo Dinâmico</strong></p>
+
+<p><strong>Exemplo de Script Bash (<code>meu_backup_script.sh</code>):</strong></p>
+<pre><code class="language-bash">
+#!/bin/bash
+
+# --- Configurações (Ajuste conforme necessário) ---
+DB_USER="seu_usuario_backup"
+# Para segurança, use um arquivo de opções .my.cnf para a senha
+# Ex: DB_OPT_FILE="/home/seu_usuario/.my.cnf_backup"
+# E no .my.cnf_backup:
+# [client]
+# password="sua_senha_segura"
+DB_PASS="SuaSenhaTemporariaParaExercicio" # REMOVER EM PRODUÇÃO!
+DB_NAME="empresa_simples"
+BACKUP_DIR="/home/aluno/backups_mysql" # Certifique-se que este diretório existe e tem permissão de escrita
+TIMESTAMP=$(date +%Y-%m-%d_%H%M%S)
+FILENAME="${BACKUP_DIR}/${DB_NAME}_${TIMESTAMP}.sql.gz"
+LOG_FILE="${BACKUP_DIR}/backup_log.txt"
+
+# --- Funções Auxiliares ---
+log_message() {
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - $1" | tee -a "${LOG_FILE}"
+}
+
+# --- Início do Script ---
+log_message "INICIANDO script de backup para o banco: ${DB_NAME}"
+
+# Criar diretório de backup se não existir
+mkdir -p "${BACKUP_DIR}"
+if [ $? -ne 0 ]; then
+    log_message "ERRO: Não foi possível criar o diretório de backup ${BACKUP_DIR}. Saindo."
+    exit 1
+fi
+
+log_message "Realizando dump do banco de dados..."
+# Comando mysqldump com compressão via pipe
+# Se usar arquivo de opções: --defaults-extra-file="${DB_OPT_FILE}" em vez de -p"${DB_PASS}"
+mysqldump -u "${DB_USER}" -p"${DB_PASS}" "${DB_NAME}" \
+    --single-transaction \
+    --routines \
+    --triggers \
+    --events \
+    | gzip > "${FILENAME}"
+
+# Verificar o status de saída do mysqldump (o primeiro comando no pipe)
+if [ ${PIPESTATUS[0]} -eq 0 ]; then
+    log_message "SUCESSO: Backup de ${DB_NAME} concluído em ${FILENAME}"
+    ls -lh "${FILENAME}" | tee -a "${LOG_FILE}" # Mostra tamanho do arquivo
+else
+    log_message "ERRO: Falha ao realizar o backup de ${DB_NAME}! Código de saída: ${PIPESTATUS[0]}"
+    # Adicionar aqui: comando para enviar e-mail de notificação de erro
+    exit 1
+fi
+
+# (Opcional) Lógica para limpar backups antigos
+# Exemplo: Remover arquivos .sql.gz com mais de 7 dias
+# log_message "Limpando backups antigos (mais de 7 dias)..."
+# find "${BACKUP_DIR}" -name "${DB_NAME}_*.sql.gz" -type f -mtime +7 -print -delete | tee -a "${LOG_FILE}"
+
+log_message "FIM do script de backup."
+echo "--------------------------------------" >> "${LOG_FILE}"
+
+exit 0
+</code></pre>
+
+<p><strong>Pontos de Discussão:</strong></p>
+<ul style="text-align: left; max-width: 700px; margin: 10px auto; font-size:0.95em;">
+    <li><i class="fas fa-shield-alt" style="color:var(--accent-green);"></i> <strong>Segurança da Senha:</strong> Enfatizar que colocar senhas diretamente em scripts é um risco. A melhor prática é usar arquivos de opção do MySQL (<code>.my.cnf</code> ou <code>.mylogin.cnf</code> com <code>mysql_config_editor</code>) com permissões restritas.</li>
+    <li><i class="fas fa-code-branch" style="color:var(--accent-green);"></i> <strong><code>PIPESTATUS[0]</code>:</strong> No Bash, ao usar pipes (<code>|</code>), <code>$?</code> retorna o status do último comando (<code>gzip</code> neste caso). <code>PIPESTATUS[0]</code> retorna o status do primeiro comando no pipe (<code>mysqldump</code>), que é o que queremos verificar para sucesso do dump.</li>
+    <li><i class="fas fa-cogs" style="color:var(--accent-green);"></i> <strong>Expansão do Script:</strong> Discutir como adicionar mais funcionalidades (verificação de espaço em disco, notificações mais robustas, upload para armazenamento remoto, etc.).</li>
+    <li><i class="far fa-calendar-alt" style="color:var(--accent-green);"></i> <strong>Agendamento com <code>cron</code>:</strong>
+        <p style="font-size:0.9em;">Para rodar diariamente às 02:30, a linha no crontab (<code>crontab -e</code>) seria:</p>
+        <pre><code class="language-cron" style="font-size:0.9em;">30 2 * * * /caminho/completo/para/meu_backup_script.sh</code></pre>
+        <p style="font-size:0.9em;">Para logar a saída do cron, incluindo erros:</p>
+        <pre><code class="language-cron" style="font-size:0.9em;">30 2 * * * /caminho/completo/para/meu_backup_script.sh >> /var/log/cron_backup.log 2>&1</code></pre>
+        <p style="font-size:0.9em;">(O script de exemplo já cria seu próprio log, então o redirecionamento do cron pode ser opcional ou complementar).</p>
+    </li>
+</ul>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

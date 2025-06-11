@@ -1,0 +1,68 @@
+<h2><i class="fas fa-desktop"></i> Demonstração Ao Vivo: Backup e Restore Lógico com <code>mysqldump</code></h2>
+<p>Vamos colocar a mão na massa e simular um ciclo completo de backup e restauração!</p>
+<p><strong>Contexto:</strong> Usaremos um banco de dados de exemplo simples chamado <code>escola</code>.</p>
+<div style="text-align: left; max-width: 800px; margin: 10px auto;">
+    <p style="text-align:center; margin-bottom:10px;"><strong>Modelo de Dados (DER Chen - Simplificado):</strong></p>
+    <div style="text-align:center; margin-bottom:15px;">
+        <svg width="350" height="150" viewBox="0 0 350 150">
+            <title>DER Escola</title>
+            <!-- Entidade Alunos -->
+            <rect x="10" y="50" width="80" height="40" fill="var(--bg-light)" stroke="var(--accent-green)" rx="3"/>
+            <text x="50" y="75" font-size="12" fill="var(--text-light)" text-anchor="middle">Alunos</text>
+            <text x="50" y="88" font-size="7" fill="var(--text-medium)" text-anchor="middle">(id_aluno PK, nome)</text>
+
+            <!-- Entidade Cursos -->
+            <rect x="260" y="50" width="80" height="40" fill="var(--bg-light)" stroke="var(--accent-green)" rx="3"/>
+            <text x="300" y="75" font-size="12" fill="var(--text-light)" text-anchor="middle">Cursos</text>
+            <text x="300" y="88" font-size="7" fill="var(--text-medium)" text-anchor="middle">(id_curso PK, nome_curso)</text>
+
+            <!-- Relacionamento Matriculas (N:M) -->
+            <polygon points="140,60 160,40 210,40 230,60 210,80 160,80" fill="var(--bg-light)" stroke="var(--accent-blue)"/>
+            <text x="185" y="65" font-size="10" fill="var(--text-light)" text-anchor="middle">Matricula</text>
+             <text x="185" y="75" font-size="7" fill="var(--text-medium)" text-anchor="middle">(id_aluno FK, id_curso FK)</text>
+
+            <line x1="90" y1="70" x2="140" y2="63" stroke="var(--accent-blue)"/>
+            <text x="110" y="58" font-size="8" fill="var(--text-medium)">N</text>
+            <line x1="260" y1="70" x2="230" y2="63" stroke="var(--accent-blue)"/>
+            <text x="238" y="58" font-size="8" fill="var(--text-medium)">M</text>
+        </svg>
+    </div>
+
+    <p><i class="fas fa-fw fa-play" style="color:var(--accent-green);"></i> <strong>Passos da Demonstração:</strong></p>
+    <ol style="padding-left: 30px; font-size:0.95em;">
+        <li><strong>Preparação:</strong>
+            <ul style="font-size:0.9em;">
+                <li>Criar o banco de dados <code>escola</code>.</li>
+                <li>Criar as tabelas <code>alunos (id_aluno PK, nome_aluno)</code>, <code>cursos (id_curso PK, nome_curso)</code> e <code>matriculas (id_aluno FK, id_curso FK, data_matricula)</code>.</li>
+                <li>Inserir alguns dados de exemplo em cada tabela. (Mostrar os scripts SQL).</li>
+            </ul>
+        </li>
+        <li><strong>Backup Lógico:</strong>
+            <ul style="font-size:0.9em;">
+                <li>Usar o comando <code>mysqldump</code> na linha de comando do S.O.</li>
+                <li>Incluir opções: <code>-u [user] -p [database_name] --single-transaction --routines --triggers --events > backup_escola.sql</code></li>
+                <li>Mostrar o arquivo <code>backup_escola.sql</code> gerado, destacando as seções <code>CREATE TABLE</code> e <code>INSERT INTO</code>.</li>
+            </ul>
+        </li>
+        <li><strong>Simular Desastre:</strong>
+            <ul style="font-size:0.9em;">
+                <li>Executar <code>DROP DATABASE escola;</code> no cliente MySQL. <strong style="color:var(--red-error)">(CUIDADO! APENAS EM AMBIENTE DE TESTE!)</strong></li>
+                <li>Confirmar que o banco não existe mais (<code>SHOW DATABASES;</code>).</li>
+            </ul>
+        </li>
+        <li><strong>Restauração:</strong>
+            <ul style="font-size:0.9em;">
+                <li>Criar um novo banco de dados vazio: <code>CREATE DATABASE escola_restaurada;</code></li>
+                <li>Usar o cliente <code>mysql</code> para importar o arquivo de backup: <code>mysql -u [user] -p escola_restaurada < backup_escola.sql</code></li>
+            </ul>
+        </li>
+        <li><strong>Verificação:</strong>
+            <ul style="font-size:0.9em;">
+                <li>Conectar ao banco <code>escola_restaurada</code>.</li>
+                <li>Executar <code>SHOW TABLES;</code>.</li>
+                <li>Executar <code>SELECT * FROM alunos;</code>, <code>SELECT * FROM cursos;</code>, <code>SELECT * FROM matriculas;</code> para confirmar que os dados foram restaurados.</li>
+            </ul>
+        </li>
+    </ol>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

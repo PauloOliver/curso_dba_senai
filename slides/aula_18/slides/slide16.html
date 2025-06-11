@@ -1,0 +1,46 @@
+<h2><i class="fas fa-history"></i> Estratégias de Recuperação: Point-in-Time Recovery (PITR) <span style="font-size:1.5em; color:var(--accent-blue);">💡</span></h2>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <p><strong>Definição:</strong> PITR é a capacidade de restaurar um banco de dados para um estado exato em um <strong>ponto específico no tempo</strong>. Isso é crucial para recuperar de erros humanos (ex: um <code>DELETE</code> sem <code>WHERE</code> que ocorreu às 14:32) ou corrupção de dados que começou em um momento conhecido.</p>
+
+    <h4>Como Funciona (Conceitualmente):</h4>
+    <ol style="font-size:0.95em;">
+        <li><strong>Restaurar o Backup Base:</strong> Comece restaurando o backup mais recente apropriado (geralmente o último backup completo, ou completo + diferenciais/incrementais). Isso traz o banco a um estado conhecido, mas anterior ao ponto desejado.</li>
+        <li><strong>Aplicar Logs de Transação:</strong> Em seguida, aplique os logs de transação que foram gerados desde que o backup base foi feito, até o exato momento (ou transação) antes do problema.
+            <ul>
+                <li><strong>MySQL:</strong> Usa os <strong>Binary Logs (binlogs)</strong>.</li>
+                <li><strong>PostgreSQL:</strong> Usa os <strong>Write-Ahead Logs (WALs)</strong>.</li>
+            </ul>
+        </li>
+    </ol>
+    <p style="font-size:0.95em;"><strong>Requisitos Essenciais para PITR:</strong></p>
+    <ul style="font-size:0.95em;">
+        <li>Backups regulares (completos, e opcionalmente incrementais/diferenciais).</li>
+        <li><strong>Arquivamento contínuo e seguro dos logs de transação (binlogs/WALs).</strong> Sem eles, PITR é impossível além do ponto do último backup.</li>
+        <li>Ferramentas que suportem a aplicação desses logs (ex: `mysqlbinlog` no MySQL).</li>
+    </ul>
+
+    <p style="text-align:center; margin-top:20px;"><strong>Diagrama Simplificado do Processo PITR:</strong></p>
+    <div style="text-align:center; margin: 10px auto;">
+        <svg width="90%" height="120" viewBox="0 0 600 120">
+            <rect x="20" y="40" width="100" height="40" rx="5" fill="var(--accent-blue)"/><text x="70" y="65" fill="white" font-size="10" text-anchor="middle">Último Backup</text><text x="70" y="75" fill="white" font-size="8" text-anchor="middle">Completo (ex: D-1)</text>
+            <path d="M120 60 L160 60" stroke="var(--text-medium)" stroke-width="2" marker-end="url(#arrowGeneric)"/>
+            <g transform="translate(160, 40)">
+                <rect width="150" height="40" rx="5" fill="var(--accent-green)"/>
+                <text x="75" y="20" fill="white" font-size="10" text-anchor="middle">Aplicar Logs de Transação</text>
+                <text x="75" y="32" fill="white" font-size="8" text-anchor="middle">(binlogs / WALs desde o backup)</text>
+                <path d="M-5 20 L0 15 L0 25 Z" fill="var(--accent-green)"/> <!-- Seta simulada -->
+                <path d="M150 20 L155 15 L155 25 Z" fill="var(--accent-green)"/>
+            </g>
+            <path d="M310 60 L350 60" stroke="var(--text-medium)" stroke-width="2" marker-end="url(#arrowGeneric)"/>
+            <circle cx="370" cy="60" r="10" fill="var(--red-error)"/>
+            <text x="370" y="64" font-family="FontAwesome" font-size="10" fill="white" text-anchor="middle">&#xf057;</text> <!-- fa-times-circle -->
+            <text x="370" y="85" fill="var(--red-error)" font-size="10" text-anchor="middle">Ponto do Erro</text>
+             <line x1="370" y1="70" x2="370" y2="95" stroke="var(--red-error)" stroke-dasharray="2,2"/>
+
+            <path d="M390 60 L430 60" stroke="var(--text-medium)" stroke-width="2" marker-end="url(#arrowGeneric)"/>
+            <rect x="430" y="40" width="100" height="40" rx="5" fill="var(--accent-yellow)"/><text x="480" y="65" fill="var(--bg-dark)" font-size="10" text-anchor="middle">BD Restaurado</text><text x="480" y="75" fill="var(--bg-dark)" font-size="8" text-anchor="middle">(Até antes do erro)</text>
+        </svg>
+    </div>
+    <p style="font-size:0.9em; color:var(--text-medium);">PITR oferece a granularidade máxima de recuperação, mas requer uma estratégia de backup e log bem configurada.</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>
