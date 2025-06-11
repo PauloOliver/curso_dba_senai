@@ -1,4 +1,169 @@
-// ... (questões 1 a 15 já fornecidas anteriormente) ...
+const ask = {
+  1: {
+    type: "mult",
+    ask: "Qual é o principal objetivo de realizar backups de um banco de dados?",
+    options: {
+      1: "Aumentar a velocidade das consultas SELECT.",
+      2: "Permitir a restauração dos dados em caso de perda ou corrupção.",
+      3: "Reduzir o espaço em disco utilizado pelo banco de dados.",
+      4: "Validar a sintaxe das instruções SQL."
+    },
+    correct: 2
+  },
+  2: {
+    type: "mult",
+    ask: "Um backup do tipo 'Completo' (Full Backup) geralmente envolve:",
+    options: {
+      1: "Copiar apenas os arquivos de log de transação.",
+      2: "Copiar apenas os dados alterados desde o último backup.",
+      3: "Copiar integralmente todos os dados e a estrutura do banco de dados.",
+      4: "Copiar apenas a estrutura das tabelas, sem os dados."
+    },
+    correct: 3
+  },
+  3: {
+    type: "mult",
+    ask: "Qual a principal vantagem de um backup Incremental em comparação com um backup Completo?",
+    options: {
+      1: "A restauração é sempre mais rápida.",
+      2: "Consome menos espaço de armazenamento por backup individual e é mais rápido de executar.",
+      3: "Não requer um backup completo anterior como base.",
+      4: "É mais fácil de gerenciar, pois envolve apenas um arquivo."
+    },
+    correct: 2
+  },
+  4: {
+    type: "mult",
+    ask: "Um backup Diferencial copia quais dados?",
+    options: {
+      1: "Todos os dados alterados desde o último backup de qualquer tipo (incremental ou completo).",
+      2: "Apenas os dados alterados desde o último backup incremental.",
+      3: "Todos os dados alterados desde o último backup COMPLETO.",
+      4: "Apenas os arquivos de log de transação."
+    },
+    correct: 3
+  },
+  5: {
+    type: "mult",
+    ask: "A principal característica de um backup Lógico é que ele:",
+    options: {
+      1: "Copia os arquivos binários do banco de dados diretamente.",
+      2: "Exporta os dados e a estrutura como instruções SQL ou em formatos de dados legíveis.",
+      3: "É sempre mais rápido que um backup físico.",
+      4: "Só pode ser restaurado na mesma versão exata do SGBD e S.O."
+    },
+    correct: 2
+  },
+  6: {
+    type: "mult",
+    ask: "Qual das seguintes ferramentas é comumente usada para realizar backups LÓGICOS no MySQL?",
+    options: {
+      1: "Percona XtraBackup",
+      2: "mysqldump",
+      3: "RMAN (Oracle)",
+      4: "LVM Snapshots"
+    },
+    correct: 2
+  },
+  7: {
+    type: "mult",
+    ask: "Uma vantagem significativa de um backup Físico é:",
+    options: {
+      1: "Alta portabilidade entre diferentes SGBDs.",
+      2: "Facilidade de editar o arquivo de backup antes da restauração.",
+      3: "Geralmente, maior velocidade de backup e restauração para bancos de dados grandes.",
+      4: "Não requer logs de transação para Point-in-Time Recovery."
+    },
+    correct: 3
+  },
+  8: {
+    type: "mult",
+    ask: "O que significa 'Point-in-Time Recovery' (PITR)?",
+    options: {
+      1: "Restaurar o banco de dados apenas para o momento do último backup completo.",
+      2: "A capacidade de restaurar o banco de dados para um estado exato em um ponto específico no tempo passado.",
+      3: "Um tipo de backup que só copia os pontos de verificação (checkpoints).",
+      4: "Um método para recuperar apenas tabelas específicas, ignorando o resto do banco."
+    },
+    correct: 2
+  },
+  9: {
+    type: "mult",
+    ask: "O 'Recovery Point Objective' (RPO) define:",
+    options: {
+      1: "O tempo máximo que o sistema pode ficar offline durante uma restauração.",
+      2: "A quantidade máxima de perda de dados que a organização pode tolerar, medida em tempo.",
+      3: "O local físico onde os backups devem ser armazenados.",
+      4: "O objetivo de performance das queries após a restauração."
+    },
+    correct: 2
+  },
+  10: {
+    type: "mult",
+    ask: "O 'Recovery Time Objective' (RTO) define:",
+    options: {
+      1: "A frequência com que os backups incrementais devem ser realizados.",
+      2: "O ponto no tempo até o qual os dados podem ser recuperados.",
+      3: "O tempo máximo que o sistema pode levar para ser restaurado e voltar a operar após uma falha.",
+      4: "O objetivo de redução do tamanho dos arquivos de backup."
+    },
+    correct: 3
+  },
+  11: {
+    type: "mult",
+    ask: "Qual parâmetro do `mysqldump` é crucial para obter um backup consistente de tabelas InnoDB sem bloqueios prolongados?",
+    options: {
+      1: "--lock-all-tables",
+      2: "--no-data",
+      3: "--single-transaction",
+      4: "--force"
+    },
+    correct: 3
+  },
+  12: {
+    type: "mult",
+    ask: "Para incluir Stored Procedures e Functions em um backup gerado pelo `mysqldump`, qual opção deve ser usada?",
+    options: {
+      1: "--include-procedures",
+      2: "--all-objects",
+      3: "--skip-routines",
+      4: "--routines"
+    },
+    correct: 4
+  },
+  13: {
+    type: "mult",
+    ask: "Ao restaurar um backup lógico SQL usando o cliente `mysql` na linha de comando, qual operador é tipicamente usado para direcionar o conteúdo do arquivo para o comando?",
+    options: {
+      1: "> (maior que)",
+      2: "< (menor que)",
+      3: "| (pipe)",
+      4: "& (e comercial)"
+    },
+    correct: 2
+  },
+  14: {
+    type: "mult",
+    ask: "Por que é recomendado automatizar os processos de backup?",
+    options: {
+      1: "Para aumentar o tamanho dos arquivos de backup.",
+      2: "Para reduzir a necessidade de testar os backups.",
+      3: "Para garantir consistência, confiabilidade e reduzir a chance de erro humano.",
+      4: "Para que os backups sejam exclusivamente físicos."
+    },
+    correct: 3
+  },
+  15: {
+    type: "mult",
+    ask: "No Linux, qual utilitário é comumente usado para agendar a execução de scripts de backup em horários específicos?",
+    options: {
+      1: "scheduler",
+      2: "tasker",
+      3: "cron",
+      4: "autobackup"
+    },
+    correct: 3
+  },
   16: {
     type: "mult",
     ask: "Qual a finalidade de uma política de retenção de backups?",
