@@ -1,0 +1,49 @@
+<h2><i class="fas fa-table"></i> Triggers para Auditoria - Criando a Tabela de Log</h2>
+<p>O primeiro passo para auditar com triggers é criar uma tabela dedicada para armazenar os registros de auditoria. Esta tabela deve ser bem planejada.</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4><i class="fas fa-clipboard-list" style="color:var(--accent-blue);"></i> Exemplo de Estrutura para uma Tabela de Log Genérica:</h4>
+    <pre><code class="language-sql">
+CREATE TABLE log_auditoria_geral (
+    id_log INT AUTO_INCREMENT PRIMARY KEY,      -- MySQL
+    -- id_log BIGSERIAL PRIMARY KEY,           -- PostgreSQL (BIGSERIAL para IDs maiores)
+    
+    data_hora_evento TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usuario_bd VARCHAR(128) NOT NULL,          -- Usuário do banco de dados
+    usuario_app VARCHAR(100),                 -- Opcional: Usuário da aplicação (se disponível)
+    host_origem VARCHAR(255),                 -- Opcional: IP ou hostname do cliente
+
+    schema_auditado VARCHAR(64),              -- Nome do schema/banco da tabela auditada
+    tabela_auditada VARCHAR(64) NOT NULL,     -- Nome da tabela que sofreu a ação
+    id_registro_afetado VARCHAR(255),         -- PK da linha afetada (VARCHAR para acomodar PKs compostas/UUIDs)
+    
+    tipo_operacao VARCHAR(10) NOT NULL,       -- 'INSERT', 'UPDATE', 'DELETE', 'LOGIN', 'DDL'
+    comando_sql TEXT,                         -- Opcional: O comando SQL completo executado (cuidado com tamanho e sensibilidade)
+    
+    coluna_alterada VARCHAR(64),              -- Para UPDATEs, qual coluna mudou
+    valor_antigo TEXT,                        -- Valor da coluna ANTES da alteração (para UPDATE, DELETE)
+    valor_novo TEXT,                          -- Valor da coluna DEPOIS da alteração (para INSERT, UPDATE)
+    
+    descricao_evento TEXT                     -- Descrição adicional ou dados completos em JSON/XML
+);
+    </code></pre>
+
+    <h4>Considerações Importantes ao Projetar a Tabela de Log:</h4>
+    <ul style="list-style:disc; padding-left:20px; font-size:0.95em;">
+        <li><strong>Informações Essenciais:</strong> QUEM (<code>usuario_bd</code>, <code>usuario_app</code>, <code>host_origem</code>), QUANDO (<code>data_hora_evento</code>), O QUÊ (<code>tipo_operacao</code>, <code>comando_sql</code>), ONDE (<code>schema_auditado</code>, <code>tabela_auditada</code>, <code>id_registro_afetado</code>), DETALHES (<code>coluna_alterada</code>, <code>valor_antigo</code>, <code>valor_novo</code>, <code>descricao_evento</code>).</li>
+        <li><strong>Armazenamento de Dados Antigos/Novos:</strong>
+            <ul>
+                <li style="font-size:0.9em;">Para tabelas com muitas colunas, armazenar todos os valores antigos/novos em colunas dedicadas na tabela de log pode torná-la muito larga e difícil de gerenciar.</li>
+                <li style="font-size:0.9em;">Alternativas:
+                    <ul>
+                        <li>Armazenar apenas as colunas que realmente mudaram.</li>
+                        <li>Serializar os dados antigos/novos como <strong>JSON</strong> ou <strong>XML</strong> em uma coluna TEXT. Isso oferece flexibilidade, mas pode dificultar consultas diretas nos valores dentro do JSON/XML sem funções específicas. MySQL e PostgreSQL têm bom suporte a JSON.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><strong>Tipos de Dados:</strong> Use tipos de dados apropriados e com tamanho suficiente.</li>
+        <li><strong>Indexação:</strong> A tabela de log pode crescer muito. Considere indexar colunas que serão frequentemente usadas para filtrar os logs (ex: <code>data_hora_evento</code>, <code>usuario_bd</code>, <code>tabela_auditada</code>, <code>tipo_operacao</code>).</li>
+        <li><strong>Particionamento (para tabelas de log muito grandes):</strong> Em SGBDs que suportam, particionar a tabela de log (ex: por data) pode melhorar a performance de consultas e o gerenciamento (ex: purgar partições antigas).</li>
+    </ul>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

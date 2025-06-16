@@ -1,0 +1,52 @@
+<h2><i class="fas fa-search-plus"></i> 4. Componentes Auditáveis - O Que Podemos Rastrear?</h2>
+<p>Uma estratégia de auditoria eficaz define claramente quais eventos e componentes devem ser monitorados:</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around; max-width:850px; margin:15px auto;">
+
+    <div style="flex-basis: 45%; margin: 5px; padding: 10px; background-color:var(--bg-light); border-radius:5px;">
+        <h4 style="color:var(--accent-green);"><i class="fas fa-pencil-alt"></i> Comandos DML (Data Manipulation)</h4>
+        <ul style="font-size:0.9em;">
+            <li><strong><code>INSERT</code>:</strong> Quem inseriu quais dados, quando.</li>
+            <li><strong><code>UPDATE</code>:</strong> Quem atualizou, quais colunas, valores antigos e novos, quando. (CRUCIAL!)</li>
+            <li><strong><code>DELETE</code>:</strong> Quem deletou quais dados, quando. (CRUCIAL!)</li>
+        </ul>
+    </div>
+
+    <div style="flex-basis: 45%; margin: 5px; padding: 10px; background-color:var(--bg-light); border-radius:5px;">
+        <h4 style="color:var(--accent-green);"><i class="fas fa-tools"></i> Comandos DDL (Data Definition)</h4>
+        <ul style="font-size:0.9em;">
+            <li><strong><code>CREATE</code>:</strong> (TABLE, INDEX, USER, VIEW, etc.) Quem criou qual objeto.</li>
+            <li><strong><code>ALTER</code>:</strong> (TABLE, USER, etc.) Quem modificou a estrutura ou propriedades.</li>
+            <li><strong><code>DROP</code>:</strong> (TABLE, USER, DATABASE, etc.) Quem removeu qual objeto. (ALTAMENTE CRÍTICO!)</li>
+        </ul>
+    </div>
+
+    <div style="flex-basis: 45%; margin: 5px; padding: 10px; background-color:var(--bg-light); border-radius:5px;">
+        <h4 style="color:var(--accent-green);"><i class="fas fa-sign-in-alt"></i> Acessos e Logins de Usuários</h4>
+        <ul style="font-size:0.9em;">
+            <li>Tentativas de login (sucesso e falha).</li>
+            <li>Origem do login (IP, hostname da aplicação).</li>
+            <li>Horário de login e logoff.</li>
+        </ul>
+    </div>
+
+    <div style="flex-basis: 45%; margin: 5px; padding: 10px; background-color:var(--bg-light); border-radius:5px;">
+        <h4 style="color:var(--accent-green);"><i class="fas fa-user-shield"></i> Alterações em Permissões</h4>
+        <ul style="font-size:0.9em;">
+            <li><strong><code>GRANT</code>:</strong> Quem concedeu quais privilégios, para quem, em quais objetos.</li>
+            <li><strong><code>REVOKE</code>:</strong> Quem removeu quais privilégios.</li>
+        </ul>
+    </div>
+
+    <div style="flex-basis: 92%; margin: 5px; padding: 10px; background-color:var(--bg-light); border-radius:5px;">
+        <h4 style="color:var(--accent-yellow);"><i class="fas fa-glasses"></i> Consultas Executadas (<code>SELECT</code>s) <span style="font-size:0.8em;">(Opcional e com Cuidado)</span></h4>
+        <p style="font-size:0.9em;">Auditar TODAS as consultas <code>SELECT</code> pode gerar um volume massivo de logs e impactar severamente o desempenho. Geralmente é feito de forma seletiva:</p>
+        <ul style="font-size:0.85em;">
+            <li>Para tabelas contendo dados extremamente sensíveis (ex: dados financeiros, de saúde, informações pessoais estratégicas).</li>
+            <li>Para monitorar atividades de usuários privilegiados (DBAs, administradores).</li>
+            <li>Sob demanda, durante investigações específicas ou para atender requisitos de conformidade pontuais.</li>
+            <li>Alguns Audit Plugins permitem filtrar quais <code>SELECT</code>s são logados com base em critérios (ex: tabelas acessadas, usuário).</li>
+        </ul>
+    </div>
+</div>
+<p style="margin-top:10px; text-align:center; font-style:italic;">Outros eventos: Início/parada do servidor, erros críticos do SGBD, execução de stored procedures/functions também podem ser relevantes.</p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

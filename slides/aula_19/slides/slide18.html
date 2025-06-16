@@ -1,0 +1,58 @@
+<h2><i class="fas fa-plus"></i> Triggers para Auditoria - Exemplo de Trigger <code>AFTER INSERT</code></h2>
+<p>Vamos criar um trigger que registra cada nova inserção na tabela <code>clientes</code>.</p>
+<p><strong>Tabela <code>clientes</code> (Exemplo):</strong> <code>(id_cliente INT PK, nome VARCHAR, email VARCHAR, telefone VARCHAR)</code></p>
+<p><strong>Tabela <code>auditoria_log</code> (Exemplo Simplificado):</strong> <code>(id_log INT PK, data_hora TIMESTAMP, usuario VARCHAR, acao VARCHAR, tabela VARCHAR, id_registro INT, dados_novos TEXT)</code></p>
+
+<div style="text-align: left; max-width: 750px; margin: 10px auto; font-size:0.95em;">
+    <h4>Sintaxe do Trigger (Exemplo para MySQL):</h4>
+    <pre><code class="language-sql">
+DELIMITER $$ -- Muda o delimitador padrão para podermos usar ';' dentro do trigger
+
+CREATE TRIGGER trg_audit_clientes_after_insert
+AFTER INSERT ON clientes -- Dispara APÓS um INSERT na tabela 'clientes'
+FOR EACH ROW -- Executa para cada linha inserida
+BEGIN
+    -- Variáveis para facilitar (opcional, mas bom para clareza)
+    DECLARE v_usuario VARCHAR(100);
+    DECLARE v_dados_novos TEXT;
+
+    SET v_usuario = CURRENT_USER(); -- Captura o usuário do SGBD que fez a ação
+
+    -- Monta uma representação dos dados inseridos (ex: JSON)
+    SET v_dados_novos = JSON_OBJECT(
+        'id_cliente', NEW.id_cliente,
+        'nome', NEW.nome,
+        'email', NEW.email,
+        'telefone', NEW.telefone
+    );
+
+    -- Insere o registro de auditoria na tabela de log
+    INSERT INTO auditoria_log (
+        usuario, 
+        acao, 
+        tabela, 
+        id_registro, 
+        dados_novos
+    ) VALUES (
+        v_usuario,
+        'INSERT',
+        'clientes',
+        NEW.id_cliente,  -- 'NEW' refere-se à linha que acabou de ser inserida
+        v_dados_novos
+    );
+END$$
+
+DELIMITER ; -- Restaura o delimitador padrão
+    </code></pre>
+
+    <h4><i class="fas fa-info-circle" style="color:var(--accent-blue);"></i> Explicação dos Componentes Chave:</h4>
+    <ul style="list-style:disc; padding-left:20px;">
+        <li><strong><code>DELIMITER $$</code> ... <code>$$ DELIMITER ;</code>:</strong> Necessário no cliente MySQL (linha de comando ou Workbench) para permitir o uso de ponto e vírgula (<code>;</code>) dentro do corpo do trigger. O <code>$$</code> se torna o novo delimitador temporário.</li>
+        <li><strong><code>AFTER INSERT ON clientes</code>:</strong> Especifica que o trigger será disparado após uma operação de <code>INSERT</code> ser concluída com sucesso na tabela <code>clientes</code>.</li>
+        <li><strong><code>FOR EACH ROW</code>:</strong> Indica que o bloco <code>BEGIN...END</code> será executado para cada linha individualmente afetada pela instrução DML. Para <code>INSERT</code>, isso significa uma vez por linha inserida.</li>
+        <li><strong><code>NEW.nome_da_coluna</code>:</strong> Dentro de um trigger <code>INSERT</code> ou <code>UPDATE</code>, <code>NEW</code> é uma pseudovariável que permite acessar os valores das colunas da <strong>nova linha</strong> (a linha que está sendo inserida ou a linha após a atualização).</li>
+        <li><strong><code>CURRENT_USER()</code>:</strong> Função do MySQL que retorna o nome do usuário da sessão atual do banco de dados que está executando a operação.</li>
+        <li><strong><code>JSON_OBJECT(...)</code>:</strong> Função do MySQL (5.7+) para criar um objeto JSON. É uma forma conveniente de armazenar múltiplos campos de dados em uma única coluna de texto na tabela de log.</li>
+    </ul>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

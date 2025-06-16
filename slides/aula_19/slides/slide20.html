@@ -1,0 +1,51 @@
+<h2><i class="fas fa-trash-alt"></i> Triggers para Auditoria - Exemplo de Trigger <code>AFTER DELETE</code></h2>
+<p>Finalmente, um trigger para registrar a remoção de linhas da tabela <code>clientes</code>.</p>
+<p><strong>Tabela <code>clientes</code> e <code>auditoria_log</code>:</strong> Mesmas dos slides anteriores.</p>
+<p>Neste caso, só temos acesso aos valores antigos da linha, pois ela está sendo removida.</p>
+
+<div style="text-align: left; max-width: 750px; margin: 10px auto; font-size:0.95em;">
+    <h4>Sintaxe do Trigger (Exemplo para MySQL):</h4>
+    <pre><code class="language-sql">
+DELIMITER $$
+
+CREATE TRIGGER trg_audit_clientes_after_delete
+AFTER DELETE ON clientes -- Dispara APÓS um DELETE na tabela 'clientes'
+FOR EACH ROW
+BEGIN
+    DECLARE v_dados_antigos TEXT;
+
+    -- Monta uma representação dos dados da linha que foi deletada
+    SET v_dados_antigos = JSON_OBJECT(
+        'id_cliente', OLD.id_cliente, -- 'OLD' refere-se à linha que foi deletada
+        'nome', OLD.nome,
+        'email', OLD.email,
+        'telefone', OLD.telefone
+    );
+    
+    INSERT INTO auditoria_log (
+        usuario, 
+        acao, 
+        tabela, 
+        id_registro, 
+        dados_antigos 
+    ) VALUES (
+        CURRENT_USER(),
+        'DELETE',
+        'clientes',
+        OLD.id_cliente, 
+        v_dados_antigos
+    );
+END$$
+
+DELIMITER ;
+    </code></pre>
+
+    <h4><i class="fas fa-info-circle" style="color:var(--accent-blue);"></i> Explicação dos Componentes Chave:</h4>
+    <ul style="list-style:disc; padding-left:20px;">
+        <li><strong><code>AFTER DELETE ON clientes</code>:</strong> Especifica que o trigger será disparado após uma operação de <code>DELETE</code> ser concluída com sucesso na tabela <code>clientes</code>.</li>
+        <li><strong><code>OLD.nome_da_coluna</code>:</strong> Em um trigger <code>DELETE</code>, <code>OLD</code> refere-se aos valores da linha que <strong>acabou de ser removida</strong>. A pseudovariável <code>NEW</code> não é aplicável aqui, pois não há "nova" linha.</li>
+        <li><strong>Registro dos Dados Removidos:</strong> É crucial registrar o máximo de informação possível sobre a linha deletada (pelo menos sua chave primária e, idealmente, outros campos importantes) para fins de rastreabilidade e potencial recuperação lógica (se necessário e se não houver um backup melhor).</li>
+    </ul>
+    <p style="margin-top:15px; font-style:italic;">Com triggers para INSERT, UPDATE e DELETE, você pode construir uma trilha de auditoria completa para as modificações de dados em suas tabelas críticas.</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

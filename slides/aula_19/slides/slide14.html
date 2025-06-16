@@ -1,0 +1,39 @@
+<h2><i class="fab fa-mysql" style="color:var(--accent-blue);"></i> 5. Implementações Práticas (MySQL)</h2>
+<p>O MySQL oferece algumas abordagens para auditoria:</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <div style="margin-bottom: 15px; padding:10px; background-color:rgba(0,0,0,0.05); border-radius:5px;">
+        <h4><i class="fas fa-file-invoice" style="color:var(--accent-green);"></i> Binlog (Binary Log) como Mecanismo de Auditoria (Limitado)</h4>
+        <ul style="font-size:0.9em;">
+            <li><strong>Primariamente para:</strong> Replicação e Point-in-Time Recovery (PITR).</li>
+            <li><strong>Como pode ajudar na auditoria:</strong> Se o formato do binlog estiver configurado para <code>ROW</code> (<code>binlog_format=ROW</code>), ele registra as alterações reais nas linhas (valores antes e depois para <code>UPDATE</code>s e <code>DELETE</code>s).</li>
+            <li><strong>Ferramenta de Leitura:</strong> <code>mysqlbinlog</code> (utilitário de linha de comando).</li>
+            <li><strong>Limitações para Auditoria Dedicada:</strong>
+                <ul>
+                    <li>Não registra comandos <code>SELECT</code>.</li>
+                    <li>Não registra logins/logoffs ou falhas de login (para isso, o General Log ou um Audit Plugin são necessários).</li>
+                    <li>O formato não é otimizado para consultas de auditoria fáceis e legíveis por humanos (requer parsing).</li>
+                    <li>A retenção do binlog é geralmente baseada nas necessidades de replicação/PITR, não necessariamente nos requisitos de retenção de auditoria.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div style="margin-bottom: 15px; padding:10px; background-color:rgba(0,0,0,0.05); border-radius:5px;">
+        <h4><i class="fas fa-plug" style="color:var(--accent-green);"></i> Audit Plugins (Nativo ou de Terceiros)</h4>
+        <ul style="font-size:0.9em;">
+            <li><strong>MySQL Enterprise Audit:</strong> Parte do MySQL Enterprise Edition, oferece auditoria robusta e configurável.</li>
+            <li><strong>Plugins da Comunidade/Terceiros (Mais Comum para Edições Community):</strong>
+                <ul>
+                    <li><strong>Percona Audit Log Plugin:</strong> Solução open-source popular e rica em recursos. Permite logar em formato JSON ou XML, filtrar eventos, definir políticas de rotação de log, etc.</li>
+                    <li><strong>MariaDB Audit Plugin:</strong> Similar, integrado ao MariaDB (fork do MySQL).</li>
+                </ul>
+            </li>
+            <li><strong>Como Funcionam:</strong> Esses plugins são carregados no servidor MySQL e interceptam eventos (conexões, queries, DML, DDL, etc.) conforme configurado, registrando-os em um arquivo de log de auditoria dedicado.</li>
+            <li><strong>Configuração Típica (Exemplo com Percona Audit):</strong> Via variáveis de sistema no <code>my.cnf</code>, como <code>audit_log_format</code>, <code>audit_log_file</code>, <code>audit_log_policy</code> (ALL, LOGINS, QUERIES), <code>audit_log_rotate_size</code>, <code>audit_log_events_filter_authors</code>, etc.</li>
+        </ul>
+    </div>
+     <div style="padding:10px; background-color:rgba(0,0,0,0.05); border-radius:5px;">
+        <h4><i class="fas fa-magic" style="color:var(--accent-green);"></i> Tabelas de Auditoria com Triggers</h4>
+        <p style="font-size:0.9em;">Uma abordagem manual, mas altamente customizável, que detalharemos a seguir. Permite controle total sobre o que é logado e como.</p>
+    </div>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

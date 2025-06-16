@@ -1,0 +1,59 @@
+<h2><i class="fas fa-user-graduate"></i> Exercício Prático: Sua Vez de Auditar!</h2>
+<p><strong>Objetivo:</strong> Aplicar o conhecimento sobre triggers para criar um sistema de auditoria para uma nova tabela.</p>
+<p><strong>Tempo Estimado:</strong> 20-25 minutos para desenvolvimento + 10 minutos para discussão.</p>
+
+<div style="text-align: left; max-width: 750px; margin: 10px auto; font-size:0.95em;">
+    <h4>Cenário Proposto: Auditoria de Estoque de Produtos</h4>
+    <p>Você é responsável por uma nova tabela <code>produtos_estoque</code> e precisa auditar todas as inserções de novos produtos e quaisquer alterações na quantidade em estoque.</p>
+
+    <p><strong>1. Crie as Tabelas (DDL):</strong></p>
+    <pre><code class="language-sql">
+-- Tabela de Produtos em Estoque
+CREATE TABLE produtos_estoque (
+    id_produto INT AUTO_INCREMENT PRIMARY KEY,
+    nome_produto VARCHAR(150) NOT NULL,
+    quantidade_estoque INT DEFAULT 0,
+    data_ultima_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabela de Log de Auditoria para produtos_estoque
+CREATE TABLE auditoria_estoque_log (
+    id_log INT AUTO_INCREMENT PRIMARY KEY,
+    data_hora_acao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usuario_acao VARCHAR(100),
+    tipo_acao VARCHAR(20) NOT NULL, -- 'INSERT_PRODUTO', 'UPDATE_ESTOQUE'
+    id_produto_afetado INT,
+    nome_produto_afetado VARCHAR(150), -- Útil para INSERTs
+    estoque_antigo INT NULL,
+    estoque_novo INT NULL,
+    FOREIGN KEY (id_produto_afetado) REFERENCES produtos_estoque(id_produto) ON DELETE SET NULL
+);
+    </code></pre>
+
+    <p><strong>2. Crie os Triggers (DML - Lógica):</strong></p>
+    <ul style="padding-left:20px;">
+        <li><strong>Trigger <code>AFTER INSERT</code> em <code>produtos_estoque</code>:</strong>
+            <ul>
+                <li>Nome: <code>trg_audit_estoque_after_insert</code></li>
+                <li>Deve registrar em <code>auditoria_estoque_log</code>: <code>usuario_acao</code>, <code>tipo_acao</code> ('INSERT_PRODUTO'), <code>id_produto_afetado</code> (<code>NEW.id_produto</code>), <code>nome_produto_afetado</code> (<code>NEW.nome_produto</code>), e <code>estoque_novo</code> (<code>NEW.quantidade_estoque</code>).</li>
+            </ul>
+        </li>
+        <li><strong>Trigger <code>AFTER UPDATE</code> em <code>produtos_estoque</code>:</strong>
+            <ul>
+                <li>Nome: <code>trg_audit_estoque_after_update</code></li>
+                <li>Deve disparar <strong>apenas se <code>OLD.quantidade_estoque <> NEW.quantidade_estoque</code></strong>.</li>
+                <li>Deve registrar em <code>auditoria_estoque_log</code>: <code>usuario_acao</code>, <code>tipo_acao</code> ('UPDATE_ESTOQUE'), <code>id_produto_afetado</code>, <code>estoque_antigo</code> (<code>OLD.quantidade_estoque</code>), e <code>estoque_novo</code> (<code>NEW.quantidade_estoque</code>).</li>
+            </ul>
+        </li>
+    </ul>
+
+    <p><strong>3. Teste seus Triggers:</strong></p>
+    <ul style="padding-left:20px;">
+        <li>Insira 2-3 novos produtos na tabela <code>produtos_estoque</code>.</li>
+        <li>Atualize a <code>quantidade_estoque</code> de um dos produtos.</li>
+        <li>Atualize o <code>nome_produto</code> de um produto (isso NÃO deve gerar log pelo trigger de update atual).</li>
+        <li>Consulte a tabela <code>auditoria_estoque_log</code> para verificar se os registros foram criados corretamente.</li>
+    </ul>
+    <p style="font-style:italic;">Lembre-se do <code>DELIMITER</code> se estiver usando o cliente MySQL linha de comando ou script no Workbench!</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

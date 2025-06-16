@@ -1,0 +1,52 @@
+<style>
+/* Exemplo de estilos para SVGs - Coloque no seu style.css ou no <head> do index.html */
+.slide-svg-icon {
+    width: 80px; /* Tamanho base, pode ser ajustado */
+    height: 80px;
+    margin: 10px;
+    display: inline-block; /* Para alinhar lado a lado se necessário */
+}
+.svg-main-fill { fill: var(--accent-blue); }
+.svg-secondary-fill { fill: var(--accent-green); }
+.svg-detail-stroke { stroke: var(--text-light); stroke-width: 2px; }
+
+/* Animação de pulsação para ícones SVG */
+@keyframes svgPulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+.pulsing-svg {
+  animation: svgPulse 2s infinite ease-in-out;
+}
+</style>
+
+<h2><i class="fas fa-user-secret"></i> Auditoria em Bancos de Dados: Segurança, Conformidade e Rastreabilidade</h2>
+<p><strong>Módulo:</strong> Profissionalizante</p>
+<p><strong>Curso:</strong> Administrador de Bancos de Dados Junior</p>
+<p><strong>Instrutor:</strong> Erick Ribeiro Porto</p>
+
+<div class="slide-svg-container" style="margin-top: 30px;">
+    <svg class="slide-svg-icon pulsing-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <title>Ícone de Auditoria</title>
+        <circle cx="50" cy="50" r="40" class="svg-main-fill"/>
+        <path d="M35 50 Q50 65 65 50" stroke="white" stroke-width="5" fill="none"/>
+        <circle cx="50" cy="35" r="8" fill="white"/>
+        <path d="M45 60 L55 60 L50 70 Z" fill="white"/>
+        <style>
+            /* Animação interna do SVG (SMIL) */
+            path[d^="M35 50"] {
+                animation: eyeScan 4s infinite alternate;
+            }
+            @keyframes eyeScan {
+                0% { d: path("M35 50 Q50 65 65 50"); }
+                50% { d: path("M35 50 Q50 35 65 50"); }
+                100% { d: path("M35 50 Q50 65 65 50"); }
+            }
+        </style>
+    </svg>
+    <i class="fas fa-search fa-5x" style="color: var(--accent-green); margin: 0 20px;  animation: svgPulse 2.2s infinite ease-in-out;"></i>
+    <i class="fas fa-file-signature fa-5x" style="color: var(--accent-blue); animation: svgPulse 2.4s infinite ease-in-out;"></i>
+</div>
+
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

@@ -1,0 +1,32 @@
+<h2><i class="fas fa-landmark"></i> 1. Fundamentos de Auditoria em Banco de Dados</h2>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <h4><i class="fas fa-question-circle" style="color:var(--accent-blue);"></i> O que é auditoria no contexto de banco de dados?</h4>
+    <p>É o processo sistemático de <strong>registrar, coletar e analisar eventos e atividades</strong> que ocorrem dentro de um sistema de gerenciamento de banco de dados (SGBD) e sobre os dados que ele armazena. O resultado é uma <strong>trilha de auditoria (audit trail)</strong> – um registro cronológico de evidências.</p>
+
+    <h4><i class="fas fa-exclamation-circle" style="color:var(--accent-blue);"></i> Importância da Auditoria:</h4>
+    <ul style="list-style:none; padding-left:0;">
+        <li style="margin-bottom:10px;"><i class="fas fa-shield-alt fa-fw" style="color:var(--accent-green);"></i> <strong>Segurança:</strong> Detectar acessos não autorizados, tentativas de violação de dados, atividades maliciosas internas ou externas. Identificar quem fez o quê e quando.</li>
+        <li style="margin-bottom:10px;"><i class="fas fa-balance-scale fa-fw" style="color:var(--accent-green);"></i> <strong>Conformidade (Compliance):</strong> Atender a requisitos legais, regulatórios e contratuais (ex: LGPD, GDPR, SOX, HIPAA, PCI-DSS) que exigem monitoramento, rastreabilidade e prestação de contas sobre o tratamento de dados.</li>
+        <li style="margin-bottom:10px;"><i class="fas fa-search-location fa-fw" style="color:var(--accent-green);"></i> <strong>Rastreabilidade e Análise Forense:</strong> Permitir a investigação de incidentes, reconstruir eventos, identificar a causa raiz de problemas ou erros, e fornecer evidências para investigações.</li>
+    </ul>
+
+    <h4><i class="fas fa-exchange-alt" style="color:var(--accent-blue);"></i> Auditoria de Sistema vs. Auditoria de Dados:</h4>
+    <div style="display:flex; justify-content:space-between; margin-top:10px;">
+        <div style="flex-basis:48%; padding:10px; background-color:var(--bg-light); border-radius:5px;">
+            <strong>Auditoria de Sistema/Infraestrutura:</strong><br/>
+            <span style="font-size:0.9em; color:var(--text-medium);">Foca em eventos do SGBD e do servidor:
+                <ul><li>Logins/Logoffs (sucesso e falha)</li><li>Início/Parada do servidor de BD</li><li>Alterações na configuração do SGBD</li><li>Erros críticos do sistema</li></ul>
+            </span>
+        </div>
+        <div style="flex-basis:48%; padding:10px; background-color:var(--bg-light); border-radius:5px;">
+            <strong>Auditoria de Dados (Nosso Foco):</strong><br/>
+            <span style="font-size:0.9em; color:var(--text-medium);">Foca nas interações com os dados armazenados:
+                <ul><li>Acesso a tabelas e views (<code>SELECT</code>)</li><li>Modificações de dados (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>)</li><li>Alterações na estrutura dos dados (<code>CREATE</code>, <code>ALTER</code>, <code>DROP</code> - DDL)</li><li>Alterações de permissões (<code>GRANT</code>, <code>REVOKE</code>)</li></ul>
+            </span>
+        </div>
+    </div>
+
+    <h4 style="margin-top:15px;"><i class="fas fa-briefcase" style="color:var(--accent-blue);"></i> Casos de Uso Típicos:</h4>
+    <p style="font-size:0.95em;">LGPD, ISO 27001, PCI-DSS, SOX, HIPAA, investigações de fraude interna, monitoramento de DBAs, análise de causa raiz de erros de dados.</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

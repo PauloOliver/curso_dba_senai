@@ -1,0 +1,35 @@
+<h2><i class="fas fa-shield-check"></i> 7. Boas Práticas de Auditoria</h2>
+<p>Implementar auditoria é importante, mas fazê-lo corretamente é crucial para sua eficácia e sustentabilidade:</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto; font-size:0.95em;">
+    <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom:12px; display:flex; align-items:flex-start;">
+            <i class="fas fa-hdd fa-fw" style="color:var(--accent-green); margin-right:10px; margin-top:0.1em; font-size:1.2em;"></i>
+            <div><strong>Armazenamento Seguro e Separado dos Logs:</strong> Os logs de auditoria são dados sensíveis. Devem ser protegidos contra acesso não autorizado e adulteração. Idealmente, armazene-os em um sistema/servidor diferente do banco de dados auditado (ou, no mínimo, em um tablespace/disco diferente com permissões restritas). Considere criptografia para os logs.</div>
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:flex-start;">
+            <i class="far fa-calendar-times fa-fw" style="color:var(--accent-green); margin-right:10px; margin-top:0.1em; font-size:1.2em;"></i>
+            <div><strong>Políticas Claras de Retenção e Limpeza:</strong> Defina por quanto tempo os logs de auditoria devem ser mantidos (ex: 90 dias, 1 ano, 7 anos, dependendo da regulamentação e necessidade). Implemente um processo automatizado para arquivar logs antigos (para armazenamento de longo prazo) e/o purgar (deletar) logs que excederam o período de retenção. Não deixe os logs consumirem todo o espaço!</div>
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:flex-start;">
+            <i class="fas fa-tachometer-alt fa-fw" style="color:var(--accent-green); margin-right:10px; margin-top:0.1em; font-size:1.2em;"></i>
+            <div><strong>Monitoramento de Performance:</strong> Auditoria, especialmente via triggers ou plugins muito verbosos, adiciona overhead. Audite apenas o necessário (princípio do menor privilégio aplicado à auditoria). Monitore o impacto no desempenho das queries DML e do sistema como um todo. Otimize suas tabelas de log e os queries que as acessam.</div>
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:flex-start;">
+            <i class="fas fa-user-lock fa-fw" style="color:var(--accent-green); margin-right:10px; margin-top:0.1em; font-size:1.2em;"></i>
+            <div><strong>Acesso Restrito às Trilhas de Auditoria:</strong> Apenas pessoal autorizado (equipe de segurança, auditores, DBAs seniores designados) deve ter permissão para ler os logs de auditoria. NINGUÉM, exceto talvez um processo de arquivamento/purga altamente controlado, deve ter permissão para modificar ou deletar os logs diretamente.</div>
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:flex-start;">
+            <i class="fas fa-user-secret fa-fw" style="color:var(--accent-green); margin-right:10px; margin-top:0.1em; font-size:1.2em;"></i>
+            <div><strong>Evitar "Autoauditoria" Comprometida:</strong> O sistema de auditoria não deve ser facilmente desabilitado ou seus logs adulterados pelos mesmos indivíduos cujas ações estão sendo auditadas (especialmente administradores). Implemente separação de responsabilidades. Se possível, envie logs para um sistema de log centralizado e imutável.</div>
+        </li>
+        <li style="margin-bottom:12px; display:flex; align-items:flex-start;">
+            <i class="fas fa-sync-alt fa-fw" style="color:var(--accent-green); margin-right:10px; margin-top:0.1em; font-size:1.2em;"></i>
+            <div><strong>Revisão Periódica dos Logs:</strong> Logs de auditoria não servem para nada se ninguém os revisa. Defina processos para revisar os logs em busca de atividades suspeitas ou violações de política, ou use ferramentas que automatizem essa análise e gerem alertas.</div>
+        </li>
+        <li style="display:flex; align-items:flex-start;">
+            <i class="fas fa-file-alt fa-fw" style="color:var(--accent-green); margin-right:10px; margin-top:0.1em; font-size:1.2em;"></i>
+            <div><strong>Documentação:</strong> Documente sua política de auditoria, o que está sendo auditado, como os logs são gerenciados, e os procedimentos para acessar e analisar os logs.</div>
+        </li>
+    </ul>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

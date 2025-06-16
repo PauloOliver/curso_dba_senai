@@ -1,0 +1,13 @@
+<h2><i class="fas fa-list-ul"></i> Sumário da Aula - Pontos-Chave</h2>
+<p>Revisão dos aprendizados essenciais sobre auditoria em bancos de dados:</p>
+<ul style="text-align: left; max-width: 750px; margin: 15px auto; font-size: 1.05em;">
+    <li><i class="fas fa-fw fa-user-secret" style="color: var(--accent-green);"></i> <strong>Auditoria</strong> é o processo de registrar e revisar eventos para garantir <strong>segurança, conformidade e rastreabilidade</strong>.</li>
+    <li><i class="fas fa-fw fa-balance-scale" style="color: var(--accent-green);"></i> É fundamental para atender regulamentações como <strong>LGPD e ISO 27001</strong>, e para investigações internas.</li>
+    <li><i class="fas fa-fw fa-cogs" style="color: var(--accent-green);"></i> Estratégias incluem uso de <strong>logs nativos, Audit Plugins (MySQL), pgAudit (PostgreSQL) e Triggers</strong>.</li>
+    <li><i class="fas fa-fw fa-pencil-alt" style="color: var(--accent-green);"></i> Podemos auditar comandos <strong>DML</strong> (INSERT, UPDATE, DELETE), <strong>DDL</strong> (CREATE, ALTER, DROP), logins, alterações de permissões e, seletivamente, <strong>SELECTs</strong>.</li>
+    <li><i class="fas fa-fw fa-bolt" style="color: var(--accent-green);"></i> <strong>Triggers</strong> (<code>AFTER INSERT/UPDATE/DELETE</code>) permitem auditoria granular, capturando dados antigos (<code>OLD</code>) e novos (<code>NEW</code>) e registrando em tabelas de log dedicadas.</li>
+    <li><i class="fas fa-fw fa-shield-check" style="color: var(--accent-green);"></i> <strong>Boas Práticas</strong> são cruciais: armazenamento seguro e separado dos logs, políticas de retenção, monitoramento de performance da auditoria, acesso restrito aos logs e evitar "autoauditoria" comprometida.</li>
+    <li><i class="fas fa-fw fa-toolbox" style="color: var(--accent-green);"></i> Diversas <strong>ferramentas</strong> (nativas, externas como ELK/Splunk, SIEMs) podem auxiliar na coleta, análise e gerenciamento dos logs de auditoria.</li>
+</ul>
+<p style="margin-top:15px; text-align:center; font-style:italic;">Uma auditoria bem implementada é um pilar da governança de dados!</p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

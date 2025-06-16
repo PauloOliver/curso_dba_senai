@@ -1,0 +1,41 @@
+<h2><i class="fas fa-toolbox"></i> 9. Ferramentas e Recursos para Auditoria</h2>
+<p>Uma variedade de ferramentas pode auxiliar na implementação e gerenciamento da auditoria:</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around; max-width:850px; margin:10px auto; text-align:center;">
+    <div class="tool-card" style="animation: slideUp 0.5s ease-out;">
+        <i class="fas fa-database fa-2x"></i><h4>Ferramentas Nativas SGBDs</h4>
+        <p>MySQL: Audit Plugins, Binlog, General Log.<br/>PostgreSQL: pgAudit, Logs Nativos.</p>
+    </div>
+    <div class="tool-card" style="animation: slideUp 0.5s ease-out 0.2s;">
+        <i class="fas fa-server fa-2x"></i><h4>SIEM (Security Information and Event Management)</h4>
+        <p>Splunk, IBM QRadar, ArcSight. Coletam e correlacionam logs de múltiplas fontes.</p>
+    </div>
+    <div class="tool-card" style="animation: slideUp 0.5s ease-out 0.4s;">
+        <i class="fas fa-chart-line fa-2x"></i><h4>Análise de Logs Externa</h4>
+        <p>ELK Stack (Elasticsearch, Logstash, Kibana), Graylog. Para ingestão, busca e visualização.</p>
+    </div>
+    <div class="tool-card" style="animation: slideUp 0.5s ease-out 0.6s;">
+        <i class="fas fa-shield-virus fa-2x"></i><h4>HIDS (Host-based Intrusion Detection)</h4>
+        <p>OSSEC, Wazuh. Monitoram logs do sistema, integridade de arquivos.</p>
+    </div>
+    <div class="tool-card" style="animation: slideUp 0.5s ease-out 0.8s;">
+        <i class="fas fa-code fa-2x"></i><h4>Scripts SQL Customizados</h4>
+        <p>Para consultar tabelas de log de triggers, análises pontuais.</p>
+    </div>
+</div>
+<style>
+.tool-card {
+    flex-basis: 45%;
+    min-width: 250px;
+    margin: 10px;
+    padding: 15px;
+    background-color: var(--bg-light);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.tool-card i { color: var(--accent-green); margin-bottom: 8px; }
+.tool-card h4 { color: var(--text-light); margin-bottom: 5px; font-size: 1.1em; }
+.tool-card p { font-size: 0.85em; color: var(--text-medium); line-height: 1.3; }
+@keyframes slideUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+</style>
+<p style="margin-top:15px; text-align:center; font-style:italic;">A escolha da ferramenta depende do escopo da auditoria, orçamento, complexidade e requisitos de conformidade.</p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

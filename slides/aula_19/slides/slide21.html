@@ -1,0 +1,60 @@
+<h2><i class="fas fa-desktop"></i> Demonstração Ao Vivo: Triggers de Auditoria em Ação</h2>
+<p>Vamos aplicar o que aprendemos e criar um sistema de auditoria simples usando triggers.</p>
+<p><strong>Contexto:</strong> Usaremos um banco de dados de exemplo, como o <code>escola</code> (alunos, cursos, matriculas) ou um novo <code>loja_online</code> (produtos, clientes, pedidos).</p>
+
+<div style="text-align: left; max-width: 800px; margin: 10px auto;">
+    <p style="text-align:center; margin-bottom:10px;"><strong>Modelo de Dados de Exemplo (DER Chen - <code>loja_online.produtos</code>):</strong></p>
+    <div style="text-align:center; margin-bottom:15px;">
+        <svg width="200" height="120" viewBox="0 0 200 120">
+            <title>DER Produtos</title>
+            <rect x="30" y="30" width="140" height="60" fill="var(--bg-light)" stroke="var(--accent-green)" rx="5"/>
+            <text x="100" y="50" font-size="14" fill="var(--text-light)" text-anchor="middle">Produtos</text>
+            <line x1="30" y1="60" x2="170" y2="60" stroke="var(--accent-blue)"/>
+            <text x="100" y="75" font-size="9" fill="var(--text-medium)" text-anchor="middle">id_produto (PK)</text>
+            <text x="100" y="85" font-size="9" fill="var(--text-medium)" text-anchor="middle">nome_produto, preco</text>
+        </svg>
+        <!-- SVG da tabela de log ao lado -->
+        <svg width="200" height="120" viewBox="0 0 200 120" style="margin-left:20px;">
+             <rect x="30" y="30" width="140" height="60" fill="var(--bg-light)" stroke="var(--accent-yellow)" rx="5"/>
+            <text x="100" y="50" font-size="14" fill="var(--text-light)" text-anchor="middle">Auditoria_Log</text>
+            <line x1="30" y1="60" x2="170" y2="60" stroke="var(--accent-blue)"/>
+            <text x="100" y="75" font-size="9" fill="var(--text-medium)" text-anchor="middle">id_log (PK), usuario,</text>
+            <text x="100" y="85" font-size="9" fill="var(--text-medium)" text-anchor="middle">acao, old_preco, new_preco</text>
+        </svg>
+    </div>
+
+    <p><i class="fas fa-fw fa-play" style="color:var(--accent-green);"></i> <strong>Passos da Demonstração (Foco no <code>UPDATE</code> de <code>preco</code>):</strong></p>
+    <ol style="padding-left: 30px; font-size:0.95em;">
+        <li><strong>Revisar/Criar Estrutura:</strong>
+            <ul style="font-size:0.9em;">
+                <li>Confirmar (ou criar) a tabela <code>produtos (id_produto INT PK, nome_produto VARCHAR, preco DECIMAL(10,2))</code>.</li>
+                <li>Criar a tabela <code>auditoria_produtos_log (id_log INT PK AUTO_INCREMENT, data_hora TIMESTAMP, usuario_bd VARCHAR, id_produto_afetado INT, preco_antigo DECIMAL, preco_novo DECIMAL)</code>.</li>
+            </ul>
+        </li>
+        <li><strong>Criar o Trigger <code>AFTER UPDATE</code>:</strong>
+            <ul style="font-size:0.9em;">
+                <li>Escrever o SQL para o trigger <code>trg_audit_produtos_preco_update</code> na tabela <code>produtos</code>.</li>
+                <li>O trigger deve verificar se <code>OLD.preco <> NEW.preco</code>.</li>
+                <li>Se diferente, inserir em <code>auditoria_produtos_log</code>: <code>CURRENT_USER()</code>, <code>NEW.id_produto</code>, <code>OLD.preco</code>, <code>NEW.preco</code>.</li>
+                <li>Executar o <code>CREATE TRIGGER</code> no MySQL Workbench.</li>
+            </ul>
+        </li>
+        <li><strong>Popular Dados Iniciais:</strong>
+            <ul style="font-size:0.9em;">
+                <li><code>INSERT INTO produtos (nome_produto, preco) VALUES ('Laptop XPTO', 3500.00), ('Mouse Gamer', 150.00);</code></li>
+            </ul>
+        </li>
+        <li><strong>Simular Alterações e Verificar Auditoria:</strong>
+            <ul style="font-size:0.9em;">
+                <li><code>UPDATE produtos SET preco = 3600.00 WHERE nome_produto = 'Laptop XPTO';</code></li>
+                <li><code>SELECT * FROM auditoria_produtos_log;</code> (Mostrar o registro gerado).</li>
+                <li><code>UPDATE produtos SET nome_produto = 'Laptop XPTO Pro' WHERE nome_produto = 'Laptop XPTO';</code> (Alterar outro campo).</li>
+                <li><code>SELECT * FROM auditoria_produtos_log;</code> (Verificar que NENHUM novo log foi gerado para esta alteração de nome, pois o trigger só olha `preco`).</li>
+                <li><code>UPDATE produtos SET preco = 120.00 WHERE nome_produto = 'Mouse Gamer';</code></li>
+                <li><code>SELECT * FROM auditoria_produtos_log;</code> (Mostrar o segundo registro de log de preço).</li>
+            </ul>
+        </li>
+        <li><strong>Discutir:</strong> A granularidade do log, como o trigger só atua em mudanças de preço, a utilidade de `OLD` e `NEW`.</li>
+    </ol>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

@@ -1,0 +1,91 @@
+<h2><i class="fas fa-check-circle"></i> Solução Comentada do Exercício Prático</h2>
+<p>Vamos revisar a implementação da auditoria para a tabela <code>produtos_estoque</code>.</p>
+
+<div style="text-align: left; max-width: 750px; margin: 10px auto; font-size:0.9em;">
+    <h4>1. Tabela de Log <code>auditoria_estoque_log</code> (Conforme enunciado):</h4>
+    <pre><code class="language-sql">
+CREATE TABLE auditoria_estoque_log (
+    id_log INT AUTO_INCREMENT PRIMARY KEY,
+    data_hora_acao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usuario_acao VARCHAR(100),
+    tipo_acao VARCHAR(20) NOT NULL,
+    id_produto_afetado INT,
+    nome_produto_afetado VARCHAR(150),
+    estoque_antigo INT NULL,
+    estoque_novo INT NULL,
+    FOREIGN KEY (id_produto_afetado) REFERENCES produtos_estoque(id_produto) ON DELETE SET NULL
+);
+    </code></pre>
+
+    <h4>2. Trigger <code>trg_audit_estoque_after_insert</code>:</h4>
+    <pre><code class="language-sql">
+DELIMITER $$
+CREATE TRIGGER trg_audit_estoque_after_insert
+AFTER INSERT ON produtos_estoque
+FOR EACH ROW
+BEGIN
+    INSERT INTO auditoria_estoque_log 
+        (usuario_acao, tipo_acao, id_produto_afetado, nome_produto_afetado, estoque_novo)
+    VALUES 
+        (CURRENT_USER(), 
+         'INSERT_PRODUTO', 
+         NEW.id_produto, 
+         NEW.nome_produto, 
+         NEW.quantidade_estoque);
+END$$
+DELIMITER ;
+    </code></pre>
+
+    <h4>3. Trigger <code>trg_audit_estoque_after_update</code>:</h4>
+    <pre><code class="language-sql">
+DELIMITER $$
+CREATE TRIGGER trg_audit_estoque_after_update
+AFTER UPDATE ON produtos_estoque
+FOR EACH ROW
+BEGIN
+    IF OLD.quantidade_estoque <> NEW.quantidade_estoque THEN
+        INSERT INTO auditoria_estoque_log 
+            (usuario_acao, tipo_acao, id_produto_afetado, nome_produto_afetado, estoque_antigo, estoque_novo)
+        VALUES 
+            (CURRENT_USER(), 
+             'UPDATE_ESTOQUE', 
+             NEW.id_produto, 
+             NEW.nome_produto, -- Útil ter o nome para referência no log
+             OLD.quantidade_estoque, 
+             NEW.quantidade_estoque);
+    END IF;
+END$$
+DELIMITER ;
+    </code></pre>
+
+    <h4>4. Testes e Verificação:</h4>
+    <pre><code class="language-sql">
+-- Inserir produtos
+INSERT INTO produtos_estoque (nome_produto, quantidade_estoque) VALUES ('Teclado Mecânico', 50);
+INSERT INTO produtos_estoque (nome_produto, quantidade_estoque) VALUES ('Monitor LED 24"', 30);
+
+-- Verificar logs de INSERT
+SELECT * FROM auditoria_estoque_log WHERE tipo_acao = 'INSERT_PRODUTO';
+
+-- Atualizar estoque
+UPDATE produtos_estoque SET quantidade_estoque = 45 WHERE nome_produto = 'Teclado Mecânico';
+UPDATE produtos_estoque SET quantidade_estoque = 25 WHERE id_produto = 2; -- Supondo que ID 2 é Monitor
+
+-- Atualizar nome (não deve logar pelo trigger de UPDATE atual)
+UPDATE produtos_estoque SET nome_produto = 'Monitor LED 24 polegadas' WHERE id_produto = 2;
+
+-- Verificar logs de UPDATE
+SELECT * FROM auditoria_estoque_log WHERE tipo_acao = 'UPDATE_ESTOQUE';
+
+-- Ver todos os logs
+SELECT * FROM auditoria_estoque_log ORDER BY data_hora_acao DESC;
+    </code></pre>
+    <p><strong>Discussão:</strong></p>
+    <ul style="padding-left:20px; font-size:0.95em;">
+        <li>Os logs de INSERT mostram os dados do novo produto.</li>
+        <li>Os logs de UPDATE_ESTOQUE mostram apenas as alterações de quantidade, com os valores antigo e novo.</li>
+        <li>A atualização do nome do produto não gerou log de "UPDATE_ESTOQUE", como esperado.</li>
+        <li>Poderíamos expandir o trigger de UPDATE para logar outras alterações (ex: nome_produto) ou criar triggers separados se a lógica for muito diferente.</li>
+    </ul>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

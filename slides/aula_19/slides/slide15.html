@@ -1,0 +1,49 @@
+<h2><i class="fab fa-contao" style="color:var(--accent-blue); transform: scaleX(-1);"></i> <!-- PostgreSQL Elephant Icon (mirrored) --> 5. Implementações Práticas (PostgreSQL)</h2>
+<p>O PostgreSQL também oferece mecanismos robustos para auditoria:</p>
+<div style="text-align: left; max-width: 800px; margin: 15px auto;">
+    <div style="margin-bottom: 15px; padding:10px; background-color:rgba(0,0,0,0.05); border-radius:5px;">
+        <h4><i class="fas fa-puzzle-piece" style="color:var(--accent-green);"></i> pgAudit (PostgreSQL Audit Extension)</h4>
+        <ul style="font-size:0.9em;">
+            <li>É a <strong>extensão padrão e mais recomendada</strong> para auditoria detalhada no PostgreSQL.</li>
+            <li>Precisa ser instalada e habilitada (<code>CREATE EXTENSION pgaudit;</code> e configurada no <code>postgresql.conf</code> via <code>shared_preload_libraries</code>).</li>
+            <li><strong>Características:</strong>
+                <ul>
+                    <li><strong>Auditoria de Sessão vs. Objeto:</strong> Pode logar todas as queries de uma sessão ou apenas queries que afetam objetos específicos.</li>
+                    <li><strong>Classes de Comandos Auditáveis:</strong> Permite definir quais classes de comandos logar: <code>READ</code> (SELECT, COPY FROM), <code>WRITE</code> (INSERT, UPDATE, DELETE, TRUNCATE), <code>FUNCTION</code> (chamadas de função), <code>ROLE</code> (GRANT, REVOKE, CREATE/ALTER/DROP ROLE), <code>DDL</code> (todos os DDLs não cobertos por ROLE), <code>MISC</code> (DISCARD, FETCH, LISTEN, etc.).</li>
+                    <li><strong>Granularidade:</strong> Pode logar parâmetros de statement, conteúdo completo da query, e mais.</li>
+                    <li><strong>Saída do Log:</strong> Pode ser direcionada para o log padrão do PostgreSQL ou para o log do sistema (syslog).</li>
+                </ul>
+            </li>
+            <li><strong>Configuração (<code>postgresql.conf</code>):</strong>
+                <pre><code class="language-ini" style="font-size:0.85em;">
+shared_preload_libraries = 'pgaudit'
+pgaudit.log = 'all, -misc'  # Loga tudo exceto MISC
+# pgaudit.log = 'ddl, role, read, write' # Exemplo mais seletivo
+pgaudit.log_catalog = off # Não auditar acessos ao catálogo do sistema
+pgaudit.log_parameter = on # Logar parâmetros das queries
+pgaudit.log_relation = on # Logar todas as relações em um SELECT
+                </code></pre>
+            </li>
+        </ul>
+    </div>
+    <div style="margin-bottom: 15px; padding:10px; background-color:rgba(0,0,0,0.05); border-radius:5px;">
+        <h4><i class="fas fa-stream" style="color:var(--accent-green);"></i> Logs Nativos do PostgreSQL</h4>
+        <ul style="font-size:0.9em;">
+            <li>O PostgreSQL possui parâmetros de configuração (em <code>postgresql.conf</code>) para logar diversas atividades:
+                <ul>
+                    <li><code>log_connections = on</code>: Loga tentativas de conexão.</li>
+                    <li><code>log_disconnections = on</code>: Loga desconexões.</li>
+                    <li><code>log_hostname = on</code>: Loga o hostname do cliente.</li>
+                    <li><code>log_statement = 'none' | 'ddl' | 'mod' | 'all'</code>: Controla quais tipos de instruções SQL são logadas. <code>'all'</code> é muito verboso e impacta performance; use com cautela.</li>
+                    <li><code>log_duration = on</code>: Loga a duração de cada statement completado.</li>
+                    <li><code>log_min_duration_statement = N (ms)</code>: Loga statements que excedem N milissegundos. Útil para performance, mas também para identificar queries longas suspeitas.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+     <div style="padding:10px; background-color:rgba(0,0,0,0.05); border-radius:5px;">
+        <h4><i class="fas fa-magic" style="color:var(--accent-green);"></i> Criação de Triggers para Tabelas Críticas</h4>
+        <p style="font-size:0.9em;">Similar ao MySQL, triggers podem ser criados em PostgreSQL para executar funções que inserem registros de auditoria em tabelas de log dedicadas. A sintaxe dos triggers e das funções de trigger difere (usa PL/pgSQL, por exemplo).</p>
+    </div>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

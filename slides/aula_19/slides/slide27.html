@@ -1,0 +1,73 @@
+<h2><i class="fas fa-microscope"></i> 10. Estudo de Caso e Demonstração - Auditoria com Triggers</h2>
+<p><strong>Cenário:</strong> Vamos auditar alterações na tabela <code>clientes</code> de um sistema de e-commerce.</p>
+<p><strong>Objetivo da Auditoria:</strong> Registrar quem altera o <code>email</code> ou o <code>limite_credito</code> de um cliente, e quando.</p>
+
+<div style="text-align: left; max-width: 800px; margin: 10px auto;">
+    <p style="text-align:center; margin-bottom:5px;"><strong>Modelo de Dados Relevante (DER Chen - Simplificado):</strong></p>
+    <div style="text-align:center; margin-bottom:10px;">
+        <svg width="400" height="120" viewBox="0 0 400 120">
+             <rect x="10" y="30" width="140" height="60" fill="var(--bg-light)" stroke="var(--accent-green)" rx="5"/>
+            <text x="80" y="50" font-size="14" fill="var(--text-light)" text-anchor="middle">Clientes</text>
+            <line x1="10" y1="60" x2="150" y2="60" stroke="var(--accent-blue)"/>
+            <text x="80" y="75" font-size="9" fill="var(--text-medium)" text-anchor="middle">id_cliente (PK), nome,</text>
+            <text x="80" y="85" font-size="9" fill="var(--text-medium)" text-anchor="middle" style="font-weight:bold; fill:var(--accent-yellow);">email, limite_credito</text>
+
+            <path d="M150 60 L190 60" stroke="var(--text-medium)" stroke-width="1.5" marker-end="url(#arrowGeneric)"/>
+
+            <rect x="190" y="30" width="180" height="60" fill="var(--bg-light)" stroke="var(--accent-yellow)" rx="5"/>
+            <text x="280" y="50" font-size="14" fill="var(--text-light)" text-anchor="middle">Log_Auditoria_Clientes</text>
+            <line x1="190" y1="60" x2="370" y2="60" stroke="var(--accent-blue)"/>
+            <text x="280" y="75" font-size="8" fill="var(--text-medium)" text-anchor="middle">id_log, data_hora, usuario, acao,</text>
+            <text x="280" y="85" font-size="8" fill="var(--text-medium)" text-anchor="middle">id_cliente, campo, val_antigo, val_novo</text>
+        </svg>
+    </div>
+
+    <p><i class="fas fa-fw fa-play" style="color:var(--accent-green);"></i> <strong>Passos da Demonstração (MySQL):</strong></p>
+    <ol style="padding-left: 30px; font-size:0.9em;">
+        <li><strong>Criar Tabela de Log (<code>auditoria_clientes_log</code>):</strong>
+            <pre><code class="language-sql" style="font-size:0.8em;">
+CREATE TABLE auditoria_clientes_log (
+    id_log INT AUTO_INCREMENT PRIMARY KEY,
+    data_hora_acao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usuario_bd VARCHAR(100),
+    tipo_acao VARCHAR(10) DEFAULT 'UPDATE',
+    id_cliente_afetado INT,
+    campo_alterado VARCHAR(50),
+    valor_antigo VARCHAR(255),
+    valor_novo VARCHAR(255),
+    FOREIGN KEY (id_cliente_afetado) REFERENCES clientes(id_cliente) ON DELETE CASCADE
+);</code></pre>
+        </li>
+        <li><strong>Criar Trigger <code>AFTER UPDATE</code> na tabela <code>clientes</code>:</strong>
+            <pre><code class="language-sql" style="font-size:0.8em;">
+DELIMITER $$
+CREATE TRIGGER trg_audit_clientes_modificacoes
+AFTER UPDATE ON clientes
+FOR EACH ROW
+BEGIN
+    IF OLD.email <> NEW.email THEN
+        INSERT INTO auditoria_clientes_log (usuario_bd, id_cliente_afetado, campo_alterado, valor_antigo, valor_novo)
+        VALUES (CURRENT_USER(), NEW.id_cliente, 'email', OLD.email, NEW.email);
+    END IF;
+    IF OLD.limite_credito <> NEW.limite_credito THEN
+        INSERT INTO auditoria_clientes_log (usuario_bd, id_cliente_afetado, campo_alterado, valor_antigo, valor_novo)
+        VALUES (CURRENT_USER(), NEW.id_cliente, 'limite_credito', CAST(OLD.limite_credito AS CHAR), CAST(NEW.limite_credito AS CHAR));
+    END IF;
+END$$
+DELIMITER ;</code></pre>
+        </li>
+        <li><strong>Simular Alterações em Dados Sensíveis:</strong>
+            <ul style="font-size:0.9em;">
+                <li><code>INSERT INTO clientes (nome, email, limite_credito) VALUES ('Cliente Teste', 'teste@exemplo.com', 1000);</code> (Assumindo que id_cliente é auto_increment)</li>
+                <li><code>UPDATE clientes SET email = 'novo_teste@exemplo.com' WHERE nome = 'Cliente Teste';</code></li>
+                <li><code>UPDATE clientes SET limite_credito = 1500 WHERE nome = 'Cliente Teste';</code></li>
+                <li><code>UPDATE clientes SET nome = 'Cliente Teste Alterado' WHERE nome = 'Cliente Teste';</code> (Esta não deve gerar log pelo trigger atual).</li>
+            </ul>
+        </li>
+        <li><strong>Consultar os Logs de Auditoria:</strong>
+            <pre><code class="language-sql" style="font-size:0.8em;">SELECT * FROM auditoria_clientes_log ORDER BY data_hora_acao DESC;</code></pre>
+        </li>
+        <li><strong>Análise dos Registros:</strong> Identificar quem fez a mudança, quando, qual campo, e os valores antigo/novo. Discutir como detectar um aumento suspeito de limite de crédito por um usuário não autorizado.</li>
+    </ol>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>
