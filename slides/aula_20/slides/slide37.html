@@ -1,0 +1,111 @@
+<style>
+    .despedida-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 100%; /* Para centralizar verticalmente no slide */
+        padding: 20px;
+    }
+    .despedida-container h2 {
+        font-size: 2.8em; /* Maior para destaque */
+        color: var(--accent-green);
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 2px var(--bg-dark);
+    }
+    .despedida-container .mensagem {
+        font-size: 1.25em;
+        color: var(--text-light);
+        max-width: 750px;
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
+    .instrutor-info {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: var(--bg-light);
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        border-left: 5px solid var(--accent-blue);
+        border-right: 5px solid var(--accent-green);
+    }
+    .instrutor-info p {
+        margin: 8px 0;
+        font-size: 1.1em;
+        color: var(--text-light);
+    }
+    .instrutor-info strong {
+        color: var(--accent-yellow);
+    }
+    .instrutor-info a {
+        color: var(--accent-green);
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+    .instrutor-info a:hover {
+        color: var(--accent-yellow);
+        text-decoration: underline;
+    }
+    .icones-finais {
+        margin-top: 30px;
+        font-size: 2.5em; /* Maiores */
+    }
+    .icones-finais .fa-star {
+        color: var(--accent-yellow);
+        animation: starShineFinal 1.5s infinite ease-in-out;
+        margin: 0 10px;
+    }
+    .icones-finais .fa-graduation-cap {
+        color: var(--accent-blue);
+         margin: 0 10px;
+    }
+    .icones-finais .fa-rocket {
+        color: var(--accent-green);
+        animation: rocketTakeOff 3s ease-out forwards;
+         margin: 0 10px;
+    }
+    @keyframes starShineFinal {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+      50% { transform: scale(1.3) rotate(15deg); opacity: 1; }
+    }
+    @keyframes rocketTakeOff {
+      0% { transform: translateY(20px) rotate(-5deg); opacity: 0; }
+      60% { transform: translateY(-10px) rotate(5deg); opacity: 1; }
+      100% { transform: translateY(-50px) rotate(0deg); opacity: 0; } /* Some da tela */
+    }
+</style>
+
+<div class="despedida-container">
+    <h2><i class="fas fa-flag-checkered"></i> Fim de Jornada, Início de uma Nova Etapa!</h2>
+
+    <p class="mensagem">
+        Chegamos ao final do nosso curso de <strong>Administrador de Bancos de Dados Júnior</strong>!
+        Quero parabenizar cada um de vocês pela dedicação, pelo empenho e pela curiosidade demonstrada ao longo de todas as aulas.
+        Vocês adquiriram um conjunto valioso de habilidades que são fundamentais no mundo da tecnologia.
+    </p>
+    <p class="mensagem">
+        Lembrem-se que o aprendizado é contínuo, especialmente na área de TI. Continuem explorando, praticando e construindo.
+        O mercado de trabalho para DBAs é promissor, e agora vocês têm a base para trilhar um caminho de sucesso!
+    </p>
+
+    <div class="instrutor-info">
+        <p>Foi um prazer ser seu guia nesta jornada!</p>
+        <p><strong>Erick Ribeiro Porto</strong></p>
+        <p>Instrutor e Analista de Tecnologia da Informação</p>
+        <p>
+            <a href="https://linkedin.com/in/Erick-Porto" target="_blank">
+                <i class="fab fa-linkedin"></i> Conecte-se no LinkedIn: linkedin.com/in/Erick-Porto
+            </a>
+        </p>
+    </div>
+
+    <div class="icones-finais">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-graduation-cap"></i>
+        <i class="fas fa-rocket"></i>
+    </div>
+    <p style="margin-top:20px; font-size: 1.3em; color: var(--text-light); font-weight:bold;">Muito sucesso a todos!</p>
+</div>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

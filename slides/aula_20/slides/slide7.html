@@ -1,0 +1,67 @@
+<h2><i class="fas fa-filter"></i> O Funil da Oportunidade Profissional</h2>
+<p>Podemos visualizar o caminho da sua qualificação até a contratação como um funil:</p>
+<div class="slide-svg-container" style="max-width: 500px; margin-top:20px;">
+    <svg width="100%" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+        <title>Funil da Oportunidade</title>
+        <defs>
+            <linearGradient id="funnelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="var(--accent-blue)" />
+                <stop offset="100%" stop-color="var(--accent-green)" />
+            </linearGradient>
+            <style>
+                .funnel-text { font-size: 12px; fill: white; text-anchor: middle; font-weight:bold; }
+                .funnel-icon { font-family: "Font Awesome 5 Free"; font-weight: 900; font-size: 18px; fill: white; text-anchor: middle; }
+                .funnel-segment { transition: opacity 0.5s ease-in-out; }
+                .funnel-segment:hover { opacity: 0.8; }
+            </style>
+        </defs>
+
+        <!-- Segmento 1: Conhecimento -->
+        <polygon points="10,10 190,10 160,70 40,70" fill="url(#funnelGrad)" class="funnel-segment" id="seg1">
+            <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="0s" fill="freeze"/>
+        </polygon>
+        <text x="100" y="35" class="funnel-icon">&#xf19d;</text> <!-- fa-graduation-cap -->
+        <text x="100" y="55" class="funnel-text">Conhecimento Adquirido</text>
+        <text x="100" y="65" class="funnel-text" style="font-size:8px; fill:var(--bg-dark);">(Curso DBA, Habilidades)</text>
+
+        <!-- Segmento 2: Visibilidade -->
+        <polygon points="40,70 160,70 140,130 60,130" fill="url(#funnelGrad)"  class="funnel-segment"  id="seg2" style="opacity:0.8;">
+             <animate attributeName="opacity" from="0" to="0.8" dur="0.5s" begin="0.5s" fill="freeze"/>
+        </polygon>
+        <text x="100" y="95" class="funnel-icon">&#xf007;</text> <!-- fa-user (LinkedIn) -->
+        <text x="100" y="115" class="funnel-text">Visibilidade Criada</text>
+        <text x="100" y="125" class="funnel-text" style="font-size:8px; fill:var(--bg-dark);">(LinkedIn, CV, Networking)</text>
+
+
+        <!-- Segmento 3: Oportunidades -->
+        <polygon points="60,130 140,130 120,190 80,190" fill="url(#funnelGrad)" class="funnel-segment" id="seg3" style="opacity:0.6;">
+            <animate attributeName="opacity" from="0" to="0.6" dur="0.5s" begin="1s" fill="freeze"/>
+        </polygon>
+        <text x="100" y="155" class="funnel-icon">&#xf086;</text> <!-- fa-comments (convites) -->
+        <text x="100" y="175" class="funnel-text">Oportunidades Geradas</text>
+        <text x="100" y="185" class="funnel-text" style="font-size:8px; fill:var(--bg-dark);">(Convites, Vagas)</text>
+
+        <!-- Segmento 4: Contratação -->
+        <polygon points="80,190 120,190 110,250 90,250" fill="url(#funnelGrad)" class="funnel-segment" id="seg4" style="opacity:0.4;">
+            <animate attributeName="opacity" from="0" to="0.4" dur="0.5s" begin="1.5s" fill="freeze"/>
+        </polygon>
+        <text x="100" y="215" class="funnel-icon">&#xf0f2;</text> <!-- fa-suitcase (emprego) -->
+        <text x="100" y="235" class="funnel-text">Entrevistas & Contratação</text>
+
+        <!-- Animação de "fluxo" -->
+        <circle cx="100" cy="10" r="3" fill="var(--accent-yellow)">
+            <animateMotion dur="4s" repeatCount="indefinite" path="M0,0 L0,240" />
+            <animate attributeName="opacity" values="1;1;0" dur="4s" repeatCount="indefinite"/>
+        </circle>
+         <circle cx="90" cy="10" r="3" fill="var(--accent-yellow)" style="opacity:0.8;">
+            <animateMotion dur="4s" begin="0.2s" repeatCount="indefinite" path="M0,0 L0,240" />
+            <animate attributeName="opacity" values="0.8;0.8;0" dur="4s" begin="0.2s" repeatCount="indefinite"/>
+        </circle>
+         <circle cx="110" cy="10" r="3" fill="var(--accent-yellow)" style="opacity:0.6;">
+            <animateMotion dur="4s" begin="0.4s" repeatCount="indefinite" path="M0,0 L0,240" />
+            <animate attributeName="opacity" values="0.6;0.6;0" dur="4s" begin="0.4s" repeatCount="indefinite"/>
+        </circle>
+    </svg>
+</div>
+<p style="margin-top:10px;">Para chegar à base do funil (contratação), você precisa garantir que está visível e atraente nos estágios anteriores. Nosso foco hoje é no segmento de <strong>Visibilidade Criada</strong>.</p>
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>
