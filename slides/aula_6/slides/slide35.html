@@ -11,24 +11,19 @@ USE minha_loja;
 
 -- Criar a tabela Clientes
 CREATE TABLE Clientes (
-    ClienteID INT PRIMARY KEY AUTO_INCREMENT, -- Chave primária auto-incremental (MySQL)
-    -- ClienteID SERIAL PRIMARY KEY, -- (PostgreSQL)
+    ClienteID INT PRIMARY KEY AUTO_INCREMENT, -- Chave primária auto-incremental
     Nome VARCHAR(100) NOT NULL,
     Email VARCHAR(100) UNIQUE,
     DataCadastro DATE
 );
 
--- Descrever a estrutura da tabela (MySQL)
+-- Ver a estrutura da tabela
 DESCRIBE Clientes;
 
--- Descrever a estrutura da tabela (PostgreSQL)
-\d Clientes
-
--- Inserir um cliente
+-- Inserir clientes
 INSERT INTO Clientes (Nome, Email, DataCadastro)
 VALUES ('João Silva', 'joao.silva@email.com', '2024-01-15');
 
--- Inserir outro cliente
 INSERT INTO Clientes (Nome, Email, DataCadastro)
 VALUES ('Maria Oliveira', 'maria.o@email.com', CURDATE()); -- Usa data atual
 

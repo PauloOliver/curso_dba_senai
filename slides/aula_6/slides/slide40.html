@@ -1,20 +1,23 @@
 <h2>Exercício 1: Criação da Tabela `Categorias`</h2>
-<p><strong>Tarefa:</strong> Crie a tabela `Categorias` com as seguintes colunas:</p>
-<ul>
-  <li>`CategoriaID`:
-    <ul>
-      <li>Tipo: Inteiro (INT ou SERIAL)</li>
-      <li>Deve ser a Chave Primária (PRIMARY KEY)</li>
-      <li>Deve ser Auto-Incremental (AUTO_INCREMENT no MySQL, SERIAL no PostgreSQL já faz isso)</li>
-    </ul>
-  </li>
-  <li>`NomeCategoria`:
-    <ul>
-      <li>Tipo: Texto de tamanho variável (VARCHAR), máximo 50 caracteres.</li>
-      <li>Não pode ser Nulo (NOT NULL).</li>
-      <li>Deve ter valores únicos (UNIQUE).</li>
-    </ul>
-  </li>
-</ul>
-<p><strong>Comando SQL:</strong> Escreva o comando `CREATE TABLE` completo.</p>
-<p>(Solução no próximo slide após o tempo de prática)</p>
+<p><strong>Tarefa:</strong> Crie uma tabela com as seguintes colunas:</p>
+<strong>1 - Crie um banco de dados chamado empresa_rh (se ainda não existir) e use-o.</strong>
+<br>
+<br>
+<strong>2 - Crie a tabela Funcionarios com os seguintes campos:</strong>
+FuncionarioID: inteiro, chave primária, auto-incremento.
+<br>
+Nome: texto de até 100 caracteres, não pode ser nulo.
+<br>
+Cargo: texto de até 50 caracteres.
+<br>
+Salario: número decimal (10,2), não pode ser nulo e deve ser maior que zero.
+DataAdmissao: data simples.
+<br>
+<br>
+<strong>3 - Insira os seguintes funcionários na tabela:</strong>
+Nome: "Carlos Mendes", Cargo: "Analista de Sistemas", Salário: 4500.00, DataAdmissao: 2023-11-01.
+<br>
+Nome: "Fernanda Souza", Cargo: "Assistente Administrativo", Salário: 2500.00, DataAdmissao: data atual do sistema.
+<br>
+<br>
+<strong>4 - Liste todos os funcionários cadastrados usando SELECT *.</strong>
