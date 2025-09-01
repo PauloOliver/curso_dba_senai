@@ -2,7 +2,12 @@
 <p>Vamos criar uma tabela simples de Clientes e inserir alguns dados.</p>
 <!-- Placeholder: Screenshot da execução dos comandos -->
 <pre><code class="language-sql">
--- Conectado ao banco 'minha_loja'
+
+-- Cria o banco de dados (se ainda não existir)
+CREATE DATABASE IF NOT EXISTS minha_loja;
+
+-- Seleciona o banco para uso
+USE minha_loja;
 
 -- Criar a tabela Clientes
 CREATE TABLE Clientes (
