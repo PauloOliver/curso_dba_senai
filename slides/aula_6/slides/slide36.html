@@ -1,0 +1,13 @@
+<h2>Diferença de VarCHAR para CHAR</h2>
+<p>
+<strong>CHAR(n)</strong>: armazena um tamanho fixo de caracteres. Se o valor for menor que n, o banco preenche com espaços. Ideal para dados de comprimento constante (ex.: CEP, siglas). Mais rápido em consultas, mas pode desperdiçar espaço.
+
+Ex.: CHAR(5) → "ABC" armazenado como "ABC "
+<br>
+<br>
+<strong>VARCHAR(n)</strong>: armazena tamanho variável até n caracteres, sem preencher espaços. Ideal para dados de tamanho variável (ex.: nomes, e-mails, endereços). Economiza espaço, mas pode ser ligeiramente mais lento.
+
+Ex.: VARCHAR(50) → "ABC" armazenado como "ABC"
+</p>
+
+
