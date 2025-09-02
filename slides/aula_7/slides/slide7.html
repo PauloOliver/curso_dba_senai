@@ -7,8 +7,16 @@
     class="slide-image"
     style="max-height: 100px; background-color: transparent;">
 <ul>
-    <li><i class="fas fa-link fa-fw"></i> <strong>Entidade Forte:</strong> Existe por si só (retângulo simples). Ex: <code>CLIENTE</code>.</li>
-    <li><i class="fas fa-unlink fa-fw"></i> <strong>Entidade Fraca:</strong> Depende de outra (retângulo duplo). Ex: <code>DEPENDENTE</code> (de <code>FUNCIONARIO</code>).</li>
+    <li><i class="fas fa-link fa-fw"></i> <strong>Entidade Forte:</strong> Não precisa de outra entidade para ter sentido (retângulo simples).</li>
+        
+     <li><code>Exemplo:
+    CLIENTE → tem seu próprio id_cliente, nome, CPF etc.
+    Ele não precisa de ninguém para existir no banco.</code></li>
+    <li><i class="fas fa-unlink fa-fw"></i> <strong>Entidade Fraca:</strong> Não tem chave primária independente → sua identificação só faz sentido junto com a entidade da qual depende</li>
+
+    <li><code>Exemplo: DEPENDENTE → só existe se houver um FUNCIONARIO.
+    O dependente pode ter um nome, mas só conseguimos identificá-lo plenamente se soubermos a qual funcionário ele pertence.
+    A chave do dependente é formada pela sua identificação + a chave do funcionário (chave estrangeira).</code></li>
 </ul>
 <!-- [Diagram: Showing notations for Strong (single rect) and Weak (double rect) entities] -->
 <img
