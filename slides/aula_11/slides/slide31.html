@@ -1,26 +1,57 @@
-<!-- --- START OF FILE slides/slide31.html --- -->
-  <h2><i class="fas fa-laptop-code"></i> Demonstração Ao Vivo 5: Criando um Índice</h2>
-  <p>Vamos otimizar a busca por localização:</p>
-  <ol>
-      <li><strong>Criar o Índice:</strong>
-          <pre><code class="language-sql">-- Criar índice na coluna Localizacao da tabela Departamentos
-CREATE INDEX idx_dept_localizacao ON Departamentos (Localizacao);</code></pre>
-      </li>
-      <li><strong>Verificar Criação:</strong>
-           <ul>
-              <li>MySQL: <code>SHOW INDEX FROM Departamentos;</code></li>
-              <li>PostgreSQL: <code>\di</code> ou <code>\d Departamentos</code> (mostra índices associados).</li>
-           </ul>
-      </li>
-      <li><strong>(Opcional - Conceitual) Discutir `EXPLAIN`:</strong>
-           <pre><code class="language-sql">-- Explicar como analisar a saída (uso do índice vs. table scan)
-EXPLAIN SELECT * FROM Departamentos WHERE Localizacao = 'Sede';</code></pre>
-           <p>(Nota: A interpretação do <code>EXPLAIN</code> é um tópico avançado, mas vale a pena mencionar que é a ferramenta para verificar se um índice está sendo usado).</p>
-      </li>
-      <li><strong>Remover o Índice (se necessário):</strong>
-           <pre><code class="language-sql">DROP INDEX idx_dept_localizacao ON Departamentos; -- MySQL
--- DROP INDEX idx_dept_localizacao; -- PostgreSQL</code></pre>
-      </li>
-  </ol>
-  <i class="fas fa-play-circle" style="font-size: 4rem; color: var(--accent-blue); margin-top: 30px;"></i>
-<!-- --- END OF FILE slides/slide31.html --- -->
+<h2><i class="fas fa-check-square"></i> CHECK: Validação de Dados</h2>
+
+<p>O <strong>CHECK</strong> é uma restrição de integridade que você coloca em uma coluna (ou na tabela) para validar os dados no momento da inserção ou atualização.</p>
+<p>Ele define uma condição lógica que deve ser verdadeira. Se alguém tentar inserir um valor que não satisfaça a condição, o SQLite recusa a operação e retorna erro.</p>
+
+<p><strong>Sintaxe básica:</strong></p>
+
+<p><strong>CHECK em coluna:</strong></p>
+<pre><code class="language-sql">
+CREATE TABLE Funcionarios (
+    FuncionarioID INTEGER PRIMARY KEY,
+    Nome TEXT NOT NULL,
+    Salario DECIMAL(10,2) CHECK (Salario > 0)
+);
+</code></pre>
+<p>Aqui, o SQLite só permite que o <code>Salario</code> seja maior que 0.</p>
+<p>Exemplo de erro:</p>
+<pre><code class="language-sql">
+INSERT INTO Funcionarios (Nome, Salario) VALUES ('Ana', -1000);
+-- Resultado: erro, CHECK constraint failed
+</code></pre>
+
+<p><strong>CHECK em tabela inteira:</strong></p>
+<pre><code class="language-sql">
+CREATE TABLE Pedidos (
+    PedidoID INTEGER PRIMARY KEY,
+    Quantidade INTEGER,
+    Preco DECIMAL,
+    CHECK (Quantidade * Preco <= 10000)
+);
+</code></pre>
+<p>Nesse caso, a condição verifica uma expressão envolvendo múltiplas colunas.</p>
+<p>Exemplo: você não pode inserir <code>Quantidade = 50</code> e <code>Preco = 500</code> porque 50*500 = 25000 &gt; 10000.</p>
+
+<p><strong>Exemplos comuns de uso:</strong></p>
+<table>
+  <tr>
+    <th>Caso</th>
+    <th>Exemplo de CHECK</th>
+  </tr>
+  <tr>
+    <td>Salário positivo</td>
+    <td><code>Salario DECIMAL CHECK(Salario &gt; 0)</code></td>
+  </tr>
+  <tr>
+    <td>Estoque não negativo</td>
+    <td><code>Estoque INTEGER CHECK(Estoque &gt;= 0)</code></td>
+  </tr>
+  <tr>
+    <td>Sexo válido</td>
+    <td><code>Sexo TEXT CHECK(Sexo IN ('M','F'))</code></td>
+  </tr>
+  <tr>
+    <td>Nota entre 0 e 10</td>
+    <td><code>Nota REAL CHECK(Nota &gt;=0 AND Nota &lt;=10)</code></td>
+  </tr>
+</table>

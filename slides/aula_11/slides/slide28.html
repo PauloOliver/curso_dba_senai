@@ -1,22 +1,41 @@
-<!-- --- START OF FILE slides/slide28.html --- -->
-  <h2><i class="fas fa-plus-square"></i> Índices: Sintaxe e Criação</h2>
-  <p>Para criar um índice explicitamente (além dos criados por PK/UNIQUE), usamos <code>CREATE INDEX</code>.</p>
-  <p><strong>Sintaxe Básica:</strong></p>
-  <pre><code class="language-sql">
-CREATE INDEX nome_do_indice -- Dê um nome descritivo (ex: idx_tabela_coluna)
-ON nome_da_tabela (coluna1 [ASC | DESC], coluna2 [ASC | DESC], ...);
-  </code></pre>
-  <p><strong>Exemplo:</strong> Criar um índice na coluna <code>NomeDepto</code> da tabela <code>Departamentos</code> para acelerar buscas por nome.</p>
-   <pre><code class="language-sql">
-CREATE INDEX idx_departamentos_nome ON Departamentos (NomeDepto);
-   </code></pre>
-  <p><strong>Exemplo: Índice Composto</strong> (em múltiplas colunas - a ordem importa!). Útil para filtros que usam ambas as colunas.</p>
-  <pre><code class="language-sql">
--- Para otimizar WHERE CategoriaID = ? AND Preco > ?
-CREATE INDEX idx_produtos_cat_preco ON Produtos (CategoriaID, Preco);
-  </code></pre>
-   <p><strong>Exemplo: Índice Descendente</strong> (Pode ajudar em <code>ORDER BY ... DESC</code>).</p>
-   <pre><code class="language-sql">
-CREATE INDEX idx_pedidos_data_desc ON Pedidos (DataPedido DESC);
-   </code></pre>
-<!-- --- END OF FILE slides/slide28.html --- -->
+<h2><i class="fas fa-search"></i> Índices: Com e Sem Índice</h2>
+
+<p><strong>Situação sem índice</strong></p>
+<p>Imagine uma tabela <code>Clientes</code> com 1 milhão de registros:</p>
+
+<pre><code class="language-sql">
+CREATE TABLE Clientes (
+  ClienteID INTEGER PRIMARY KEY,
+  Nome TEXT,
+  Email TEXT
+);
+</code></pre>
+
+<p>E você roda a consulta:</p>
+
+<pre><code class="language-sql">
+SELECT * FROM Clientes WHERE Nome = 'Maria';
+</code></pre>
+
+<p><strong>O que o banco faz sem índice?</strong></p>
+<ul>
+  <li>Ele precisa ler linha por linha da tabela inteira (processo chamado <em>full table scan</em>).</li>
+  <li>Ou seja, olha o registro 1, depois o 2, depois o 3… até o 1.000.000 para ver onde <code>Nome = 'Maria'</code>.</li>
+  <li>Isso pode ser <strong>muito lento</strong> em tabelas grandes.</li>
+</ul>
+
+<hr>
+
+<p><strong>Situação com índice</strong></p>
+<p>Agora criamos um índice na coluna <code>Nome</code>:</p>
+
+<pre><code class="language-sql">
+CREATE INDEX idx_clientes_nome ON Clientes (Nome);
+</code></pre>
+
+<p><strong>➡ O que acontece agora?</strong></p>
+<ul>
+  <li>O banco cria uma <strong>estrutura de dados interna</strong> (geralmente uma árvore B-Tree ou similar) com os nomes já organizados.</li>
+  <li>Isso funciona como um <strong>índice de livro</strong>: quer achar “Maria”? Vai direto na letra M e encontra rapidinho.</li>
+  <li>O banco não precisa mais ler todas as linhas — ele usa o índice para ir direto nas posições corretas.</li>
+</ul>
