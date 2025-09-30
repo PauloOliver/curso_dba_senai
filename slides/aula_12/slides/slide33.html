@@ -7,6 +7,7 @@
               <li>Permite que <strong>múltiplas transações</strong> obtenham um lock S no mesmo recurso simultaneamente (outras transações também podem ler).</li>
               <li>Geralmente adquirido quando uma transação está <strong>lendo</strong> dados e quer garantir que eles não sejam modificados por outra transação enquanto ela lê (dependendo do nível de isolamento).</li>
               <li>Impede que outra transação obtenha um lock Exclusivo (X) no mesmo recurso.</li>
+            <pre><code class="language-sql">SELECT * FROM clientes LOCK IN SHARE MODE;</pre></code>
           </ul>
       </li>
       <li style="margin-top:15px;"><strong>Exclusive Lock (X) - Bloqueio Exclusivo ou de Escrita:</strong> <i class="fas fa-pen-nib" style="color:var(--red-error)"></i>
@@ -14,6 +15,7 @@
               <li>Permite que <strong>apenas UMA transação</strong> obtenha um lock X em um recurso por vez.</li>
               <li>Necessário quando uma transação vai <strong>modificar</strong> dados (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>).</li>
               <li>Impede que qualquer outra transação obtenha qualquer tipo de lock (S ou X) no mesmo recurso.</li>
+            <pre><code class="language-sql">SELECT * FROM clientes FOR UPDATE;</pre></code>
           </ul>
       </li>
   </ul>
