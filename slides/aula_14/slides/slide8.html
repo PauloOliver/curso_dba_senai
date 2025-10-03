@@ -6,16 +6,49 @@
           <i class="fas fa-arrow-down fa-2x" style="color:var(--accent-green);"></i>
           <h4><code>IN</code> (Entrada)</h4>
           <p>Valor passado <strong>PARA DENTRO</strong> da procedure. Padrão se não especificado. Ex: <code>IN nome_cliente VARCHAR(100)</code></p>
+          <ul>
+            <li>
+É o padrão se você não especificar nada.
+            </li>
+            <li>
+O valor é passado para dentro da procedure.
+            </li>
+            <li>
+A procedure pode usar esse valor, mas não consegue alterar a variável do lado de fora.
+            </li>
+          </ul>
       </div>
       <div style="text-align:center; padding:10px;">
           <i class="fas fa-arrow-up fa-2x" style="color:var(--accent-blue);"></i>
           <h4><code>OUT</code> (Saída)</h4>
           <p>Valor retornado <strong>PELA</strong> procedure. A procedure atribui um valor a este parâmetro. Ex: <code>OUT total_pedidos INT</code></p>
+          <ul>
+            <li>
+O parâmetro serve para retornar valores da procedure
+            </li>
+            <li>
+Dentro da SP você atribui um valor a esse parâmetro.    
+            </li>
+            <li>
+Fora da SP, o chamador consegue acessar esse valor.
+            </li>
+          </ul>
       </div>
       <div style="text-align:center; padding:10px;">
           <i class="fas fa-sync-alt fa-2x" style="color:var(--accent-yellow);"></i>
           <h4><code>INOUT</code> (Entrada/Saída)</h4>
           <p>Valor passado para dentro, pode ser modificado, e o novo valor é retornado. Ex: <code>INOUT contador INT</code></p>
+          <ul>
+            <li>
+              O parâmetro entra com um valor inicial.
+            </li>
+            <li>
+              A procedure pode modificar esse valor.
+            </li>
+            <li>
+              Ao final, o valor atualizado é devolvido.
+            </li>
+          </ul>
       </div>
   </div>
   <div class="slide-svg-container" style="max-width:70%; margin-top:20px;">
