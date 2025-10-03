@@ -1,18 +1,22 @@
-
-  <h2><i class="fas fa-file-export" style="color: var(--accent-green);"></i> DEMO: SP <code>ContarTotalClientes</code> (Parâmetro OUT)</h2>
-  <p><strong>Cenário:</strong> Criar uma SP que conta o número total de clientes e retorna esse valor.</p>
-  <p><strong>Código SQL (MySQL):</strong></p>
-  <pre><code class="language-sql">
+<h2><i class="fas fa-file-export" style="color: var(--accent-green);"></i> DEMO: SP <code>ListarAlunosPorCurso</code> (Parâmetro IN)</h2>
+<p><strong>Cenário:</strong> Criar uma SP que recebe o nome de um curso e retorna os alunos matriculados nele.</p>
+<p><strong>Código SQL (MySQL):</strong></p>
+<pre><code class="language-sql">
 DELIMITER $$
-CREATE PROCEDURE ContarTotalClientes(OUT total INT)
+CREATE PROCEDURE ListarAlunosPorCurso (IN pCurso VARCHAR(50))
 BEGIN
-    SELECT COUNT(*) INTO total FROM Clientes;
+    SELECT id, nome, idade
+    FROM Aluno
+    WHERE curso = pCurso;
 END $$
 DELIMITER ;
-  </code></pre>
-  <p><strong>Chamando e Usando (MySQL):</strong></p>
-  <pre><code class="language-sql">
-CALL ContarTotalClientes(@numero_clientes);
-SELECT @numero_clientes AS 'Total de Clientes';
-  </code></pre>
-  <p style="font-weight: bold; margin-top: 15px;"><i class="fas fa-desktop"></i> Demonstração ao Vivo: Criar, executar e mostrar o valor da variável <code>@numero_clientes</code>.</p>
+</code></pre>
+
+<p><strong>Chamando e Usando (MySQL):</strong></p>
+<pre><code class="language-sql">
+CALL ListarAlunosPorCurso('Engenharia');
+</code></pre>
+
+<p style="font-weight: bold; margin-top: 15px;">
+    <i class="fas fa-desktop"></i> Demonstração ao Vivo: Criar a tabela, inserir dados e executar a SP para ver apenas os alunos de <code>Engenharia</code>.
+</p>
