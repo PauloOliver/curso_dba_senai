@@ -1,0 +1,84 @@
+<h2><i class="fas fa-list"></i> Monitorando o Servidor com <code>SHOW STATUS</code></h2>
+<p>O MySQL permite acompanhar o desempenho do servidor em tempo real usando variáveis de status:</p>
+
+<div>
+    <h4><i class="fas fa-terminal"></i> 1️⃣ Listando todos os status disponíveis</h4>
+    <pre>SHOW GLOBAL STATUS;</pre>
+    <p>Exemplo de saída:</p>
+    <table border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Variable_name</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Uptime</td><td>86400</td></tr>
+            <tr><td>Threads_connected</td><td>12</td></tr>
+            <tr><td>Threads_running</td><td>3</td></tr>
+            <tr><td>Questions</td><td>12500</td></tr>
+            <tr><td>Slow_queries</td><td>8</td></tr>
+            <tr><td>Innodb_buffer_pool_reads</td><td>1050</td></tr>
+            <tr><td>Innodb_buffer_pool_read_requests</td><td>50000</td></tr>
+            <tr><td>Com_commit</td><td>2000</td></tr>
+            <tr><td>Com_rollback</td><td>5</td></tr>
+        </tbody>
+    </table>
+    <p><strong>Interpretação:</strong></p>
+    <ul>
+        <li><code>Uptime</code> → servidor rodando há 1 dia (86400s).</li>
+        <li><code>Threads_connected</code> e <code>Threads_running</code> → quantas conexões e queries ativas.</li>
+        <li><code>Slow_queries</code> → possíveis problemas de performance.</li>
+    </ul>
+
+    <h4><i class="fas fa-filter"></i> 2️⃣ Filtrando apenas variáveis do InnoDB</h4>
+    <pre>SHOW GLOBAL STATUS LIKE 'Innodb%';</pre>
+    <p>Exemplo de saída filtrada:</p>
+    <table border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Variable_name</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Innodb_buffer_pool_reads</td><td>1050</td></tr>
+            <tr><td>Innodb_buffer_pool_read_requests</td><td>50000</td></tr>
+            <tr><td>Innodb_row_lock_waits</td><td>12</td></tr>
+        </tbody>
+    </table>
+    <p><strong>Interpretação prática:</strong></p>
+    <ul>
+        <li><code>Innodb_buffer_pool_reads</code> → leituras que precisaram ir ao disco. Número alto → buffer pool pequeno.</li>
+        <li><code>Innodb_buffer_pool_read_requests</code> → total de leituras solicitadas ao cache.</li>
+        <li><code>Innodb_row_lock_waits</code> → quantas vezes transações aguardaram lock de linha.</li>
+    </ul>
+
+    <h4><i class="fas fa-chart-line"></i> 3️⃣ Exemplo de análise real</h4>
+    <p>Para monitorar performance de um e-commerce, você poderia rodar:</p>
+    <pre>
+SHOW GLOBAL STATUS LIKE 'Slow_queries';
+SHOW GLOBAL STATUS LIKE 'Threads_running';
+SHOW GLOBAL STATUS LIKE 'Innodb_buffer_pool_reads';
+    </pre>
+    <p>Exemplo de saída:</p>
+    <table border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Variable_name</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Slow_queries</td><td>45</td></tr>
+            <tr><td>Threads_running</td><td>10</td></tr>
+            <tr><td>Innodb_buffer_pool_reads</td><td>8000</td></tr>
+        </tbody>
+    </table>
+    <p><strong>Análise:</strong></p>
+    <ul>
+        <li>45 queries lentas → otimizar índices ou queries.</li>
+        <li>10 queries rodando simultaneamente → aceitável, mas monitorar se crescer.</li>
+        <li>8000 leituras do disco → considerar aumentar o InnoDB Buffer Pool para reduzir I/O.</li>
+    </ul>
+</div>
