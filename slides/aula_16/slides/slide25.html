@@ -28,6 +28,47 @@
             </ul>
         </li>
     </ol>
+
+    <p style="margin-top:15px; font-weight:bold;">O que você deve observar / tirar deste exercício:</p>
+    <table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse; width:100%; font-size:0.9em;">
+        <thead style="background-color:#f0f0f0;">
+            <tr>
+                <th>Aspecto</th>
+                <th>O que observar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>type</td>
+                <td>Tipo de acesso à tabela. Ex.: <code>ALL</code> = full table scan, <code>ref</code> = índice usado. Quanto mais restritivo, melhor.</td>
+            </tr>
+            <tr>
+                <td>key</td>
+                <td>Índice utilizado pela query. <code>NULL</code> se nenhum índice foi usado.</td>
+            </tr>
+            <tr>
+                <td>rows</td>
+                <td>Número estimado de linhas que o MySQL precisa ler. Quanto menor, melhor.</td>
+            </tr>
+            <tr>
+                <td>Extra</td>
+                <td>Operações adicionais, como <code>Using filesort</code> (ordenar manualmente) ou <code>Using index</code> (leitura direta do índice).</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p style="margin-top:15px; font-style:italic;">
+        Comparações importantes:
+        <ul style="padding-left:20px;">
+            <li>Remover <code>WHERE</code> → normalmente <code>type = ALL</code> e <code>rows</code> aumenta.</li>
+            <li>Adicionar <code>ORDER BY</code> em coluna não indexada → aparece <code>Using filesort</code> em <code>Extra</code>.</li>
+            <li>Criar índice → <code>type</code> melhora (ex: <code>ref</code>), <code>key</code> mostra o índice, <code>rows</code> diminui.</li>
+        </ul>
+    </p>
 </div>
+
 <p style="margin-top:20px; font-style:italic;">O objetivo é familiarizar-se com a ferramenta e como ela nos ajuda a "ver por dentro" da execução da query.</p>
-<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>
+
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" 
+     alt="Technology Background" 
+     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>
