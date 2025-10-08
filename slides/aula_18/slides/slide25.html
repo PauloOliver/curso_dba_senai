@@ -47,6 +47,34 @@ log_message "Script de backup finalizado."
     </p>
 
     <h4 style="margin-top:15px;"><i class="fab fa-windows" style="color:var(--accent-blue);"></i> Scripts PowerShell (Windows)</h4>
+    <pre><code>
+# --- Configurações ---
+$DBUser = "root"
+$DBPassword = "sua_senha"
+$DBName = "loja_exemplo"
+$BackupDir = "C:\backups\mysql"
+$Date = Get-Date -Format "yyyy-MM-dd_HHmmss"
+$FileName = "$BackupDir\$DBName-$Date.sql"
+
+# --- Criação do diretório se não existir ---
+if (!(Test-Path -Path $BackupDir)) {
+    New-Item -ItemType Directory -Path $BackupDir | Out-Null
+}
+
+# --- Caminho completo do mysqldump (ajuste se necessário) ---
+$MySQLDumpPath = "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump.exe"
+
+# --- Execução do backup ---
+Write-Host "Iniciando backup de $DBName..."
+& "$MySQLDumpPath" -u $DBUser -p$DBPassword $DBName > $FileName
+
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "Backup concluído com sucesso: $FileName"
+} else {
+    Write-Host "Erro ao realizar backup!"
+}
+
+    </code></pre>
     <p style="font-size:0.95em;">PowerShell é a ferramenta de scripting moderna e poderosa para Windows.</p>
     <p style="font-size:0.9em; color:var(--text-medium);">A lógica seria similar: definir variáveis, chamar <code>mysqldump.exe</code> (certificando-se de que está no PATH ou especificando o caminho completo), manipular a saída, e usar o Agendador de Tarefas do Windows.</p>
     <p style="margin-top:15px; font-style:italic;">O script pode ser expandido para incluir compressão, logs mais detalhados, notificações por e-mail, rotação de backups antigos, etc.</p>
