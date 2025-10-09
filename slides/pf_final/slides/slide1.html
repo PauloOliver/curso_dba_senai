@@ -1,0 +1,131 @@
+<style>
+    .trabalho-final-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: left;
+        font-size: 0.9em;
+        line-height: 1.5;
+        width: 90%;
+        max-width: 950px;
+        margin: 0 auto;
+    }
+    .trabalho-final-container h2 {
+        font-size: 2em;
+        color: var(--accent-green);
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    .trabalho-final-intro p {
+        text-align: center;
+        font-size: 1.15em;
+        margin-bottom: 20px;
+        color: var(--text-medium);
+    }
+    .fase-secao {
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: rgba(42, 42, 59, 0.7);
+        border-radius: 8px;
+        border: 1px solid var(--bg-light);
+    }
+    .fase-secao h3 {
+        font-size: 1.4em;
+        color: var(--accent-yellow);
+        margin-top: 0;
+        margin-bottom: 10px;
+        border-bottom: 1px solid var(--accent-blue);
+        padding-bottom: 8px;
+    }
+    .fase-secao h3 i {
+        margin-right: 10px;
+        font-size: 1em;
+    }
+    .fase-secao ul {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 0;
+    }
+    .fase-secao li {
+        margin-bottom: 8px;
+        display: flex;
+        align-items: flex-start;
+    }
+    .fase-secao li i.far.fa-square {
+        color: var(--accent-green);
+        margin-right: 10px;
+        margin-top: 0.2em;
+        font-size: 1em;
+    }
+    .fase-secao strong {
+        color: var(--text-light);
+    }
+</style>
+
+<div class="trabalho-final-container">
+    <h2><i class="fas fa-database"></i> Exercício Preparatório – O projeto final?</h2>
+
+    <div class="trabalho-final-intro">
+        <p>Este exercício tem como objetivo <strong>preparar você para a prova final</strong> da disciplina de Banco de Dados.</p>
+        <p>Trata-se de uma versão simplificada do trabalho completo, abordando as mesmas etapas de forma reduzida.</p>
+        <p style="font-size:1em; color:var(--text-medium);">Tema sugerido: <strong>Sistema de Controle de Biblioteca Escolar</strong></p>
+    </div>
+
+    <div class="fase-secao">
+        <h3><i class="fas fa-lightbulb"></i> 1. Modelagem Conceitual</h3>
+        <ul>
+            <li><i class="far fa-square"></i> Monte um <strong>DER (Diagrama Entidade-Relacionamento)</strong> com <strong>4 entidades</strong>: <em>Aluno</em>, <em>Livro</em>, <em>Autor</em> e <em>Empréstimo</em>.</li>
+            <li><i class="far fa-square"></i> Defina as <strong>chaves primárias</strong> e as <strong>cardinalidades</strong> (1:N, N:M, etc.).</li>
+            <li><i class="far fa-square"></i> Certifique-se de que o modelo representa a lógica real do sistema proposto.</li>
+        </ul>
+    </div>
+
+    <div class="fase-secao">
+        <h3><i class="fas fa-sitemap"></i> 2. Modelagem Lógica</h3>
+        <ul>
+            <li><i class="far fa-square"></i> Converta o DER em tabelas relacionais com todos os <strong>atributos</strong> necessários.</li>
+            <li><i class="far fa-square"></i> Defina <strong>chaves primárias</strong>, <strong>estrangeiras</strong> e restrições como <code>NOT NULL</code>, <code>UNIQUE</code> e <code>CHECK</code>.</li>
+            <li><i class="far fa-square"></i> Se necessário, crie tabelas auxiliares e aplique a <strong>3ª Forma Normal (3FN)</strong>.</li>
+        </ul>
+    </div>
+
+    <div class="fase-secao">
+        <h3><i class="fas fa-code"></i> 3. Desenvolvimento do Banco de Dados (SQL)</h3>
+        <ul>
+            <li><i class="far fa-square"></i> Crie dois scripts SQL:</li>
+            <ul>
+                <li><i class="far fa-square"></i> <strong>DDL</strong>: criação das tabelas e relacionamentos.</li>
+                <li><i class="far fa-square"></i> <strong>DML</strong>: inserção de dados de exemplo (mínimo 3 por tabela).</li>
+            </ul>
+            <li><i class="far fa-square"></i> Crie 1 <strong>Stored Procedure</strong> para registrar um empréstimo.</li>
+            <li><i class="far fa-square"></i> Crie 1 <strong>Trigger</strong> para atualizar o status do livro (ex: “Emprestado”).</li>
+            <li><i class="far fa-square"></i> Crie 1 <strong>View</strong> para listar empréstimos com nome do aluno e título do livro.</li>
+        </ul>
+    </div>
+
+    <div class="fase-secao">
+        <h3><i class="fas fa-vial"></i> 4. Testes e Demonstração</h3>
+        <ul>
+            <li><i class="far fa-square"></i> Execute consultas que demonstrem o funcionamento do banco:</li>
+            <ul>
+                <li><i class="far fa-square"></i> Listar livros e autores.</li>
+                <li><i class="far fa-square"></i> Mostrar livros emprestados e seus respectivos alunos.</li>
+                <li><i class="far fa-square"></i> Testar <code>INSERT</code>, <code>UPDATE</code> e <code>DELETE</code> (verificar integridade referencial).</li>
+                <li><i class="far fa-square"></i> Consultar a <strong>View</strong> e executar a <strong>Stored Procedure</strong>.</li>
+            </ul>
+        </ul>
+    </div>
+
+    <div class="fase-secao">
+        <h3><i class="fas fa-file-alt"></i> 5. Entrega e Avaliação</h3>
+        <ul>
+            <li><i class="far fa-square"></i> Enviar um arquivo <strong>.sql</strong> com todos os scripts (DDL + DML + extras).</li>
+            <li><i class="far fa-square"></i> Incluir o <strong>DER</strong> (feito no Draw.io, Workbench ou similar).</li>
+            <li><i class="far fa-square"></i> Adicionar <strong>capturas de tela</strong> das consultas funcionando.</li>
+            <li><i class="far fa-square"></i> A pontuação seguirá os critérios da prova, adaptados para este exercício.</li>
+        </ul>
+    </div>
+</div>
+
+<img src="https://img.freepik.com/vetores-gratis/copie-o-fundo-digital-dos-circuitos-azuis-do-espaco_23-2148821699.jpg?t=st=1744579714~exp=1744583314~hmac=fa320b526841e6112955661ca2a1d097a9b09fb93e2b51e1dd1ff789916ab402&w=996" alt="Technology Background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: -1;"/>

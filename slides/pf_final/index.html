@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Carregando Aula...</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="ask.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header>
+      <a href="../../index.html" class="back-link"
+        ><i class="fas fa-arrow-left"></i> Voltar à Página Inicial</a
+      >
+      <span id="lesson-title-header"></span>
+
+      <div id="header-progress-bar"></div>
+    </header>
+
+    <div class="main-content-area">
+      <div class="slide-container">
+        <p id="loading-slides">Carregando slides...</p>
+      </div>
+
+      <aside id="slide-sidebar">
+        <h3>Sumário</h3>
+        <ul id="slide-sidebar-list"></ul>
+      </aside>
+    </div>
+
+    <div id="exercise-area" style="display: none">
+      <div id="progress-bar">
+        <div id="progress"></div>
+      </div>
+
+      <form id="exercise-form"></form>
+
+      <div id="student-name-section" style="display: none">
+        <label for="student-name-input">Digite seu Nome Completo:</label><br />
+        <input
+          type="text"
+          id="student-name-input"
+          name="studentName"
+          required
+        />
+        <button id="submit-name-button">Ver Resultado</button>
+      </div>
+
+      <div id="result-summary" style="display: none"></div>
+
+      <canvas
+        id="result-chart"
+        style="display: none; max-width: 600px; margin: 20px auto"
+      ></canvas>
+    </div>
+
+    <footer>
+      <p>
+        Desenvolvido por
+        <a href="https://www.linkedin.com/in/erick-porto/" target="_blank"
+          >Erick Porto</a
+        >
+        © 2025 | Todos os direitos reservados
+      </p>
+    </footer>
+
+    <script>
+      const teacherName = "Erick Ribeiro Porto";
+      const slideFiles = [
+        "slides/slide1.html",
+      ];
+
+      const slideContainer = document.querySelector(".slide-container");
+      const loadingIndicator = document.getElementById("loading-slides");
+      const headerProgressBar = document.getElementById("header-progress-bar");
+      const sidebarList = document.getElementById("slide-sidebar-list");
+      const exerciseArea = document.getElementById("exercise-area");
+      const exerciseProgressBarContainer =
+        document.getElementById("progress-bar");
+      const exerciseProgress = document.getElementById("progress");
+      const exerciseForm = document.getElementById("exercise-form");
+      const studentNameSection = document.getElementById(
+        "student-name-section"
+      );
+      const studentNameInput = document.getElementById("student-name-input");
+      const submitNameButton = document.getElementById("submit-name-button");
+      const resultSummaryDiv = document.getElementById("result-summary");
+      const resultChartCanvas = document.getElementById("result-chart");
+      const lessonTitleHeader = document.getElementById("lesson-title-header");
+
+      let slides = [];
+      let currentSlide = 0;
+      let totalSlides = 0;
+      let nextButton;
+      let prevButton;
+      let studentName = "";
+      let userAnswers = {};
+
+      async function loadSlides() {
+        try {
+          const fetchPromises = slideFiles.map((file) =>
+            fetch(file).then((res) =>
+              res.ok
+                ? res.text()
+                : Promise.reject(new Error(`Failed to load ${file}`))
+            )
+          );
+          const htmlContents = await Promise.all(fetchPromises);
+
+          if (loadingIndicator) loadingIndicator.remove();
+          slideContainer.innerHTML = "";
+          sidebarList.innerHTML = "";
+
+          htmlContents.forEach((html, index) => {
+            const slideDiv = document.createElement("div");
+            slideDiv.className = "slide";
+            slideDiv.id = `slide${index}`;
+            slideDiv.innerHTML = html;
+            slideDiv.style.display = index === 0 ? "flex" : "none";
+            slideContainer.appendChild(slideDiv);
+
+            const titleElement = slideDiv.querySelector("h1, h2");
+            const slideTitle = titleElement
+              ? titleElement.textContent.trim()
+              : `Slide ${index + 1}`;
+            const listItem = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = `#slide${index}`;
+            link.textContent = slideTitle;
+            link.dataset.slideIndex = index;
+
+            link.onclick = (e) => {
+              e.preventDefault();
+              goToSlide(parseInt(link.dataset.slideIndex, 10));
+            };
+            listItem.appendChild(link);
+            sidebarList.appendChild(listItem);
+          });
+
+          slides = document.querySelectorAll(".slide-container .slide");
+          totalSlides = slides.length;
+
+          const firstTitle = slides[0]?.querySelector("h1, h2")?.textContent;
+          const lessonTitle = firstTitle || "Lesson Presentation";
+          document.title = lessonTitle;
+          if (lessonTitleHeader)
+            lessonTitleHeader.textContent = `- ${lessonTitle}`;
+
+          initializeNavigation();
+          initializeExercises();
+          updateProgressBar();
+          updateSidebarActiveState();
+        } catch (error) {
+          console.error("Falha ao carregar slides:", error);
+          slideContainer.innerHTML = `<p style='color: red;'>Erro ao carregar slides. Verifique o console (F12) e os caminhos dos arquivos ('slides/' directory).</p>`;
+        }
+      }
+
+      function initializeNavigation() {
+        if (totalSlides <= 1) return;
+
+        prevButton = document.createElement("button");
+        prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prevButton.id = "prev-slide-button";
+        prevButton.className = "slide-nav-button";
+        prevButton.setAttribute("aria-label", "Slide Anterior");
+        prevButton.onclick = showPrevSlide;
+        document.body.appendChild(prevButton);
+
+        nextButton = document.createElement("button");
+        nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        nextButton.id = "next-slide-button";
+        nextButton.className = "slide-nav-button";
+        nextButton.setAttribute("aria-label", "Próximo Slide");
+        nextButton.onclick = showNextSlide;
+        document.body.appendChild(nextButton);
+      }
+
+      function showPrevSlide() {
+        if (totalSlides === 0) return;
+        goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+      }
+
+      function showNextSlide() {
+        if (totalSlides === 0) return;
+        goToSlide((currentSlide + 1) % totalSlides);
+      }
+
+      function goToSlide(index) {
+        if (
+          index < 0 ||
+          index >= totalSlides ||
+          index === currentSlide ||
+          slides.length === 0
+        )
+          return;
+
+        slides[currentSlide].style.display = "none";
+        currentSlide = index;
+        slides[currentSlide].style.display = "flex";
+
+        updateProgressBar();
+        updateSidebarActiveState();
+      }
+
+      function updateProgressBar() {
+        if (totalSlides === 0 || !headerProgressBar) return;
+        const percentage =
+          totalSlides > 1 ? (currentSlide / (totalSlides - 1)) * 100 : 100;
+        headerProgressBar.style.width = `${percentage}%`;
+      }
+
+      function updateSidebarActiveState() {
+        const links = sidebarList.querySelectorAll("a");
+        links.forEach((link, index) => {
+          if (index === currentSlide) {
+            link.classList.add("active");
+            link.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          } else {
+            link.classList.remove("active");
+          }
+        });
+      }
+
+      function initializeExercises() {
+        slideContainer.addEventListener("click", function (e) {
+          if (e.target && e.target.closest("#exercicios")) {
+            e.preventDefault();
+            startExercises();
+          }
+        });
+      }
+
+      /**
+       * Shuffles array in place using Fisher-Yates (Knuth) algorithm.
+       * @param {Array} array The array to shuffle.
+       * @returns {Array} The shuffled array (same instance).
+       */
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      function startExercises() {
+        slideContainer.style.display = "none";
+        document.getElementById("slide-sidebar").style.display = "none";
+        if (nextButton) nextButton.style.display = "none";
+        if (prevButton) prevButton.style.display = "none";
+        exerciseArea.style.display = "block";
+        exerciseProgressBarContainer.style.display = "block";
+
+        userAnswers = {};
+        studentName = "";
+        resultSummaryDiv.style.display = "none";
+        resultSummaryDiv.innerHTML = "";
+        resultChartCanvas.style.display = "none";
+        const existingChart = Chart.getChart(resultChartCanvas);
+        if (existingChart) existingChart.destroy();
+        studentNameSection.style.display = "none";
+        studentNameInput.value = "";
+        exerciseForm.style.display = "block";
+
+        let questionIndex = 0;
+
+        if (
+          typeof ask === "undefined" ||
+          !ask ||
+          Object.keys(ask).length === 0
+        ) {
+          console.error(
+            "Erro: Objeto 'ask' (de ask.js) não encontrado ou vazio."
+          );
+          exerciseArea.innerHTML =
+            "<p style='color: red;'>Erro: Exercícios não encontrados. Verifique se 'ask.js' foi carregado corretamente.</p>";
+          return;
+        }
+
+        const questionKeys = Object.keys(ask);
+        const totalQuestions = questionKeys.length;
+
+        const updateExerciseProgress = () => {
+          const percentage =
+            totalQuestions > 0
+              ? ((questionIndex + 1) / totalQuestions) * 100
+              : 0;
+          exerciseProgress.style.width = `${percentage}%`;
+        };
+
+        const renderQuestion = () => {
+          exerciseForm.innerHTML = "";
+
+          const questionKey = questionKeys[questionIndex];
+          if (!ask[questionKey]) {
+            console.error(
+              `Pergunta com chave '${questionKey}' (índice ${questionIndex}) não encontrada em ask.js`
+            );
+            exerciseForm.innerHTML =
+              "<p style='color:red;'>Erro: Pergunta não encontrada.</p>";
+            return;
+          }
+          const question = ask[questionKey];
+          const questionNumber = questionIndex + 1;
+
+          const questionDiv = document.createElement("div");
+          questionDiv.className = "question";
+          const questionText = document.createElement("p");
+          questionText.className = "question-title";
+
+          if (question.type === "complete") {
+            const parts = question.ask.split("_");
+            questionText.innerHTML = `Questão ${questionNumber}: `;
+            parts.forEach((part, index) => {
+              questionText.appendChild(document.createTextNode(part));
+              if (index < parts.length - 1) {
+                const input = document.createElement("input");
+                input.type = "text";
+
+                input.name = `question-${questionNumber}`;
+                input.className = "inline-input";
+                input.required = true;
+                questionText.appendChild(input);
+              }
+            });
+          } else {
+            questionText.textContent = `Questão ${questionNumber}: ${question.ask}`;
+          }
+          questionDiv.appendChild(questionText);
+
+          if (question.type === "mult") {
+            if (!question.options || typeof question.options !== "object") {
+              console.error(
+                `Opções inválidas ou ausentes para a questão chave '${questionKey}'`
+              );
+              questionDiv.innerHTML +=
+                "<p style='color:red;'>Erro: Opções não encontradas ou inválidas.</p>";
+            } else {
+              const optionKeys = Object.keys(question.options);
+              const shuffledKeys = shuffleArray([...optionKeys]);
+
+              shuffledKeys.forEach((optionKey) => {
+                const label = document.createElement("label");
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = `question-${questionNumber}`;
+                input.value = optionKey;
+                input.required = true;
+                const inputId = `q${questionNumber}_opt${optionKey}`;
+                input.id = inputId;
+                label.htmlFor = inputId;
+                input.style.marginRight = "8px";
+
+                label.appendChild(input);
+                const labelText = document.createElement("span");
+                labelText.textContent = question.options[optionKey];
+                label.appendChild(labelText);
+
+                questionDiv.appendChild(label);
+              });
+            }
+          }
+
+          exerciseForm.appendChild(questionDiv);
+
+          const buttonContainer = document.createElement("div");
+          buttonContainer.style.textAlign = "center";
+          const nextQuestionButton = document.createElement("button");
+          nextQuestionButton.type = "button";
+          nextQuestionButton.textContent =
+            questionIndex + 1 === totalQuestions ? "Finalizar" : "Próxima";
+          nextQuestionButton.className = "exercise-nav-button";
+
+          nextQuestionButton.onclick = () => {
+            if (!exerciseForm.checkValidity()) {
+              exerciseForm.reportValidity();
+              return;
+            }
+
+            const currentQuestionKey = questionKeys[questionIndex];
+            const currentQuestionNumber = questionIndex + 1;
+            const inputName = `question-${currentQuestionNumber}`;
+            let currentAnswer = null;
+
+            if (ask[currentQuestionKey].type === "mult") {
+              const selectedRadio = exerciseForm.querySelector(
+                `input[name="${inputName}"]:checked`
+              );
+              if (selectedRadio) {
+                currentAnswer = selectedRadio.value;
+              }
+            } else if (ask[currentQuestionKey].type === "complete") {
+              const textInput = exerciseForm.querySelector(
+                `input[name="${inputName}"][type="text"]`
+              );
+              if (textInput) {
+                currentAnswer = textInput.value.trim();
+              }
+            }
+            userAnswers[currentQuestionNumber] = currentAnswer;
+
+            if (questionIndex + 1 === totalQuestions) {
+              collectResultsAndAskName();
+            } else {
+              questionIndex++;
+              updateExerciseProgress();
+              renderQuestion();
+            }
+          };
+
+          buttonContainer.appendChild(nextQuestionButton);
+          exerciseForm.appendChild(buttonContainer);
+        };
+
+        updateExerciseProgress();
+        renderQuestion();
+      }
+
+      function collectResultsAndAskName() {
+        exerciseForm.style.display = "none";
+        exerciseProgressBarContainer.style.display = "none";
+        studentNameSection.style.display = "block";
+        studentNameInput.focus();
+
+        submitNameButton.onclick = () => {
+          if (studentNameInput.value.trim() === "") {
+            alert("Por favor, digite seu nome.");
+            studentNameInput.focus();
+            return;
+          }
+          studentName = studentNameInput.value.trim();
+          studentNameSection.style.display = "none";
+          displayFinalResults();
+        };
+      }
+
+      function displayFinalResults() {
+        let correctAnswers = 0;
+        const results = [];
+
+        if (
+          typeof ask === "undefined" ||
+          !ask ||
+          Object.keys(ask).length === 0
+        ) {
+          console.error(
+            "Objeto 'ask' inválido ou vazio ao calcular resultados."
+          );
+          resultSummaryDiv.innerHTML =
+            "<p style='color: red;'>Erro ao calcular resultados.</p>";
+          resultSummaryDiv.style.display = "block";
+          return;
+        }
+
+        const questionKeys = Object.keys(ask);
+        const totalQuestions = questionKeys.length;
+
+        questionKeys.forEach((key, index) => {
+          const question = ask[key];
+          if (!question) {
+            console.warn(
+              `Pergunta com chave '${key}' não encontrada durante a avaliação. Pulando.`
+            );
+            return;
+          }
+
+          const questionNumber = index + 1;
+
+          const userAnswer = userAnswers[questionNumber] ?? null;
+
+          let isCorrect = false;
+          let correctAnswerText = "";
+          let userAnswerText =
+            userAnswer !== null ? String(userAnswer) : "Não respondido";
+
+          if (question.type === "mult") {
+            if (question.options && typeof question.correct !== "undefined") {
+              const correctOptionKey = String(question.correct);
+              correctAnswerText =
+                question.options[correctOptionKey] ??
+                `[Opção Correta Inválida: ${correctOptionKey}]`;
+              isCorrect =
+                userAnswer !== null && String(userAnswer) === correctOptionKey;
+
+              if (userAnswer !== null && question.options[userAnswer]) {
+                userAnswerText = question.options[userAnswer];
+              } else if (userAnswer !== null) {
+                userAnswerText = `[Opção Inválida: ${userAnswer}]`;
+              }
+            } else {
+              correctAnswerText = "[Dados da Pergunta Inválidos]";
+            }
+          } else if (question.type === "complete") {
+            if (typeof question.correct === "string") {
+              correctAnswerText = question.correct;
+              isCorrect =
+                userAnswer !== null &&
+                userAnswer.toLowerCase() === question.correct.toLowerCase();
+            } else {
+              correctAnswerText = "[Dados da Pergunta Inválidos]";
+            }
+          } else {
+            correctAnswerText = "[Tipo de Pergunta Desconhecido]";
+          }
+
+          if (isCorrect) correctAnswers++;
+
+          results.push({
+            questionNumber: questionNumber,
+            questionText: question.ask
+              ? question.ask.replace(/_/g, "...")
+              : "[Questão Ausente]",
+            userAnswer: userAnswerText,
+            correctAnswer: correctAnswerText,
+            isCorrect,
+          });
+        });
+
+        resultSummaryDiv.style.display = "block";
+        const scorePercentage =
+          totalQuestions > 0
+            ? ((correctAnswers / totalQuestions) * 100).toFixed(1)
+            : 0;
+        resultSummaryDiv.innerHTML = `
+              <h2>Resultado Final</h2>
+              <p>Aluno(a): <strong>${
+                studentName || "Nome não informado"
+              }</strong></p>
+              <p style="font-size: 1.4em;">Você acertou ${correctAnswers} de ${totalQuestions} questões (${scorePercentage}%)</p>
+          `;
+
+        if (resultChartCanvas && totalQuestions > 0) {
+          resultChartCanvas.style.display = "block";
+          const ctx = resultChartCanvas.getContext("2d");
+          const existingChart = Chart.getChart(resultChartCanvas);
+          if (existingChart) existingChart.destroy();
+
+          new Chart(ctx, {
+            type: "pie",
+            data: {
+              labels: ["Acertos", "Erros"],
+              datasets: [
+                {
+                  label: "# Respostas",
+                  data: [correctAnswers, totalQuestions - correctAnswers],
+                  backgroundColor: ["#00e676", "#f44336"],
+                  borderColor: ["#ffffff", "#ffffff"],
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { position: "top", labels: { color: "#1e1e2f" } },
+                title: {
+                  display: true,
+                  text: "Distribuição de Acertos e Erros",
+                  color: "#1e1e2f",
+                },
+              },
+            },
+          });
+        } else if (resultChartCanvas) {
+          resultChartCanvas.style.display = "none";
+        }
+
+        const downloadButton = document.createElement("button");
+        downloadButton.innerHTML =
+          '<i class="fas fa-download"></i> Baixar Resultado em PDF';
+        downloadButton.className = "download-pdf-button";
+        downloadButton.onclick = () =>
+          generatePdfReport(
+            results,
+            correctAnswers,
+            totalQuestions,
+            studentName
+          );
+        resultSummaryDiv.appendChild(downloadButton);
+      }
+
+      function generatePdfReport(
+        resultsData,
+        correctAnswers,
+        totalQuestions,
+        studentName
+      ) {
+        try {
+          const { jsPDF } = window.jspdf;
+          if (!jsPDF) {
+            alert("Erro: Biblioteca jsPDF não carregada.");
+            return;
+          }
+          const doc = new jsPDF();
+
+          const PRIMARY_COLOR = "#00e676";
+
+          const BG_COLOR = "#1e1e2f";
+          const TEXT_COLOR_LIGHT = "#e0e0e0";
+          const TEXT_COLOR_DARK = "#1e1e2f";
+          const CORRECT_COLOR = "#4caf50";
+          const INCORRECT_COLOR = "#f44336";
+
+          let yPos = 0;
+          const pageHeight = doc.internal.pageSize.getHeight();
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const margin = 15;
+          const contentWidth = pageWidth - margin * 2;
+
+          doc.setFillColor(BG_COLOR);
+          doc.rect(0, 0, pageWidth, 35, "F");
+          yPos = 12;
+          doc.setFontSize(16);
+          doc.setFont("helvetica", "bold");
+          doc.setTextColor(PRIMARY_COLOR);
+          const presentationTitle = document.title || "Exercícios do Curso";
+          doc.text(presentationTitle, pageWidth / 2, yPos, { align: "center" });
+          yPos += 8;
+          doc.setFontSize(10);
+          doc.setFont("helvetica", "normal");
+          doc.setTextColor(TEXT_COLOR_LIGHT);
+          doc.text(`Aluno(a): ${studentName || "N/A"}`, margin, yPos);
+          doc.text(
+            `Data: ${new Date().toLocaleDateString()}`,
+            pageWidth - margin,
+            yPos,
+            { align: "right" }
+          );
+          yPos += 5;
+          doc.text(`Instrutor(a): ${teacherName}`, margin, yPos);
+          yPos += 12;
+
+          doc.setFontSize(14);
+          doc.setFont("helvetica", "bold");
+          doc.setTextColor(TEXT_COLOR_DARK);
+          const scorePercentage =
+            totalQuestions > 0
+              ? ((correctAnswers / totalQuestions) * 100).toFixed(1)
+              : 0;
+          doc.text(
+            `Resultado Final: ${correctAnswers} de ${totalQuestions} (${scorePercentage}%)`,
+            margin,
+            yPos
+          );
+          yPos += 10;
+
+          resultsData.forEach((result) => {
+            const estimatedHeight = 5 * 5 + 10 + 7 + 2;
+            if (yPos + estimatedHeight > pageHeight - margin) {
+              doc.addPage();
+              yPos = margin;
+            }
+
+            doc.setFontSize(11);
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(TEXT_COLOR_DARK);
+            const questionLines = doc.splitTextToSize(
+              `Questão ${result.questionNumber}: ${result.questionText}`,
+              contentWidth
+            );
+            doc.text(questionLines, margin, yPos);
+            yPos += questionLines.length * 5 + 2;
+
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+
+            doc.setTextColor(
+              result.isCorrect ? TEXT_COLOR_DARK : INCORRECT_COLOR
+            );
+            const userAnswerLines = doc.splitTextToSize(
+              `Sua Resposta: ${result.userAnswer}`,
+              contentWidth
+            );
+            if (yPos + userAnswerLines.length * 5 > pageHeight - margin) {
+              doc.addPage();
+              yPos = margin;
+            }
+            doc.text(userAnswerLines, margin, yPos);
+            yPos += userAnswerLines.length * 5;
+
+            doc.setTextColor(TEXT_COLOR_DARK);
+            const correctAnswerLines = doc.splitTextToSize(
+              `Resposta Correta: ${result.correctAnswer}`,
+              contentWidth
+            );
+            if (yPos + correctAnswerLines.length * 5 > pageHeight - margin) {
+              doc.addPage();
+              yPos = margin;
+            }
+            doc.text(correctAnswerLines, margin, yPos);
+            yPos += correctAnswerLines.length * 5;
+
+            if (yPos + 7 > pageHeight - margin) {
+              doc.addPage();
+              yPos = margin;
+            }
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(
+              result.isCorrect ? CORRECT_COLOR : INCORRECT_COLOR
+            );
+            doc.text(
+              `Resultado: ${result.isCorrect ? "Correto" : "Incorreto"}`,
+              margin,
+              yPos
+            );
+            yPos += 7;
+
+            if (yPos + 5 > pageHeight - margin) {
+              doc.addPage();
+              yPos = margin;
+            }
+            doc.setDrawColor(200);
+            doc.setLineWidth(0.2);
+            doc.line(margin, yPos, pageWidth - margin, yPos);
+            yPos += 5;
+          });
+
+          if (
+            resultChartCanvas &&
+            resultChartCanvas.style.display !== "none" &&
+            totalQuestions > 0
+          ) {
+            const chartHeight = 50;
+            const chartWidth = 50;
+            if (yPos + chartHeight > pageHeight - margin) {
+              doc.addPage();
+              yPos = margin;
+            }
+            try {
+              const chartImage = resultChartCanvas.toDataURL("image/png");
+              doc.addImage(
+                chartImage,
+                "PNG",
+                margin,
+                yPos,
+                chartWidth,
+                chartHeight
+              );
+              yPos += chartHeight + 10;
+            } catch (chartError) {
+              console.error("Erro ao adicionar gráfico ao PDF:", chartError);
+              if (yPos + 10 > pageHeight - margin) {
+                doc.addPage();
+                yPos = margin;
+              }
+              doc.setTextColor(INCORRECT_COLOR);
+              doc.setFont("helvetica", "italic");
+              doc.text("Erro ao renderizar o gráfico no PDF.", margin, yPos);
+              yPos += 10;
+            }
+          }
+
+          const safePresentationTitle = presentationTitle
+            .replace(/[^a-z0-9]/gi, "_")
+            .toLowerCase();
+          const safeStudentName = studentName
+            .replace(/[^a-z0-9]/gi, "_")
+            .toLowerCase();
+          doc.save(`resultado_${safePresentationTitle}_${safeStudentName}.pdf`);
+        } catch (pdfError) {
+          console.error("Erro geral ao gerar PDF:", pdfError);
+          alert("Ocorreu um erro inesperado ao tentar gerar o PDF.");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", loadSlides);
+    </script>
+  </body>
+</html>
